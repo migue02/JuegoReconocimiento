@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:layout_below="@+id/scrollView"
+        android:visibility="visible"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="40dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre Serie"
+                android:id="@+id/LabelSerie"
+                android:singleLine="false"
+                android:textColor="@color/texto_tabla"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/view"
+                android:layout_alignEnd="@+id/view" />
+
+            <View
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:background="@color/texto_tabla"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:id="@+id/view"
+                android:layout_below="@+id/LabelSerie"
+                android:layout_marginBottom="10dp" />
+
+            <EditText
+                android:id="@+id/NomSerie"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:hint="Nombre Serie"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/view"
+                android:layout_alignEnd="@+id/view"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/LabelDuracion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:text="Duración Estimada"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:textColor="@color/texto_tabla"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="136dp" />
+
+            <View
+                android:layout_width="273dp"
+                android:layout_height="1dp"
+                android:background="@color/texto_tabla"
+                android:layout_below="@+id/LabelDuracion"
+                android:layout_alignLeft="@+id/LabelDuracion"
+                android:layout_alignStart="@+id/LabelDuracion"
+                android:id="@+id/view2" />
+
+            <EditText
+                android:id="@+id/Duracion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Minutos"
+                android:layout_below="@+id/LabelDuracion"
+                android:layout_alignLeft="@+id/view2"
+                android:layout_alignStart="@+id/view2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="300dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/ic3"
+                android:layout_gravity="top" />
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:background="@drawable/selicono"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="140dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/laniadir_ser">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Añadir Ejercicio"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/texto_tabla"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/aniadirEjer"
+                    android:layout_marginRight="5dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/aniadirEjer"
+                    android:src="@drawable/aniadir2"
+                    android:layout_gravity="center|right"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selicono"
+                android:layout_marginLeft="120dp"
+                android:id="@+id/lguardar_cam">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Guardar Cambios"
+                    android:id="@+id/textView6"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/texto_tabla"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/guardarSerie"
+                    android:layout_marginRight="5dp" />
+
+                <ImageButton
+                    android:id="@+id/guardarSerie"
+                    android:layout_width="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/guardar"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:text="Secuencia de Ejercicios"
+                android:id="@+id/textView"
+                android:singleLine="false"
+                android:textColor="@color/texto_tabla"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/texto_tabla"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/view3"
+                android:layout_marginBottom="10dp" />
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nombre Ejercicio"
+                    android:id="@+id/textView2"
+                    android:layout_marginLeft="175dp"
+                    android:textColor="@color/texto_tabla" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Duración"
+                    android:id="@+id/textView3"
+                    android:layout_marginLeft="100dp"
+                    android:textColor="@color/texto_tabla" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Mover"
+                    android:id="@+id/textView4"
+                    android:gravity="right"
+                    android:layout_marginRight="25dp"
+                    android:textColor="@color/texto_tabla"/>
+            </TableRow>
+
+            <com.mobeta.android.dslv.DragSortListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:dslv="http://schemas.android.com/apk/res/es.ugr.juegoreconocimiento"
+                android:background="@drawable/tablatrasn"
+                android:id="@+id/ListaSelEj"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:dividerHeight="5dp"
+                android:fastScrollEnabled="true"
+                dslv:drag_enabled="true"
+                dslv:collapsed_height="2dp"
+                dslv:drag_scroll_start="0.33"
+                dslv:max_drag_scroll_speed="0.5"
+                dslv:float_alpha="0.6"
+                dslv:slide_shuffle_speed="0.3"
+                dslv:track_drag_sort="false"
+                dslv:use_default_controller="true"
+                dslv:drag_handle_id="@id/midrag"
+                dslv:sort_enabled="true"
+                dslv:remove_enabled="true"
+                dslv:drag_start_mode="onDown"
+                dslv:remove_mode="flingRemove"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

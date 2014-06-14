@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingLeft="40dp"
+    tools:context=".MainActivity" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayoutTablas" >
+
+        <TableRow
+            android:id="@+id/tableRowTablas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/imageViewSexo"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:src="@drawable/boy"/>
+
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:width="120dp" />
+
+            <TextView
+                android:id="@+id/textViewTotales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:width="60dp" />
+
+            <TextView
+                android:id="@+id/TextViewAciertos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:width="60dp" />
+
+            <TextView
+                android:id="@+id/TextViewFallos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:width="60dp" />
+
+            <TextView
+                android:id="@+id/TextViewDuracion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:width="60dp" />
+
+            <TextView
+                android:id="@+id/TextViewPuntuacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:width="60dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+</LinearLayout> 

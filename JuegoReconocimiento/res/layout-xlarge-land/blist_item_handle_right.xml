@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/tabla1"
+    android:layout_width="fill_parent"
+    android:layout_height="67dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/imgSelEj"
+        android:src="@drawable/ic6"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:id="@+id/NombSelEj"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:layout_marginLeft="170dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:id="@+id/DurSelEj"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:layout_marginLeft="570dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <ImageView
+        android:id="@+id/midrag"
+        android:background="@drawable/drag"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="right"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/DurSelEj" />
+
+</RelativeLayout>

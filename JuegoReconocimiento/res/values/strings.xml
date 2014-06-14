@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Juego Reconocimiento</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="textModoNormal">Modo Normal</string>
+    <string name="textCapturaObjeto">Captura Objeto</string>
+    <string name="textEncuentraObjeto">Encuentra Objeto</string>
+    <string name="comenzarRec">Comenzar reconocimiento</string>
+    <string name="hintNombreEdit">Nombre</string>
+    <string name="btnBorrarDB">Borrrar DB</string>
+    <string name="title_activity_reconocimiento_objeto">ReconocimientoObjeto</string>
+
+    <!-- String Template -->
+    <string name="boton_acerca_de">Acerca de</string>
+    <string name="appsUgr">Visitar Catálogo AppsUGR</string>
+    <!-- TODO: Introduce en la linea de debajo el texto del disclaimer -->
+    <string name="disclaimer">Texto libre sobre el autor</string>
+    <string name="promotedBy">Promovido por:</string>
+    <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>
+    <string name="contact">Contacto</string>
+    <string name="title_activity_empezar_juego">EmpezarJuego</string>
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Autor: Namir Sayed-Ahmad Baraza
+	 mail: namirsab@gmail.com -->
+<resources>
+
+    <color name="boton_normal">#00FFFFFF</color>
+    <color name="boton_pulsado">#0F646063</color>
+    <!-- Modifica este color para cambiar el primer color del degradado de la barra superior del about -->
+    <color name="app_color1">#ADADAD</color>
+    <!-- Modifica este color para cambiar el segundo color del degradado de la barra superior del about -->
+    <color name="app_color2">#030303</color>
+    <color name="white">#FFFFFF</color>
+    <color name="alpha_white">#AAFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="app_gray">#d2d2d3</color>
+    <color name="app_secondary_gray">#f9f9f9</color>
+    <color name="about_borde">#bebec4</color>
+    <color name="about_naranja">#da3b15</color>
+    <color name="texto_tabla">#ff24b2ff</color>
+    <color name="tabla1">#aaaaffff</color>
+    <color name="tabla2">#aaeeffff</color>
+    <color name="tabla_resaltado">#dd11ffff</color>
+    
+    <color name="degradado1">#aaffff00</color>
+    <color name="degradado2">#aa00ffff</color>
+    <color name="degradado1r">#ffff00</color>
+    <color name="degradado2r">#00ffff</color>
+    
+    <color name="verde_oscuro">#009b7d</color>
+	<color name="marron_oscuro">#603000</color>
+
+</resources>

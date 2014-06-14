@@ -1,0 +1,186 @@
+<!-- Autor: Namir Sayed-Ahmad Baraza
+	 mail: namirsab@gmail.com -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/ugr_background" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="¡Bienvenido!"
+        android:id="@+id/textoBienv"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffff2c08" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.20"
+            android:baselineAligned="false" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonAlum"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ic2"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="152dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Gestión Alumnos"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonEj"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ic6"
+                        android:gravity="center"
+                        android:textAlignment="gravity" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="139dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Ejercicios"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonEsta"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignStart="@+id/buttonAlum"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic1"
+                        android:gravity="center"
+                        android:textAlignment="gravity" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Resultados"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearLayout01"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/ButtonSerie"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignStart="@+id/buttonAlum"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic3"
+                        android:textAlignment="gravity" />
+
+                    <TextView
+                        android:id="@+id/TextView01"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Serie Ejercicios"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="0.07"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/Empezar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/ic4"
+                android:onClick="onClickEmpezar"
+                android:textAlignment="gravity"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="EMPEZAR"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:id="@+id/Reinicia"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ReiniciaBD"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
