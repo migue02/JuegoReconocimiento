@@ -1,6 +1,11 @@
 package es.ugr.reconocimiento;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -25,9 +30,11 @@ import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
+import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.utilidades.*;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -39,6 +46,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -50,11 +58,8 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 	private CameraBridgeViewBase mOpenCvCameraView;
 	private boolean buscandoObjeto = false;
 	private int nObjeto = -1;
-	private Mat mGray;
-	private Mat mRgba;
-	private Mat aux;
-	private ObjetoDataSource objetosDS;
-	private EjercicioDataSource ejerciciosDS;
+	
+	private Mat mGray, mRgba, aux;
 	private MatOfKeyPoint keypoints_obj = new MatOfKeyPoint();
 	private Mat descriptores_obj = new Mat();
 	private KeyPoint[] listaKP_obj;
@@ -63,16 +68,25 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 	private ArrayList<MatOfKeyPoint> matsKeyPoints = new ArrayList<MatOfKeyPoint>();
 	private int[] colsArray;
 	private int[] rowsArray;
+	
+	private ObjetoDataSource objetosDS;
+	private EjercicioDataSource ejerciciosDS;
+	
 	private String nombre;
 	private EditText edtNombre;
 	private ImageView image;
 	private TextToSpeech ttobj;
-	private Alumno alumno;
-	private SerieEjercicios serie;
+	
 	private Boolean ciclico;
 	private List<Ejercicio> ejercicios;
 	private int ejercicioActual = 0;
 	private int objetoActual = 0;
+	private ArrayList<Integer> listaCoincidencias = new ArrayList<Integer>();
+	private int numMatches = 10;
+	
+	private Alumno alumno;
+	private SerieEjercicios serie;
+	private Resultado resultadoActual = new Resultado();
 	
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -127,14 +141,17 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 		
 		objetosDS = new ObjetoDataSource(this);
 		objetosDS.open();
-		if (serie != null)
+		if (serie == null)
 			objetos = objetosDS.getAllObjetos();
 		else{
 			ejerciciosDS = new EjercicioDataSource(this);
 			ejerciciosDS.open();
 			ejercicios = ejerciciosDS.getAllEjercicios(serie);
 			objetos = objetosDS.getAllObjetos(ejercicios.get(ejercicioActual));
-			ejercicioActual++;
+
+			resultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
+			resultadoActual.setIdAlumno(alumno.getIdAlumno());
+			resultadoActual.setIdEjercicio(serie.getIdSerie());
 		}
 		rellenar(false);
 		
@@ -197,6 +214,10 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 	public void onReconocerClick(View v){
 		buscandoObjeto=true;
 		nObjeto=-1;
+		if (objetoActual == 0)
+			ttobj.speak("Ejercicio " + ejercicios.get(ejercicioActual).getNombre(), TextToSpeech.QUEUE_FLUSH, null);
+		ttobj.speak("Busca el objeto " + objetos.get(objetoActual).getNombre(), TextToSpeech.QUEUE_ADD, null);
+		((Chronometer) findViewById(R.id.cronometro)).start();
 	}
 	
 	public void onCancelarClick(View v){
@@ -209,6 +230,24 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 			buscandoObjeto=false;
 			nObjeto=-1;
 		}
+	}
+	
+	public void onCronoEmpieza(View v){
+		((Chronometer) findViewById(R.id.cronometro)).setBase(SystemClock.elapsedRealtime());
+		((Chronometer) findViewById(R.id.cronometro)).start();
+	}
+	
+	public void onCronoPara(View v){
+		((Chronometer) findViewById(R.id.cronometro)).stop();
+		long elapsedMillis = (SystemClock.elapsedRealtime() - ((Chronometer) findViewById(R.id.cronometro)).getBase())/1000;
+		int horas = (int)elapsedMillis/3600;
+		int remainder = (int) elapsedMillis - horas * 3600;
+	    int mins = remainder / 60;
+	    remainder = remainder - mins * 60;
+	    double secs = remainder; 
+	    double tiempo = (horas*60) + mins + (secs/10);
+		Toast.makeText(ReconocimientoObjeto.this, "Tiempo: " + tiempo, 
+	            Toast.LENGTH_SHORT).show();
 	}
 	
 	public void onCapturarClick(View v){
@@ -277,6 +316,16 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 		  }
 		} 
 	
+	public class HebraJuego implements Runnable {
+		int coincidencias;
+		public HebraJuego(){}
+		@Override
+		public void run() {
+			coincidencias=ObtieneCoincidencias(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr(),objetoActual);
+			listaCoincidencias.add(coincidencias);
+		}
+	} 	
+	
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 		if (!buscandoObjeto || (buscandoObjeto && nObjeto == -1)){
 			mRgba = inputFrame.rgba();
@@ -295,12 +344,15 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 			        // Wait until all threads are finish
 			        while (!executor.isTerminated()){}
 			        LiberaEscenario();
+			        nObjeto = obtieneObjeto();
 					if (nObjeto!=-1){
+						resultadoActual.setAciertos(resultadoActual.getAciertos()+1);
 						nombre=objetos.get(nObjeto).getNombre();
 						ReconocimientoObjeto.this.runOnUiThread(new Runnable() {
 						    public void run() {
-						    	ttobj.speak(nombre, TextToSpeech.QUEUE_FLUSH, null);
+						    	ttobj.speak("Encontrado el objeto "+nombre, TextToSpeech.QUEUE_FLUSH, null);
 						    	Toast.makeText(getApplicationContext(), "Encontrado el objeto "+nombre, Toast.LENGTH_SHORT).show();
+						    	actualizaEscenarioJuego();
 						    }
 						});
 						nObjeto=-1;
@@ -309,6 +361,43 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 			}
 		}
 		return mRgba;
+	}
+	
+	private int obtieneObjeto(){
+		int maximo,objeto=-1;
+		if ((maximo = Collections.max(listaCoincidencias)) >= numMatches)
+			for (int i=0; i<listaCoincidencias.size(); i++)
+				if (listaCoincidencias.get(i) == maximo){
+					objeto=i;
+					if (objeto == objetoActual)
+						return objeto;
+				}
+		return objeto;
+	}
+	
+	private void actualizaEscenarioJuego(){
+		boolean juegoTerminado=false;
+		objetoActual = (objetoActual+1)%objetos.size();
+		if (objetoActual == 0){
+			ejercicioActual = (ejercicioActual+1)%ejercicios.size();
+			if (ciclico || ejercicioActual != 0){
+				LiberaObjetos();
+				objetos.clear();
+				objetos = objetosDS.getAllObjetos(ejercicios.get(ejercicioActual));
+				rellenar(false);
+			}else{
+				LiberaObjetos();
+				objetos.clear();
+				juegoTerminado=true;
+			}
+		}
+		if (!juegoTerminado){
+			if (objetoActual==0) ttobj.speak("Ejercicio " + ejercicios.get(ejercicioActual).getNombre(), TextToSpeech.QUEUE_ADD, null);
+			ttobj.speak("Busca el objeto " + objetos.get(objetoActual).getNombre(), TextToSpeech.QUEUE_ADD, null);
+		}else{
+			ttobj.speak("El juego ha terminado", TextToSpeech.QUEUE_ADD, null);
+			((Chronometer) findViewById(R.id.cronometro)).stop();
+		}
 	}
 	
 	@Override
@@ -393,6 +482,8 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 			long matAddrDescriptores, long matAddrKeyPoints);
 	
 	public native int FindObjects(long matAddrGray, long matAddrRgba, int i);
+	
+	public native int ObtieneCoincidencias(long matAddrGray, long matAddrRgba, int objeto);
 	
 	public native boolean InicializaEscenario(long matAddrGray, long matAddrRgba);
 	

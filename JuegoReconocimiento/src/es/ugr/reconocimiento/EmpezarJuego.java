@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import es.ugr.objetos.TiposPropios;
 
 public class EmpezarJuego extends Activity {
 	
@@ -105,7 +104,7 @@ public class EmpezarJuego extends Activity {
 	}
 	
 	public void empezarJuego(View v){
-		if(alumnoSeleccionado != null && serieSeleccionada != null){
+		if(alumnoSeleccionado.getIdAlumno() != -1 && serieSeleccionada.getIdSerie() != -1){
 			v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
 			Intent myIntent = new Intent(EmpezarJuego.this,
 					ReconocimientoObjeto.class);

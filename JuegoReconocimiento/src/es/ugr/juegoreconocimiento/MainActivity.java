@@ -10,22 +10,28 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 
-import es.ugr.basedatos.*;
-import es.ugr.objetos.*;
-import es.ugr.objetos.TiposPropios.Sexo;
-import es.ugr.reconocimiento.EmpezarJuego;
-import es.ugr.utilidades.Utilidades;
-import es.ugr.juegoreconocimiento.R;
-import android.os.Bundle;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import es.ugr.basedatos.AlumnoDataSource;
+import es.ugr.basedatos.EjercicioDataSource;
+import es.ugr.basedatos.ObjetoDataSource;
+import es.ugr.basedatos.ResultadoDataSource;
+import es.ugr.basedatos.SerieEjerciciosDataSource;
+import es.ugr.objetos.Alumno;
+import es.ugr.objetos.Ejercicio;
+import es.ugr.objetos.Objeto;
+import es.ugr.objetos.Resultado;
+import es.ugr.objetos.SerieEjercicios;
+import es.ugr.objetos.TiposPropios.Sexo;
+import es.ugr.reconocimiento.EmpezarJuego;
+import es.ugr.utilidades.Utilidades;
 
 /**
  * Actividad principal. Esta actividad se puede cambiar completamente. Sólo es
