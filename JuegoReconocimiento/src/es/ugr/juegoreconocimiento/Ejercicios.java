@@ -230,7 +230,7 @@ public class Ejercicios extends Activity {
         
        
         //row.setBackgroundColor(getResources().getColor(R.color.tabla2));
-        row.setBackgroundColor(getResources().getColor(R.color.degradado1r));
+        row.setBackgroundResource(R.color.degradado1r);
         
         
         
@@ -262,8 +262,8 @@ public class Ejercicios extends Activity {
         tit3=new TextView(this);
         
    	 tit1.setText("");
-   	 tit1.setTextColor(getResources().getColor(R.color.texto_tabla));
    	 tit1.setLayoutParams(tableRowParams);
+   	 tit1.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
    	 
        
    	 tit2.setText("Nombre");

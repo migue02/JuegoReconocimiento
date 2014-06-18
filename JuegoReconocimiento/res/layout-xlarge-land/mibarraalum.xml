@@ -24,7 +24,7 @@
         android:textColor="@color/white" />
 
     <TextView
-        android:layout_width="955dp"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Alumnos"

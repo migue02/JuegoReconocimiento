@@ -27,11 +27,9 @@ import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.objetos.*;
-import es.ugr.objetos.TiposPropios;
 import es.ugr.objetos.TiposPropios.Periodo;
-
 import es.ugr.juegoreconocimiento.R;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -46,6 +44,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,13 +70,35 @@ public class Graficas extends Activity {
 	private List<String> nombSeries=new ArrayList<String>();
 	private List<String> nombAlumnos=new ArrayList<String>();
 	
+	 private String[] mMonth = new String[] {
+		        "Ene", "Feb" , "Mar", "Abr", "May", "Jun",
+		        "Jul", "Ago" , "Sep", "Oct", "Nov", "Dic"
+		    };
+	 private String[] semana=new String[] {
+			 "Do","Lu","Ma","Mi","Ju","Vi","Sa"
+	 };
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		contexto=getApplicationContext();
+		
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+	    getActionBar().setCustomView(R.layout.mibarragraf);
+	    
 		setContentView(R.layout.dialogo_graficos);
+		
+		ImageView principal=(ImageView)findViewById(R.id.principalGraf);
+	    principal.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
 		InicioResultados();
 		
 	}
@@ -86,10 +107,17 @@ public class Graficas extends Activity {
 		
 		//ViewAnimator
 		
-	    final TextView titulo=(TextView)findViewById(R.id.titGraph);
-	    final TextView subtitulo=(TextView)findViewById(R.id.titEjerGraf);
+	    final TextView titulo=(TextView)findViewById(R.id.TitGraf);
+	    final TextView subtitulo=(TextView)findViewById(R.id.TitEjerGraf);
 	    
-		
+	    final SimpleDateFormat formatoDia;
+		final SimpleDateFormat formatoMes;
+		final SimpleDateFormat formatoAño;
+	    formatoDia=new SimpleDateFormat("dd");
+	    formatoMes=new SimpleDateFormat("MM");
+	    formatoAño=new SimpleDateFormat("yyyy");
+	    
+	    
         va=(ViewAnimator)findViewById(R.id.viewAnimator1);
        
         //va.addView(new Button(this));
@@ -102,7 +130,7 @@ public class Graficas extends Activity {
         //Inicializacion botones
         
         ImageButton ant=new ImageButton(this);
-        ant=(ImageButton)findViewById(R.id.GraphAnterior);
+        ant=(ImageButton)findViewById(R.id.GraphAnteriorGraf);
         ant.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -113,19 +141,19 @@ public class Graficas extends Activity {
 				if (posAnimation<0)
 					posAnimation+=totalAnimation;
 				
+				
 				if(graficaTipo==0){
-					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation));
+					titulo.setText("Ranking Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+
 				}
 				else{
 					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation));
 				}
 			}
 		});
         
         ImageButton sig=new ImageButton(this);
-        sig=(ImageButton)findViewById(R.id.graphSiguiente);
+        sig=(ImageButton)findViewById(R.id.GraphSiguienteGraf);
         sig.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -133,13 +161,13 @@ public class Graficas extends Activity {
 				// TODO Auto-generated method stub
 				va.showNext();
 				posAnimation=(posAnimation+1)%totalAnimation;
+				
+				
 				if(graficaTipo==0){
 					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation));
 				}
 				else{
 					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation));
 				}
 			}
 		});
@@ -155,9 +183,28 @@ public class Graficas extends Activity {
 	    listaAlumnos=extras.getIntegerArrayList("listaAlumnos");
 	    listaSeries=extras.getIntegerArrayList("listaSeries");
 	    graficaTipo=extras.getInt("tipoGrafica");
-	    
 
-	    
+
+		switch (fechaTipo) {
+		case Periodo.Semana:
+			Date fechaAnt=restaDias(Periodo.Semana-1);
+			Date fechaPos=new Date();
+			Integer.valueOf(formatoMes.format(fechaAnt));
+			subtitulo.setText("Última semana: "+formatoDia.format(fechaAnt).toString()+"/"+mMonth[Integer.valueOf(formatoMes.format(fechaAnt))]+"/"+formatoAño.format(fechaAnt)+" - "+formatoDia.format(fechaPos).toString()+"/"+mMonth[Integer.valueOf(formatoMes.format(fechaPos))]+"/"+formatoAño.format(fechaPos));
+		break;	
+		case Periodo.Mes:
+			Date fechaAnt2=restaDias(Periodo.Mes-1);
+			Date fechaPos2=new Date();
+			Integer.valueOf(formatoMes.format(fechaAnt2));
+			subtitulo.setText("Último mes: "+formatoDia.format(fechaAnt2).toString()+"/"+mMonth[Integer.valueOf(formatoMes.format(fechaAnt2))]+"/"+formatoAño.format(fechaAnt2)+" - "+formatoDia.format(fechaPos2).toString()+"/"+mMonth[Integer.valueOf(formatoMes.format(fechaPos2))]+"/"+formatoAño.format(fechaPos2));
+		break;	
+		case Periodo.SeisMeses:
+			Date fechaAnt3=restaMeses(Periodo.SeisMeses-1);
+			Date fechaPos3=new Date();
+			Integer.valueOf(formatoMes.format(fechaAnt3));
+			subtitulo.setText("Últimos 6 meses: "+mMonth[Integer.valueOf(formatoMes.format(fechaAnt3))]+"/"+formatoAño.format(fechaAnt3)+" - "+mMonth[Integer.valueOf(formatoMes.format(fechaPos3))]+"/"+formatoAño.format(fechaPos3));
+		break;
+		}
 	    //Si es ranking
 	    if(graficaTipo==0){
 	    //Toast.makeText(getApplicationContext(),"Radio "+graficaTipo, Toast.LENGTH_SHORT).show();
@@ -165,16 +212,12 @@ public class Graficas extends Activity {
 		for(int i=0;i<listaSeries.size();i++)
 			GraficoRanking(fechaTipo,listaSeries.get(i));
 		titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-		//if(nombSeries.size()>0)
-			subtitulo.setText(nombSeries.get(posAnimation));
 	    }
 	    else if(graficaTipo==1){
 		    totalAnimation=listaAlumnos.size();	    
 			for(int i=0;i<listaAlumnos.size();i++)
 				GraficoAlumno(fechaTipo,listaAlumnos.get(i));
 			titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-			//if(nombAlumnos.size()>0)
-				subtitulo.setText(nombAlumnos.get(posAnimation));
 	    }
 
 	}
@@ -237,23 +280,14 @@ public class Graficas extends Activity {
 						break;
 					}
 			 				
-
-			 		listaValores.get(i).set(distancia, listaFinal.get(i).get(j).getPuntuacion());
+			 		if(listaFinal.get(i).get(j).getPuntuacion()>0.0)
+			 			listaValores.get(i).set(distancia, listaFinal.get(i).get(j).getPuntuacion());
 			 	}
 		 }
 		
 		// LinearLayout chart_container=(LinearLayout)findViewById(R.id.layoutResultados);
 		 final GraphicalView mChart; 
-		 String[] mMonth = new String[] {
-			        "Ene", "Feb" , "Mar", "Abr", "May", "Jun",
-			        "Jul", "Ago" , "Sep", "Oct", "Nov", "Dic"
-			    };
-		 String[] semana=new String[] {
-				   "Lu","Ma","Mi","Ju","Vi","Sa","Do"
-		 };
-		 
-
-		 
+ 
 		int[] colores={Color.BLUE,Color.RED,Color.MAGENTA,Color.MAGENTA,Color.GREEN,Color.rgb(255, 0, 0)}; 
 		
 		 
@@ -287,7 +321,7 @@ public class Graficas extends Activity {
 	        	listaRenderer.get(i).setDisplayChartValues(true);
 	        	listaRenderer.get(i).setChartValuesTextSize(20);
 	        	listaRenderer.get(i).setChartValuesTextAlign(Align.CENTER);
-	        	
+
 	        	
 	        	
 	        	
@@ -302,18 +336,39 @@ public class Graficas extends Activity {
 	        multiRenderer.setChartTitle(se.getNombre());
 	        multiRenderer.setChartTitleTextSize(25);
 	        multiRenderer.setShowGrid(true);
+	        
+	        
+	        multiRenderer.setApplyBackgroundColor(true);
+	        multiRenderer.setBackgroundColor(getResources().getColor(R.color.degradado2));
+	        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado1));
+	        
+	        int[] margins = {40, 40, 40, 40};
+	        multiRenderer.setMargins(margins);
+	        //multiRenderer.setM
+	        
+	        multiRenderer.setAxesColor(getResources().getColor(R.color.azul_oscuro));
+	        multiRenderer.setGridColor(getResources().getColor(R.color.azul_oscuro));
+	        
+	        multiRenderer.setLabelsColor(getResources().getColor(R.color.azul_oscuro));
+	        multiRenderer.setXLabelsColor(getResources().getColor(R.color.azul_oscuro));//Color de cada texto de fecha
+	        multiRenderer.setYLabelsColor(0, getResources().getColor(R.color.azul_oscuro));//Colo de cada texto de puntuacion
+	       // multiRenderer.setYLabelsColor(1, Color.BLACK);
+	       
+	       
+	        //multiRenderer.setLabelsTextSize(15);
+	        
 	        switch (fechaTipo) {
 			case Periodo.Semana:
-				multiRenderer.setXTitle("Ultima semana");
+				multiRenderer.setXTitle("Día");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 			case Periodo.Mes:
-				multiRenderer.setXTitle("Ultimo mes");
+				multiRenderer.setXTitle("Día");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 				
 			case Periodo.SeisMeses:
-				multiRenderer.setXTitle("Ultimos 6 meses");
+				multiRenderer.setXTitle("Mes");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 			default:
@@ -335,13 +390,13 @@ public class Graficas extends Activity {
 	        SimpleDateFormat dateFormat = null;
 	        switch (fechaTipo) {
 			case Periodo.Semana:
-				dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+				dateFormat=new SimpleDateFormat("dd");
 				break;
 			case Periodo.Mes:
-				dateFormat=new SimpleDateFormat("dd/MM");
+				dateFormat=new SimpleDateFormat("dd");
 				break;
 			case Periodo.SeisMeses:
-				dateFormat=new SimpleDateFormat("MM/yyyy");
+				dateFormat=new SimpleDateFormat("MM");
 				break;
 			
 			default:
@@ -351,11 +406,15 @@ public class Graficas extends Activity {
 	        //new SimpleDateFormat("dd/MM/yyyy");
 	        for(int i=0; i< fechaTipo;i++){
 		        Calendar calen = Calendar.getInstance();
-		        if(fechaTipo==Periodo.Semana||fechaTipo==Periodo.Mes)
+		        if(fechaTipo==Periodo.Semana||fechaTipo==Periodo.Mes){
 		        	calen.add(Calendar.DATE, -(fechaTipo-1-i));
-		        if(fechaTipo==Periodo.SeisMeses)
+		            multiRenderer.addXTextLabel(i,semana[calen.get(Calendar.DAY_OF_WEEK)-1]+"-"+dateFormat.format(calen.getTime()).toString());
+		        }
+		        if(fechaTipo==Periodo.SeisMeses){
 		        	calen.add(Calendar.MONTH, -(fechaTipo-1-i));
-	            multiRenderer.addXTextLabel(i, dateFormat.format(calen.getTime()).toString());
+		        	multiRenderer.addXTextLabel(i, mMonth[Integer.valueOf(dateFormat.format(calen.getTime()).toString())]);
+		        }
+
 	        }
 	 
 	        // Adding incomeRenderer and expenseRenderer to multipleRenderer
@@ -372,7 +431,7 @@ public class Graficas extends Activity {
 	        
 			  //ll.addView(mChart);
 			  
-			  mChart.setBackgroundColor(Color.BLACK);	  
+			  mChart.setBackgroundColor(Color.WHITE);	  
 	 }
 	
 
@@ -396,7 +455,7 @@ public class Graficas extends Activity {
 		 nombAlumnos.add(al.getNombre());
 		 
 		 for(int i=0;i<listaSeries.size();i++){
-			 listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i)),TiposPropios.Periodo.SeisMeses));
+			 listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i)),fechaTipo));
 		 }
 		 rds.close();
 		 ads.close();
@@ -446,17 +505,10 @@ public class Graficas extends Activity {
 		
 		// LinearLayout chart_container=(LinearLayout)findViewById(R.id.layoutResultados);
 		 final GraphicalView mChart; 
-		 String[] mMonth = new String[] {
-			        "Ene", "Feb" , "Mar", "Abr", "May", "Jun",
-			        "Jul", "Ago" , "Sep", "Oct", "Nov", "Dic"
-			    };
-		 String[] semana=new String[] {
-				   "Lu","Ma","Mi","Ju","Vi","Sa","Do"
-		 };
-		 
 
+		
 		 
-		int[] colores={Color.BLUE,Color.RED,Color.MAGENTA,Color.YELLOW,Color.GREEN,Color.rgb(200, 0, 0)}; 
+		int[] colores={Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW,Color.RED,Color.rgb(200, 0, 0)}; 
 		
 		 
 		 SerieEjerciciosDataSource sed2=new SerieEjerciciosDataSource(this);
@@ -521,24 +573,45 @@ public class Graficas extends Activity {
 	        multiRenderer.setChartTitle(al.getNombre());
 	        multiRenderer.setChartTitleTextSize(25);
 	        multiRenderer.setShowGrid(true);
+	        
+	        
+	        
+	        multiRenderer.setApplyBackgroundColor(true);
+	        multiRenderer.setBackgroundColor(getResources().getColor(R.color.degradado2));
+	        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado1));
+	        
+	        int[] margins = {40, 40, 40, 40};
+	        multiRenderer.setMargins(margins);
+	        //multiRenderer.setM
+	        
+	        multiRenderer.setAxesColor(getResources().getColor(R.color.azul_oscuro));
+	        multiRenderer.setGridColor(getResources().getColor(R.color.azul_oscuro));
+	        
+	        multiRenderer.setLabelsColor(getResources().getColor(R.color.azul_oscuro));
+	        multiRenderer.setXLabelsColor(getResources().getColor(R.color.azul_oscuro));//Color de cada texto de fecha
+	        multiRenderer.setYLabelsColor(0, getResources().getColor(R.color.azul_oscuro));//Colo de cada texto de puntuacion
+	        
+	        
+	        
+	        
 	        switch (fechaTipo) {
 			case Periodo.Semana:
-				multiRenderer.setXTitle("Ultima semana");
+				multiRenderer.setXTitle("Secuencia Ejercicios-Día");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 			case Periodo.Mes:
-				multiRenderer.setXTitle("Ultimo mes");
+				multiRenderer.setXTitle("Secuencia Ejercicios-Día");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 				
 			case Periodo.SeisMeses:
-				multiRenderer.setXTitle("Ultimos 6 meses");
+				multiRenderer.setXTitle("Secuencia Ejercicios-Mes");
 				multiRenderer.setXAxisMax(fechaTipo);
 				break;
 			default:
 				break;
 			}
-	        multiRenderer.setYTitle("Puntuación");
+	        multiRenderer.setYTitle("Aciertos/Totales");
 	        multiRenderer.setZoomButtonsVisible(true);
 	        multiRenderer.setXAxisMin(-1);
 	        
@@ -598,12 +671,14 @@ public class Graficas extends Activity {
 
 	        //mChart=(GraphicalView)ChartFactory.getBarChartView(getBaseContext(), dataset, multiRenderer, Type.DEFAULT);
 	        mChart=(GraphicalView)ChartFactory.getBarChartView(getContext(), dataset, multiRenderer, Type.STACKED);
+	        //mChart=(GraphicalView)ChartFactory.getCombinedXYChartView(context, dataset, renderer, types)
 	        //mChart=(GraphicalView)ChartFactory.getLineChartView(getContext(), dataset, multiRenderer);
 	        va.addView(mChart);
 	        
 			  //ll.addView(mChart);
 			  
-			  mChart.setBackgroundColor(Color.BLACK);	  
+			  mChart.setBackgroundColor(Color.WHITE);
+			  
 	 }
 	
 	
@@ -616,14 +691,21 @@ public class Graficas extends Activity {
 		 return diffInDays;
 	 }
 	 
-	 private Date restaDias(Date date1,int dias){
-		 final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-
-		 Date dateBefore = new Date(date1.getTime() - dias*DAY_IN_MILLIS );
-		 return dateBefore;
+	 private Date restaDias(int ndias){
+		 	Date d=new Date();
+		    Calendar c = Calendar.getInstance();
+		    c.add(Calendar.DATE, -ndias);
+		    d.setTime( c.getTime().getTime() );
+		    return d;
 	 }
 
-	 
+	 private Date restaMeses(int meses){
+		 	Date d=new Date();
+		    Calendar c = Calendar.getInstance();
+		    c.add(Calendar.MONTH, -meses);
+		    d.setTime( c.getTime().getTime() );
+		    return d;
+	 }
 	 
 	 private int diferenciaMeses(Date date1,Date date2){ 
 		 Calendar cal1 = new GregorianCalendar();

@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
-                android:width="120dp" />
+                android:width="350dp" />
 
             <TextView
                 android:id="@+id/textViewTotales"
@@ -38,14 +38,14 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
-                android:width="60dp" />
+                android:width="75dp" />
 
             <TextView
                 android:id="@+id/TextViewAciertos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
-                android:width="60dp" />
+                android:width="75dp" />
 
             <TextView
                 android:id="@+id/TextViewFallos"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
-                android:width="60dp" />
+                android:width="75dp" />
 
             <TextView
                 android:id="@+id/TextViewDuracion"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
-                android:width="60dp" />
+                android:width="80dp" />
 
             <TextView
                 android:id="@+id/TextViewPuntuacion"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
-                android:width="60dp" />
+                android:width="75dp" />
 
         </TableRow>
 

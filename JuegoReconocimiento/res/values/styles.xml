@@ -41,8 +41,74 @@
     <item name="android:paddingTop">5dp</item>
 	</style>
 	
+	<style name="TextoTablaResultados" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textColor">@color/azul_oscuro</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
 	
-    
+	<style name="TextoAciertosTitulo" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/verde</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
+	
+	
+	<style name="TextoFallosTitulo" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/rojo</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
+	
+    <style name="TextoPuntuacionTitulo" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/azul</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
+	
+	
+	<style name="TextoAciertos" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textColor">@color/verde</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
+	
+	
+	<style name="TextoFallos" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textColor">@color/rojo</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
+	
+    <style name="TextoPuntuacion" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textColor">@color/azul</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingBottom">5dp</item>
+    <item name="android:paddingTop">5dp</item>
+	</style>
     
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">

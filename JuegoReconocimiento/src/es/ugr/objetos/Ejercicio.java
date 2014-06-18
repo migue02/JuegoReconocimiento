@@ -6,7 +6,7 @@ public class Ejercicio {
 	
 	private int idEjercicio;
 	private String nombre;
-	private ArrayList<Integer> objetos;
+	private ArrayList<Integer> objetos;//escenario
 	private String descripcion;
 	private double duracion;
 	private ArrayList<Integer> objetosReconocer;

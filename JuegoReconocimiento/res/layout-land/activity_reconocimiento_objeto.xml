@@ -115,18 +115,20 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/btn1"
+                android:id="@+id/btnReiniciarJuego"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:onClick="onReiniciar"
+                android:text="Reiniciar" />
 
             <Button
-                android:id="@+id/btn2"
+                android:id="@+id/btnSalir"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:onClick="onSalir"
+                android:text="Salir" />
 
         </LinearLayout>
 
@@ -137,18 +139,20 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn3"
+                android:id="@+id/btnAcierto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:onClick="onAcierto"
+                android:text="Acierto" />
 
             <Button
-                android:id="@+id/btn4"
+                android:id="@+id/btnFallo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:onClick="onFallo"
+                android:text="Fallo" />
 
         </LinearLayout>
         
@@ -159,7 +163,7 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/btn5"
+                android:id="@+id/btnEmpiezaCrono"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -167,7 +171,7 @@
                 android:text="Start" />
 
             <Button
-                android:id="@+id/btn6"
+                android:id="@+id/btnParaCrono"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"	
                 android:layout_weight="1"

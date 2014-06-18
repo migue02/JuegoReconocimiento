@@ -285,7 +285,7 @@ JNIEXPORT bool JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_Inicializ
 }
 
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindObjects(
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_FindObjects(
 		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jint i) {
 
 	// ----------------------------

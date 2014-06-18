@@ -4,11 +4,10 @@ import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.objetos.*;
 import es.ugr.objetos.TiposPropios.Sexo;
-
 import es.ugr.juegoreconocimiento.R;
-
 import android.app.Activity;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,11 +58,44 @@ public class Adaptador extends BaseExpandableListAdapter {
 		convertView = inflater.inflate(R.layout.subitems_layout, null);
 		
 		
+		//Layout
+		
+		
+		  TableRow.LayoutParams tableRowParams=
+	       		  new TableRow.LayoutParams
+	       (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+	  
+			int leftMargin=30;
+			int topMargin=0;
+			int rightMargin=30;
+			int bottomMargin=0;
+			
+			tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+			tableRowParams.gravity=Gravity.CENTER_VERTICAL;
+			
+			
+			
+			
+			
+			TableRow.LayoutParams ImgParams=
+			 		  new TableRow.LayoutParams
+			 (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+			
+				ImgParams.setMargins(5, 5, rightMargin, 5);
+				ImgParams.gravity=Gravity.CENTER_VERTICAL;
+				ImgParams.width=40;
+				ImgParams.height=40;
+	        	        
+	        //Fin Layout
+		
+		
+		
 		//Si es el primer elemento poner Titulos
 		if(childPosition==0){	
 		TableLayout tl=(TableLayout) convertView.findViewById(R.id.tableLayoutTablas);
 		
 		TableRow cabecera=new TableRow(convertView.getContext());
+		cabecera.setBackgroundResource(R.color.degradado1);
 		
 		TextView titidAl,tittotales,titaciertos,titfallos,titpuntuacion,titduracion;
 		
@@ -74,28 +106,38 @@ public class Adaptador extends BaseExpandableListAdapter {
 		titpuntuacion=new TextView(convertView.getContext());
 		titduracion=new TextView(convertView.getContext());
 		
+
+		
+		
+		
 		if (tipoTabla==0)
 			titidAl.setText("Alumno");
 		else
 			titidAl.setText("Secuencia");
 		
 		
-		titidAl.setPadding(2, 0, 5, 0);
+	   	titidAl.setLayoutParams(tableRowParams);
+	   	titidAl.setTextAppearance(convertView.getContext(), R.style.TituloTabla);
 		
 		tittotales.setText("Total");
-		tittotales.setPadding(2, 0, 5, 0);
+	   	tittotales.setLayoutParams(tableRowParams);
+	   	tittotales.setTextAppearance(convertView.getContext(), R.style.TituloTabla);
 		
 		titaciertos.setText("Aciertos");
-		titaciertos.setPadding(2, 0, 5, 0);
+	   	titaciertos.setLayoutParams(tableRowParams);
+	   	titaciertos.setTextAppearance(convertView.getContext(), R.style.TextoAciertosTitulo);
 		
 		titfallos.setText("Fallos");
-		titfallos.setPadding(2, 0, 5, 0);
+	   	titfallos.setLayoutParams(tableRowParams);
+	   	titfallos.setTextAppearance(convertView.getContext(), R.style.TextoFallosTitulo);
 		
 		titpuntuacion.setText("Puntuación");
-		titpuntuacion.setPadding(2, 0, 5, 0);
+	   	titpuntuacion.setLayoutParams(tableRowParams);
+	   	titpuntuacion.setTextAppearance(convertView.getContext(), R.style.TextoPuntuacionTitulo);
 		
 		titduracion.setText("Duración");
-		titduracion.setPadding(2, 0, 5, 0);
+	   	titduracion.setLayoutParams(tableRowParams);
+	   	titduracion.setTextAppearance(convertView.getContext(), R.style.TituloTabla);
 		
 		cabecera.addView(new TextView(convertView.getContext()));
 		cabecera.addView(titidAl);
@@ -128,6 +170,21 @@ public class Adaptador extends BaseExpandableListAdapter {
 		puntuacion=(TextView)convertView.findViewById(R.id.TextViewPuntuacion);
 		duracion=(TextView)convertView.findViewById(R.id.TextViewDuracion);
 
+
+		imgSexo.setLayoutParams(ImgParams);
+	   	idAl.setLayoutParams(tableRowParams);
+	   	idAl.setTextAppearance(convertView.getContext(), R.style.TextoTablaResultados);
+	   	totales.setLayoutParams(tableRowParams);
+	   	totales.setTextAppearance(convertView.getContext(), R.style.TextoTablaResultados);
+	   	aciertos.setLayoutParams(tableRowParams);
+	   	aciertos.setTextAppearance(convertView.getContext(), R.style.TextoAciertos);
+	   	fallos.setLayoutParams(tableRowParams);
+	   	fallos.setTextAppearance(convertView.getContext(), R.style.TextoFallos);
+	   	puntuacion.setLayoutParams(tableRowParams);
+	   	puntuacion.setTextAppearance(convertView.getContext(), R.style.TextoPuntuacion);
+	   	duracion.setLayoutParams(tableRowParams);
+	   	duracion.setTextAppearance(convertView.getContext(), R.style.TextoTablaResultados);
+	   	
 		
 		//Asignacion valores elementos tabla
 		
@@ -160,26 +217,7 @@ public class Adaptador extends BaseExpandableListAdapter {
 		puntuacion.setText(String.valueOf(children.getPuntuacion()));
 		duracion.setText(String.valueOf(children.getDuracion()));
 		
-		
-		
-		
-		//pading
-		
-      	idAl.setPadding(0, 0, 2, 0);
-      	idAl.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-      	totales.setPadding(0, 0, 2, 0);
-      	totales.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-      	aciertos.setPadding(0, 0, 2, 0);
-      	aciertos.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-      	fallos.setPadding(0, 0, 2, 0);
-      	fallos.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-      	puntuacion.setPadding(0, 0, 2, 0);
-      	puntuacion.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-      	duracion.setPadding(0, 0, 2, 0);
-      	duracion.setTextColor(convertView.getContext().getResources().getColor(R.color.texto_tabla));
-		
-		
-      	 if(childPosition%2==0)
+     	 if(childPosition%2==0)
        		 row.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.tabla1));
        	 else
        		 row.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.tabla2));

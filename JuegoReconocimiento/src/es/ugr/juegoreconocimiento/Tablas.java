@@ -6,12 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import es.ugr.basedatos.*;
 import es.ugr.objetos.*;
 import es.ugr.objetos.TiposPropios.Periodo;
-
 import es.ugr.juegoreconocimiento.R;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
@@ -53,7 +54,22 @@ public class Tablas extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		contexto=getApplicationContext();
+		
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+	    getActionBar().setCustomView(R.layout.mibarratab);
+	    
 		setContentView(R.layout.dialogo_tabla);
+		
+		ImageView principal=(ImageView)findViewById(R.id.principalTab);
+	    principal.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
 		InicioResultados();
 		
 	}
@@ -74,9 +90,11 @@ public class Tablas extends Activity {
         
         ImageButton ant=new ImageButton(this);
         ant=(ImageButton)findViewById(R.id.GraphAnteriorTab);
-	    final TextView titulo=(TextView)findViewById(R.id.titTab);
-        final TextView subtitulo=(TextView)findViewById(R.id.titEjerGraf);
+	    final TextView titulo=(TextView)findViewById(R.id.TitTab);
+        final TextView subtitulo=(TextView)findViewById(R.id.TitEjerTab);
 
+        final SimpleDateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
+        
         
         ant.setOnClickListener(new OnClickListener() {
 			
@@ -90,11 +108,11 @@ public class Tablas extends Activity {
 				
 				if(graficaTipo==0){
 					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation));
+					subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				else{
 					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation));
+					subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				
 				
@@ -102,7 +120,7 @@ public class Tablas extends Activity {
 		});
         
         ImageButton sig=new ImageButton(this);
-        sig=(ImageButton)findViewById(R.id.graphSiguienteTab);
+        sig=(ImageButton)findViewById(R.id.GraphSiguienteTab);
         sig.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -112,11 +130,11 @@ public class Tablas extends Activity {
 				posAnimation=(posAnimation+1)%totalAnimation;
 				if(graficaTipo==0){
 					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation));
+					subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				else{
 					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation));
+					subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 			}
 		});
@@ -142,17 +160,19 @@ public class Tablas extends Activity {
 		for(int i=0;i<listaSeries.size();i++)
 			TablaRanking(fechaTipo,listaSeries.get(i));
 		titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-		subtitulo.setText(nombSeries.get(posAnimation));
+		subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
+		
 	    }
 	    else if(graficaTipo==1){		    
 		    totalAnimation=listaAlumnos.size();
 			for(int i=0;i<listaAlumnos.size();i++)
 				TablaAlumno(fechaTipo,listaAlumnos.get(i));
 			titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-			subtitulo.setText(nombAlumnos.get(posAnimation));
+			subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
 	    }
 	    
-        
+		
+	    
 
 	}
 	
@@ -172,9 +192,9 @@ public class Tablas extends Activity {
 		
 		
 		List<List<Resultado>> listaFinal=new ArrayList<List<Resultado>>();
-		 ResultadoDataSource rds=new ResultadoDataSource(this);
-		 AlumnoDataSource ads=new AlumnoDataSource(this);
-		 SerieEjerciciosDataSource seds=new SerieEjerciciosDataSource(this);
+		ResultadoDataSource rds=new ResultadoDataSource(this);
+		AlumnoDataSource ads=new AlumnoDataSource(this);
+		SerieEjerciciosDataSource seds=new SerieEjerciciosDataSource(this);
 		 
 		 rds.open();
 		 ads.open();

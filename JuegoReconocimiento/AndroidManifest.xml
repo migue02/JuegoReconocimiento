@@ -27,6 +27,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name="es.ugr.reconocimiento.ReconocimientoObjeto2"
+            android:label="@string/title_activity_reconocimiento_objeto"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name="es.ugr.juegoreconocimiento.AboutActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >

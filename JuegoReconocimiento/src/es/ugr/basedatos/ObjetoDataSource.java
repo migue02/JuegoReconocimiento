@@ -139,11 +139,18 @@ public class ObjetoDataSource {
 		return objetos;
 	}
 	
-	public ArrayList<Objeto> getAllObjetos(Ejercicio ejercicio) {	
+	public ArrayList<Objeto> getAllObjetosEscenario(Ejercicio ejercicio) {	
 		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 		for (int i=0; i<ejercicio.getObjetos().size(); i++)
 			objetos.add(getObjeto(ejercicio.getObjetos().get(i)));
 		return objetos;
+	}
+	
+	public ArrayList<Objeto> getAllObjetosReconocer(Ejercicio ejercicio) {	
+		ArrayList<Objeto> objetosEscenario = new ArrayList<Objeto>();
+		for (int i=0; i<ejercicio.getObjetosReconocer().size(); i++)
+			objetosEscenario.add(getObjeto(ejercicio.getObjetosReconocer().get(i)));
+		return objetosEscenario;
 	}
 
 	public Objeto getObjeto(long id) {

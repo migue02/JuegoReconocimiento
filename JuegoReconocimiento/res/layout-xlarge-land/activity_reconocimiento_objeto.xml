@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -13,6 +13,8 @@
         android:id="@+id/layoutFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginRight="20dp"
         android:orientation="horizontal" >
 
         <org.opencv.android.JavaCameraView
@@ -78,6 +80,107 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fondo_tools"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
+
+            <Chronometer
+                android:id="@+id/cronometro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="14dp"
+                android:text="Chronometer" />
+
+        </LinearLayout>
+
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+        	android:orientation="horizontal" 
+        	android:layout_weight="1"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btnReiniciarJuego"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onReiniciar"
+                android:text="Reiniciar" />
+
+            <Button
+                android:id="@+id/btnSalir"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onSalir"
+                android:text="Salir" />
+
+        </LinearLayout>
+
+		<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAcierto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onAcierto"
+                android:text="Acierto" />
+
+            <Button
+                android:id="@+id/btnFallo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onFallo"
+                android:text="Fallo" />
+
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnEmpiezaCrono"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onCronoEmpieza"
+                android:text="Start" />
+
+            <Button
+                android:id="@+id/btnParaCrono"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"	
+                android:layout_weight="1"
+                android:onClick="onCronoPara"
+                android:text="Stop" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

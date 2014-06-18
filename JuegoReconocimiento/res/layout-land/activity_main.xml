@@ -49,6 +49,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@drawable/ic2"
                         android:gravity="center" />
+                   
 
                     <TextView
                         android:id="@+id/textView"
@@ -171,14 +172,31 @@
                 android:layout_gravity="center"
                 android:text="EMPEZAR"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <Button
-                android:id="@+id/Reinicia"
-                style="?android:attr/buttonStyleSmall"
+			
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ReiniciaBD"
-                android:layout_gravity="center" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+            
+	            <Button
+	                android:id="@+id/Reinicia"
+	                style="?android:attr/buttonStyleSmall"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:layout_weight="1"
+	                android:text="ReiniciaBD"
+	                android:layout_gravity="center" />
+	            
+	            <Button
+	                 android:id="@+id/button1"
+	                 android:layout_width="match_parent"
+	                 android:layout_height="match_parent"
+	                 android:layout_weight="1"
+	                 android:onClick="onClickReconocimiento"
+	                 android:text="Reconocimiento" />
+            
+            </LinearLayout>
+            
 
         </LinearLayout>
     </LinearLayout>

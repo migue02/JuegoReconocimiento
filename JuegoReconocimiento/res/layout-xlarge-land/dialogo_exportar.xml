@@ -14,13 +14,15 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="¿Qué desea exportar?"
-            android:gravity="center|top" />
+            android:gravity="top"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -43,7 +45,8 @@
             android:orientation="horizontal"
             android:visibility="visible"
             android:layout_gravity="bottom"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:layout_marginTop="20dp">
 
             <Button
                 android:id="@+id/cExportar"

@@ -22,9 +22,9 @@ public class Resultado{
 		this.fechaRealizacion = new Date();
 		this.duracion = -1;
 		this.numeroObjetosReconocer = -1;
-		this.aciertos = -1;
-		this.fallos = -1;
-		this.puntuacion = -1.0;
+		this.aciertos = 0;
+		this.fallos = 0;
+		this.puntuacion = 0.0;
 	}
 	
 	public Resultado(int idResultado, int idAlumno, int idEjercicio,

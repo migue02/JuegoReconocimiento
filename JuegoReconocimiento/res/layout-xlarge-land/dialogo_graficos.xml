@@ -5,47 +5,6 @@
     android:id="@+id/linearGraficos"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/app_color1"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/titGraph"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.99"
-            android:text="Ranking Alumnos"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/titEjerGraf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.99"
-            android:layout_gravity="center"
-            android:text="PELOTAS"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ff0000" />
-
-        <ImageButton
-            android:id="@+id/GraphAnterior"
-            android:layout_width="44dp"
-            android:layout_height="38dp"
-            android:layout_gravity="right"
-            android:src="@drawable/anterior" />
-
-        <ImageButton
-            android:id="@+id/graphSiguiente"
-            android:layout_width="44dp"
-            android:layout_height="38dp"
-            android:layout_gravity="right"
-            android:src="@drawable/siguiente" />
-    </LinearLayout>
-
     <ViewAnimator
         android:id="@+id/viewAnimator1"
         android:layout_width="match_parent"
