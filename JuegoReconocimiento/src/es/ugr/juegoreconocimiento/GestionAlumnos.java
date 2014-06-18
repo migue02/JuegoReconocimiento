@@ -449,7 +449,7 @@ public class GestionAlumnos extends Activity {
 		final EditText enombre;
 		final EditText eapellidos;
 		final EditText eobservaciones;
-		final ImageButton chico,chica;
+		final View chico,chica;
 		final ImageView imPrincipal;
 		TextView efecha;
 		
@@ -458,8 +458,8 @@ public class GestionAlumnos extends Activity {
 		eapellidos=(EditText)dialog.findViewById(R.id.daApellidos);
 		efecha=(TextView)dialog.findViewById(R.id.MuestraFecha);
 		eobservaciones=(EditText)dialog.findViewById(R.id.daObserva);					
-		chico=(ImageButton)dialog.findViewById(R.id.BotonHombre);
-		chica=(ImageButton)dialog.findViewById(R.id.BotonMujer);
+		chico=dialog.findViewById(R.id.pulsaChico);
+		chica=dialog.findViewById(R.id.pulsaChica);
 		GuardarDia=(Button)dialog.findViewById(R.id.gAlumnos);
 		CancelarDialog=(Button)dialog.findViewById(R.id.cAlumnos);
 		imPrincipal=(ImageView)dialog.findViewById(R.id.AlumPrin);
