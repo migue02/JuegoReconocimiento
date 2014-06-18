@@ -444,6 +444,7 @@ public class GestionAlumnos extends Activity {
 		else
 			dialog.setTitle("Crear Alumno");
 		
+		
 		//Captacion de los componentes
 		final Button GuardarDia, CancelarDialog;
 		final EditText enombre;
