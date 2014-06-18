@@ -7,13 +7,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.objetos.*;
+import es.ugr.parserXML.EjercicioParser;
+import es.ugr.parserXML.EjerciciosMarker;
 import es.ugr.basedatos.*;
-
 import es.ugr.juegoreconocimiento.R;
-
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.TabListener;
@@ -28,6 +29,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
@@ -71,6 +73,7 @@ public class Ejercicios extends Activity {
 	 private List<Ejercicio> le;
 	 private EjercicioDataSource eds;
 	 private ScrollView scrollejer;
+	 private View  ImportarEj;
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +94,9 @@ public class Ejercicios extends Activity {
 			}
 		});
 
-		//borrar
-	//	insertaDatos();
-		
+	    
+	    
+		ImportarEj=findViewById(R.id.ImportarEj);
 		scrollejer=(ScrollView)findViewById(R.id.scrollEjer);
 		scrollejer.setBackgroundResource(R.drawable.tabla);
 		listView=(ListView)findViewById(R.id.listViewEjer);
@@ -107,7 +110,19 @@ public class Ejercicios extends Activity {
         eds.open();
 		CreaLista();
 		CreaTablaEjer();
-        //final Context micontexto=this;          
+        //final Context micontexto=this;   
+		
+		
+		ImportarEj.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				RetrieveFeed task = new RetrieveFeed();
+			    task.execute("https://dl.dropboxusercontent.com/u/123539/parkingpositions.xml");
+			    //task.execute("https://www.dropbox.com/s/8wrw1jwpndcl1zk/primer.xml");
+			}
+		});
 
 	}
 	
@@ -388,6 +403,24 @@ public class Ejercicios extends Activity {
 		duracion.setText(String.valueOf(le.get(pos).getDuracion()));
 		final TextView descripcion=(TextView)dialogo.findViewById(R.id.textDesc);
 		descripcion.setText(le.get(pos).getDescripcion());
+		
+        final ObjetoDataSource ods=new ObjetoDataSource(dialogo.getContext());
+        ods.open();
+        
+        Objeto obj=new Objeto();
+		
+		
+		final TextView escenario=(TextView)dialogo.findViewById(R.id.textEscenario);
+		escenario.setTextSize(20);
+		
+		String textEscenario=new String("");
+		for(int i=0;i<le.get(pos).getObjetos().size();i++){
+			obj=ods.getObjeto(le.get(pos).getObjetos().get(i));
+			textEscenario=textEscenario+obj.getNombre();
+			if(i!=le.get(pos).getObjetos().size()-1)
+				textEscenario=textEscenario+" ,";
+		}
+		escenario.setText(textEscenario);
 		//Table Layout dentro dialogo
 		
 		TableLayout tablaObjetos=(TableLayout)dialogo.findViewById(R.id.tablaDiaEjercicios);
@@ -400,15 +433,12 @@ public class Ejercicios extends Activity {
          //Cabecera
          
          filaObj = new TableRow(dialogo.getContext());
-         final ObjetoDataSource ods=new ObjetoDataSource(dialogo.getContext());
-         ods.open();
-         
-         Objeto obj=new Objeto();
+
          
          
     	//Para cada ejercicio
     	
-    	for(int j=0;j<le.get(pos).getObjetos().size();j++){
+    	for(int j=0;j<le.get(pos).getObjetosReconocer().size();j++){
         	 filaObj=new TableRow(dialogo.getContext());
         	// row.setId(i);
         	 
@@ -419,7 +449,7 @@ public class Ejercicios extends Activity {
         	 
         	 
         	 te2=new TextView(dialogo.getContext());
-        	 obj=ods.getObjeto(le.get(pos).getObjetos().get(j));
+        	 obj=ods.getObjeto(le.get(pos).getObjetosReconocer().get(j));
         	 te2.setText(obj.getNombre());
         	 te2.setPadding(2, 0, 5, 0);
         	 te2.setTextSize(20);
@@ -463,6 +493,25 @@ public class Ejercicios extends Activity {
 
 
 	}
+	
+	
+	
+	
+	private class RetrieveFeed extends AsyncTask<String,Integer,Boolean> {
+		
+		public List<EjerciciosMarker> ListaEj;
+		 
+	    protected Boolean doInBackground(String... params) {
+	 
+	    	 EjercicioParser ejercicioparser = new EjercicioParser(params[0]);
+	    	 ListaEj = ejercicioparser.parse();
+	    	    
+	 
+	        return true;
+	    }
+	 
+
+		}
 
 
 }
