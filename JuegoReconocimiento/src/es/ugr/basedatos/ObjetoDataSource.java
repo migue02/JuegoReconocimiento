@@ -115,6 +115,11 @@ public class ObjetoDataSource {
 		return database.delete(MySQLiteHelper.TABLE_OBJETO, null, null) > 0;
 	}
 
+	public boolean eliminaTodosObjetos(int id) {
+		return database.delete(MySQLiteHelper.TABLE_OBJETO, 
+				MySQLiteHelper.COLUMN_OBJETO_ID + " > " + id, null) > 0;
+	}
+	
 	public void dropTableObjeto() {
 		Log.w("Deleting...", "Borrando tabla objetos");
 		database.execSQL(dbHelper.getSqlDropObjeto());
@@ -126,6 +131,24 @@ public class ObjetoDataSource {
 		Log.w("Obteniendo...", "Obteniendo todos los objetos...");
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_OBJETO, allColumns,
 				null, null, null, null, null);
+
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				Objeto objeto = cursorToObjeto(cursor);
+				objetos.add(objeto);
+				cursor.moveToNext();
+			}
+			cursor.close();
+		}
+		return objetos;
+	}
+	
+	public ArrayList<Objeto> getAllObjetos(int id) {
+		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
+		Log.w("Obteniendo...", "Obteniendo todos los objetos...");
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_OBJETO, allColumns,
+				MySQLiteHelper.COLUMN_OBJETO_ID + " >= " + id, null, null, null, null);
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -192,6 +215,7 @@ public class ObjetoDataSource {
 		objeto.setDescriptores(cursor.getString(3));
 		objeto.setCols(cursor.getInt(4));
 		objeto.setRows(cursor.getInt(5));
+		objeto.setMats();
 		return objeto;
 	}
 

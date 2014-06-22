@@ -1,10 +1,7 @@
 package es.ugr.reconocimiento;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -21,10 +18,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Size;
 import org.opencv.features2d.KeyPoint;
-import org.opencv.imgproc.Imgproc;
-
 import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.basedatos.EjercicioDataSource;

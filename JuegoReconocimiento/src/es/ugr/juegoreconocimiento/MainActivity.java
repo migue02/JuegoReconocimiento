@@ -1,5 +1,6 @@
 package es.ugr.juegoreconocimiento;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,23 +11,31 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 
-import es.ugr.basedatos.*;
-import es.ugr.objetos.*;
-import es.ugr.objetos.TiposPropios.Sexo;
-import es.ugr.reconocimiento.EmpezarJuego;
-import es.ugr.reconocimiento.ReconocimientoObjeto2;
-import es.ugr.utilidades.Utilidades;
-import es.ugr.juegoreconocimiento.R;
-import android.os.Bundle;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import es.ugr.basedatos.AlumnoDataSource;
+import es.ugr.basedatos.EjercicioDataSource;
+import es.ugr.basedatos.ObjetoDataSource;
+import es.ugr.basedatos.ResultadoDataSource;
+import es.ugr.basedatos.SerieEjerciciosDataSource;
+import es.ugr.objetos.Alumno;
+import es.ugr.objetos.Ejercicio;
+import es.ugr.objetos.Objeto;
+import es.ugr.objetos.Resultado;
+import es.ugr.objetos.SerieEjercicios;
+import es.ugr.objetos.TiposPropios.Sexo;
+import es.ugr.reconocimiento.EmpezarJuego;
+import es.ugr.reconocimiento.ReconocimientoObjeto2;
+import es.ugr.utilidades.Utilidades;
 
 /**
  * Actividad principal. Esta actividad se puede cambiar completamente. SÃ³lo es
@@ -41,6 +50,8 @@ public class MainActivity extends Activity {
 	private static final String TAG = "Reconocimiento::MainActivity";
 	ImageButton alumnos, series, resultados, ejercicios;
 	Button reinicia;
+	
+	private MediaPlayer player;
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -73,6 +84,7 @@ public class MainActivity extends Activity {
 
 		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this,
 				mLoaderCallback);
+		
 
 		// Gestion alumnos
 		alumnos = (ImageButton) findViewById(R.id.buttonAlum);
@@ -176,7 +188,7 @@ public class MainActivity extends Activity {
 						"Lucena Morales", d, Sexo.Hombre, "");
 				Alumno alumno2 = ads.createAlumno("Miguel",
 						"Morales Rodríguez", d2, Sexo.Mujer, "");
-
+ 
 				ads.close();
 
 				// Crear objetos
@@ -215,38 +227,32 @@ public class MainActivity extends Activity {
 
 				// Crear Ejercicios
 				Objeto objAngryBirds,objAdidas,objKelme,objUGR,objWindows,objApple;
-				try {
-					
-					objAngryBirds=ods.getObjeto(10);//Angry Birds
-					objAdidas=ods.getObjeto(11);//Adidas
-					objKelme=ods.getObjeto(12);//Kelme
-					objUGR=ods.getObjeto(13);//ugr
-					objWindows=ods.getObjeto(14);//windows
-					objApple=ods.getObjeto(15);//apple
-					//objeto7=ods.getObjeto(16);
-					//objeto8=ods.getObjeto(17);
-					//objeto9=ods.getObjeto(18);
-					objKelme.setNombre("Kelme");
-					ods.modificaObjeto(objKelme);
-				} catch (Exception e) {
+				objAngryBirds=ods.getObjeto(1);
+				if (objAngryBirds != null) {					
+					objAdidas=ods.getObjeto(2);//Adidas
+					objKelme=ods.getObjeto(3);//Kelme
+					objUGR=ods.getObjeto(4);//ugr
+					objWindows=ods.getObjeto(5);//windows
+					objApple=ods.getObjeto(6);//apple
+				}else {
 					MatOfKeyPoint matKey = new MatOfKeyPoint();
 					Mat mat = new Mat();
-					objAngryBirds = ods.createObjeto("Pelota tenis",
+					objAngryBirds = ods.createObjeto("Angry Birds",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
-					objAdidas = ods.createObjeto("Pelota beisbol",
+					objAdidas = ods.createObjeto("Adidas",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
-					objKelme = ods.createObjeto("Teléfono",
+					objKelme = ods.createObjeto("Kelme",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
-					objUGR= ods.createObjeto("Bolígrafo",
+					objUGR= ods.createObjeto("UGR",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
-					objWindows = ods.createObjeto("Rotulador",
+					objWindows = ods.createObjeto("Windows",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
-					objApple = ods.createObjeto("Estuche",
+					objApple = ods.createObjeto("Apple",
 							Utilidades.keypointsToJson(matKey),
 							Utilidades.matToJson(mat), 0, 0);
 					ods.close();
@@ -354,6 +360,18 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+		AssetFileDescriptor afd;
+		try {
+			afd = getAssets().openFd("Background.mp3");
+			player = new MediaPlayer();
+			player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+		    player.prepare();
+		    player.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -370,6 +388,12 @@ public class MainActivity extends Activity {
 	public void onClickReconocimiento(View v) {
 		Intent intent = new Intent(this, ReconocimientoObjeto2.class);
 		startActivity(intent);
+	}
+	
+	@Override
+	protected void onPause() {
+		player.pause();
+		super.onStart();
 	}
 	
 }

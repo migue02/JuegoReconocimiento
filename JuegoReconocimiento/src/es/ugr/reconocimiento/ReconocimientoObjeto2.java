@@ -1,7 +1,6 @@
 package es.ugr.reconocimiento;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,32 +19,34 @@ import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
 import es.ugr.juegoreconocimiento.R;
-
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.objetos.Objeto;
+import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.utilidades.Utilidades;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 
 public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListener2 {
@@ -57,7 +58,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	private int nObjeto = -1;
 	private Mat mGray;
 	private Mat mRgba;
-	private Mat aux;
+	private Mat aux, auxGray;
 	private ObjetoDataSource datasource;
 	private MatOfKeyPoint keypoints_obj = new MatOfKeyPoint();
 	private Mat descriptores_obj = new Mat();
@@ -72,6 +73,20 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	private ImageView image;
 	private TextToSpeech ttobj;
 	
+	private EditText edthessianThreshold;
+	private EditText edtnOctaves;
+	private EditText edtnOctaveLayers;
+	private CheckBox chkExtended;
+	private CheckBox chkUpright;
+
+	
+	double hessianThreshold=1300;
+	int nOctaves=4;
+	int nOctaveLayers=2;
+	boolean extended=false;
+	boolean upright=false;
+
+	
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
 		public void onManagerConnected(int status) {
@@ -82,9 +97,11 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 				// Load native library after(!) OpenCV initialization
 				System.loadLibrary("opencv_java");
 				System.loadLibrary("nonfree");
-				System.loadLibrary("mipattern_recognition");
+				System.loadLibrary("juegoReconocimientoLib");
 
 				mOpenCvCameraView.enableView();
+				
+				//InicializaSurf(1800.0, 4, 2, true, true);
 			}
 				break;
 			default: {
@@ -102,9 +119,20 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		setContentView(R.layout.activity_reconocimiento_objeto2);
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
+		
+		chkExtended = (CheckBox) findViewById(R.id.edtExtended);
+		edthessianThreshold = (EditText) findViewById(R.id.edtHessian);
+		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
+		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
+		chkUpright = (CheckBox) findViewById(R.id.edtUpRight);
+		
+		edthessianThreshold.setText("1500");
+		edtnOctaveLayers.setText("2");
+		edtnOctaves.setText("4");
+		
 		datasource = new ObjetoDataSource(this);
 		datasource.open();
-		objetos = datasource.getAllObjetos();
+		objetos = datasource.getAllObjetos(7);
 		rellenar(false);
 		
 		ttobj=new TextToSpeech(getApplicationContext(), 
@@ -112,7 +140,8 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	      @Override
 	      public void onInit(int status) {
 	         if(status != TextToSpeech.ERROR){
-	             ttobj.setLanguage(Locale.UK);
+	        	 Locale locale = new Locale("spa","ESP");
+	             ttobj.setLanguage(locale);
 	            }				
 	         }
 	      });
@@ -168,6 +197,14 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		nObjeto=-1;
 	}
 	
+	public void onSettingsClick(View v){
+		datasource.eliminaTodosObjetos();
+		LiberaObjetos();
+		objetos.clear();
+		objetos = datasource.getAllObjetos(7);
+		rellenar(false);
+	}
+	
 	public void onCancelarClick(View v){
 		if (!buscandoObjeto){
 			Intent myIntent = new Intent(ReconocimientoObjeto2.this,
@@ -180,13 +217,55 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		}
 	}
 	
+	public void onInicializaSurf(View v){
+		InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
+				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());
+		//InicializaSurf(1800.0, 4, 2, true, false);
+	}
+	
+	public void onVerObjetos(View v){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Objetos");
+
+		ListView modeList = new ListView(this);
+		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(this, android.R.layout.simple_list_item_1, android.R.id.text1, objetos);
+		modeList.setAdapter(modeAdapter);
+
+		builder.setView(modeList);
+		final Dialog dialog = builder.create();
+
+		modeList.setOnItemClickListener(new OnItemClickListener() {		
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,int location, long id) {
+				((Button) findViewById(R.id.btnObjetos)).setText(objetos.get(location).getNombre());
+				dialog.dismiss();
+			}});
+		
+		dialog.show();
+	}
+	
 	public void onCapturarClick(View v){
-		Size sz = new Size(100,100);
-		Imgproc.resize(mGray, mGray, sz );
-		Imgproc.resize(mRgba, mRgba, sz );
+		auxGray = mGray.clone();
 		aux = mRgba.clone();
-		FindFeatures(mGray.getNativeObjAddr(),
+		
+		
+		Imgproc.GaussianBlur(auxGray, auxGray, new Size(3,3), 2);
+		Imgproc.Canny(auxGray, auxGray, 40, 120);
+
+		Imgproc.GaussianBlur(aux, aux, new Size(3,3), 2);
+		Imgproc.Canny(aux, aux, 40, 120);
+		
+		Imgproc.resize(auxGray, auxGray, new Size(320,240));
+		Imgproc.resize(aux, aux, new Size(320,240));
+		//long startTime = System.currentTimeMillis();
+		
+		float elapsedTime=FindFeatures(auxGray.getNativeObjAddr(),
 				aux.getNativeObjAddr(), descriptores_obj.getNativeObjAddr(), keypoints_obj.getNativeObjAddr());
+
+		//long stopTime = System.currentTimeMillis();
+		//long elapsedTime = stopTime - startTime;		
+		Toast.makeText(this, "Tiempo = "+elapsedTime+"\n"+"KeyPoints = "+keypoints_obj.size(), Toast.LENGTH_SHORT).show();
 		if (!keypoints_obj.empty() || !descriptores_obj.empty()) {
 			final Dialog dialog = new Dialog(ReconocimientoObjeto2.this);
 			dialog.setContentView(R.layout.activity_dialog_objeto);
@@ -207,17 +286,20 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 				@Override
 				public void onClick(View v) {
 					String keyString, desString;				
-					//keypoints_obj = new MatOfKeyPoint(listaKP_obj);
 					keyString = Utilidades.keypointsToJson(keypoints_obj);
 					desString = Utilidades.matToJson(descriptores_obj);
-					Objeto obj=datasource.createObjeto(edtNombre.getText().toString(), keyString, desString, aux.cols(), aux.rows());
-					objetos.add(obj);
-					rellenar(true);
+					datasource.createObjeto(edtNombre.getText().toString(), keyString, desString, aux.cols(), aux.rows());
+					objetos.clear();
+					objetos=datasource.getAllObjetos(7);
+					LiberaObjetos();
+					rellenar(false);
 					//id = obj.getId();
 					descriptores_obj.release();
 					keypoints_obj.release();
 					dialog.dismiss();
 					aux.release();
+					auxGray.release();
+
 				}
 			});
 			
@@ -231,11 +313,13 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 					keypoints_obj.release();
 					objetos.clear();
 					aux.release();
+					auxGray.release();
 				}
 			});		
 			dialog.show();
 		}else
 			Toast.makeText(this, "Es necesario capturar de nuevo el objeto", Toast.LENGTH_SHORT).show();
+		
 	}
 	
 	public class MyRunnable implements Runnable {
@@ -245,14 +329,44 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		}
 		@Override
 		  public void run() {
-			Size sz = new Size(100,100);
-			Imgproc.resize(mGray, mGray, sz );
-			Imgproc.resize(mRgba, mRgba, sz );
-			nObjeto=FindObjects(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr(),nObjetoActual);
+			//nObjeto=FindObjects(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr(),nObjetoActual);
 		  }
 		} 
 	
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+		if (!buscandoObjeto || (buscandoObjeto && nObjeto == -1)){
+			mRgba = inputFrame.rgba();
+			mGray = inputFrame.gray();
+
+			if (buscandoObjeto && objetos.size()>0) {
+				auxGray = mGray.clone();
+				aux = mRgba.clone();
+				
+				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3,3), 2);
+				Imgproc.Canny(auxGray, auxGray, 40, 120);				
+				Imgproc.resize(auxGray, auxGray, new Size(320,240));
+				
+				nObjeto=FindObjects(auxGray.getNativeObjAddr(), mRgba.getNativeObjAddr());
+				
+				mGray = auxGray.clone();
+				auxGray.release();
+				
+				if (nObjeto!=-1){
+					nombre=objetos.get(nObjeto).getNombre();
+					ReconocimientoObjeto2.this.runOnUiThread(new Runnable() {
+					    public void run() {
+					    	ttobj.speak(nombre, TextToSpeech.QUEUE_FLUSH, null);
+					    	Toast.makeText(getApplicationContext(), "Encontrado el objeto "+nombre, Toast.LENGTH_SHORT).show();
+					    }
+					});
+					nObjeto=-1;
+				}
+			}
+		}
+		return mRgba;
+	}
+	
+/*	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 		if (!buscandoObjeto || (buscandoObjeto && nObjeto == -1)){
 			mRgba = inputFrame.rgba();
 			mGray = inputFrame.gray();
@@ -284,7 +398,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 			}
 		}
 		return mRgba;
-	}
+	}*/
 	
 	@Override
 	public void onPause() {
@@ -325,6 +439,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		mRgba = new Mat(height, width, CvType.CV_8UC4);
 		aux = new Mat(height, width, CvType.CV_8UC4);
 		mGray = new Mat(height, width, CvType.CV_8UC1);
+		auxGray = new Mat(height, width, CvType.CV_8UC1);
 	}
 	
 	@Override
@@ -333,6 +448,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		mGray.release();
 		mRgba.release();
 		aux.release();
+		auxGray.release();
 		descriptores_obj.release();
 		keypoints_obj.release();
 	}
@@ -364,17 +480,15 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		return true;
 	}
 	
-	public native void FindFeatures(long matAddrGr, long matAddrRgba,
+	public native float FindFeatures(long matAddrGr, long matAddrRgba,
 			long matAddrDescriptores, long matAddrKeyPoints);
 	
-	public native int FindObjects(long matAddrGray, long matAddrRgba, int i);
-	
-	public native boolean InicializaEscenario(long matAddrGray, long matAddrRgba);
-	
-	public native int LiberaEscenario();
+	public native int FindObjects(long matAddrGray, long matAddrRgba);
 	
 	public native int RellenarObjetos(long[] descriptors, long[] keyPoints, int[] cols, int[] rows);
 	
 	public native int LiberaObjetos();
+	
+	public native void InicializaSurf(double phessian, int pnOctaves, int pnOctaveLayers, boolean pExtended, boolean pUpright);
 
 }

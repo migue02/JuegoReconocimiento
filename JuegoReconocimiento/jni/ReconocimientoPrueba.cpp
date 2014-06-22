@@ -12,6 +12,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/calib3d/calib3d.hpp"
 #include <android/log.h>
+#include <ctime>
 
 using namespace std;
 using namespace cv;
@@ -23,6 +24,14 @@ vector<vector<KeyPoint> > vectorKeyPoints;
 vector<int> listaCols;
 vector<int> listaRows;
 int numMatches=10;
+
+double hessianThreshold=1300.0;
+int nOctaves=4;
+int nOctaveLayers=2;
+bool extended=true;
+bool upright=false;
+
+int nMatches = 4;
 
 
 void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp)
@@ -59,7 +68,7 @@ void freeObjects(){
 	listaRows.clear();
 }
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_RellenarObjetos(JNIEnv * env, jobject, jlongArray descriptors, jlongArray keyPoints, jintArray colsArray, jintArray rowsArray)
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_RellenarObjetos(JNIEnv * env, jobject, jlongArray descriptors, jlongArray keyPoints, jintArray colsArray, jintArray rowsArray)
 {
 	freeObjects();
 	jsize length = env->GetArrayLength(descriptors);
@@ -107,8 +116,11 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_RellenarO
 	return length;
 }
 
-JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindFeatures(
+JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_FindFeatures(
 		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jlong addrDescriptores, jlong addrKeyPoints) {
+
+	clock_t t;
+	t = clock();
 	// -----------------------
 	// Crear matrices y vector
 	// -----------------------
@@ -121,8 +133,7 @@ JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindFeatu
 	// -------------------
 	// Inicializacion SURF
 	// -------------------
-	int minHessian = 400;
-	SurfFeatureDetector detector_Surf(minHessian);
+	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
 	SurfDescriptorExtractor extractor_Surf;
 
 	// -----------------------------------------------------------------
@@ -135,6 +146,9 @@ JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindFeatu
 		putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN, 2,
 				Scalar(0, 0, 255, 150), 2);
 	}
+
+	t = clock() - t;
+	float elapsedTime = ((float)t/CLOCKS_PER_SEC);
 	// ------------------------------------
 	// Se pintan los keyPoints en la imagen
 	// ------------------------------------
@@ -143,6 +157,7 @@ JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindFeatu
 		circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255, 0, 0, 255));
 	}
 
+	return elapsedTime;
 
 }
 
@@ -154,7 +169,7 @@ JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindFeatu
  * @param nObjeto índice del objeto que se está buscando en el escenario
  * @return Devuelve si el objeto nObjeto se han encontrado en el escenario
  */
-bool encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descriptores_esc, int nObjeto) {
+int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descriptores_esc, int nObjeto) {
 	// ---------------------------------------------------------------------------
 	// Inicializar vector de KeyPoints y matriz de Descriptores del objeto nObjeto
 	// ---------------------------------------------------------------------------
@@ -196,7 +211,7 @@ bool encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat des
 		// -----------------------------------------------------------------------------------
 		// Si se han encontrado más de cuatro coincidencias se ha encontrado el objeto nObjeto
 		// -----------------------------------------------------------------------------------
-		if (good_matches.size() >= 10) {
+		if (good_matches.size() >= nMatches) {
 
 			vector < Point2f > obj;
 			vector < Point2f > scene;
@@ -238,32 +253,27 @@ bool encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat des
 			putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
 					2, Scalar(0, 0, 255, 150), 2);
 
-			return true;
+			return good_matches.size();
 
 		}
 	} catch (Exception e) {
 	}
-	return false;
+	return -1;
 }
 
 vector<KeyPoint> keyPoints_esc;
 Mat descriptores_esc;
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_LiberaEscenario(
-		JNIEnv* env, jobject){
+void LiberaEscenario(){
 	keyPoints_esc.clear();
 	descriptores_esc.release();
 }
 
-JNIEXPORT bool JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_InicializaEscenario(
-		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba){
-	Mat& mGr = *(Mat*) addrGray;
-	Mat& mRgb = *(Mat*) addrRgba;
+bool InicializaEscenario(Mat mGr, Mat mRgb){
 	// -------------------
 	// Inicializacion SURF
 	// -------------------
-	int minHessian = 400;
-	SurfFeatureDetector detector_Surf(minHessian);
+	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
 	SurfDescriptorExtractor extractor_Surf;
 
 	// --------------------------------------------------------------------
@@ -285,40 +295,86 @@ JNIEXPORT bool JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_Inicializ
 }
 
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_FindObjects(
-		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jint i) {
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_FindObjects(
+		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba) {
+
+	jint nObjeto=-1;
 
 	// ----------------------------
 	// Inicializar variables a usar
 	// ----------------------------
-	jint nObjeto=-1;
-	bool encontrado=false;
 	Mat& mGr = *(Mat*) addrGray;
 	Mat& mRgb = *(Mat*) addrRgba;
 
-	if (keyPoints_esc.size() == 0 || descriptores_esc.rows == 0){
-		keyPoints_esc.clear();
-		descriptores_esc.release();
-		return nObjeto;
+	int match, matchMaximo = -2;
+
+	if (InicializaEscenario(mGr, mRgb)){
+
+		// -----------------------------------------------------------------------------------------------
+		// Bucle que terminar si se encuentra el objeto en el escenario o si no hay más objetos que buscar
+		// -----------------------------------------------------------------------------------------------
+		for(int i=0;i<listaCols.size();i++){
+			match = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc, i);
+			if (matchMaximo < match || matchMaximo == -2){
+				matchMaximo = match;
+				nObjeto=i;
+			}
+		}
+
+		LiberaEscenario();
+
 	}
 
-	// -----------------------------------------------------------------------------------------------
-	// Bucle que terminar si se encuentra el objeto en el escenario o si no hay más objetos que buscar
-	// -----------------------------------------------------------------------------------------------
-	//for(int i=0;i<listaCols.size() && !encontrado;i++){
-		encontrado = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc, i);
-		if (encontrado) nObjeto=i;
-	//}
+	if ((matchMaximo < nMatches) && (nObjeto != -1))
+		nObjeto = -1;
 
 	return nObjeto;
 }
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_LiberaObjetos(){
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_LiberaObjetos(){
 	freeObjects();
 }
 
+JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_InicializaSurf(JNIEnv* env, jobject, jdouble phessian,
+		jint pnOctaves, jint pnOctaveLayers, jboolean pExtended, jboolean pUpright){
+	if (phessian > 0) hessianThreshold=phessian;
+	if (pnOctaves > 0) nOctaves=pnOctaves;
+	if (pnOctaveLayers > 0) nOctaveLayers=pnOctaveLayers;
+	extended=pExtended;
+	upright=pUpright;
 
+	char au[80], ptn[40];
+	strcpy(au, "hessianThreshold = ");
+	sprintf(ptn, "%f", phessian);
+	strcat(au, ptn);
+	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
 
+	strcpy(au, "nOctaves = ");
+	sprintf(ptn, "%i", pnOctaves);
+	strcat(au, ptn);
+	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
+
+	strcpy(au, "nOctaveLayers = ");
+	sprintf(ptn, "%i", pnOctaveLayers);
+	strcat(au, ptn);
+	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
+
+	strcpy(au, "extended = ");
+	if (pExtended)
+		sprintf(ptn, "%i", 1);
+	else
+		sprintf(ptn, "%i", 0);
+	strcat(au, ptn);
+	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
+
+	strcpy(au, "upright = ");
+	if (pUpright)
+		sprintf(ptn, "%i", 1);
+	else
+		sprintf(ptn, "%i", 0);
+	strcat(au, ptn);
+	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
+}
 
 
 /**
@@ -421,7 +477,7 @@ int getNumMatches(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descri
 	return -1;
 }
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto_ObtieneCoincidencias(
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_ReconocimientoObjeto2_ObtieneCoincidencias(
 		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jint i) {
 
 	// ----------------------------

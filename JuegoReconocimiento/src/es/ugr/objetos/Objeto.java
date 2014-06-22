@@ -1,10 +1,17 @@
 package es.ugr.objetos;
 
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
+
+import es.ugr.utilidades.Utilidades;
+
 public class Objeto {
 	private long id;
 	private String nombre;
 	private String keypoints;
 	private String descriptores;
+	public MatOfKeyPoint matKeyPoints;
+	public Mat matDescriptores;
 	private int cols;
 	private int rows;
 
@@ -23,6 +30,10 @@ public class Objeto {
 		this.nombre = nombre;
 		this.keypoints = keypoints;
 		this.descriptores = descriptores;
+		matDescriptores = new Mat();
+		matKeyPoints = new MatOfKeyPoint();
+		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
+		matDescriptores = Utilidades.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
 	}
@@ -57,7 +68,7 @@ public class Objeto {
 
 	public void setDescriptores(String descriptores) {
 		this.descriptores = descriptores;
-	}
+	}	
 	
 	public int getCols() {
 		return cols;
@@ -78,6 +89,13 @@ public class Objeto {
 	// Will be used by the ArrayAdapter in the ListView
 	@Override
 	public String toString() {
-		return id + ".- " + nombre;
+		return id + ".- " + nombre +" KPnts "+ matKeyPoints.size() ;
+	}
+
+	public void setMats() {
+		matDescriptores = new Mat();
+		matKeyPoints = new MatOfKeyPoint();
+		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
+		matDescriptores = Utilidades.matFromJson(this.descriptores);
 	}
 }
