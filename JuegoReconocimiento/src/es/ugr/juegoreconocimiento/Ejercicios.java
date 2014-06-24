@@ -1,12 +1,12 @@
 package es.ugr.juegoreconocimiento;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
-
 
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
@@ -57,6 +57,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import ar.com.daidalos.afiledialog.FileChooserDialog;
+
 
 
 
@@ -112,15 +114,56 @@ public class Ejercicios extends Activity {
 		CreaTablaEjer();
         //final Context micontexto=this;   
 		
-		
+	
 		ImportarEj.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				RetrieveFeed task = new RetrieveFeed();
-			    task.execute("https://dl.dropboxusercontent.com/u/123539/parkingpositions.xml");
-			    //task.execute("https://www.dropbox.com/s/8wrw1jwpndcl1zk/primer.xml");
+				FileChooserDialog dialog = new FileChooserDialog(Ejercicios.this);
+	    		
+	    		// Assign listener for the select event.
+	    		//dialog.addListener(Ejercicios.this.onFileSelectedListener);
+	    		dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
+					
+					@Override
+					public void onFileSelected(Dialog source, File folder, String name) {
+						// TODO Auto-generated method stub
+			             source.hide();
+			             Toast toast = Toast.makeText(source.getContext(), "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
+			             toast.show();
+					}
+					
+					@Override
+					public void onFileSelected(Dialog source, File file) {
+						// TODO Auto-generated method stub
+			             source.hide();
+
+			             Toast toast = Toast.makeText(source.getContext(), "Fichero Seleccionado: " + file.getPath(), Toast.LENGTH_LONG);
+			             toast.show();
+						 RetrieveFeed task = new RetrieveFeed();
+						 task.execute(file.getPath());
+						 
+					}
+				});
+				
+	            
+
+				
+	    		// Show the dialog.
+	            dialog.show();
+	            
+
+				
+				
+				
+				
+				//Fin dialogo
+				
+				
+				//RetrieveFeed task = new RetrieveFeed();
+			    //task.execute(miru);
+			    
 			}
 		});
 
@@ -511,7 +554,46 @@ public class Ejercicios extends Activity {
 	    }
 	 
 
+	    @Override
+	    protected void onPostExecute(Boolean result) {
+	    	// TODO Auto-generated method stub
+	    	super.onPostExecute(result); 	
+	    	for(int i=0;i<ListaEj.size();i++){
+				 eds.createEjercicio(ListaEj.get(i).getNombre(), ListaIdObjetos(ListaEj.get(i).getEscenario()), ListaEj.get(i).getDescripcion(), ListaEj.get(i).getDuracion(),ListaIdObjetos(ListaEj.get(i).getReconocer()));
+			 }
+
+			 Toast toast2 = Toast.makeText(getApplicationContext(), "Creados "+String.valueOf(ListaEj.size())+" ejercicios.", Toast.LENGTH_LONG);
+			 toast2.show();
+			 CreaTablaEjer();
+			 
+
+	    }
+	    
 		}
 
+	/*
+	private FileChooserDialog.OnFileSelectedListener onFileSelectedListener = new FileChooserDialog.OnFileSelectedListener() {
+		public void onFileSelected(Dialog source, File file) {
+			source.hide();
+			Toast toast = Toast.makeText(Ejercicios.this, "File selected: " + file.getName(), Toast.LENGTH_LONG);
+			toast.show();
+		}
+		public void onFileSelected(Dialog source, File folder, String name) {
+			source.hide();
+			Toast toast = Toast.makeText(Ejercicios.this, "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
+			toast.show();
+		}
+	}; */
+	
+	private ArrayList<Integer> ListaIdObjetos(List<String> ListaNombre){
+		ObjetoDataSource ods=new ObjetoDataSource(getApplicationContext());
+		ods.open();
+		ArrayList<Integer> ListaId=new ArrayList<Integer>();
+		for(int i=0;i<ListaNombre.size();i++){
+			ListaId.add((int) ods.getObjeto(ListaNombre.get(i)).getId());
+		}
+		ods.close();
+		return ListaId;
+	}
 
 }

@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.w3c.dom.Text;
+
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.format.Alignment;
@@ -277,10 +279,10 @@ public class Resultados extends Activity {
 		TableRow rowAl=new TableRow(this);
 		TableRow rowSer=new TableRow(this);
 		
-		rowAl.setBackgroundResource(R.color.degradado1r);
-		rowSer.setBackgroundResource(R.color.degradado1r);
+		//rowAl.setBackgroundResource(R.color.degradado1r);
+		rowAl.setBackgroundResource(R.drawable.tablarestit);
+		rowSer.setBackgroundResource(R.drawable.tablarestit);
 		
-
 		
 		//Declaracion tableRowParams
 		
@@ -291,10 +293,10 @@ public class Resultados extends Activity {
 
 
 
-       		int leftMargin=5;
-       		int topMargin=5;
-       		int rightMargin=5;
-       		int bottomMargin=5;
+       		int leftMargin=7;
+       		int topMargin=7;
+       		int rightMargin=7;
+       		int bottomMargin=7;
 
        		tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
        		tableRowParams.gravity=Gravity.CENTER_VERTICAL;
@@ -305,7 +307,7 @@ public class Resultados extends Activity {
         	TableRow.LayoutParams imageParams=
              		  new TableRow.LayoutParams
              (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-        	//(TableRow.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.MATCH_PARENT);
+        	 //(TableRow.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.MATCH_PARENT);
 
 
 			imageParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
@@ -317,7 +319,7 @@ public class Resultados extends Activity {
 			//Fin declaración TableRowParams
 			
 			
-		TextView tit1,tit2,tit3,tit4;
+		TextView tit1,tit3;
 		
 		ImageView imgtit1,imgtit2;
 		
@@ -335,9 +337,7 @@ public class Resultados extends Activity {
 		
 		
         tit1=new TextView(this);
-        tit2=new TextView(this);
         tit3=new TextView(this);
-        tit4=new TextView(this);
         
 
 		imgtit1.setImageResource(R.drawable.ic2);
@@ -350,17 +350,11 @@ public class Resultados extends Activity {
        	 tit1.setLayoutParams(tableRowParams);
        	 tit1.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
        	 
-       	 tit2.setText("");
-       	 tit2.setLayoutParams(tableRowParams);
-       	 tit2.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
        	 
        	 tit3.setText("Serie");
        	 tit3.setLayoutParams(tableRowParams);
        	 tit3.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
        	 
-       	 tit4.setText("");
-       	 tit4.setLayoutParams(tableRowParams);
-       	 tit4.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
        	 
 		rowAl.addView(imgtit1);
 		rowAl.addView(tit1);
@@ -368,7 +362,7 @@ public class Resultados extends Activity {
 		rowSer.addView(tit3);
 		
 		
-		
+
 		tlAl.addView(rowAl);
 		tlSer.addView(rowSer);
 		
@@ -387,75 +381,84 @@ public class Resultados extends Activity {
 		rowAl=new TableRow(this);
 		rowSer=new TableRow(this);
 		
-		rowAl.setBackgroundResource(R.color.tabla_resaltado);
-		rowSer.setBackgroundResource(R.color.tabla_resaltado);
 		
-		CheckBox cbTodosAlumnos=new CheckBox(this);
+		
+		//rowAl.setBackgroundResource(R.color.tabla_resaltado);
+		//rowSer.setBackgroundResource(R.color.tabla_resaltado);
+		rowAl.setSelected(false);
+		rowAl.setBackgroundResource(R.drawable.seliconoresultados);
+		rowSer.setBackgroundResource(R.drawable.seliconoresultados);
+		
+		TextView vacio=new TextView(this);
+		TextView vacio2=new TextView(this);
 		TextView tvTodosAlumnos=new TextView(this);
-		CheckBox cbTodasSeries=new CheckBox(this);
 		TextView tvTodasSeries=new TextView(this);
 				
-		cbTodosAlumnos.setLayoutParams(tableRowParams);
+		
 		tvTodosAlumnos.setLayoutParams(tableRowParams);
-		cbTodasSeries.setLayoutParams(tableRowParams);
 		tvTodasSeries.setLayoutParams(tableRowParams);
 		
-		rowAl.addView(cbTodosAlumnos);
+		rowAl.addView(vacio);
 		tvTodosAlumnos.setText("Todos los alumnos");
+		tvTodosAlumnos.setLayoutParams(tableRowParams);
 		tvTodosAlumnos.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
 		rowAl.addView(tvTodosAlumnos);
 		
-		rowSer.addView(cbTodasSeries);
+		rowSer.addView(vacio2);
 		tvTodasSeries.setText("Todas las Series");
+		tvTodasSeries.setLayoutParams(tableRowParams);
 		tvTodasSeries.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
 		rowSer.addView(tvTodasSeries);
-		
-		cbTodosAlumnos.setOnClickListener(new OnClickListener() {
+
+		rowAl.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				CheckBox micb=(CheckBox)v;
-				if (micb.isChecked())
-					for(int i=0;i<la.size();i++){
-						 CheckBox cb = (CheckBox)((TableRow)tlAl.getChildAt(i+2)).getChildAt(0);
-						 cb.setChecked(true);
-						 cb.setEnabled(false);
-						 alSelec.set(i, true);
-					}
+				TableRow tr=(TableRow)v;
+				boolean nv;
+				if(tr.isSelected())
+					nv=false;
 				else
-					for(int i=0;i<la.size();i++){
-						 CheckBox cb = (CheckBox)((TableRow)tlAl.getChildAt(i+2)).getChildAt(0);
-						 cb.setChecked(false);
-						 cb.setEnabled(true);
-						 alSelec.set(i, false);
-					}
+					nv=true;
+				for(int i=0;i<la.size();i++){
+					 TableRow traux = ((TableRow)tlAl.getChildAt(i+2));
+					 traux.setSelected(nv);
+					 if(nv==true)
+						 traux.setBackgroundResource(R.color.bloqueado);
+					 else
+						 traux.setBackgroundResource(R.drawable.seliconoresultados);
+					 traux.setEnabled(tr.isSelected());
+					 alSelec.set(i, nv);
+				}
+				tr.setSelected(nv);
 			}
 		});
 		
-		cbTodasSeries.setOnClickListener(new OnClickListener() {
+		rowSer.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				CheckBox micb2=(CheckBox)v;
-				if (micb2.isChecked())
-					for(int i=0;i<lse.size();i++){
-						 CheckBox cb2 = (CheckBox)((TableRow)tlSer.getChildAt(i+2)).getChildAt(0);
-						 cb2.setChecked(true);
-						 cb2.setEnabled(false);
-						 serSelec.set(i, true);
-					}
+				TableRow tr=(TableRow)v;
+				boolean nv;
+				if(tr.isSelected())
+					nv=false;
 				else
-					for(int i=0;i<lse.size();i++){
-						 CheckBox cb2 = (CheckBox)((TableRow)tlSer.getChildAt(i+2)).getChildAt(0);
-						 cb2.setChecked(false);
-						 cb2.setEnabled(true);
-						 serSelec.set(i, false);
-					}
+					nv=true;
+				for(int i=0;i<lse.size();i++){
+					 TableRow traux = ((TableRow)tlSer.getChildAt(i+2));
+					 traux.setSelected(nv);
+					 if(nv==true)
+						 traux.setBackgroundResource(R.color.bloqueado);
+					 else
+						 traux.setBackgroundResource(R.drawable.seliconoresultados);
+					 traux.setEnabled(tr.isSelected());
+					 serSelec.set(i, nv);
+				}
+				tr.setSelected(nv);	
 			}
 		});
-		
 		
 		tlAl.addView(rowAl);
 		tlSer.addView(rowSer);
@@ -464,36 +467,37 @@ public class Resultados extends Activity {
 		for(int i=0;i<la.size();i++){
 			 rowAl=new TableRow(this);
 			 rowAl.setTag(i);
-	       	 if(i%2==0)
-	           	 rowAl.setBackgroundResource(R.drawable.tablerowsel);
-	       	 else
-	           	 rowAl.setBackgroundResource(R.drawable.tablerowsel2);
+			 rowAl.setSelected(false);
+			 rowAl.setBackgroundResource(R.drawable.seliconoresultados);
 	       	 
 	            rowAl.setLayoutParams(new LayoutParams(
 	                    LayoutParams.FILL_PARENT,
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
 	         TextView alum=new TextView(this);
-	         CheckBox cb=new CheckBox(this);
-	         cb.setLayoutParams(tableRowParams);
-        	 //alum.setText(la.get(i).getNombre()+" "+la.get(i).getApellidos());
+	         TextView vac=new TextView(this);
+
         	 alum.setText(la.get(i).getApellidos()+", "+la.get(i).getNombre());
         	 alum.setLayoutParams(tableRowParams);
            	 alum.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
-        	 rowAl.addView(cb);
+        	 rowAl.addView(vac);
 	         rowAl.addView(alum);
 	         alSelec.add(false);
 	         final int pos=i;
-	         cb.setOnClickListener(new OnClickListener() {
+
+	         rowAl.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					CheckBox aux=(CheckBox)v;
-					alSelec.set(pos, aux.isChecked());
+					TableRow tr=(TableRow)v;
+					if(tr.isSelected())
+						tr.setSelected(false);
+					else
+						tr.setSelected(true);
+					alSelec.set(pos, tr.isSelected());
 				}
 			});
-
 	         tlAl.addView(rowAl);
 		}
 		
@@ -504,35 +508,35 @@ public class Resultados extends Activity {
 		for(int i=0;i<lse.size();i++){
 			 rowSer=new TableRow(this);
 			 rowSer.setTag(i);
-	       	 if(i%2==0)
-	           	 rowSer.setBackgroundResource(R.drawable.tablerowsel);
-	       	 else
-	           	 rowSer.setBackgroundResource(R.drawable.tablerowsel2);
+			 rowSer.setBackgroundResource(R.drawable.seliconoresultados);
 	       	 
 	            rowSer.setLayoutParams(new LayoutParams(
 	                    LayoutParams.FILL_PARENT,
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
-	         CheckBox cb2=new CheckBox(this);
-	         cb2.setLayoutParams(tableRowParams);
+	         TextView vac=new TextView(this);
 	         TextView serie=new TextView(this);
         	 serie.setText(lse.get(i).getNombre());
         	 serie.setLayoutParams(tableRowParams);
            	 serie.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
-	         rowSer.addView(cb2);
+	         rowSer.addView(vac);
         	 rowSer.addView(serie);
         	 serSelec.add(false);
         	 final int pos2=i;
-	         cb2.setOnClickListener(new OnClickListener() {
-				
+	       
+	         rowSer.setOnClickListener(new OnClickListener() {
+					
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					CheckBox aux=(CheckBox)v;
-					serSelec.set(pos2, aux.isChecked());
+					TableRow tr=(TableRow)v;
+					if(tr.isSelected())
+						tr.setSelected(false);
+					else
+						tr.setSelected(true);
+					serSelec.set(pos2, tr.isSelected());
 				}
 			});
-         
 
 
 	         tlSer.addView(rowSer);
@@ -643,6 +647,11 @@ public class Resultados extends Activity {
 				
 				//Lanzar Dialog
 				//final Dialog dialog = new Dialog(getApplicationContext());
+				
+				if(listaIdAlumnos.size()==0||listaIdSeries.size()==0){
+					Toast.makeText(v.getContext(), "Seleccionar al menos un Alumno-Serie", Toast.LENGTH_LONG).show();
+				}
+				else{
 				final Dialog dialog = new Dialog(v.getContext());
 				dialog.setContentView(R.layout.dialogo_exportar);
 				dialog.setTitle("Exportar...");
@@ -695,55 +704,13 @@ public class Resultados extends Activity {
 					}
 				});
 			}
+		  }
 		});
 	
 	}
 	
 
-	
-	
-	private void InsertaResultado(){
-		
-		ResultadoDataSource rds=new ResultadoDataSource(this);
-		rds.open();
-		 Calendar cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,24);
-		 cal.set(Calendar.MONTH,4);
-		 cal.set(Calendar.YEAR,2014);
 
-		 Date d = cal.getTime();
-		 
-		 cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,25);
-		 cal.set(Calendar.MONTH,4);
-		 cal.set(Calendar.YEAR,2014);
-
-
-		 Date d2 = cal.getTime();
-		 
-		 
-		 cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,26);
-		 cal.set(Calendar.MONTH,4);
-		 cal.set(Calendar.YEAR,2014);
-
-		 Date d3 = cal.getTime();
-		 
-		
-		Resultado r=new Resultado(1, 1, 1, d, 0, 30, 18, 12, 7.2);	
-		Resultado r2=new Resultado(2, 1, 1, d2, 0, 30, 18, 12, 8.9);
-		Resultado r3=new Resultado(3, 2, 1, d3, 0, 30, 18, 12, 6.1);
-		Resultado r4=new Resultado(4, 2, 1, d2, 0, 30, 18, 12, 5.4);
-		
-		rds.createResultado(r);
-		rds.createResultado(r2);
-		rds.createResultado(r3);
-		rds.createResultado(r4);
-		
-		rds.close();
-	}
-	
-	
 	
 	//Funciones privadas para el uso de excel
 	

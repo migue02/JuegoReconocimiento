@@ -49,6 +49,19 @@ public class Tablas extends Activity {
 	private List<String> nombSeries=new ArrayList<String>();
 	private List<String> nombAlumnos=new ArrayList<String>();
 	
+	 private String[] mMonthred = new String[] {
+		        "Ene", "Feb" , "Mar", "Abr", "May", "Jun",
+		        "Jul", "Ago" , "Sep", "Oct", "Nov", "Dic"
+		    };
+	
+	 private String[] mMonth = new String[] {
+		        "Enero", "Febrero" , "Marza", "Abril", "Mayo", "Junio",
+		        "Julio", "Agosto" , "Septiembre", "Octubre", "Noviembre", "Diciembre"
+		    };
+	 private String[] semana=new String[] {
+			 "Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"
+	 };
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +106,6 @@ public class Tablas extends Activity {
 	    final TextView titulo=(TextView)findViewById(R.id.TitTab);
         final TextView subtitulo=(TextView)findViewById(R.id.TitEjerTab);
 
-        final SimpleDateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
         
         
         ant.setOnClickListener(new OnClickListener() {
@@ -105,14 +117,13 @@ public class Tablas extends Activity {
 				posAnimation=(posAnimation-1);
 				if (posAnimation<0)
 					posAnimation+=totalAnimation;
-				
 				if(graficaTipo==0){
-					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
+					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombSeries.get(posAnimation));
+					//subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				else{
-					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
+					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombAlumnos.get(posAnimation));
+					//subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				
 				
@@ -129,12 +140,12 @@ public class Tablas extends Activity {
 				va.showNext();
 				posAnimation=(posAnimation+1)%totalAnimation;
 				if(graficaTipo==0){
-					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
+					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombSeries.get(posAnimation));
+					//subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 				else{
-					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-					subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
+					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombAlumnos.get(posAnimation));
+					//subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date())+" ");
 				}
 			}
 		});
@@ -152,6 +163,29 @@ public class Tablas extends Activity {
 	    graficaTipo=extras.getInt("tipoGrafica");
 	    
 
+	    Calendar cal;
+	    Calendar calAnt;
+		switch (fechaTipo) {
+		case Periodo.Semana:
+			calAnt=Calendar.getInstance();
+			cal=Calendar.getInstance();
+			calAnt.setTime(restaFechaDias(fechaTipo-1));
+			subtitulo.setText("Última semana: "+calAnt.get(Calendar.DAY_OF_MONTH)+"/"+mMonthred[calAnt.get(Calendar.MONTH)]+"/"+calAnt.get(Calendar.YEAR)+" - "+cal.get(Calendar.DAY_OF_MONTH)+"/"+mMonthred[cal.get(Calendar.MONTH)]+"/"+cal.get(Calendar.YEAR));
+		break;	
+		case Periodo.Mes:
+			calAnt=Calendar.getInstance();
+			cal=Calendar.getInstance();
+			calAnt.setTime(restaFechaDias(fechaTipo-1));
+			subtitulo.setText("Último mes: "+calAnt.get(Calendar.DAY_OF_MONTH)+"/"+mMonthred[calAnt.get(Calendar.MONTH)]+"/"+calAnt.get(Calendar.YEAR)+" - "+cal.get(Calendar.DAY_OF_MONTH)+"/"+mMonthred[cal.get(Calendar.MONTH)]+"/"+cal.get(Calendar.YEAR));
+		break;	
+		case Periodo.SeisMeses:
+			calAnt=Calendar.getInstance();
+			cal=Calendar.getInstance();
+			calAnt.setTime(restaFechaMeses(fechaTipo-1));
+			subtitulo.setText("Últimos 6 meses: "+mMonthred[calAnt.get(Calendar.MONTH)]+"/"+calAnt.get(Calendar.YEAR)+" - "+mMonthred[cal.get(Calendar.MONTH)]+"/"+cal.get(Calendar.YEAR));
+		break;
+		}
+	    
 	    
 	    //Si es ranking
 	    if(graficaTipo==0){
@@ -159,16 +193,16 @@ public class Tablas extends Activity {
 	    totalAnimation=listaSeries.size();
 		for(int i=0;i<listaSeries.size();i++)
 			TablaRanking(fechaTipo,listaSeries.get(i));
-		titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-		subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
+		titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombSeries.get(posAnimation));
+		//subtitulo.setText(nombSeries.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
 		
 	    }
 	    else if(graficaTipo==1){		    
 		    totalAnimation=listaAlumnos.size();
 			for(int i=0;i<listaAlumnos.size();i++)
 				TablaAlumno(fechaTipo,listaAlumnos.get(i));
-			titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
-			subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
+			titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+"): "+nombAlumnos.get(posAnimation));
+			//subtitulo.setText(nombAlumnos.get(posAnimation)+" "+formato.format(restaFechaDias(fechaTipo))+"-"+formato.format(new Date()));
 	    }
 	    
 		
@@ -254,19 +288,22 @@ public class Tablas extends Activity {
 			
 				if(listaValores.get(i).size()>0){
 					//Fecha
-			        SimpleDateFormat dateFormat = null;
+					Calendar cal;
 			        switch (fechaTipo) {
 					case Periodo.Semana:
-						dateFormat=new SimpleDateFormat("dd/MM/yyyy");
-						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(fechaTipo-1-i)).toString()));
+						cal=Calendar.getInstance();
+						cal.setTime(restaFechaDias(fechaTipo-1-i));
+						grupo.add(new GrupoDeItems(semana[cal.get(Calendar.DAY_OF_WEEK)-1]+", "+String.valueOf(cal.get(Calendar.DAY_OF_MONTH))));
 						break;
 					case Periodo.Mes:
-						dateFormat=new SimpleDateFormat("dd/MM");
-						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(fechaTipo-1-i)).toString()));
+						cal=Calendar.getInstance();
+						cal.setTime(restaFechaDias(fechaTipo-1-i));
+						grupo.add(new GrupoDeItems(semana[cal.get(Calendar.DAY_OF_WEEK)-1]+", "+cal.get(Calendar.DAY_OF_MONTH)+" "+mMonth[cal.get(Calendar.MONTH)]));
 						break;
 					case Periodo.SeisMeses:
-						dateFormat=new SimpleDateFormat("MM/yyyy");
-						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaMeses(fechaTipo-1-i)).toString()));
+						cal=Calendar.getInstance();
+						cal.setTime(restaFechaMeses(fechaTipo-1-i));
+						grupo.add(new GrupoDeItems(mMonth[cal.get(Calendar.MONTH)]+", "+cal.get(Calendar.YEAR)));
 						break;
 			        }	
 						
@@ -363,21 +400,24 @@ public class Tablas extends Activity {
 				
 					if(listaValores.get(i).size()>0){
 						//Fecha
-				        SimpleDateFormat dateFormat = null;
+						Calendar cal;
 				        switch (fechaTipo) {
 						case Periodo.Semana:
-							dateFormat=new SimpleDateFormat("dd/MM/yyyy");
-							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(fechaTipo-1-i)).toString()));
+							cal=Calendar.getInstance();
+							cal.setTime(restaFechaDias(fechaTipo-1-i));
+							grupo.add(new GrupoDeItems(semana[cal.get(Calendar.DAY_OF_WEEK)-1]+", "+String.valueOf(cal.get(Calendar.DAY_OF_MONTH))));
 							break;
 						case Periodo.Mes:
-							dateFormat=new SimpleDateFormat("dd/MM");
-							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(fechaTipo-1-i)).toString()));
+							cal=Calendar.getInstance();
+							cal.setTime(restaFechaDias(fechaTipo-1-i));
+							grupo.add(new GrupoDeItems(semana[cal.get(Calendar.DAY_OF_WEEK)-1]+", "+cal.get(Calendar.DAY_OF_MONTH)+" "+mMonth[cal.get(Calendar.MONTH)]));
 							break;
 						case Periodo.SeisMeses:
-							dateFormat=new SimpleDateFormat("MM/yyyy");
-							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaMeses(fechaTipo-1-i)).toString()));
+							cal=Calendar.getInstance();
+							cal.setTime(restaFechaMeses(fechaTipo-1-i));
+							grupo.add(new GrupoDeItems(mMonth[cal.get(Calendar.MONTH)]+", "+cal.get(Calendar.YEAR)));
 							break;
-				        }	
+				        }		
 							
 
 					for(int j=0;j<listaValores.get(i).size();j++)

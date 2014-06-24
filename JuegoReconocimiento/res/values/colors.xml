@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Autor: Namir Sayed-Ahmad Baraza
-	 mail: namirsab@gmail.com -->
 <resources>
 
     <color name="boton_normal">#00FFFFFF</color>
@@ -17,14 +15,24 @@
     <color name="about_borde">#bebec4</color>
     <color name="about_naranja">#da3b15</color>
     <color name="texto_tabla">#ff24b2ff</color>
-    <color name="tabla1">#aaaaffff</color>
+    <color name="tabla1">#cceeffff</color>
     <color name="tabla2">#aaeeffff</color>
     <color name="tabla_resaltado">#dd11ffff</color>
     
-    <color name="degradado1">#aaffff00</color>
+    <!--  <color name="degradado1">#aaffff00</color>
     <color name="degradado2">#aa00ffff</color>
     <color name="degradado1r">#ffff00</color>
-    <color name="degradado2r">#00ffff</color>
+    <color name="degradado2r">#00ffff</color> -->
+    
+    <color name="degradado1">#ffeeeeee</color>
+    <color name="degradado2">#ffffffff</color>
+    <color name="degradado1r">#aa24970b</color>
+    <color name="degradado2r">#ffffffff</color>
+    
+    
+    <color name="barraNavegacion">#ff0245bb</color>
+    <color name="rellenoTabla">#ffffffff</color>
+    <color name="botonNoSelec">#ff5d666a</color>
     
     <color name="verde_oscuro">#009b7d</color>
 	<color name="marron_oscuro">#603000</color>
@@ -37,5 +45,14 @@
 	
 	<color name="grisfondo">#e5e5e5</color>
 	<color name="azul_pastel">#cae1ff</color>
+	
+	<color name="seleccionado">#7fa6ff</color>
+	<color name="deleccionado">#557fa6ff</color>
+	<color name="bloqueado">#aa7fa6ff</color>
+	<color name="seleccionadoborde">#002c91</color>
+	
+	<color name="degradado2d">#2200ffff</color>
+	
+	
 
 </resources>

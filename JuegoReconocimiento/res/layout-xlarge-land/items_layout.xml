@@ -1,7 +1,7 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/textViewNombre"
-    android:background="@color/tabla_resaltado"
+    android:background="@drawable/seliconoresultados"
     android:layout_width="wrap_content"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:layout_marginLeft="8dp"
@@ -10,6 +10,6 @@
     android:paddingLeft="32dp"
     android:paddingTop="8dp"
     android:text="Test"
-    android:textSize="14sp"
+    android:textSize="20dp"
     android:textAlignment="textEnd"
     android:textStyle="bold" />

@@ -14,6 +14,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class EjercicioHandler extends DefaultHandler{
 
 	private List<EjerciciosMarker> listaEjercicios;
+	private ArrayList<String> escenario;
+	private ArrayList<String> reconocer;
 	private EjerciciosMarker ejercicioActual;
     private StringBuilder sbText;
     public Boolean parsingError = false;
@@ -39,6 +41,10 @@ public class EjercicioHandler extends DefaultHandler{
 		 
 	        if (localName.equals("ejercicio")) {
 	            ejercicioActual= new EjerciciosMarker();
+	        } else if(localName.equals("escenario")){
+	        	escenario=new ArrayList<String>();
+	        } else if(localName.equals("reconocer")){
+	        	reconocer=new ArrayList<String>();
 	        }
 	 	}
 	 
@@ -58,16 +64,25 @@ public class EjercicioHandler extends DefaultHandler{
 	                   throws SAXException {
 	 
 	        super.endElement(uri, localName, name);
+	        int valueint;
 	        double value;
 	        if (this.ejercicioActual != null) {
 	 
 	            if (localName.equals("nombre")) {
-	                 ejercicioActual.setNombre(sbText.toString());
+	                 ejercicioActual.setNombre(sbText.toString().trim());
+	            } else if (localName.equals("objetoes")){
+	            	escenario.add(sbText.toString().trim());
+	            } else if (localName.equals("escenario")){
+	            	ejercicioActual.setEscenario(escenario);
 	            } else if (localName.equals("descripcion")) {
-	            	 ejercicioActual.setDescripcion(sbText.toString());	
+	            	 ejercicioActual.setDescripcion(sbText.toString().trim());	
 	            } else if (localName.equals("duracion")) {
-	            	value = Double.parseDouble(sbText.toString());	
+	            	value = Double.parseDouble(sbText.toString().trim());	
 	                ejercicioActual.setDuracion(value);
+	            } else if (localName.equals("objetore")){
+	            	reconocer.add(sbText.toString().trim());
+	            } else if (localName.equals("reconocer")){
+	            	ejercicioActual.setReconocer(reconocer);
 	            }  else if (localName.equals("ejercicio")) {
 	                listaEjercicios.add(ejercicioActual);
 	            }

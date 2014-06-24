@@ -1,5 +1,6 @@
 package es.ugr.parserXML;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -13,17 +14,13 @@ import javax.xml.parsers.SAXParserFactory;
 public class EjercicioParser {
 
 	private URL rssUrl;
+	private String fichero;
 	
     public EjercicioParser(String url)
     {
-        try
-        {
-            this.rssUrl = new URL(url);
-        }
-        catch (MalformedURLException e)
-        {
-            throw new RuntimeException(e);
-        }
+            //this.rssUrl = new URL(url);
+            this.fichero=url;
+
     }
     
     public List<EjerciciosMarker> parse() {
@@ -33,7 +30,7 @@ public class EjercicioParser {
         {
             SAXParser parser = factory.newSAXParser();
             EjercicioHandler handler = new EjercicioHandler();
-            parser.parse(this.getInputStream(), handler);
+            parser.parse(this.getInputStream2(), handler);
             return handler.getEjercicios();
         }
         catch (Exception e)
@@ -55,7 +52,20 @@ public class EjercicioParser {
         }
     }
     
-    
+    private InputStream getInputStream2()
+    {
+        try
+        {
+        	FileInputStream in; 
+        	in = new FileInputStream(fichero);
+        	//in = new FileInputStream(fichero);
+        	return in;
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
     
     
 }

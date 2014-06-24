@@ -1,5 +1,6 @@
 package es.ugr.reconocimiento;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import es.ugr.basedatos.AlumnoDataSource;
@@ -16,9 +17,11 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class EmpezarJuego extends Activity {
 	private ListView listViewSeries;
 	private Alumno alumnoSeleccionado;
 	private SerieEjercicios serieSeleccionada;
+	private Spinner spinnerAl,spinnerSer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,17 @@ public class EmpezarJuego extends Activity {
 		serieDS.open();
 		
 		listaSeries = serieDS.getAllSeriesEjercicios();
+		spinnerSer=(Spinner)findViewById(R.id.spinnerSerie);
 		
+		//ArrayAdapter<SerieEjercicios> spinner_adapter_ser=new ArrayAdapter<SerieEjercicios>(this, android.R.layout.simple_spinner_item,listaSeries);
+		ArrayAdapter<SerieEjercicios> spinner_adapter_ser=new ArrayAdapter<SerieEjercicios>(this, R.layout.spinner_layout,listaSeries);
+		//spinner_adapter_ser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner_adapter_ser.setDropDownViewResource(R.layout.spinner_layout);
+		spinnerSer.setAdapter(spinner_adapter_ser);
+		spinnerSer.setOnItemSelectedListener(new MyOnItemSelectedListenerSerie());
+
+
+		/*
 		ArrayAdapter<SerieEjercicios> adapterEjercicios = new ArrayAdapter<SerieEjercicios>(this,
 				android.R.layout.simple_list_item_1, listaSeries);
 		
@@ -61,11 +75,16 @@ public class EmpezarJuego extends Activity {
 				serieSeleccionada = listaSeries.get(location);	
 				TextView tv = (TextView)findViewById(R.id.lblSerie);
 				tv.setText(serieSeleccionada.getNombre());
-			}});
+			}});*/
 		
 		listaAlumnos = alumnoDS.getAllAlumnos();
+		spinnerAl=(Spinner)findViewById(R.id.spinnerAlumno);
 		
-		ArrayAdapter<Alumno> adapterAlumnos = new ArrayAdapter<Alumno>(this,
+		ArrayAdapter<Alumno> spinner_adapter_al=new ArrayAdapter<Alumno>(this, R.layout.spinner_layout,listaAlumnos);
+		spinner_adapter_al.setDropDownViewResource(R.layout.spinner_layout);
+		spinnerAl.setAdapter(spinner_adapter_al);
+		spinnerAl.setOnItemSelectedListener(new MyOnItemSelectedListenerAlumno());
+	/*	ArrayAdapter<Alumno> adapterAlumnos = new ArrayAdapter<Alumno>(this,
 				android.R.layout.simple_list_item_1, listaAlumnos);
 		
 		listViewAlumnos = (ListView)findViewById(R.id.listaAlumnos);
@@ -83,9 +102,9 @@ public class EmpezarJuego extends Activity {
 				else
 					tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.female, 0, 0, 0);
 			}});
-		
+	*/	
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -96,12 +115,18 @@ public class EmpezarJuego extends Activity {
 	public void setCiclico(View v){
 		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
 		ImageView btnCiclico = (ImageView) findViewById(R.id.btnCiclico);
+		TextView textoCiclico=(TextView) findViewById(R.id.textoCiclico);
 		ciclico=!ciclico;
-		if (ciclico)
+		if (ciclico){
 			btnCiclico.setImageResource(R.drawable.ciclico_pulsado);
-		else
+			textoCiclico.setText("Modo Cíclico: ON");
+		}
+		else{
 			btnCiclico.setImageResource(R.drawable.ciclico);
+			textoCiclico.setText("Modo Cíclico: OFF");
+		}
 	}
+	
 	
 	public void empezarJuego(View v){
 		if(alumnoSeleccionado.getIdAlumno() != -1 && serieSeleccionada.getIdSerie() != -1){
@@ -133,6 +158,33 @@ public class EmpezarJuego extends Activity {
 		alumnoDS.close();
 		serieDS.close();
 		super.onPause();
+	}
+	
+	
+	 public class MyOnItemSelectedListenerAlumno implements OnItemSelectedListener {
+		public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+			if (parent.getId() == R.id.spinnerAlumno) {
+				alumnoSeleccionado = ((Alumno) parent.getItemAtPosition(pos));
+			}
+			//Podemos hacer varios ifs o un switchs por si tenemos varios spinners.
+		}
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
+	}
+	 
+	 
+	 
+	 public class MyOnItemSelectedListenerSerie implements OnItemSelectedListener {
+		public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+			if (parent.getId() == R.id.spinnerSerie) {
+				serieSeleccionada = ((SerieEjercicios) parent.getItemAtPosition(pos));
+			}
+			//Podemos hacer varios ifs o un switchs por si tenemos varios spinners.
+		}
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
 	}
 	
 }

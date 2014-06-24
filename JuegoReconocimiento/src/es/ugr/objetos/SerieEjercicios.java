@@ -53,7 +53,8 @@ public class SerieEjercicios implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Serie.-"+ nombre +" "+ getFecha_modificacion_AsStrign();
+		return nombre;
+		//return "Serie.-"+ nombre +" "+ getFecha_modificacion_AsStrign();
 	}
 
 	public int getIdSerie() {

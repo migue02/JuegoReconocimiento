@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -8,39 +8,54 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/principalSer"
         android:src="@drawable/ic_launcher"
         android:layout_gravity="center_vertical|left"
-        android:layout_margin="1dp" />
+        android:padding="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/app_name"
         android:id="@+id/textView2"
         android:layout_gravity="center_vertical|left"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/principalSer"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical|center_horizontal" />
 
     <TextView
-        android:layout_width="720dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Serie de Ejercicios"
         android:id="@+id/textView"
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_weight="0.56" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="0.56"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
-        android:id="@+id/aniadir_serl">
+        android:id="@+id/aniadir_serl"
+        android:padding="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp">
 
         <ImageButton
             android:id="@+id/aniadir_serie"
@@ -60,4 +75,4 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

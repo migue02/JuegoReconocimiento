@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -8,11 +8,16 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/principalAl"
         android:src="@drawable/ic_launcher"
         android:layout_gravity="center_vertical|left"
-        android:layout_margin="1dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:padding="2dp"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,26 +26,37 @@
         android:text="@string/app_name"
         android:id="@+id/textView2"
         android:layout_gravity="center_vertical|left"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/principalAl"
+        android:layout_marginLeft="5dp" />
 
     <TextView
-        android:layout_width="800dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Alumnos"
         android:id="@+id/textView"
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_weight="0.56" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="0.56"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
-        android:id="@+id/aniadir_alumno">
+        android:id="@+id/aniadir_alumno"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:padding="2dp">
 
         <ImageButton
             android:id="@+id/aniadir_al"
@@ -60,4 +76,4 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

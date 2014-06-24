@@ -57,6 +57,11 @@
             android:theme="@style/AppTheme" >
         </activity>
         <activity
+            android:name="es.ugr.juegoreconocimiento.Graficas2"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
             android:name="es.ugr.juegoreconocimiento.Tablas"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
@@ -80,6 +85,7 @@
             android:label="@string/title_activity_empezar_juego"
             android:screenOrientation="landscape" >
         </activity>
+         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
     </application>
 
     <supports-screens

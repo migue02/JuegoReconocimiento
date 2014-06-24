@@ -45,14 +45,15 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
-import android.widget.TabHost.TabSpec;
 
 
 
@@ -62,7 +63,7 @@ import android.widget.TabHost.TabSpec;
  * @mail namirsab@gmail.com
  *
  */
-public class Graficas extends Activity {
+public class Graficas2 extends Activity {
 	private LinearLayout ll;
 	private static Context contexto;
 	private int fechaTipo,graficaTipo;
@@ -114,12 +115,7 @@ public class Graficas extends Activity {
 	    final TextView titulo=(TextView)findViewById(R.id.TitGraf);
 	    final TextView subtitulo=(TextView)findViewById(R.id.TitEjerGraf);
 	    
-	    final SimpleDateFormat formatoDia;
-		final SimpleDateFormat formatoMes;
-		final SimpleDateFormat formatoAño;
-	    formatoDia=new SimpleDateFormat("dd");
-	    formatoMes=new SimpleDateFormat("MM");
-	    formatoAño=new SimpleDateFormat("yyyy");
+
 	    
 	    
         va=(ViewAnimator)findViewById(R.id.viewAnimator1);
@@ -392,14 +388,28 @@ public class Graficas extends Activity {
 	      //  multiRenderer.setRange(new double[] { -1, 7, 0, 10 });
 	        //multiRenderer.setMarginsColor(Color.MAGENTA);
 
-
+	        SimpleDateFormat dateFormat = null;
+	        switch (fechaTipo) {
+			case Periodo.Semana:
+				dateFormat=new SimpleDateFormat("dd");
+				break;
+			case Periodo.Mes:
+				dateFormat=new SimpleDateFormat("dd");
+				break;
+			case Periodo.SeisMeses:
+				dateFormat=new SimpleDateFormat("MM");
+				break;
+			
+			default:
+				break;
+			}
 	        
 	        //new SimpleDateFormat("dd/MM/yyyy");
 	        for(int i=0; i< fechaTipo;i++){
 		        Calendar calen = Calendar.getInstance();
 		        if(fechaTipo==Periodo.Semana||fechaTipo==Periodo.Mes){
 		        	calen.add(Calendar.DATE, -(fechaTipo-1-i));
-		            multiRenderer.addXTextLabel(i,semana[calen.get(Calendar.DAY_OF_WEEK)-1]+"-"+calen.get(Calendar.DAY_OF_MONTH));
+		            multiRenderer.addXTextLabel(i,semana[calen.get(Calendar.DAY_OF_WEEK)-1]+"-"+dateFormat.format(calen.getTime()).toString());
 		        }
 		        if(fechaTipo==Periodo.SeisMeses){
 		        	calen.add(Calendar.MONTH, -(fechaTipo-1-i));
@@ -428,12 +438,12 @@ public class Graficas extends Activity {
 
 	 public void GraficoAlumno(int fechaTipo,int idAlumno){
 		 
-         LayoutInflater mInflater = (LayoutInflater) getApplicationContext()
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-         View myView= mInflater.inflate(R.layout.pestanias, null);
-        
-         TabHost myTabHost=(TabHost)myView.findViewById(R.id.tabHostPes);
-         myTabHost.setup();
+	        LayoutInflater mInflater = (LayoutInflater) getApplicationContext()
+	                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	        View myView= mInflater.inflate(R.layout.pestanias, null);
+	        
+	        TabHost myTabHost=(TabHost)myView.findViewById(R.id.tabHostPes);
+	        myTabHost.setup();
 		 
 		 int[] colores={Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW,Color.RED,Color.rgb(200, 0, 0)}; 
 		 int maximo=0;
@@ -453,8 +463,6 @@ public class Graficas extends Activity {
 		 nombAlumnos.add(al.getNombre());
 		 
 		 for(int i=0;i<listaSeries.size();i++){
-			 
-			 maximo=0;
 			 listaFinal.clear();
 			 SerieEjercicios se=seds.getSerieEjercicios(listaSeries.get(i));
 			 listaFinal=(rds.getResultadosAlumno(al,se,fechaTipo));
@@ -484,15 +492,32 @@ public class Graficas extends Activity {
 			 		int vTotales=listaFinal.get(j).getAciertos()+listaFinal.get(j).getFallos();
 			 		if (vTotales>maximo)
 			 			maximo=vTotales;
-
+			 		//listaValores.set(j*listaFinal.size()+i, vTotales);
+			 		//listaAciertos.set(j*listaFinal.size()+i,vAciertos );
+			 		
 			 		listaValores.set(distancia, vTotales);
 			 		listaAciertos.set(distancia,vAciertos);
+			 		
+			 		
+
+			 		
+			 		
+			 		
+			 		
+			 		
+			 		
+			 		
+
 			 		
 			 		
 			 	}
 			 	
 			 	
+			 	
+			 	
+		 		///////////////////////////////////////////////////////////////////////
 
+			 
 			        // Creating an  XYSeries for Income
 				 XYSeries listaXYSeriesTotales=new XYSeries("Totales");
 				 XYSeries listaXYSeriesAciertos=new XYSeries("Aciertos");
@@ -555,8 +580,8 @@ public class Graficas extends Activity {
 			        
 			        
 			        multiRenderer.setApplyBackgroundColor(true);
-			        multiRenderer.setBackgroundColor(getResources().getColor(R.color.degradado2));
-			        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado1));
+			        multiRenderer.setBackgroundColor(getResources().getColor(R.color.white));
+			        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado2d));
 			        
 			        int[] margins = {40, 40, 40, 40};
 			        multiRenderer.setMargins(margins);
@@ -603,17 +628,33 @@ public class Graficas extends Activity {
 			      //  multiRenderer.setRange(new double[] { -1, 7, 0, 10 });
 			        //multiRenderer.setMarginsColor(Color.MAGENTA);
 
+			        SimpleDateFormat dateFormat = null;
+			        switch (fechaTipo) {
+					case Periodo.Semana:
+						dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+						break;
+					case Periodo.Mes:
+						dateFormat=new SimpleDateFormat("dd/MM");
+						break;
+					case Periodo.SeisMeses:
+						dateFormat=new SimpleDateFormat("MM/yyyy");
+						break;
+					
+					default:
+						break;
+					}
+			        seds.open();
+			        //new SimpleDateFormat("dd/MM/yyyy");
 			        for(int k=0; k< fechaTipo;k++){
-				        Calendar calen = Calendar.getInstance();
-				        if(fechaTipo==Periodo.Semana||fechaTipo==Periodo.Mes){
-				        	calen.add(Calendar.DATE, -(fechaTipo-1-k));
-				            multiRenderer.addXTextLabel(k,semana[calen.get(Calendar.DAY_OF_WEEK)-1]+"-"+calen.get(Calendar.DAY_OF_MONTH));
-				        }
-				        if(fechaTipo==Periodo.SeisMeses){
-				        	calen.add(Calendar.MONTH, -(fechaTipo-1-k));
-				        	multiRenderer.addXTextLabel(k, mMonth[calen.get(Calendar.MONTH)]);
-				        }
+						        Calendar calen = Calendar.getInstance();
+						        if(fechaTipo==Periodo.Semana||fechaTipo==Periodo.Mes)
+						        	calen.add(Calendar.DATE, -(fechaTipo-1-k));
+						        if(fechaTipo==Periodo.SeisMeses)
+						        	calen.add(Calendar.MONTH, -(fechaTipo-1-k));
+					            	//multiRenderer.setBarSpacing(4.5f);
+					            	multiRenderer.addXTextLabel(k,dateFormat.format(calen.getTime()).toString());
 
+			        	
 			        }
 			        // Adding incomeRenderer and expenseRenderer to multipleRenderer
 			        // Note: The order of adding dataseries to dataset and renderers to multipleRenderer
@@ -693,6 +734,7 @@ public class Graficas extends Activity {
 			//  mChart.setBackgroundColor(Color.WHITE);
 			  
 	 }
+	
 	
 	 
 	 

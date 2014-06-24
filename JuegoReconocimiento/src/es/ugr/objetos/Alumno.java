@@ -79,7 +79,9 @@ public class Alumno implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Alumno.- " + nombre + ", " + apellidos + ", FechaNac " + getFecha_nac_AsStrign() + ", " + sexo;
-	}	
+		//return "Alumno.- " + nombre + ", " + apellidos + ", FechaNac " + getFecha_nac_AsStrign() + ", " + sexo;
+		return apellidos + ", " + nombre;
+	}
+	
 
 }
