@@ -2,6 +2,7 @@ package es.ugr.reconocimiento;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
@@ -18,7 +19,9 @@ import org.opencv.imgproc.Imgproc;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.juegoreconocimiento.MainActivity;
+import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Objeto;
+import es.ugr.objetos.SerieEjercicios;
 import es.ugr.utilidades.Utilidades;
 import android.os.Bundle;
 import android.app.Activity;
@@ -30,7 +33,9 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,15 +48,14 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
-public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListener2 {
+public class Juego extends Activity implements CvCameraViewListener2 {
 	
-	private static final String TAG = "ReconocimientoObjeto::Activity";
+	private static final String TAG = "Juego::Activity";
 	
 	private CameraBridgeViewBase mOpenCvCameraView;
 	private boolean buscandoObjeto = false;
 	private int nObjeto = -1;
-	private Mat mGray;
-	private Mat mRgba;
+	private Mat mGray, mRgba;
 	private Mat aux, auxGray;
 	private ObjetoDataSource datasource;
 	private MatOfKeyPoint keypoints_obj = new MatOfKeyPoint();
@@ -60,25 +64,22 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	private ArrayList<Objeto> objetos;
 	private ArrayList<Mat> matsDescriptores = new ArrayList<Mat>(); 
 	private ArrayList<MatOfKeyPoint> matsKeyPoints = new ArrayList<MatOfKeyPoint>();
-	private int[] colsArray;
-	private int[] rowsArray;
+	private int[] colsArray, rowsArray;
 	private String nombre;
 	private EditText edtNombre;
 	private ImageView image;
 	private TextToSpeech ttobj;
 	
-	private EditText edthessianThreshold;
-	private EditText edtnOctaves;
-	private EditText edtnOctaveLayers;
-	private CheckBox chkExtended;
-	private CheckBox chkUpright;
+	private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
+	private CheckBox chkExtended, chkUpright;
 
 	
 	double hessianThreshold=1300;
-	int nOctaves=4;
-	int nOctaveLayers=2;
-	boolean extended=false;
-	boolean upright=false;
+	int nOctaves=4, nOctaveLayers=2;
+	boolean extended=false, upright=false;
+	
+	private Alumno alumno = new Alumno();
+	private SerieEjercicios serie = new SerieEjercicios();
 
 	
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -110,7 +111,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(R.layout.activity_reconocimiento_objeto2);
+		setContentView(R.layout.activity_juego);
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
 		
@@ -191,7 +192,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		nObjeto=-1;
 	}
 	
-	public void onSettingsClick(View v){
+	public void onBorrarObjetosClick(View v){
 		datasource.eliminaTodosObjetos();
 		LiberaObjetos();
 		objetos.clear();
@@ -201,7 +202,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	
 	public void onCancelarClick(View v){
 		if (!buscandoObjeto){
-			Intent myIntent = new Intent(ReconocimientoObjeto2.this,
+			Intent myIntent = new Intent(this,
 					MainActivity.class);
 			finish();
 			startActivity(myIntent);
@@ -239,6 +240,40 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		dialog.show();
 	}
 	
+	public void onAciertoClick(View v){
+		final ImageView btn = (ImageView) findViewById(R.id.btnMatch);
+		btn.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+		    	 	btn.setImageResource(R.drawable.acierto_pulsado);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                	btn.setImageResource(R.drawable.acierto);
+                }
+                return true;
+			}
+		});
+	}
+	
+	public void onErrorClick(View v){
+		final ImageView btn = (ImageView) findViewById(R.id.btnError);
+		btn.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					btn.setImageResource(R.drawable.error_pulsado);
+				}
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					btn.setImageResource(R.drawable.error);
+				}
+				return true;
+			}
+		});
+	}
+	
 	public void onCapturarClick(View v){
 		auxGray = mGray.clone();
 		aux = mRgba.clone();
@@ -261,7 +296,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		//long elapsedTime = stopTime - startTime;		
 		Toast.makeText(this, "Tiempo = "+elapsedTime+"\n"+"KeyPoints = "+keypoints_obj.size(), Toast.LENGTH_SHORT).show();
 		if (!keypoints_obj.empty() || !descriptores_obj.empty()) {
-			final Dialog dialog = new Dialog(ReconocimientoObjeto2.this);
+			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.activity_dialog_objeto);
 			dialog.setTitle("¿Desea guardar este objeto?");
 	
@@ -347,7 +382,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 				
 				if (nObjeto!=-1){
 					nombre=objetos.get(nObjeto).getNombre();
-					ReconocimientoObjeto2.this.runOnUiThread(new Runnable() {
+					this.runOnUiThread(new Runnable() {
 					    public void run() {
 					    	ttobj.speak(nombre, TextToSpeech.QUEUE_FLUSH, null);
 					    	Toast.makeText(getApplicationContext(), "Encontrado el objeto "+nombre, Toast.LENGTH_SHORT).show();
@@ -359,40 +394,6 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 		}
 		return mRgba;
 	}
-	
-/*	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		if (!buscandoObjeto || (buscandoObjeto && nObjeto == -1)){
-			mRgba = inputFrame.rgba();
-			mGray = inputFrame.gray();
-
-			if (buscandoObjeto) {
-				if (InicializaEscenario(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr())){
-					ExecutorService executor = Executors.newFixedThreadPool(objetos.size());
-			    	for (int i = 0; i < objetos.size() || nObjeto != -1; i++) {
-		    	      Runnable findObjectThread = new MyRunnable(i);
-		    	      executor.execute(findObjectThread);
-		    	    }
-			    	// This will make the executor accept no new threads
-			        // and finish all existing threads in the queue
-			        executor.shutdown();
-			        // Wait until all threads are finish
-			        while (!executor.isTerminated()){}
-			        LiberaEscenario();
-					if (nObjeto!=-1){
-						nombre=objetos.get(nObjeto).getNombre();
-						ReconocimientoObjeto2.this.runOnUiThread(new Runnable() {
-						    public void run() {
-						    	ttobj.speak(nombre, TextToSpeech.QUEUE_FLUSH, null);
-						    	Toast.makeText(getApplicationContext(), "Encontrado el objeto "+nombre, Toast.LENGTH_SHORT).show();
-						    }
-						});
-						nObjeto=-1;
-					}
-				}
-			}
-		}
-		return mRgba;
-	}*/
 	
 	@Override
 	public void onPause() {
@@ -451,7 +452,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			if (!buscandoObjeto){
-				Intent myIntent = new Intent(ReconocimientoObjeto2.this,
+				Intent myIntent = new Intent(this,
 						MainActivity.class);
 				finish();
 				startActivity(myIntent);

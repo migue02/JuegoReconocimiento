@@ -223,6 +223,14 @@
 			                 android:onClick="onClickReconocimiento"
 			                 android:text="Reconocimiento" />
 		                
+		                <Button
+			                 android:id="@+id/button2"
+			                 android:layout_width="match_parent"
+			                 android:layout_height="match_parent"
+			                 android:layout_weight="1"
+			                 android:onClick="onClickJugar"
+			                 android:text="Jugar" />
+		                
                 </LinearLayout>
 
             </LinearLayout>

@@ -1,4 +1,4 @@
-package es.ugr.juegoreconocimiento;
+ package es.ugr.juegoreconocimiento;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.reconocimiento.EmpezarJuego;
+import es.ugr.reconocimiento.Juego;
 import es.ugr.reconocimiento.ReconocimientoObjeto2;
 import es.ugr.utilidades.Utilidades;
 
@@ -64,6 +65,7 @@ public class MainActivity extends Activity {
 				System.loadLibrary("opencv_java");
 				System.loadLibrary("nonfree");
 				System.loadLibrary("juegoReconocimientoLib");
+				System.loadLibrary("juegoLib");
 			}
 				break;
 			default: {
@@ -387,6 +389,11 @@ public class MainActivity extends Activity {
 
 	public void onClickReconocimiento(View v) {
 		Intent intent = new Intent(this, ReconocimientoObjeto2.class);
+		startActivity(intent);
+	}
+	
+	public void onClickJugar(View v) {
+		Intent intent = new Intent(this, Juego.class);
 		startActivity(intent);
 	}
 	

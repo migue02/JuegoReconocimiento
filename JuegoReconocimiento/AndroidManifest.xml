@@ -80,6 +80,11 @@
             android:label="@string/title_activity_empezar_juego"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="es.ugr.reconocimiento.Juego"
+            android:label="@string/title_activity_juego" 
+            android:screenOrientation="landscape" >
+        </activity>
          <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
     </application>
 

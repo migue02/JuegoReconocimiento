@@ -21,5 +21,6 @@
     <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>
     <string name="contact">Contacto</string>
     <string name="title_activity_empezar_juego">EmpezarJuego</string>
+    <string name="title_activity_juego">Juego</string>
 
 </resources>
