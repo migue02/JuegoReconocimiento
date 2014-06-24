@@ -32,9 +32,11 @@ import es.ugr.adaptadores.*;
 
 
 /**
- * @author Namir Sayed-Ahmad Baraza
- * @mail namirsab@gmail.com
- *
+ * @author Juan Manuel Lucena Morales
+ * @mail zaijua@gmail.com
+ * @author Miguel Morales Rodríguez
+ * @mail miguee02@gmail.com
+ * 
  */
 public class Tablas extends Activity {
 	private LinearLayout ll;

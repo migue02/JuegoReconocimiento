@@ -19,3 +19,13 @@ LOCAL_SRC_FILES := ReconocimientoPrueba.cpp
 LOCAL_LDLIBS +=  -llog -ldl
 include $(BUILD_SHARED_LIBRARY)
 
+
+include $(CLEAR_VARS)
+include C:\NVPACK\OpenCV-2.4.5-Tegra-sdk-r2\sdk\native\jni\OpenCV.mk
+OPENCV_CAMERA_MODULES:=off
+LOCAL_MODULE    := juegoLib
+LOCAL_SHARED_LIBRARIES := nonfree opencv_java_prebuilt
+LOCAL_SRC_FILES := JuegoPrueba.cpp
+LOCAL_LDLIBS +=  -llog -ldl
+include $(BUILD_SHARED_LIBRARY)
+

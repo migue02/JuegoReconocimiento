@@ -58,9 +58,11 @@ import android.widget.TabHost.TabSpec;
 
 
 /**
- * @author Namir Sayed-Ahmad Baraza
- * @mail namirsab@gmail.com
- *
+ * @author Juan Manuel Lucena Morales
+ * @mail zaijua@gmail.com
+ * @author Miguel Morales Rodríguez
+ * @mail miguee02@gmail.com
+ * 
  */
 public class Graficas extends Activity {
 	private LinearLayout ll;

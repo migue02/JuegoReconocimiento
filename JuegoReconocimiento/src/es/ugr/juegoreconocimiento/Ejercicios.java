@@ -63,10 +63,13 @@ import ar.com.daidalos.afiledialog.FileChooserDialog;
 
 
 /**
- * @author Namir Sayed-Ahmad Baraza
- * @mail namirsab@gmail.com
- *
+ * @author Juan Manuel Lucena Morales
+ * @mail zaijua@gmail.com
+ * @author Miguel Morales Rodríguez
+ * @mail miguee02@gmail.com
+ * 
  */
+
 public class Ejercicios extends Activity {
 	 private ListView listView;
 	 private TableLayout tablaEjercicios;

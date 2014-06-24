@@ -54,12 +54,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.mobeta.android.dslv.DragSortListView;
-
 /**
- * @author Namir Sayed-Ahmad Baraza
- * @mail namirsab@gmail.com
- *
+ * @author Juan Manuel Lucena Morales
+ * @mail zaijua@gmail.com
+ * @author Miguel Morales Rodríguez
+ * @mail miguee02@gmail.com
+ * 
  */
 public class SeriesEjercicios extends Activity {
 	 private ListView listView;

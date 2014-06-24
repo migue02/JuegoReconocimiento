@@ -42,8 +42,10 @@ import es.ugr.utilidades.Utilidades;
  * Actividad principal. Esta actividad se puede cambiar completamente. SÃ³lo es
  * obligatorio enlazar de alguna manera con la actividad "AboutActivity"
  * 
- * @author Namir Sayed-Ahmad Baraza
- * @mail namirsab@gmail.com
+ * @author Juan Manuel Lucena Morales
+ * @mail zaijua@gmail.com
+ * @author Miguel Morales Rodríguez
+ * @mail miguee02@gmail.com
  */
 
 public class MainActivity extends Activity {
