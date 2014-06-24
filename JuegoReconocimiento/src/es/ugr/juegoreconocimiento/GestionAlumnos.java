@@ -209,7 +209,7 @@ public class GestionAlumnos extends Activity {
         TextView t3,t4,t5,tit1,tit2,tit3,tit4,tit5;
         
         tablaAlumnos.removeAllViews();
-
+        tablaAlumnos.setColumnStretchable(4, true);
         
         //Inicia dataSource
 
@@ -222,7 +222,7 @@ public class GestionAlumnos extends Activity {
         row = new TableRow(this);
         
        
-        row.setBackgroundColor(getResources().getColor(R.color.degradado1r));
+        row.setBackgroundColor(getResources().getColor(R.color.tituloTabla));
         row.setLayoutParams(new LayoutParams(
         LayoutParams.FILL_PARENT,
         LayoutParams.WRAP_CONTENT)); 
@@ -233,9 +233,9 @@ public class GestionAlumnos extends Activity {
          (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
     
      		int leftMargin=20;
-     		int topMargin=0;
+     		int topMargin=5;
      		int rightMargin=20;
-     		int bottomMargin=0;
+     		int bottomMargin=5;
 
      		tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
      		tableRowParams.gravity=Gravity.CENTER_VERTICAL;
@@ -250,7 +250,16 @@ public class GestionAlumnos extends Activity {
        		ImgParams.width=70;
        		ImgParams.height=70;
        		
-     		
+            TableRow.LayoutParams tableRowEliminar=
+           		  new TableRow.LayoutParams
+           (TableRow.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+       		tableRowEliminar.width=70;
+       		tableRowEliminar.height=70;
+
+       		tableRowEliminar.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+       		tableRowEliminar.gravity=Gravity.RIGHT;
+       		
+       		
         
         tit1=new TextView(this);
         tit2=new TextView(this);
@@ -275,7 +284,9 @@ public class GestionAlumnos extends Activity {
   	 tit4.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
    	 
    	 tit5.setText("Borrar");
+   	 //tit5.setLayoutParams(tableRowEliminar);
    	 tit5.setLayoutParams(tableRowParams);
+   	 tit5.setGravity(Gravity.RIGHT);
   	 tit5.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
    	 
    	 row.addView(tit1);
@@ -320,7 +331,8 @@ public class GestionAlumnos extends Activity {
        	 
        	 f2=new ImageView(this);
        	 f2.setImageResource(R.drawable.delmarron);
-       	 f2.setLayoutParams(ImgParams);
+       	 f2.setLayoutParams(tableRowEliminar);
+       	 //f2.setLayoutParams(ImgParams);
        	 f2.setBackgroundResource(R.drawable.selicono);
 
        	 
@@ -351,8 +363,8 @@ public class GestionAlumnos extends Activity {
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					final TableRow trow=(TableRow)arg0.getParent();
-					TextView tnom=(TextView)trow.getChildAt(2);
-					TextView tape=(TextView)trow.getChildAt(3);
+					TextView tnom=(TextView)trow.getChildAt(1);
+					TextView tape=(TextView)trow.getChildAt(2);
 					AlertDialog.Builder alerta=new AlertDialog.Builder(context);
 					alerta.setTitle("Eliminar");
 					alerta.setMessage("Se eliminará el alumno: "+tnom.getText()+" "+tape.getText());
@@ -549,6 +561,7 @@ public class GestionAlumnos extends Activity {
 		dialog.show();
 		dialog.getWindow().setAttributes(lp);
 
+		
 		GuardarDia.setOnClickListener(new OnClickListener() {
 			
 			@Override

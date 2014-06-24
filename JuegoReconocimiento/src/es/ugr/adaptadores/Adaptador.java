@@ -95,7 +95,7 @@ public class Adaptador extends BaseExpandableListAdapter {
 		TableLayout tl=(TableLayout) convertView.findViewById(R.id.tableLayoutTablas);
 		
 		TableRow cabecera=new TableRow(convertView.getContext());
-		cabecera.setBackgroundResource(R.color.degradado1);
+		cabecera.setBackgroundResource(R.color.rellenoTabla);
 		
 		TextView titidAl,tittotales,titaciertos,titfallos,titpuntuacion,titduracion;
 		

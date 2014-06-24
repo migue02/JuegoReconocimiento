@@ -389,8 +389,12 @@ public class Resultados extends Activity {
 		rowAl.setBackgroundResource(R.drawable.seliconoresultados);
 		rowSer.setBackgroundResource(R.drawable.seliconoresultados);
 		
-		TextView vacio=new TextView(this);
-		TextView vacio2=new TextView(this);
+		final CheckBox cbtAl;
+		final CheckBox cbtSer;
+		cbtAl=new CheckBox(this);
+		cbtSer=new CheckBox(this);
+		
+		
 		TextView tvTodosAlumnos=new TextView(this);
 		TextView tvTodasSeries=new TextView(this);
 				
@@ -398,13 +402,13 @@ public class Resultados extends Activity {
 		tvTodosAlumnos.setLayoutParams(tableRowParams);
 		tvTodasSeries.setLayoutParams(tableRowParams);
 		
-		rowAl.addView(vacio);
+		rowAl.addView(cbtAl);
 		tvTodosAlumnos.setText("Todos los alumnos");
 		tvTodosAlumnos.setLayoutParams(tableRowParams);
 		tvTodosAlumnos.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
 		rowAl.addView(tvTodosAlumnos);
 		
-		rowSer.addView(vacio2);
+		rowSer.addView(cbtSer);
 		tvTodasSeries.setText("Todas las Series");
 		tvTodasSeries.setLayoutParams(tableRowParams);
 		tvTodasSeries.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
@@ -421,9 +425,13 @@ public class Resultados extends Activity {
 					nv=false;
 				else
 					nv=true;
+				cbtAl.setChecked(nv);
 				for(int i=0;i<la.size();i++){
 					 TableRow traux = ((TableRow)tlAl.getChildAt(i+2));
 					 traux.setSelected(nv);
+					 CheckBox cb = (CheckBox)((TableRow)tlAl.getChildAt(i+2)).getChildAt(0);
+					 cb.setChecked(nv);
+					 cb.setEnabled(tr.isSelected());
 					 if(nv==true)
 						 traux.setBackgroundResource(R.color.bloqueado);
 					 else
@@ -446,9 +454,13 @@ public class Resultados extends Activity {
 					nv=false;
 				else
 					nv=true;
+				cbtSer.setChecked(nv);
 				for(int i=0;i<lse.size();i++){
 					 TableRow traux = ((TableRow)tlSer.getChildAt(i+2));
 					 traux.setSelected(nv);
+					 CheckBox cb = (CheckBox)((TableRow)tlSer.getChildAt(i+2)).getChildAt(0);
+					 cb.setChecked(nv);
+					 cb.setEnabled(tr.isSelected());
 					 if(nv==true)
 						 traux.setBackgroundResource(R.color.bloqueado);
 					 else
@@ -475,12 +487,12 @@ public class Resultados extends Activity {
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
 	         TextView alum=new TextView(this);
-	         TextView vac=new TextView(this);
+	         final CheckBox cb=new CheckBox(this);
 
         	 alum.setText(la.get(i).getApellidos()+", "+la.get(i).getNombre());
         	 alum.setLayoutParams(tableRowParams);
            	 alum.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
-        	 rowAl.addView(vac);
+        	 rowAl.addView(cb);
 	         rowAl.addView(alum);
 	         alSelec.add(false);
 	         final int pos=i;
@@ -495,6 +507,8 @@ public class Resultados extends Activity {
 						tr.setSelected(false);
 					else
 						tr.setSelected(true);
+					
+					cb.setChecked(tr.isSelected());
 					alSelec.set(pos, tr.isSelected());
 				}
 			});
@@ -514,12 +528,12 @@ public class Resultados extends Activity {
 	                    LayoutParams.FILL_PARENT,
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
-	         TextView vac=new TextView(this);
+	         final CheckBox cb=new CheckBox(this);
 	         TextView serie=new TextView(this);
         	 serie.setText(lse.get(i).getNombre());
         	 serie.setLayoutParams(tableRowParams);
            	 serie.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
-	         rowSer.addView(vac);
+	         rowSer.addView(cb);
         	 rowSer.addView(serie);
         	 serSelec.add(false);
         	 final int pos2=i;
@@ -534,6 +548,8 @@ public class Resultados extends Activity {
 						tr.setSelected(false);
 					else
 						tr.setSelected(true);
+					
+					cb.setChecked(tr.isSelected());
 					serSelec.set(pos2, tr.isSelected());
 				}
 			});

@@ -288,7 +288,7 @@ public class Ejercicios extends Activity {
         
        
         //row.setBackgroundColor(getResources().getColor(R.color.tabla2));
-        row.setBackgroundResource(R.color.degradado1r);
+        row.setBackgroundResource(R.color.tituloTabla);
         
         
         
@@ -306,9 +306,9 @@ public class Ejercicios extends Activity {
 
 
          		int leftMargin=20;
-         		int topMargin=0;
+         		int topMargin=5;
          		int rightMargin=20;
-         		int bottomMargin=0;
+         		int bottomMargin=5;
 
          		tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
          		tableRowParams.gravity=Gravity.CENTER_VERTICAL;

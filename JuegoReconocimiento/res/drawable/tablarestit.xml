@@ -9,7 +9,7 @@
 <item android:bottom="3dp">
 	<shape xmlns:android="http://schemas.android.com/apk/res/android" 
      android:shape="rectangle">
-    	<solid android:color="@color/degradado1r" />
+    	<solid android:color="@color/tituloTablaResultados" />
     </shape>
 </item>
 </layer-list>

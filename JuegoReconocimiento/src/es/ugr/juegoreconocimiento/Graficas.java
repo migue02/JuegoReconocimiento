@@ -344,8 +344,8 @@ public class Graficas extends Activity {
 	        
 	        
 	        multiRenderer.setApplyBackgroundColor(true);
-	        multiRenderer.setBackgroundColor(getResources().getColor(R.color.degradado2));
-	        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado1));
+	        multiRenderer.setBackgroundColor(getResources().getColor(R.color.rellenoTablaResultados));
+	        multiRenderer.setMarginsColor(getResources().getColor(R.color.rellenoTabla));
 	        
 	        int[] margins = {40, 40, 40, 40};
 	        multiRenderer.setMargins(margins);
@@ -555,8 +555,8 @@ public class Graficas extends Activity {
 			        
 			        
 			        multiRenderer.setApplyBackgroundColor(true);
-			        multiRenderer.setBackgroundColor(getResources().getColor(R.color.degradado2));
-			        multiRenderer.setMarginsColor(getResources().getColor(R.color.degradado1));
+			        multiRenderer.setBackgroundColor(getResources().getColor(R.color.rellenoTabla));
+			        multiRenderer.setMarginsColor(getResources().getColor(R.color.rellenoTablaResultados));
 			        
 			        int[] margins = {40, 40, 40, 40};
 			        multiRenderer.setMargins(margins);
@@ -633,6 +633,8 @@ public class Graficas extends Activity {
 			 		////////////////////////////////////////////////////////////////////////////
 		        	final GraphicalView fmChart=mChart;
 			        TabSpec ts1 = myTabHost.newTabSpec("TAB_TAG_1");
+			        
+			        /*
 			        TextView  txtTab = new TextView(this); 
 			        txtTab.setText(se.getNombre()); 
 			        txtTab.setPadding(8, 5, 8, 5); 
@@ -642,8 +644,8 @@ public class Graficas extends Activity {
 			        txtTab.setBackgroundResource(R.drawable.seliconoalumno);
 
 			        ts1.setIndicator(txtTab);
-			        
-			        //ts1.setIndicator(se.getNombre());
+			        */
+			        ts1.setIndicator(se.getNombre());
 			        ts1.setContent(new TabHost.TabContentFactory() {
 						
 						public View createTabContent(String tag) {

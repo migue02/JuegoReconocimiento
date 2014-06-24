@@ -10,10 +10,12 @@ import es.ugr.objetos.Alumno;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -41,8 +43,20 @@ public class EmpezarJuego extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+	    getActionBar().setCustomView(R.layout.mibarraemp);
 		setContentView(R.layout.activity_empezar_juego);
 	
+		ImageView principal=(ImageView)findViewById(R.id.principalEmp);
+	    principal.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
 		alumnoSeleccionado = new Alumno();
 		serieSeleccionada = new SerieEjercicios();
 		alumnoDS = new AlumnoDataSource(this);

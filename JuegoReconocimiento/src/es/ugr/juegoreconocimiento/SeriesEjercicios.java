@@ -235,6 +235,8 @@ public class SeriesEjercicios extends Activity {
 	private void CreaTablaSeries(){
 
 		tablaSeries.removeAllViews();
+		tablaSeries.setColumnStretchable(4, true);
+		
         TableRow row;
         ImageView fim,fbor;
         TextView t2,t3,t4,tit1,tit2,tit3,tit4,tit5;
@@ -244,7 +246,7 @@ public class SeriesEjercicios extends Activity {
         row = new TableRow(this);
         
        
-        row.setBackgroundColor(getResources().getColor(R.color.degradado1r));
+        row.setBackgroundColor(getResources().getColor(R.color.tituloTabla));
         
         
         
@@ -259,9 +261,9 @@ public class SeriesEjercicios extends Activity {
        (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
   
    		int leftMargin=20;
-   		int topMargin=0;
+   		int topMargin=5;
    		int rightMargin=20;
-   		int bottomMargin=0;
+   		int bottomMargin=5;
 
    		tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
    		tableRowParams.gravity=Gravity.CENTER_VERTICAL;
@@ -278,6 +280,18 @@ public class SeriesEjercicios extends Activity {
      		ImgParams.gravity=Gravity.CENTER_VERTICAL;
      		ImgParams.width=70;
      		ImgParams.height=70;
+     		
+     		
+        TableRow.LayoutParams tableRowEliminar=
+         		  new TableRow.LayoutParams
+         (TableRow.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+     		tableRowEliminar.width=70;
+     		tableRowEliminar.height=70;
+
+     		tableRowEliminar.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+     		tableRowEliminar.gravity=Gravity.RIGHT;
+     		
+         		
         
         tit1=new TextView(this);
         tit2=new TextView(this);
@@ -304,6 +318,7 @@ public class SeriesEjercicios extends Activity {
    	 
    	 tit5.setText("Borrar");
    	 tit5.setLayoutParams(tableRowParams);
+   	 tit5.setGravity(Gravity.RIGHT);
    	 tit5.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
    	 
    	 row.addView(tit1);
@@ -337,7 +352,8 @@ public class SeriesEjercicios extends Activity {
        	 fbor=new ImageView(this);
        	 fbor.setImageResource(R.drawable.delmarron);
       	 //fbor.setLayoutParams(tableRowParams);
-       	 fbor.setLayoutParams(ImgParams);
+       	 //fbor.setLayoutParams(ImgParams);
+       	 fbor.setLayoutParams(tableRowEliminar);
        	 fbor.setBackgroundResource(R.drawable.selicono);
        	 
        	 //f1.setLayoutParams();

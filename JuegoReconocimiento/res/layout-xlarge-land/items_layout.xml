@@ -4,7 +4,7 @@
     android:background="@drawable/seliconoresultados"
     android:layout_width="wrap_content"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:layout_marginLeft="8dp"
+    android:layout_margin="10dp"
     android:drawableRight="@drawable/table"
     android:gravity="left"
     android:paddingLeft="32dp"
