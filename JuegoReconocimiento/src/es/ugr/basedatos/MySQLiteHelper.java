@@ -62,6 +62,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_EJERCICIO_DESCRIPCION = "descripcion";
 	public static final String COLUMN_EJERCICIO_DURACION = "duracion";
 	public static final String COLUMN_EJERCICIO_OBJETOS_REC = "objetosReconocer";
+	public static final String COLUMN_EJERCICIO_ORDEN = "orden";
 	// public static final String COLUMN_EJERCICIO_SONIDO_ACIERTO = "acierto";
 	// public static final String COLUMN_EJERCICIO_SONIDO_FALLO = "fallo";
 
@@ -70,8 +71,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_EJERCICIO_NOMBRE + " varchar, " 
 			+ COLUMN_EJERCICIO_OBJETOS + " varchar, "
 			+ COLUMN_EJERCICIO_DESCRIPCION + " varchar, "
-			+ COLUMN_EJERCICIO_DURACION + " real, "
-			+ COLUMN_EJERCICIO_OBJETOS_REC + " varchar)";
+			+ COLUMN_EJERCICIO_DURACION + " integer, "
+			+ COLUMN_EJERCICIO_OBJETOS_REC + " varchar, "
+	        + COLUMN_EJERCICIO_ORDEN + " integer)";
 	
 	// -------------------------
 	// TABLA SERIE DE EJERCICIOS
@@ -82,13 +84,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_SERIE_EJERCICIOS_IDEJERCICIOS = "ejercicios";
 	public static final String COLUMN_SERIE_EJERCICIOS_DURACION = "duracion";
 	public static final String COLUMN_SERIE_EJERCICIOS_FECHA_MODIFICACION = "fecha_modificacion";
+	public static final String COLUMN_SERIE_EJERCICIOS_ORDEN = "orden";
 	
 	private String sqlCreateSerieEjercicios = "create table if not exists "	+ TABLE_SERIE_EJERCICIOS + "(" 
 			+ COLUMN_SERIE_EJERCICIOS_ID + " integer primary key autoincrement, "
 			+ COLUMN_SERIE_EJERCICIOS_NOMBRE + " varchar, "
 			+ COLUMN_SERIE_EJERCICIOS_IDEJERCICIOS + " varchar, "
-			+ COLUMN_SERIE_EJERCICIOS_DURACION + " real, "
-			+ COLUMN_SERIE_EJERCICIOS_FECHA_MODIFICACION + " date)";
+			+ COLUMN_SERIE_EJERCICIOS_DURACION + " integer, "
+			+ COLUMN_SERIE_EJERCICIOS_FECHA_MODIFICACION + " date, "
+    		+ COLUMN_SERIE_EJERCICIOS_ORDEN + " integer)";
 	
 	// ---------------
 	// TABLA RESULTADO
