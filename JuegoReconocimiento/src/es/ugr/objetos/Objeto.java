@@ -1,11 +1,16 @@
 package es.ugr.objetos;
 
+
+import java.io.ByteArrayOutputStream;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import es.ugr.utilidades.Utilidades;
 
-public class Objeto {
+public class Objeto{
 	private long id;
 	private String nombre;
 	private String keypoints;
@@ -14,6 +19,7 @@ public class Objeto {
 	public Mat matDescriptores;
 	private int cols;
 	private int rows;
+	private Bitmap imagen;
 
 	public Objeto() {
 		id=-1;
@@ -22,10 +28,11 @@ public class Objeto {
 		descriptores="";
 		cols=0;
 		rows=0;
+		imagen=null;
 	}
 
 	public Objeto(long id, String nombre, String keypoints,
-			String descriptores, int cols, int rows) {
+			String descriptores, int cols, int rows, Bitmap imagen) {
 		this.id = id;
 		this.nombre = nombre;
 		this.keypoints = keypoints;
@@ -36,6 +43,15 @@ public class Objeto {
 		matDescriptores = Utilidades.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
+		this.imagen=imagen;
+	}
+
+	public Bitmap getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(Bitmap imagen) {
+		this.imagen = imagen;
 	}
 
 	public long getId() {
@@ -97,5 +113,15 @@ public class Objeto {
 		matKeyPoints = new MatOfKeyPoint();
 		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
 		matDescriptores = Utilidades.matFromJson(this.descriptores);
+	}
+
+	public byte[] getImagenAsByteArray() {
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();
+        imagen.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        return bos.toByteArray();
+	}
+
+	public void setImagenAsByteArray(byte[] blob) {
+		imagen = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 	}
 }

@@ -108,4 +108,16 @@ public class Resultado{
 		return new SimpleDateFormat("dd/MM/yyyy").format(fechaRealizacion);
 	}
 	
+	public void calculaPuntuacion(){
+		puntuacion = ((double)aciertos/(double)(fallos+aciertos))*10;
+	}
+
+	public void incrementaAcierto() {
+		aciertos++;
+	}
+	
+	public void incrementaFallo() {
+		fallos++;
+	}
+	
 }

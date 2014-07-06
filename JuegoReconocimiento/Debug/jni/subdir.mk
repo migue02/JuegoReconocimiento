@@ -4,13 +4,22 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../jni/PatRecModificado.cpp 
+../jni/JuegoPrueba.cpp \
+../jni/Libreria.cpp \
+../jni/PatRecModificado.cpp \
+../jni/ReconocimientoPrueba.cpp 
 
 OBJS += \
-./jni/PatRecModificado.o 
+./jni/JuegoPrueba.o \
+./jni/Libreria.o \
+./jni/PatRecModificado.o \
+./jni/ReconocimientoPrueba.o 
 
 CPP_DEPS += \
-./jni/PatRecModificado.d 
+./jni/JuegoPrueba.d \
+./jni/Libreria.d \
+./jni/PatRecModificado.d \
+./jni/ReconocimientoPrueba.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

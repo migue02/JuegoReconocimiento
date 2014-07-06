@@ -35,6 +35,7 @@ import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.reconocimiento.EmpezarJuego;
 import es.ugr.reconocimiento.Juego;
+import es.ugr.reconocimiento.ReconocimientoObjeto;
 import es.ugr.reconocimiento.ReconocimientoObjeto2;
 import es.ugr.utilidades.Utilidades;
 
@@ -396,6 +397,16 @@ public class MainActivity extends Activity {
 	
 	public void onClickJugar(View v) {
 		Intent intent = new Intent(this, Juego.class);
+		startActivity(intent);
+	}
+	
+	public void onClickObjetoFicha(View v) {
+		Intent intent = new Intent(this,
+				FichaObjeto.class);
+		ObjetoDataSource oDS= new ObjetoDataSource(this);
+		oDS.open();
+		intent.putExtra("Objeto", oDS.getAllObjetos().get(oDS.getAllObjetos().size()-1).getId());
+		oDS.close();
 		startActivity(intent);
 	}
 	

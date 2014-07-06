@@ -27,14 +27,14 @@
 
     
     
-    <color name="barraNavegacion">#ff0245bb</color>
-    <color name="letraBarraNavegacion">#000000</color>
-    <color name="rellenoTabla">#ffffffff</color>
-    <color name="botonNoSelec">#ff5d666a</color>
-    <color name="botonSelec">#aa24970b</color>
-    <color name="tituloTabla">#ffff00</color>
-    <color name="rellenoTablaResultados">#ffeeeeee</color>
-    <color name="tituloTablaResultados">#aa24970b</color>
+    <color name="barraNavegacion">#ee49AF5B</color>
+    <color name="letraBarraNavegacion">#06290D</color>
+    <color name="rellenoTabla">#00ffffff</color>
+    <color name="botonNoSelec">#2A4E6E</color>
+    <color name="botonSelec">#6C9CC6</color>
+    <color name="tituloTabla">#6ED981</color>
+    <color name="rellenoTablaResultados">#aaFFCB82</color>
+    <color name="tituloTablaResultados">#E4AD60</color>
     
     <color name="verde_oscuro">#009b7d</color>
 	<color name="marron_oscuro">#603000</color>

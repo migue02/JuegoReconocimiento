@@ -19,6 +19,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.features2d.KeyPoint;
+
 import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.basedatos.EjercicioDataSource;
@@ -538,26 +539,20 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 		mDescriptoresObjeto.release();
 		mKeyPointsObjeto.release();
 	}
-
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			if (!bJugando){
-				Intent myIntent = new Intent(ReconocimientoObjeto.this,
-						EmpezarJuego.class);
-				finish();
-				startActivity(myIntent);
-				return true;
-			}else{
+			if (bJugando){
 				bJugando=false;
 				nObjetoReconocido=-1;
 				return false;
 			}
+			else
+				return super.onKeyDown(keyCode, event);
 		}
-
 		return super.onKeyDown(keyCode, event);
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

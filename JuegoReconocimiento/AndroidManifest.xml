@@ -82,10 +82,15 @@
         </activity>
         <activity
             android:name="es.ugr.reconocimiento.Juego"
-            android:label="@string/title_activity_juego" 
+            android:label="@string/title_activity_juego"
             android:screenOrientation="landscape" >
         </activity>
-         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
+        <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
+        <activity
+            android:name="es.ugr.juegoreconocimiento.FichaObjeto"
+            android:label="@string/title_activity_ficha_objeto"
+            android:screenOrientation="landscape" >
+        </activity>
     </application>
 
     <supports-screens
@@ -98,7 +103,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.camera"

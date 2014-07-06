@@ -1,5 +1,6 @@
 package es.ugr.basedatos;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,12 @@ public class ObjetoDataSource {
 			MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS,
 			MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES,
 			MySQLiteHelper.COLUMN_OBJETO_COLS,
-			MySQLiteHelper.COLUMN_OBJETO_ROWS};
+			MySQLiteHelper.COLUMN_OBJETO_ROWS,
+			MySQLiteHelper.COLUMN_OBJETO_IMAGEN};
+	
+	private String[] simpleColumns = { MySQLiteHelper.COLUMN_OBJETO_ID,
+			MySQLiteHelper.COLUMN_OBJETO_NOMBRE,
+			MySQLiteHelper.COLUMN_OBJETO_IMAGEN};
 
 	public ObjetoDataSource(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -51,7 +57,8 @@ public class ObjetoDataSource {
 		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, objeto.getDescriptores());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, objeto.getCols());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, objeto.getRows());
-
+		values.put(MySQLiteHelper.COLUMN_OBJETO_IMAGEN, objeto.getImagenAsByteArray());
+		
 		objeto.setId((int) database.insert(MySQLiteHelper.TABLE_OBJETO, null, values));
 		return objeto;
 	}
@@ -101,6 +108,7 @@ public class ObjetoDataSource {
 		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, objeto.getDescriptores());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, objeto.getCols());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, objeto.getRows());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_IMAGEN, objeto.getImagenAsByteArray());
 		
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
 				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + objeto.getId(), null) > 0;
@@ -215,8 +223,35 @@ public class ObjetoDataSource {
 		objeto.setDescriptores(cursor.getString(3));
 		objeto.setCols(cursor.getInt(4));
 		objeto.setRows(cursor.getInt(5));
+		try{
+			objeto.setImagenAsByteArray(cursor.getBlob(6));
+		}catch (Exception ex){
+			Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
+			ex.printStackTrace();
+		}
 		objeto.setMats();
 		return objeto;
+	}
+
+	public Objeto getObjetoSimple(int id) {
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_OBJETO, simpleColumns,
+				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + id, null, null, null,
+				null);
+
+		if (cursor != null && cursor.getCount() > 0) {
+			Objeto objeto = new Objeto();
+			cursor.moveToFirst();
+			objeto.setId(cursor.getLong(0));
+			objeto.setNombre(cursor.getString(1));try{
+				objeto.setImagenAsByteArray(cursor.getBlob(2));
+			}catch (Exception ex){
+				Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
+				ex.printStackTrace();
+			}
+			cursor.close();
+			return objeto;
+		} else
+		return null;
 	}
 
 }

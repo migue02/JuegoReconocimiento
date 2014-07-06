@@ -24,6 +24,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_OBJETO_DESPCRIPTORES = "descriptores";
 	public static final String COLUMN_OBJETO_COLS = "cols";
 	public static final String COLUMN_OBJETO_ROWS = "rows";
+	public static final String COLUMN_OBJETO_IMAGEN = "imagen";
 
 	private String sqlCreateObjeto = "create table if not exists " + TABLE_OBJETO + "(" 
 			+ COLUMN_OBJETO_ID + " integer primary key autoincrement, " 
@@ -31,7 +32,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_OBJETO_KEYPOINTS + " text, "
 			+ COLUMN_OBJETO_DESPCRIPTORES + " text, "
 			+ COLUMN_OBJETO_COLS + " integer, "
-			+ COLUMN_OBJETO_ROWS + " integer)";
+			+ COLUMN_OBJETO_ROWS + " integer, "
+			+ COLUMN_OBJETO_IMAGEN + " blob)";
 
 	// ------------
 	// TABLA ALUMNO

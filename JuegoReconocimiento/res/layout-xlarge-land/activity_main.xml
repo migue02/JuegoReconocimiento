@@ -177,18 +177,14 @@
                 android:layout_marginTop="20dp">
 
                 <ImageButton
-                    android:id="@+id/Empezar"
-                    android:layout_width="380dp"
+                    android:id="@+id/empezar"
+                    android:layout_width="300dp"
                     android:layout_height="300dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="150dp"
                     android:background="@drawable/selicono"
                     android:onClick="onClickEmpezar"
-                    android:textAlignment="gravity"
                     android:layout_gravity="center"
-                    android:layout_weight="0.46"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/ic4"
+                    android:src="@drawable/empezar"
                     android:scaleType="fitXY"/>
 
                 <TextView
@@ -230,6 +226,14 @@
 			                 android:layout_weight="1"
 			                 android:onClick="onClickJugar"
 			                 android:text="Jugar" />
+		                <Button
+			                 android:id="@+id/button1"
+			                 android:layout_width="match_parent"
+			                 android:layout_height="match_parent"
+			                 android:layout_weight="1"
+			                 android:onClick="onClickObjetoFicha"
+			                 style="?android:attr/buttonStyleSmall"
+			                 android:text="Ficha objeto" />
 		                
                 </LinearLayout>
 

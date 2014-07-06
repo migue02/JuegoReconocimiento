@@ -221,11 +221,17 @@ public class Utilidades {
 	public static ArrayList<Integer> ArrayListFromJson(String idsObjeto){
 		ArrayList<Integer> result=new ArrayList<Integer>();
 		
-		JsonParser parser = new JsonParser();
-		JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
-		
-		for (int i=0; i< jsonArr.size(); i++)
-			result.add(((JsonObject)jsonArr.get(i)).get("id").getAsInt());
+		if (!idsObjeto.isEmpty()){
+			try{
+				JsonParser parser = new JsonParser();
+					JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
+					
+					for (int i=0; i< jsonArr.size(); i++)
+						result.add(((JsonObject)jsonArr.get(i)).get("id").getAsInt());
+				}catch (Exception e){
+					
+				}
+		}
 		
 		return result;
 	}

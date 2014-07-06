@@ -22,5 +22,8 @@
     <string name="contact">Contacto</string>
     <string name="title_activity_empezar_juego">EmpezarJuego</string>
     <string name="title_activity_juego">Juego</string>
+    <string name="title_activity_ficha_objeto">Objeto</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="guardarCambios">Guardar cambios</string>
 
 </resources>

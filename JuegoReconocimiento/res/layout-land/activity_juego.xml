@@ -94,6 +94,7 @@
             android:id="@+id/surfaceView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+        
 
         <LinearLayout
             android:id="@+id/layoutBotones"
@@ -132,30 +133,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/fondo_tools64"
-            android:gravity="right"
-            android:orientation="vertical"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="2dp"
-            android:paddingTop="5dp" >
-
-            <ImageView
-                android:id="@+id/btnBorrarObjetos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:contentDescription="Borrar objetos"
-                android:onClick="onBorrarObjetosClick"
-                android:src="@drawable/delete64" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="@drawable/fondo_tools"
             android:gravity="right"
             android:orientation="vertical"
@@ -171,7 +148,15 @@
                 android:onClick="onInicializaSurf"
                 android:text="Reinicia\nSURF" />
 
+            <Chronometer
+                android:id="@+id/cronometro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Chronometer" />
+
         </LinearLayout>
+            
 
         <LinearLayout
             android:id="@+id/layoutVerObjetos"
@@ -181,11 +166,18 @@
             android:gravity="bottom|left">
 
             <Button
-                android:id="@+id/btnObjetos"
+                android:id="@+id/btnObjetosReconocer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onVerObjetos"
-                android:text="Objs" />
+                android:onClick="onVerObjetosReconocer"
+                android:text="Objs-Reconocer" />
+            
+            <Button
+                android:id="@+id/btnObjetosEscenario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onVerObjetosEscenario"
+                android:text="Objs-Escenario" />
         </LinearLayout>
         
         <LinearLayout

@@ -2,6 +2,7 @@ package es.ugr.reconocimiento;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
@@ -450,19 +451,14 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			if (!buscandoObjeto){
-				Intent myIntent = new Intent(ReconocimientoObjeto2.this,
-						MainActivity.class);
-				finish();
-				startActivity(myIntent);
-				return true;
-			}else{
+			if (buscandoObjeto){
 				buscandoObjeto=false;
 				nObjeto=-1;
 				return false;
 			}
+			else
+				return super.onKeyDown(keyCode, event);
 		}
-
 		return super.onKeyDown(keyCode, event);
 	}
 	

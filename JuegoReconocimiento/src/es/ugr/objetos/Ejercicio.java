@@ -52,8 +52,7 @@ public class Ejercicio {
 
 	@Override
 	public String toString() {
-		return "Ejercicio [idEjercicio=" + idEjercicio + ", nombre=" + nombre
-				+ ", objetos=" + objetos + descripcion + duracion + "]";
+		return nombre + " .Objetos["+objetosReconocer.toString()+"] .Escenario["+objetos.toString()+"]";
 	}
 
 	public Integer getIdEjercicio() {
@@ -94,6 +93,22 @@ public class Ejercicio {
 
 	public void setDuracion(double duracion) {
 		this.duracion = duracion;
+	}
+
+	public void eliminaObjetoReconocer(int id) {
+		for (int i=0;i<objetosReconocer.size();i++)
+			if(objetosReconocer.get(i)==id){
+				objetosReconocer.remove(i);
+				eliminaObjetoEscenario(id);
+			}
+	}
+
+	public void eliminaObjetoEscenario(int id) {
+		for (int i=0;i<objetos.size();i++)
+			if(objetos.get(i)==id){
+				objetos.remove(i);
+				eliminaObjetoReconocer(id);
+			}
 	}
 
 
