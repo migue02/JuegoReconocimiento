@@ -5,11 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.w3c.dom.Text;
 
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -26,6 +23,7 @@ import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,14 +32,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -51,6 +47,7 @@ import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.basedatos.*;
 import es.ugr.objetos.*;
 import es.ugr.objetos.TiposPropios.Periodo;
+import es.ugr.utilidades.Sonidos;
 
 /**
  * @author Namir Sayed-Ahmad Baraza
@@ -58,10 +55,11 @@ import es.ugr.objetos.TiposPropios.Periodo;
  *
  */
 public class Resultados extends Activity {
+	Context micontexto;
 	private ListView listView ;
 	private Button semana,mes,año;
 	private Button rRanking,rAlumno;
-	private View mGrafica,mTabla,mXLS;
+	private View mGrafica,mTabla,mXLS,mBorrar;
 	private int fecha=Periodo.Semana;
 	private List<Boolean> alSelec,serSelec;
 	private TableLayout tlAl;
@@ -70,6 +68,7 @@ public class Resultados extends Activity {
 	List<Integer> listaIdAlumnos;
 	List<Integer> listaIdSeries;
 	private int radioSelec=0;
+	private Sonidos sonidos;
 	
 	
 	
@@ -124,7 +123,7 @@ public class Resultados extends Activity {
 			long arg3) {
 		// TODO Auto-generated method stub
           int itemPosition     = arg2;
-          
+          sonidos.playNavegacion();
            // Show Alert
           switch (itemPosition) {
 		case 0:
@@ -169,8 +168,8 @@ public class Resultados extends Activity {
 	
 	private void InicioResultados(){
 
-		
-		
+		micontexto=this;
+		sonidos=new Sonidos(this);
 		
 		LinearLayout ll=(LinearLayout)findViewById(R.id.layoutResultados);
 		ll.setBackgroundResource(R.drawable.tabla);
@@ -230,12 +229,14 @@ public class Resultados extends Activity {
 		mGrafica=findViewById(R.id.ResulGrafica);
 		mTabla=findViewById(R.id.MuestraTabla);
 		mXLS=findViewById(R.id.ResulXLS);
+		mBorrar=findViewById(R.id.ResulBorrar);
 		
 		
 		semana.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				v.playSoundEffect(android.view.SoundEffectConstants.CLICK);
 				// TODO Auto-generated method stub
 				fecha=Periodo.Semana;
 				//semana.setBackgroundColor(getResources().getColor(R.color.tabla1));
@@ -348,12 +349,12 @@ public class Resultados extends Activity {
         
       	 tit1.setText("Alumno");
        	 tit1.setLayoutParams(tableRowParams);
-       	 tit1.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
+       	 tit1.setTextAppearance(this, R.style.TituloTabla);
        	 
        	 
        	 tit3.setText("Serie");
        	 tit3.setLayoutParams(tableRowParams);
-       	 tit3.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
+       	 tit3.setTextAppearance(this, R.style.TituloTabla);
        	 
        	 
 		rowAl.addView(imgtit1);
@@ -405,13 +406,13 @@ public class Resultados extends Activity {
 		rowAl.addView(cbtAl);
 		tvTodosAlumnos.setText("Todos los alumnos");
 		tvTodosAlumnos.setLayoutParams(tableRowParams);
-		tvTodosAlumnos.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
+		tvTodosAlumnos.setTextAppearance(this, R.style.TituloTabla);
 		rowAl.addView(tvTodosAlumnos);
 		
 		rowSer.addView(cbtSer);
 		tvTodasSeries.setText("Todas las Series");
 		tvTodasSeries.setLayoutParams(tableRowParams);
-		tvTodasSeries.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
+		tvTodasSeries.setTextAppearance(this, R.style.TituloTabla);
 		rowSer.addView(tvTodasSeries);
 
 		rowAl.setOnClickListener(new OnClickListener() {
@@ -419,6 +420,7 @@ public class Resultados extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				sonidos.playResultados();
 				TableRow tr=(TableRow)v;
 				boolean nv;
 				if(tr.isSelected())
@@ -443,11 +445,15 @@ public class Resultados extends Activity {
 			}
 		});
 		
+		cbtAl.setClickable(false);
+		cbtSer.setClickable(false);
+		
 		rowSer.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				sonidos.playResultados();
 				TableRow tr=(TableRow)v;
 				boolean nv;
 				if(tr.isSelected())
@@ -477,21 +483,22 @@ public class Resultados extends Activity {
 
 		
 		for(int i=0;i<la.size();i++){
+
 			 rowAl=new TableRow(this);
 			 rowAl.setTag(i);
 			 rowAl.setSelected(false);
 			 rowAl.setBackgroundResource(R.drawable.seliconoresultados);
 	       	 
 	            rowAl.setLayoutParams(new LayoutParams(
-	                    LayoutParams.FILL_PARENT,
+	                    LayoutParams.MATCH_PARENT,
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
 	         TextView alum=new TextView(this);
 	         final CheckBox cb=new CheckBox(this);
-
+	         cb.setClickable(false);
         	 alum.setText(la.get(i).getApellidos()+", "+la.get(i).getNombre());
         	 alum.setLayoutParams(tableRowParams);
-           	 alum.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
+           	 alum.setTextAppearance(this, R.style.TextoTablaResultados);
         	 rowAl.addView(cb);
 	         rowAl.addView(alum);
 	         alSelec.add(false);
@@ -502,6 +509,7 @@ public class Resultados extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					 sonidos.playResultados();
 					TableRow tr=(TableRow)v;
 					if(tr.isSelected())
 						tr.setSelected(false);
@@ -520,19 +528,21 @@ public class Resultados extends Activity {
 		
 		
 		for(int i=0;i<lse.size();i++){
+
 			 rowSer=new TableRow(this);
 			 rowSer.setTag(i);
 			 rowSer.setBackgroundResource(R.drawable.seliconoresultados);
 	       	 
 	            rowSer.setLayoutParams(new LayoutParams(
-	                    LayoutParams.FILL_PARENT,
+	                    LayoutParams.MATCH_PARENT,
 	                    LayoutParams.WRAP_CONTENT)); 
 	            
 	         final CheckBox cb=new CheckBox(this);
 	         TextView serie=new TextView(this);
         	 serie.setText(lse.get(i).getNombre());
         	 serie.setLayoutParams(tableRowParams);
-           	 serie.setTextAppearance(getApplicationContext(), R.style.TextoTablaResultados);
+           	 serie.setTextAppearance(this, R.style.TextoTablaResultados);
+           	 cb.setClickable(false);
 	         rowSer.addView(cb);
         	 rowSer.addView(serie);
         	 serSelec.add(false);
@@ -543,6 +553,7 @@ public class Resultados extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					 sonidos.playResultados();
 					TableRow tr=(TableRow)v;
 					if(tr.isSelected())
 						tr.setSelected(false);
@@ -662,12 +673,9 @@ public class Resultados extends Activity {
 				// TODO Auto-generated method stub
 				
 				//Lanzar Dialog
-				//final Dialog dialog = new Dialog(getApplicationContext());
+				//final Dialog dialog = new Dialog(this);
 				
-				if(listaIdAlumnos.size()==0||listaIdSeries.size()==0){
-					Toast.makeText(v.getContext(), "Seleccionar al menos un Alumno-Serie", Toast.LENGTH_LONG).show();
-				}
-				else{
+
 				final Dialog dialog = new Dialog(v.getContext());
 				dialog.setContentView(R.layout.dialogo_exportar);
 				dialog.setTitle("Exportar...");
@@ -685,27 +693,30 @@ public class Resultados extends Activity {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
+						
+						List<Alumno> listaAlumnos=new ArrayList<Alumno>();
+						List<SerieEjercicios> listaSeries=new ArrayList<SerieEjercicios>();
 						int tipoExport=0;
-						if(radioSelec==0)
+						if(rb1.isChecked())
 							tipoExport=1;
-						if(radioSelec==1){
+						else{
 							tipoExport=2;
-							
-							listaIdAlumnos=new ArrayList<Integer>();
+
+							//listaIdAlumnos=new ArrayList<Integer>();
 							for(int i=0;i<alSelec.size();i++){
 								if(alSelec.get(i)==true)
-									listaIdAlumnos.add(la.get(i).getIdAlumno());
+									listaAlumnos.add(la.get(i));
 							}
 							
-							listaIdSeries=new ArrayList<Integer>();
+							//listaIdSeries=new ArrayList<Integer>();
 							for(int i=0;i<serSelec.size();i++){
 								if(serSelec.get(i)==true)
-									listaIdSeries.add(lse.get(i).getIdSerie());
+									listaSeries.add(lse.get(i));
 							}
 							
 							
 						}
-						ExportarXLS(tipoExport);
+						ExportarXLS(tipoExport,listaAlumnos,listaSeries);
 						dialog.dismiss();
 					}
 				});
@@ -720,9 +731,70 @@ public class Resultados extends Activity {
 					}
 				});
 			}
-		  }
+		  
 		});
 	
+		
+		mBorrar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			
+				final Dialog dialog = new Dialog(v.getContext());
+				dialog.setContentView(R.layout.dialogo_borrar_res);
+				dialog.setTitle("Borrar resultados...");
+				
+				Button borrar,cancelar;
+				final RadioButton rb1;
+				final RadioButton rb2;
+				rb1=(RadioButton)dialog.findViewById(R.id.radioButtonExp1);
+				rb2=(RadioButton)dialog.findViewById(R.id.radioButtonExp2);
+				
+				borrar=(Button)dialog.findViewById(R.id.aBorrar);
+				cancelar=(Button)dialog.findViewById(R.id.cBorrar);
+				borrar.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						
+						ResultadoDataSource rds=new ResultadoDataSource(micontexto);
+						rds.open();
+						int borrados=0;
+						
+						if(rb2.isChecked()){
+						for(int i=0;i<alSelec.size();i++){
+							if(alSelec.get(i)==true)
+								for(int j=0;j<serSelec.size();j++){
+									if(serSelec.get(j)==true){
+										borrados=borrados+rds.borrarResultadosAlumno(la.get(i),lse.get(j),fecha);
+									}
+								}
+							}
+						}else{
+							borrados=rds.borraTodosResultados();						
+						}
+						Toast.makeText(micontexto,"Borrado(s) "+String.valueOf(borrados)+" resultados.", Toast.LENGTH_LONG).show();
+
+						rds.close();
+						
+					}
+				});
+				cancelar.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+				
+				
+				dialog.show();
+				
+			}
+		});
 	}
 	
 
@@ -796,18 +868,14 @@ public class Resultados extends Activity {
 	
 	
 	
-	void ExportarXLS(int tipoExpor){
+	void ExportarXLS(int tipoExpor,List<Alumno> la,List<SerieEjercicios> ls){
 		
 		List<Resultado> lr=new ArrayList<Resultado>();
 		String textoDesc=new String();
 		
-		ResultadoDataSource rds=new ResultadoDataSource(getApplicationContext());
-		AlumnoDataSource ads=new AlumnoDataSource(getApplicationContext());
-		SerieEjerciciosDataSource seds=new SerieEjerciciosDataSource(getApplicationContext());
+		ResultadoDataSource rds=new ResultadoDataSource(this);
 		
 		rds.open();
-		ads.open();
-		seds.open();
 		
 		textoDesc=new String("");
 		
@@ -818,37 +886,42 @@ public class Resultados extends Activity {
 		}
 		
 		if(tipoExpor==2){
+			
+			switch (fecha) {
+			case Periodo.Semana:
+				textoDesc="UltimaSemana";
+				break;
+			case Periodo.Mes:
+				textoDesc="UltimoMes";
+				break;
+			case Periodo.SeisMeses:
+				textoDesc="Ultimos6Meses";
+				break;
+			default:
+				break;
+			}
+			
 			if(radioSelec==0){
 
 				
 				
 				
-				for(int i=0;i<listaIdSeries.size();i++)
-					for(int j=0;j<listaIdAlumnos.size();j++){
-						List<Resultado> listaSerie=rds.getResultadosAlumno(ads.getAlumnos(listaIdAlumnos.get(j)), seds.getSerieEjercicios(listaIdSeries.get(i)), fecha);
+				for(int i=0;i<ls.size();i++)
+					for(int j=0;j<la.size();j++){
+						List<Resultado> listaSerie=rds.getResultadosAlumno(la.get(j), ls.get(i), fecha);
 						for(int k=0;k<listaSerie.size();k++)
 							lr.add(listaSerie.get(k));
 						
 					}
-				switch (fecha) {
-				case Periodo.Semana:
-					textoDesc="UltimaSemana";
-					break;
-				case Periodo.Mes:
-					textoDesc="UltimoMes";
-					break;
-				case Periodo.SeisMeses:
-					textoDesc="Ultimos6Meses";
-					break;
-				default:
-					break;
-				}
+				
 
+
+				
 			}
 			else{
-					for(int j=0;j<listaIdAlumnos.size();j++)
-						for(int i=0;i<listaIdSeries.size();i++){
-						List<Resultado> listaSerie=rds.getResultadosAlumno(ads.getAlumnos(listaIdAlumnos.get(j)), seds.getSerieEjercicios(listaIdSeries.get(i)), fecha);
+					for(int j=0;j<la.size();j++)
+						for(int i=0;i<ls.size();i++){
+						List<Resultado> listaSerie=rds.getResultadosAlumno(la.get(j), ls.get(i), fecha);
 						for(int k=0;k<listaSerie.size();k++)
 							lr.add(listaSerie.get(k));
 						
@@ -872,6 +945,11 @@ public class Resultados extends Activity {
 		WritableWorkbook ww=createWorkbook(textoDesc+"Resultados"+"-"+sdf.format(now)+".xls");
 		WritableSheet ws=createSheet(ww, "Resultados", 0);
 		try {
+			AlumnoDataSource ads=new AlumnoDataSource(this);
+			SerieEjerciciosDataSource seds=new SerieEjerciciosDataSource(this);
+			ads.open();
+			seds.open();
+			
 			writeCell(0, 0, "Nombre Alumno", true, ws);
 			writeCell(1, 0, "Apellidos Alumno", true, ws);
 			writeCell(2, 0, "Serie Ejercicios", true, ws);
@@ -895,7 +973,10 @@ public class Resultados extends Activity {
 				
 				
 			}
+		
 			
+			seds.close();
+			ads.close();
 		} catch (RowsExceededException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -913,7 +994,7 @@ public class Resultados extends Activity {
 		}
 		try {
 			ww.close();
-			Toast.makeText(getApplicationContext(),"Creado "+exportacion.toString(), Toast.LENGTH_LONG).show();
+			Toast.makeText(this,"Creado "+exportacion.toString(), Toast.LENGTH_LONG).show();
 		} catch (WriteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -922,6 +1003,10 @@ public class Resultados extends Activity {
 			e.printStackTrace();
 		}
 
+		rds.close();
+		
 	}
+	
+	
 
 }

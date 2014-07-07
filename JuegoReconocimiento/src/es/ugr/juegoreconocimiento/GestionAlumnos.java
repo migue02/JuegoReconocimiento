@@ -1,6 +1,5 @@
 package es.ugr.juegoreconocimiento;
 
-import java.lang.ref.SoftReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,12 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.mobeta.android.dslv.DragSortListView;
+
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
-
 import es.ugr.juegoreconocimiento.R;
-
-import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,14 +21,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Layout;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Gravity;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,17 +34,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import es.ugr.objetos.*;
 import es.ugr.basedatos.*;
 import es.ugr.objetos.TiposPropios.Sexo;
+import es.ugr.utilidades.Sonidos;
 
 /**
  * @author Juan Manuel Lucena Morales
@@ -62,11 +55,14 @@ public class GestionAlumnos extends Activity {
 	 private DatePickerDialog Fecha;
 	 private TextView mFecha;
 	 private AlumnoDataSource ads;
-	 private TableLayout tablaAlumnos;
 	 private List<Alumno>ls;
 	 private Sexo sexo;
 	 private Context micontexto;
-	 private ScrollView scrollAl;
+	 private Sonidos sonidos;
+	 private DragSortListView lv;
+	 private adaptadorAlumnos adaptador;
+	 
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +87,20 @@ public class GestionAlumnos extends Activity {
         ads.open();
         
 		//Crea la listView
-		listView=(ListView)findViewById(R.id.listViewResul);
-		CreaLista();
-         
-		scrollAl=(ScrollView)findViewById(R.id.scrollAl);
-		scrollAl.setBackgroundResource(R.drawable.tabla);
-         //Fin List_View
+		listView=(ListView)findViewById(R.id.listViewAlum);
+		sonidos=new Sonidos(this);
+		
+		lv = (DragSortListView) findViewById(R.id.ListaAl); 
 
-         tablaAlumnos=(TableLayout)findViewById(R.id.tabla_alumnos);
-         CreaTablaAlumnos();
-        	
+        lv.setDropListener(onDrop);
+        lv.setRemoveListener(onRemove);
+        lv.setDragScrollProfile(ssProfile);
+		
+        ls=ads.getAllAlumnos();
+		
+		CreaLista();
+		CreaTablaAlumnos();
+         
          
          micontexto=this;
         	//Si pulsa el botón de añadir, sacar Dialogo
@@ -163,7 +163,7 @@ public class GestionAlumnos extends Activity {
 			long arg3) {
 		// TODO Auto-generated method stub
           int itemPosition     = arg2;
-          
+          sonidos.playNavegacion();
            // Show Alert
           switch (itemPosition) {
 		case 0:
@@ -200,12 +200,35 @@ public class GestionAlumnos extends Activity {
 	}
 
 });
+		 
+		 
 	}
 	
 	
 	
 	
 	private void CreaTablaAlumnos(){
+		
+		micontexto=this;
+
+        adaptador = new adaptadorAlumnos(this, R.layout.drag_alum, ls);
+        lv.setAdapter(adaptador);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+        	
+        	@Override
+        	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+        			long arg3) {
+        		// TODO Auto-generated method stub
+        		int itemposicion=arg2;
+        		//playerRow.start();
+        		sonidos.playClickRow();
+        		CrearModificarAlumnos(false, ls.get(itemposicion));
+        		//MostrarDescripcion(itemposicion);
+        	}
+        	
+		});
+		
+		/*
         TableRow row;
         ImageView f1,f2;
         TextView t3,t4,t5,tit1,tit2,tit3,tit4,tit5;
@@ -216,7 +239,7 @@ public class GestionAlumnos extends Activity {
         //Inicia dataSource
 
         //Actualiza lista de alumnos         
-        ls=ads.getAllAlumnos();
+
         
         //Cabecera
         
@@ -428,6 +451,8 @@ public class GestionAlumnos extends Activity {
        	tablaAlumnos.addView(row);
        	
         }
+        
+        */
 	}
 	
 		
@@ -607,6 +632,7 @@ public class GestionAlumnos extends Activity {
 				                 .show();
 				}
 				dialog.dismiss();
+				ls=ads.getAllAlumnos();
 				CreaTablaAlumnos();
 			}
 		});
@@ -670,4 +696,155 @@ public class GestionAlumnos extends Activity {
 	}
 
 
+	
+    private DragSortListView.DropListener onDrop =
+	        new DragSortListView.DropListener() {
+	            @Override
+	            public void drop(int from, int to) {
+	                //Ejercicio item=adapterselej.getItem(from);
+	                Alumno item=adaptador.getItem(from);
+	                
+	                adaptador.notifyDataSetChanged();
+	                adaptador.remove(item);
+	                adaptador.insert(item, to);
+	                
+
+	               /* 
+	        		for(int i=0;i<le.size();i++)
+	        			eds.actualizaOrden(le.get(i), i+1);
+	        		*/
+	        		sonidos.playDrop();
+	        		for(int i=0;i<ls.size();i++)
+	        			ads.actualizaOrden(ls.get(i), i+1);
+	        		
+	            }
+	        };
+
+	    private DragSortListView.RemoveListener onRemove = 
+	        new DragSortListView.RemoveListener() {
+	            @Override
+	            public void remove(int which) {
+	            	sonidos.playRemove();
+	            	
+	            	AlertDialog.Builder alerta=new AlertDialog.Builder(micontexto);
+					alerta.setTitle("Eliminar");
+					final String nombre=ls.get(which).getNombre();
+					final int id=ls.get(which).getIdAlumno();
+					adaptador.remove(adaptador.getItem(which));
+					alerta.setMessage("Se eliminará la el alumno: "+nombre);
+					alerta.setCancelable(false);
+					alerta.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							boolean borrado=false;
+							borrado=ads.borraAlumno(id);
+							if(borrado==true){
+							// Toast.makeText(getApplicationContext(),"Borrado: "+nombre, Toast.LENGTH_LONG).show();
+		    	             
+		    	          //   lse=seds.getAllSeriesEjercicios();
+							 CreaTablaAlumnos();
+		    	        	 for(int i=0;i<ls.size();i++)
+		    	        		ads.actualizaOrden(ls.get(i), i+1);
+							}
+							 
+						}
+					});
+					
+					alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+		    	             ls=ads.getAllAlumnos();
+		    	             CreaTablaAlumnos();
+						}
+					});
+					
+					alerta.show();
+	            	
+	            }
+	        };
+
+	    private DragSortListView.DragScrollProfile ssProfile =
+	        new DragSortListView.DragScrollProfile() {
+	            @Override
+	            public float getSpeed(float w, long t) {
+	                if (w > 0.8f) {
+	                    // Traverse all views in a millisecond
+	                    return ((float) adaptador.getCount()) / 0.001f;
+	                } else {
+	                    return 10.0f * w;
+	                }
+	            }
+	        };
+	
+	
+	
+	public class adaptadorAlumnos extends ArrayAdapter<Alumno>{
+
+		
+		Context context;
+		
+		public adaptadorAlumnos(Context context, int resource, List<Alumno> objects) {
+			super(context, resource, objects);
+			// TODO Auto-generated constructor stub
+			this.context=context;
+		}
+		
+		
+		 private class ViewHolder {
+			 ImageView sexo;
+			 TextView nombre;
+			 TextView apellidos;
+			 TextView edad;
+			 ImageView drag;
+			 //TextView texto;
+		    }
+		 
+		 
+		 
+		    public View getView(int position, View convertView, ViewGroup parent) {
+		        ViewHolder holder = null;
+		        Alumno rowItem = getItem(position);
+		         
+		        LayoutInflater mInflater = (LayoutInflater) context
+		                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		        if (convertView == null) {
+		            convertView = mInflater.inflate(R.layout.drag_alum, null);
+		          
+		            //convertView.setBackgroundDrawable(convertView.getResources().getDrawable(R.drawable.listaredondeada));
+		            holder = new ViewHolder();
+		           
+		            holder.sexo = (ImageView) convertView.findViewById(R.id.sexAl);
+		            holder.nombre = (TextView) convertView.findViewById(R.id.nomAl);
+		            holder.apellidos=(TextView) convertView.findViewById(R.id.apeAl);
+		            holder.edad=(TextView) convertView.findViewById(R.id.edadAl);
+		            holder.drag=(ImageView)convertView.findViewById(R.id.midrag);
+		         
+		            convertView.setTag(holder);
+		        } else
+		            holder = (ViewHolder) convertView.getTag();
+		        if(rowItem.getSexo()==Sexo.Hombre)        
+		        	holder.sexo.setImageResource(R.drawable.boy);
+		        else 
+		        	holder.sexo.setImageResource(R.drawable.girl);
+		        	
+		        
+		        holder.nombre.setText(rowItem.getNombre());
+		        holder.apellidos.setText(rowItem.getApellidos());
+		        holder.edad.setText(anios(rowItem.getFecha_nac_AsDate())+" Años");
+		        holder.drag.setImageResource(R.id.drag_handle);
+
+		         
+		        return convertView;
+		    }
+		
+		
+
+	}
+
+	
+	
 }

@@ -35,6 +35,7 @@
     <color name="tituloTabla">#6ED981</color>
     <color name="rellenoTablaResultados">#aaFFCB82</color>
     <color name="tituloTablaResultados">#E4AD60</color>
+        <color name="rowPulsado">#03a5d2</color>
     
     <color name="verde_oscuro">#009b7d</color>
 	<color name="marron_oscuro">#603000</color>

@@ -7,14 +7,14 @@ public class EjerciciosMarker {
 	private String Nombre;
 	private ArrayList<String> Escenario;
 	private String Descripcion;
-	private Double Duracion;
+	private int Duracion;
 	private ArrayList<String> Reconocer;
 	
 	public EjerciciosMarker(){
 		this.Nombre="";
 		this.Escenario=new ArrayList<String>();
 		this.Descripcion="";
-		this.Duracion=0.0;
+		this.Duracion=0;
 		this.Reconocer=new ArrayList<String>();
 	}
 	
@@ -34,11 +34,11 @@ public class EjerciciosMarker {
 		Descripcion = descripcion;
 	}
 	
-	public Double getDuracion() {
+	public int getDuracion() {
 		return Duracion;
 	}
 	
-	public void setDuracion(Double duracion) {
+	public void setDuracion(int duracion) {
 		Duracion = duracion;
 	}
 

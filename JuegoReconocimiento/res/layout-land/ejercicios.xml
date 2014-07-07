@@ -14,7 +14,7 @@
         android:layout_height="fill_parent">
 
         <ListView
-            android:id="@+id/listViewEjer"
+            android:id="@+id/listViewAlum"
             android:layout_width="117dp"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true" />

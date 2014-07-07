@@ -58,7 +58,7 @@ public class EjercicioDataSource {
 		return ejercicio;
 	}
 
-	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, double duracion, 
+	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, int duracion, 
 			ArrayList<Integer> objetosReconocer) {
 
 		ContentValues values = new ContentValues();
@@ -84,7 +84,7 @@ public class EjercicioDataSource {
 		return newEjercicio;
 	}
 	
-	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, double duracion) {
+	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, int duracion) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE, nombre);
@@ -122,7 +122,7 @@ public class EjercicioDataSource {
 	}
 
 	public boolean modificaEjercicio(int id, String nombre,
-			ArrayList<Integer> objetos, String descripcion, double duracion) {
+			ArrayList<Integer> objetos, String descripcion, int duracion) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE, nombre);
@@ -151,7 +151,7 @@ public class EjercicioDataSource {
 
 	public List<Ejercicio> getAllEjercicios() {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
-				allColumns, null, null, null, null, null);
+				allColumns, null, null, null, null, MySQLiteHelper.COLUMN_EJERCICIO_ORDEN);
 
 		List<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
 		if (cursor != null && cursor.getCount() > 0) {
@@ -186,21 +186,29 @@ public class EjercicioDataSource {
 		return null;
 	}
 	
-	public double getDuracion(int id) {
+	public int getDuracion(int id) {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO, 
 				new String [] {MySQLiteHelper.COLUMN_EJERCICIO_DURACION}, 
 				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + id, null, null, null, null);
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			return cursor.getDouble(0);
+			return cursor.getInt(0);
 		}
 		return 0;
 	}
 
+	public boolean actualizaOrden(Ejercicio ejercicio, int posicion){
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_EJERCICIO_ORDEN, posicion);
+		
+		return database.update(MySQLiteHelper.TABLE_EJERCICIO, values,
+				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + ejercicio.getIdEjercicio(), null) > 0;
+	}
+	
 	private Ejercicio cursorToEjercicio(Cursor cursor) {
 		return new Ejercicio(cursor.getInt(0), cursor.getString(1),
 				es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(2)),
-				cursor.getString(3), cursor.getDouble(4),
+				cursor.getString(3), cursor.getInt(4),
 				es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(5)));
 	}
 

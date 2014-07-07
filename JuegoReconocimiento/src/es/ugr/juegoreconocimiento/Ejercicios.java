@@ -1,58 +1,40 @@
 package es.ugr.juegoreconocimiento;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
+
+import com.mobeta.android.dslv.DragSortListView;
 
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.objetos.*;
 import es.ugr.parserXML.EjercicioParser;
 import es.ugr.parserXML.EjerciciosMarker;
+import es.ugr.utilidades.Sonidos;
 import es.ugr.basedatos.*;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
-import android.app.ActionBar.TabListener;
-import android.app.AlertDialog.Builder;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.ViewDebug.IntToString;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
+import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -72,22 +54,25 @@ import ar.com.daidalos.afiledialog.FileChooserDialog;
 
 public class Ejercicios extends Activity {
 	 private ListView listView;
-	 private TableLayout tablaEjercicios;
 	 private Context micontexto;
 	 private Dialog dialogo;
 	 private List<Ejercicio> le;
 	 private EjercicioDataSource eds;
-	 private ScrollView scrollejer;
 	 private View  ImportarEj;
+	 private adaptadorSelEj2 adaptador;
+	 private DragSortListView lv;
+	 private Sonidos sonidos;
+	// private Typeface font;	
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 	    getActionBar().setCustomView(R.layout.mibarraejer);
-	    
 
 		setContentView(R.layout.ejercicios);
+		
+
 		
 	    ImageView principal=(ImageView)findViewById(R.id.principalEj);
 	    principal.setOnClickListener(new OnClickListener() {
@@ -102,20 +87,23 @@ public class Ejercicios extends Activity {
 	    
 	    
 		ImportarEj=findViewById(R.id.ImportarEj);
-		scrollejer=(ScrollView)findViewById(R.id.scrollEjer);
-		scrollejer.setBackgroundResource(R.drawable.tabla);
-		listView=(ListView)findViewById(R.id.listViewEjer);
+		listView=(ListView)findViewById(R.id.listViewAlum);
 		
-		
-		
-		
-        tablaEjercicios=(TableLayout)findViewById(R.id.tabla_ejer);
-        //tablaEjercicios.setBackgroundDrawable(getResources().getDrawable(R.drawable.tabla));
         eds=new EjercicioDataSource(this);
         eds.open();
 		CreaLista();
-		CreaTablaEjer();
-        //final Context micontexto=this;   
+		
+		lv = (DragSortListView) findViewById(R.id.ListaSelEj); 
+
+        lv.setDropListener(onDrop);
+        lv.setRemoveListener(onRemove);
+        lv.setDragScrollProfile(ssProfile);
+        le=eds.getAllEjercicios();
+		
+		
+		
+        
+		CreaTablaEjer(); 
 		
 	
 		ImportarEj.setOnClickListener(new OnClickListener() {
@@ -123,86 +111,120 @@ public class Ejercicios extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				FileChooserDialog dialog = new FileChooserDialog(Ejercicios.this);
-	    		
-	    		// Assign listener for the select event.
-	    		//dialog.addListener(Ejercicios.this.onFileSelectedListener);
-	    		dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
+				
+				final Dialog dialogo=new Dialog(Ejercicios.this);
+				dialogo.setTitle("Importar Ejercicio");
+				dialogo.setContentView(R.layout.dialogo_importar_ej);
+				
+				final EditText etFich;
+				final EditText etURL;
+				
+				etFich=(EditText)dialogo.findViewById(R.id.editTextFich);
+				etURL=(EditText)dialogo.findViewById(R.id.editTextURL);
+				etURL.setText("http://192.168.1.103/bd_reconocimiento/XML/segun.xml");
+				
+				Button impor,cancelar;
+				final Button selFich;
+				final RadioButton rb1;
+				final RadioButton rb2;
+				rb1=(RadioButton)dialogo.findViewById(R.id.radioButtonExp1);
+				rb2=(RadioButton)dialogo.findViewById(R.id.radioButtonExp2);
+				
+				impor=(Button)dialogo.findViewById(R.id.aImportar);
+				cancelar=(Button)dialogo.findViewById(R.id.cImportar);
+				selFich=(Button)dialogo.findViewById(R.id.BotonSelFich);
+				
+				selFich.setOnClickListener(new OnClickListener() {
 					
 					@Override
-					public void onFileSelected(Dialog source, File folder, String name) {
+					public void onClick(View v) {
 						// TODO Auto-generated method stub
-			             source.hide();
-			             Toast toast = Toast.makeText(source.getContext(), "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
-			             toast.show();
-					}
-					
-					@Override
-					public void onFileSelected(Dialog source, File file) {
-						// TODO Auto-generated method stub
-			             source.hide();
-
-			             Toast toast = Toast.makeText(source.getContext(), "Fichero Seleccionado: " + file.getPath(), Toast.LENGTH_LONG);
-			             toast.show();
-						 RetrieveFeed task = new RetrieveFeed();
-						 task.execute(file.getPath());
-						 
+						FileChooserDialog dialog = new FileChooserDialog(dialogo.getContext());
+			    		dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
+							
+							@Override
+							public void onFileSelected(Dialog source, File folder, String name) {
+								// TODO Auto-generated method stub
+					             source.hide();
+					             Toast toast = Toast.makeText(source.getContext(), "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
+					             toast.show();
+							}
+							
+							@Override
+							public void onFileSelected(Dialog source, File file) {
+								// TODO Auto-generated method stub
+					             source.hide();
+					             Toast toast = Toast.makeText(source.getContext(), "Fichero Seleccionado: " + file.getPath(), Toast.LENGTH_LONG);
+					             toast.show();
+					             etFich.setText(file.getPath());
+								// RetrieveFeed task = new RetrieveFeed();
+								 //task.execute(file.getPath());
+							}
+						});
+			    		
+			    		dialog.show();
 					}
 				});
 				
-	            
+				impor.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						RetrieveFeed task = new RetrieveFeed();
+						if(rb1.isChecked()){
+							 
+							 task.execute(etFich.getText().toString(),"Fichero");
+						}
+						if(rb2.isChecked()){
+							 task.execute(etURL.getText().toString(),"URL");
+						}
+						dialogo.dismiss();
+						
+					}
+				});
+				
+				cancelar.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialogo.dismiss();
+					}
+				});
+				
+				rb1.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						rb2.setChecked(false);
+					}
+				});
+				
+				rb2.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						rb1.setChecked(false);
+					}
+				});
 
 				
 	    		// Show the dialog.
-	            dialog.show();
-	            
-
-				
-				
-				
-				
-				//Fin dialogo
-				
-				
-				//RetrieveFeed task = new RetrieveFeed();
-			    //task.execute(miru);
-			    
+	            dialogo.show();              
 			}
 		});
+		sonidos=new Sonidos(this);
 
 	}
 	
-	
-	
-	
-	
-	
-	/*
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		getActionBar().setHomeButtonEnabled(true);
-	switch(item.getItemId()) {
-	    case android.R.id.home:
-	    	finish();
-	        return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	}*/
-	
-	/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		getMenuInflater().inflate(R.menu.ejercicios, menu);
-		//return super.onCreateOptionsMenu(menu);
-		return true;
-	}*/
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+
 		super.onDestroy();
 		eds.close();
 	}
@@ -235,6 +257,8 @@ public class Ejercicios extends Activity {
 			long arg3) {
 		// TODO Auto-generated method stub
           int itemPosition     = arg2;
+		    //playerNavegacion.start();
+		    sonidos.playNavegacion();
           
            // Show Alert
           switch (itemPosition) {
@@ -275,170 +299,34 @@ public class Ejercicios extends Activity {
 	}
 	
 	
-	
-	
-		
 	private void CreaTablaEjer(){
+		
+		micontexto=this;
 
-		tablaEjercicios.removeAllViews();
-        TableRow row;
-        ImageView f1;
-        TextView t2,t3,tit1,tit2,tit3;
-        le=eds.getAllEjercicios();
-        //Cabecera
-        
-        row = new TableRow(this);
-        
-       
-        //row.setBackgroundColor(getResources().getColor(R.color.tabla2));
-        row.setBackgroundResource(R.color.tituloTabla);
-        
-        
-        
-        
-        
-        row.setLayoutParams(new LayoutParams(
-        LayoutParams.FILL_PARENT,
-        LayoutParams.WRAP_CONTENT)); 
-        
-    	TableRow.LayoutParams tableRowParams=
-         		  new TableRow.LayoutParams
-         (TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-    	//(TableRow.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.MATCH_PARENT);
-
-
-
-         		int leftMargin=20;
-         		int topMargin=5;
-         		int rightMargin=20;
-         		int bottomMargin=5;
-
-         		tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-         		tableRowParams.gravity=Gravity.CENTER_VERTICAL;
-      //   		tableRowParams.weight=1;
-        
-        
-        tit1=new TextView(this);
-        tit2=new TextView(this);
-        tit3=new TextView(this);
-        
-   	 tit1.setText("");
-   	 tit1.setLayoutParams(tableRowParams);
-   	 tit1.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
-   	 
-       
-   	 tit2.setText("Nombre");
-   	 tit2.setLayoutParams(tableRowParams);
-   	 tit2.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
-   	 
-   	 tit3.setText("TºEstimado");
-   	 tit3.setLayoutParams(tableRowParams);
-   	 tit3.setTextAppearance(getApplicationContext(), R.style.TituloTabla);
-   	 
-
-   	 
-   	 row.addView(tit1);
-   	 row.addView(tit2);
-   	 row.addView(tit3);
-
-   	
-   	tablaEjercicios.addView(row, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT)); 
-    
-   	
-   	
-   	
-   	
-        //Cada ejercicio
-        for(int i=0;i<le.size();i++){
-       	 row=new TableRow(this);
-       	 row.setTag(i);
-       	// row.setId(i);
-       	 if(i%2==0)
-           	 row.setBackgroundResource(R.drawable.tablerowsel);
-       	 else
-           	 row.setBackgroundResource(R.drawable.tablerowsel2);
-       	 
-            row.setLayoutParams(new LayoutParams(
-                    LayoutParams.FILL_PARENT,
-                    LayoutParams.WRAP_CONTENT)); 
-            
-            
-
-           		
-            
-            
-       	 f1=new ImageView(this);
-       	 f1.setImageResource(R.drawable.ic6);
-       	 f1.setMaxHeight(10);
-       	 f1.setMaxWidth(5);
-      	 f1.setLayoutParams(tableRowParams);
-       	 
-       	 //f1.setLayoutParams();
-       	 
-
-             		
-       	 
-       	 
-       	 t2=new TextView(this);
-       	 t2.setText(le.get(i).getNombre());
-       	 t2.setLayoutParams(tableRowParams);
-       	 t2.setTextAppearance(getApplicationContext(), R.style.TextoTabla);
-       	 
-       	 /*
-       	 Calendar c = Calendar.getInstance();
-       	 SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss a");
-       	 String strDate = sdf.format(c.getTime());*/
-       	 
-       	 t3=new TextView(this);
-       	 t3.setText(String.valueOf(le.get(i).getDuracion()));
-       	 t3.setTextAppearance(getApplicationContext(), R.style.TextoTabla);
-       	 t3.setLayoutParams(tableRowParams);
-       	 
-
-       	 micontexto=this;
-       	 
-
-       	 
-       	 //Si pulsa un TableRow
-       	 OnClickListener miclicklistener= new OnClickListener() {
-       		
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					//mivista=v;
-					
-					TableRow tr=(TableRow)v;
-					MostrarDescripcion((Integer)tr.getTag());
-					//CrearModificarSeriesEjercicios(true,lse.get((Integer)tr.getTag()),false);
-
-
-				}
-			};
-       	 row.setOnClickListener(miclicklistener);
-       	
-       	//Se añade a la fila del tableRow los componentes 
-       	 row.addView(f1);
-       	 row.addView(t2);
-       	 row.addView(t3);
-
-
-     
-       	 tablaEjercicios.addView(row);
-
-        }
-       	
-  
+        adaptador = new adaptadorSelEj2(this, R.layout.drag_ej, le);
+        lv.setAdapter(adaptador);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+        	
+        	@Override
+        	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+        			long arg3) {
+        		// TODO Auto-generated method stub
+        		int itemposicion=arg2;
+        		//playerRow.start();
+        		sonidos.playClickRow();
+        		MostrarDescripcion(itemposicion);
+        	}
+        	
+		});
+		
+		
+		
 		
 	}
-	
+
 
 	private void MostrarDescripcion(final int pos){
-		
-		//Obtener datos del table Row
-
-		//final EjercicioDataSource eds=new EjercicioDataSource(micontexto);
-
-		
+			
 		//Lanzar Dialog
 		dialogo = new Dialog(micontexto);
 		dialogo.setContentView(R.layout.dialogo_ejercicios);
@@ -449,6 +337,7 @@ public class Ejercicios extends Activity {
 		duracion.setText(String.valueOf(le.get(pos).getDuracion()));
 		final TextView descripcion=(TextView)dialogo.findViewById(R.id.textDesc);
 		descripcion.setText(le.get(pos).getDescripcion());
+		
 		
         final ObjetoDataSource ods=new ObjetoDataSource(dialogo.getContext());
         ods.open();
@@ -475,13 +364,8 @@ public class Ejercicios extends Activity {
 
         TableRow filaObj;
         TextView te1,te2;
-         
-         //Cabecera
-         
-         filaObj = new TableRow(dialogo.getContext());
 
-         
-         
+
     	//Para cada ejercicio
     	
     	for(int j=0;j<le.get(pos).getObjetosReconocer().size();j++){
@@ -507,7 +391,7 @@ public class Ejercicios extends Activity {
     	}
 		
     	ods.close();
-       		
+    	       		
 		WindowManager.LayoutParams lp=new WindowManager.LayoutParams();
 		lp.copyFrom(dialogo.getWindow().getAttributes());
 		lp.width=WindowManager.LayoutParams.MATCH_PARENT;
@@ -530,8 +414,10 @@ public class Ejercicios extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				le.get(pos).setDuracion(Double.valueOf(duracion.getText().toString()));
+				le.get(pos).setDuracion(Integer.parseInt(duracion.getText().toString()));
 				eds.modificaEjercicio(le.get(pos));
+				CreaTablaEjer();
+			     
 				Toast.makeText(getApplicationContext(),"Tiempo estimado modificado", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -549,7 +435,7 @@ public class Ejercicios extends Activity {
 		 
 	    protected Boolean doInBackground(String... params) {
 	 
-	    	 EjercicioParser ejercicioparser = new EjercicioParser(params[0]);
+	    	 EjercicioParser ejercicioparser = new EjercicioParser(params[0],params[1]);
 	    	 ListaEj = ejercicioparser.parse();
 	    	    
 	 
@@ -567,6 +453,7 @@ public class Ejercicios extends Activity {
 
 			 Toast toast2 = Toast.makeText(getApplicationContext(), "Creados "+String.valueOf(ListaEj.size())+" ejercicios.", Toast.LENGTH_LONG);
 			 toast2.show();
+			 le=eds.getAllEjercicios();
 			 CreaTablaEjer();
 			 
 
@@ -574,19 +461,7 @@ public class Ejercicios extends Activity {
 	    
 		}
 
-	/*
-	private FileChooserDialog.OnFileSelectedListener onFileSelectedListener = new FileChooserDialog.OnFileSelectedListener() {
-		public void onFileSelected(Dialog source, File file) {
-			source.hide();
-			Toast toast = Toast.makeText(Ejercicios.this, "File selected: " + file.getName(), Toast.LENGTH_LONG);
-			toast.show();
-		}
-		public void onFileSelected(Dialog source, File folder, String name) {
-			source.hide();
-			Toast toast = Toast.makeText(Ejercicios.this, "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
-			toast.show();
-		}
-	}; */
+
 	
 	private ArrayList<Integer> ListaIdObjetos(List<String> ListaNombre){
 		ObjetoDataSource ods=new ObjetoDataSource(getApplicationContext());
@@ -598,5 +473,111 @@ public class Ejercicios extends Activity {
 		ods.close();
 		return ListaId;
 	}
+	
+	
+    private DragSortListView.DropListener onDrop =
+	        new DragSortListView.DropListener() {
+	            @Override
+	            public void drop(int from, int to) {
+	                //Ejercicio item=adapterselej.getItem(from);
+	                Ejercicio item=adaptador.getItem(from);
+	                
+	                adaptador.notifyDataSetChanged();
+	                adaptador.remove(item);
+	                adaptador.insert(item, to);
+	                
+
+	                
+	        		for(int i=0;i<le.size();i++)
+	        			eds.actualizaOrden(le.get(i), i+1);
+	        		
+	        		sonidos.playDrop();
+	            }
+	        };
+
+	    private DragSortListView.RemoveListener onRemove = 
+	        new DragSortListView.RemoveListener() {
+	            @Override
+	            public void remove(int which) {
+	            	sonidos.playRemove();
+	            	adaptador.remove(adaptador.getItem(which));
+	        		for(int i=0;i<le.size();i++)
+	        			eds.actualizaOrden(le.get(i), i+1);
+	            	//recargaDuracion();
+	            }
+	        };
+
+	    private DragSortListView.DragScrollProfile ssProfile =
+	        new DragSortListView.DragScrollProfile() {
+	            @Override
+	            public float getSpeed(float w, long t) {
+	                if (w > 0.8f) {
+	                    // Traverse all views in a millisecond
+	                    return ((float) adaptador.getCount()) / 0.001f;
+	                } else {
+	                    return 10.0f * w;
+	                }
+	            }
+	        };
+	
+	
+	public class adaptadorSelEj2 extends ArrayAdapter<Ejercicio>{
+
+		
+		Context context;
+		
+		public adaptadorSelEj2(Context context, int resource, List<Ejercicio> objects) {
+			super(context, resource, objects);
+			// TODO Auto-generated constructor stub
+			this.context=context;
+		}
+		
+		
+		 private class ViewHolder {
+			 ImageView img;
+			 TextView nombre;
+			 TextView duracion;
+			 ImageView drag;
+			 //TextView texto;
+		    }
+		 
+		 
+		 
+		    public View getView(int position, View convertView, ViewGroup parent) {
+		        ViewHolder holder = null;
+		        Ejercicio rowItem = getItem(position);
+		         
+		        LayoutInflater mInflater = (LayoutInflater) context
+		                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		        if (convertView == null) {
+		            convertView = mInflater.inflate(R.layout.drag_ej, null);
+		          
+		            //convertView.setBackgroundDrawable(convertView.getResources().getDrawable(R.drawable.listaredondeada));
+		            holder = new ViewHolder();
+		           
+		            holder.img = (ImageView) convertView.findViewById(R.id.imgSelEj);
+		            holder.nombre = (TextView) convertView.findViewById(R.id.NombSelEj);
+		            holder.duracion=(TextView) convertView.findViewById(R.id.DurSelEj);
+		            holder.drag=(ImageView)convertView.findViewById(R.id.midrag);
+		         
+		            convertView.setTag(holder);
+		        } else
+		            holder = (ViewHolder) convertView.getTag();
+		                
+		        holder.img.setImageResource(R.drawable.ic6);
+		        holder.nombre.setText(rowItem.getNombre());
+		        holder.duracion.setText(String.valueOf(rowItem.getDuracion())+ " minuto(s)");
+		        holder.drag.setImageResource(R.id.drag_handle);
+
+		         
+		        return convertView;
+		    }
+		
+		
+
+	}
+
+	
+	
 
 }

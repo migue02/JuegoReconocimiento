@@ -45,6 +45,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_ALUMNO_FECHA_NAC = "fecha_nac";
 	public static final String COLUMN_ALUMNO_SEXO = "sexo";
 	public static final String COLUMN_ALUMNO_OBSERVACIONES = "observaciones";
+	public static final String COLUMN_ALUMNO_ORDEN=" orden";
 
 	private String sqlCreateAlumno = "create table if not exists " + TABLE_ALUMNO + "(" 
 			+ COLUMN_ALUMNO_ID + " integer primary key autoincrement, " 
@@ -52,7 +53,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_ALUMNO_APELLIDOS + " varchar, "
 			+ COLUMN_ALUMNO_FECHA_NAC + " date, " 
 			+ COLUMN_ALUMNO_SEXO + " varchar, " 
-			+ COLUMN_ALUMNO_OBSERVACIONES + " varchar)";
+			+ COLUMN_ALUMNO_OBSERVACIONES + " varchar, "
+			+ COLUMN_ALUMNO_ORDEN + " integer )";
 
 	// ---------------
 	// TABLA EJERCICIO

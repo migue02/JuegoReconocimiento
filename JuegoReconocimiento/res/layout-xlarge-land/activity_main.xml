@@ -234,6 +234,13 @@
 			                 android:onClick="onClickObjetoFicha"
 			                 style="?android:attr/buttonStyleSmall"
 			                 android:text="Ficha objeto" />
+		                <Button
+		                    android:id="@+id/buttonBDRemota"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:layout_weight="1"
+		                    android:onClick="onClickBDRemota"
+		                    android:text="BD-Remota" />
 		                
                 </LinearLayout>
 

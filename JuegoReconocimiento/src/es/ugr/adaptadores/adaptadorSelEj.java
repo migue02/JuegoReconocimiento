@@ -7,6 +7,7 @@ import es.ugr.juegoreconocimiento.R;
 import es.ugr.juegoreconocimiento.Ejercicios;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ public class adaptadorSelEj extends ArrayAdapter<Ejercicio>{
 
 	
 	Context context;
+	Typeface font;
 	
 	public adaptadorSelEj(Context context, int resource, List<Ejercicio> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.context=context;
+		font=Typeface.createFromAsset(context.getAssets(), "wd.ttf");
 	}
 	
 	
@@ -61,7 +64,9 @@ public class adaptadorSelEj extends ArrayAdapter<Ejercicio>{
 	        
 	          
 	        holder.img.setImageResource(R.drawable.ic6);
+	        holder.nombre.setTypeface(font);
 	        holder.nombre.setText(rowItem.getNombre());
+	        holder.duracion.setTypeface(font);
 	        holder.duracion.setText(String.valueOf(rowItem.getDuracion()));
 	        holder.drag.setImageResource(R.id.drag_handle);
 

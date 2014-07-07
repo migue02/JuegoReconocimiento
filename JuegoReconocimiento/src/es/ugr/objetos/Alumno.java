@@ -6,7 +6,7 @@ import java.util.Date;
 
 import es.ugr.objetos.TiposPropios.Sexo;
 
-public class Alumno implements Serializable {
+public class Alumno implements Serializable{
 	
 	private int idAlumno;
 	private String nombre;
@@ -14,6 +14,7 @@ public class Alumno implements Serializable {
 	private Date fecha_nac;
 	private String observaciones;	
 	private Sexo sexo;
+	private int orden;
 	
 	public Alumno(){
 		idAlumno = -1;
@@ -81,6 +82,14 @@ public class Alumno implements Serializable {
 	public String toString() {
 		//return "Alumno.- " + nombre + ", " + apellidos + ", FechaNac " + getFecha_nac_AsStrign() + ", " + sexo;
 		return apellidos + ", " + nombre;
+	}
+
+	public int getOrden() {
+		return orden;
+	}
+
+	public void setOrden(int orden) {
+		this.orden = orden;
 	}
 	
 

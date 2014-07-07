@@ -93,9 +93,21 @@
                     android:id="@+id/DuracionEj"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                       android:inputType="number"
+                    android:inputType="number"
                     android:hint="Minutos"
+                    android:textSize="20dp"
                     android:paddingRight="5dp" />
+
+                <TextView
+                    android:id="@+id/textMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Minuto(s)"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <ImageButton
                     android:id="@+id/guardarDiaEj"

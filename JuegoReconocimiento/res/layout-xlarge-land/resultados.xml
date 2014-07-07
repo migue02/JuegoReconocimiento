@@ -55,6 +55,7 @@
                             android:text="Esta semana"
                             android:layout_weight="1"
                             android:background="@drawable/seliconoatiempo"
+                            android:soundEffectsEnabled="true"
                             android:id="@+id/filSemana" />
 
                         <Button

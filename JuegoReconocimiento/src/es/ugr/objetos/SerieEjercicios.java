@@ -12,14 +12,15 @@ public class SerieEjercicios implements Serializable {
 	private int idSerie;
 	private String nombre;
 	private ArrayList<Integer> ejercicios;
-	private double duracion;
+	private int duracion;
 	private Date fecha_modificacion;
+	private int orden;
 	
-	public double getDuracion() {
+	public int getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(double duracion) {
+	public void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
 
@@ -27,11 +28,11 @@ public class SerieEjercicios implements Serializable {
 		this.idSerie=-1;
 		this.nombre="";
 		this.ejercicios=new ArrayList<Integer>();
-		this.duracion=0.0;
+		this.duracion=0;
 		this.fecha_modificacion= new Date(); 
 	}
 
-	public SerieEjercicios(int idSerie, String nombre, ArrayList<Integer> ejercicios, double duracion, Date fecha_modificacion) {
+	public SerieEjercicios(int idSerie, String nombre, ArrayList<Integer> ejercicios, int duracion, Date fecha_modificacion) {
 		this.idSerie = idSerie;
 		this.nombre = nombre;
 		this.ejercicios = new ArrayList<Integer>(ejercicios);
@@ -39,7 +40,7 @@ public class SerieEjercicios implements Serializable {
 		this.fecha_modificacion= fecha_modificacion; 
 	}
 	
-	public SerieEjercicios(int idSerie, String nombre, String ejercicios, double duracion, Date fecha_modificacion) {
+	public SerieEjercicios(int idSerie, String nombre, String ejercicios, int duracion, Date fecha_modificacion) {
 		try {
 			this.idSerie = idSerie;
 			this.nombre = nombre;
@@ -92,6 +93,14 @@ public class SerieEjercicios implements Serializable {
 	
 	public void setFecha_modificacion(Date fecha_modificacion) {
 		this.fecha_modificacion = fecha_modificacion;
+	}
+
+	public int getOrden() {
+		return orden;
+	}
+
+	public void setOrden(int orden) {
+		this.orden = orden;
 	}
 	
 }

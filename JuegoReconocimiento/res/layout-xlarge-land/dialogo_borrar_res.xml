@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="¿Qué resultados desea eliminar?"
+            android:gravity="top"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todos los resultados"
+                android:id="@+id/radioButtonExp1"
+                android:checked="true" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resultados filtados"
+                android:id="@+id/radioButtonExp2" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scrollView"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/cBorrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancelar" />
+
+            <Button
+                android:id="@+id/aBorrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Borrar" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -39,7 +39,6 @@ import es.ugr.adaptadores.*;
  * 
  */
 public class Tablas extends Activity {
-	private LinearLayout ll;
 	private static Context contexto;
 	private int fechaTipo,graficaTipo;
 	private ViewAnimator va;
@@ -157,7 +156,6 @@ public class Tablas extends Activity {
 		
         
         //Obtener parametros del Intent
-		ll=(LinearLayout)findViewById(R.id.linearTablaRes);
 		Bundle extras = getIntent().getExtras();
 	    fechaTipo=extras.getInt("tipoFecha"); 
 	    listaAlumnos=extras.getIntegerArrayList("listaAlumnos");

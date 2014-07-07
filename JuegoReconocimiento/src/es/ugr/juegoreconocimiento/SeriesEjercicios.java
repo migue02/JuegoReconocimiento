@@ -1,57 +1,40 @@
 package es.ugr.juegoreconocimiento;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorSelEj;
 import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.basedatos.*;
 import es.ugr.objetos.*;
+import es.ugr.utilidades.Sonidos;
 
 import com.mobeta.android.dslv.DragSortListView;
-import es.ugr.juegoreconocimiento.R;
 
-import android.app.ActionBar.LayoutParams;
-import android.app.AlertDialog.Builder;
+import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Layout;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.ViewDebug.IntToString;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 /**
@@ -63,59 +46,23 @@ import android.widget.Toast;
  */
 public class SeriesEjercicios extends Activity {
 	 private ListView listView;
-	 private TableLayout tablaSeries;
 	 private SerieEjerciciosDataSource seds;
 	 private List<SerieEjercicios> lse;
-	 private TableLayout tablaEjercicios;
 	 private Context micontexto;
 	 private Dialog dialogo;
 	 private List<Ejercicio> le;
 	 private View añadirSerie;
-	 //private ImageButton añadirSerie;
 	 private EjercicioDataSource eds;
-	 private TimePickerDialog Tiempo;
 	 private EditText duracion;
-	 private ScrollView scrollser;
 	 private adaptadorSelEj adapterselej;
+	 private Sonidos sonidos;
+	 private DragSortListView lv;
+	 private adaptadorSelSer adaptador;
 	 private List<Ejercicio> leaux;
+	 private SerieEjercicios serie;
 	 //private ArrayAdapter<String> adapterselej;
 	 
 
-	    private DragSortListView.DropListener onDrop =
-		        new DragSortListView.DropListener() {
-		            @Override
-		            public void drop(int from, int to) {
-		                //Ejercicio item=adapterselej.getItem(from);
-		                Ejercicio item=adapterselej.getItem(from);
-		                
-		                adapterselej.notifyDataSetChanged();
-		                adapterselej.remove(item);
-		                adapterselej.insert(item, to);
-		            }
-		        };
-
-		    private DragSortListView.RemoveListener onRemove = 
-		        new DragSortListView.RemoveListener() {
-		            @Override
-		            public void remove(int which) {
-		            	adapterselej.remove(adapterselej.getItem(which));
-		            	recargaDuracion();
-		            }
-		        };
-
-		    private DragSortListView.DragScrollProfile ssProfile =
-		        new DragSortListView.DragScrollProfile() {
-		            @Override
-		            public float getSpeed(float w, long t) {
-		                if (w > 0.8f) {
-		                    // Traverse all views in a millisecond
-		                    return ((float) adapterselej.getCount()) / 0.001f;
-		                } else {
-		                    return 10.0f * w;
-		                }
-		            }
-		        };
-	 
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,11 +81,9 @@ public class SeriesEjercicios extends Activity {
 		});
 	    
 		setContentView(R.layout.seriejercicios);
-
-		scrollser=(ScrollView)findViewById(R.id.scrollSerie);
-		scrollser.setBackgroundResource(R.drawable.tabla);
+	
+		sonidos=new Sonidos(this);
 		listView=(ListView)findViewById(R.id.listViewSer);
-        tablaSeries=(TableLayout)findViewById(R.id.tabla_ejer);
         seds=new SerieEjerciciosDataSource(this);
         añadirSerie=findViewById(R.id.aniadir_serl);
         añadirSerie.setBackgroundResource(R.drawable.selicono);
@@ -146,9 +91,29 @@ public class SeriesEjercicios extends Activity {
         eds=new EjercicioDataSource(this);
         eds.open();
         
+		lv = (DragSortListView) findViewById(R.id.ListaSelSer); 
+
+        lv.setDropListener(onDropSer);
+        lv.setRemoveListener(onRemoveSer);
+        lv.setDragScrollProfile(ssProfileSer);
+        lse=seds.getAllSeriesEjercicios();
+        		
+	
         
 		CreaLista();
 		CreaTablaSeries();
+		
+		añadirSerie.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				SerieEjercicios nuevo=new SerieEjercicios();
+//				lse.add(nuevo);
+				CrearModificarSeriesEjercicios(0, true);
+			}
+		});
+		
         //final Context micontexto=this;          
 
 	}
@@ -189,7 +154,7 @@ public class SeriesEjercicios extends Activity {
 			long arg3) {
 		// TODO Auto-generated method stub
           int itemPosition     = arg2;
-          
+		  sonidos.playNavegacion();
            // Show Alert
           switch (itemPosition) {
 		case 0:
@@ -234,6 +199,30 @@ public class SeriesEjercicios extends Activity {
 	
 	private void CreaTablaSeries(){
 
+		
+		micontexto=this;
+
+        adaptador = new adaptadorSelSer(this, R.layout.drag_ser, lse);
+        lv.setAdapter(adaptador);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+        	
+        	@Override
+        	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+        			long arg3) {
+        		// TODO Auto-generated method stub
+        		int itemposicion=arg2;
+        		//playerRow.start();
+        		sonidos.playClickRow();
+        		CrearModificarSeriesEjercicios(itemposicion, false);
+        		//MostrarDescripcion(itemposicion);
+        	}
+        	
+		});
+		
+		
+		
+		
+		/*
 		tablaSeries.removeAllViews();
 		tablaSeries.setColumnStretchable(4, true);
 		
@@ -363,10 +352,7 @@ public class SeriesEjercicios extends Activity {
        	 t2.setLayoutParams(tableRowParams);
        	 t2.setTextAppearance(getApplicationContext(), R.style.TextoTablaSeries);
        	 
-       	 /*
-       	 Calendar c = Calendar.getInstance();
-       	 SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss a");
-       	 String strDate = sdf.format(c.getTime());*/
+
        	 
        	 t3=new TextView(this);
        	 t3.setText(String.valueOf(lse.get(i).getDuracion()));
@@ -469,76 +455,14 @@ public class SeriesEjercicios extends Activity {
 		});
 
 
-		
+		*/
 		
 	}
 	
-	/*
-	
-	private void insertaDatos(){
-		
-		//Crear objetos
-		ObjetoDataSource obs=new ObjetoDataSource(this);
-		obs.open();
-		obs.createObjeto("Pelota tenis", "", "",0,0);
-		obs.createObjeto("Pelota beisbol", "", "",0,0);
-		obs.createObjeto("Teléfono", "", "",0,0);
-		obs.createObjeto("Bolígrafo", "", "",0,0);
-		obs.createObjeto("Rotulador", "", "",0,0);
-		obs.createObjeto("Estuche", "", "",0,0);
-		obs.createObjeto("Lápiz", "", "",0,0);
-		obs.createObjeto("Vaso", "", "",0,0);
-		obs.createObjeto("Plato", "", "",0,0);
-		obs.close();
-		
-		//Crear Ejercicios
-		
-		
-		EjercicioDataSource eds2=new EjercicioDataSource(this);
-		eds2.open();
-		ArrayList<Integer> lista=new ArrayList<Integer>();
-		lista.add(1);
-		lista.add(2);
-		Ejercicio p1=eds2.createEjercicio("Pelota tenis y béisbol", lista);
-		lista.clear();
-		lista.add(1);
-		lista.add(3);
-		Ejercicio p2=eds2.createEjercicio("Pelota y teléfono", lista);
-		lista.clear();
-		lista.add(4);
-		lista.add(5);
-		eds2.createEjercicio("Bolígrafo y rotulador", lista);
-		lista.clear();
-		lista.add(6);
-		lista.add(7);
-		eds2.createEjercicio("Estuche y lápiz", lista);
-		lista.clear();
-		lista.add(8);
-		lista.add(9);
-		eds2.createEjercicio("Vaso y plato", lista);
-		lista.clear();
-		
-		
-		//Crear Serie
-		SerieEjerciciosDataSource ser=new SerieEjerciciosDataSource(this);
-		ser.open();
-		ArrayList<Integer> miarray=new ArrayList<Integer>();
-		miarray.add(p1.getIdEjercicio());
-		miarray.add(p2.getIdEjercicio());
-		ser.createSerieEjercicios("PELOTAS", miarray);
-		ser.close();
-		
-		
-
-		
-		
-		
-	}*/
-
 	
 	
 	
-	private void CrearModificarSeriesEjercicios(boolean mostrar, final SerieEjercicios serie, final boolean insertar){
+	private void CrearModificarSeriesEjercicios(final int pos,final boolean insertar){
 		
 		//Obtener datos del table Row
 
@@ -549,13 +473,17 @@ public class SeriesEjercicios extends Activity {
 		
 		
 		//Lanzar Dialog
-		if (mostrar==true){
 		dialogo = new Dialog(micontexto);
 		dialogo.setContentView(R.layout.dialogo_series);
-		if (insertar==true)
+		
+		serie=new SerieEjercicios();
+		if (insertar==true){
 			dialogo.setTitle("Insertar Serie");
-		else
+			serie=new SerieEjercicios();
+			}
+		else{
 			dialogo.setTitle("Modificar Serie");
+			serie=lse.get(pos);
 		}
 		//Modificar elementos dentro del dialogo
 		final EditText nomSerie=(EditText)dialogo.findViewById(R.id.NomSerie);
@@ -565,178 +493,25 @@ public class SeriesEjercicios extends Activity {
 		//Table Layout dentro dialogo
 		
 		
-		DragSortListView lv = (DragSortListView) dialogo.findViewById(R.id.ListaSelEj); 
+		final DragSortListView lvEj = (DragSortListView) dialogo.findViewById(R.id.ListaSelEj); 
 
-        lv.setDropListener(onDrop);
-        lv.setRemoveListener(onRemove);
-        lv.setDragScrollProfile(ssProfile);
+        lvEj.setDropListener(onDropEj);
+        lvEj.setRemoveListener(onRemoveEj);
+        lvEj.setDragScrollProfile(ssProfileEj);
         
        
-
-        
-        
-        
-        EjercicioDataSource edsaux=new EjercicioDataSource(this);
-        edsaux.open();
         leaux=new ArrayList<Ejercicio>();
        
         for(int i=0;i<serie.getEjercicios().size();i++){
-        	leaux.add(edsaux.getEjercicios(serie.getEjercicios().get(i)));
+        	leaux.add(eds.getEjercicios(serie.getEjercicios().get(i)));
         }
-        edsaux.close();
+
         
         adapterselej = new adaptadorSelEj(this, R.layout.blist_item_handle_right, leaux);
         
 
-        lv.setAdapter(adapterselej);
-        
-		
-		/*
-        tablaEjercicios=(TableLayout)dialogo.findViewById(R.id.tablaEjerciciosSerie);
-        tablaEjercicios.removeAllViews();
-
-        TableRow filaEjer;
-        ImageView fe1;
-        TextView te2,te3,te4,tite1,tite2,tite3,tite4;
-         
-         //Cabecera
-         
-         filaEjer = new TableRow(dialogo.getContext());
-         
-        
-         filaEjer.setBackgroundColor(getResources().getColor(R.color.tabla2));
-         filaEjer.setLayoutParams(new LayoutParams(
-         LayoutParams.FILL_PARENT,
-         LayoutParams.WRAP_CONTENT)); 
-         
-         tite1=new TextView(dialogo.getContext());
-         tite2=new TextView(dialogo.getContext());
-         tite3=new TextView(dialogo.getContext());
-         tite4=new TextView(dialogo.getContext());
-         
-    	 tite1.setText("Borrar");
-    	 tite1.setPadding(2, 0, 5, 0);
-    	 tite1.setTextColor(getResources().getColor(R.color.texto_tabla));
-        
-    	 tite2.setText("Orden");
-    	 tite2.setPadding(2, 0, 5, 0);
-    	 tite2.setTextColor(getResources().getColor(R.color.texto_tabla));
-    	 
-    	 tite3.setText("Ejercicio");
-    	 tite3.setPadding(2, 0, 5, 0);
-    	 tite3.setTextColor(getResources().getColor(R.color.texto_tabla));
-    	 
-    	 tite4.setText("Duración");
-    	 tite4.setPadding(2, 0, 5, 0);
-    	 tite4.setTextColor(getResources().getColor(R.color.texto_tabla));
-
-    	 
-    	 filaEjer.addView(tite1);
-    	 filaEjer.addView(tite2);
-    	 filaEjer.addView(tite3);
-    	 filaEjer.addView(tite4);
-
-    	 
-    	tablaEjercicios.addView(filaEjer, new TableLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                LayoutParams.WRAP_CONTENT)); 
-    	
-		
-    	//Para cada ejercicio
-    	
-    	for(int j=0;j<serie.getEjercicios().size();j++){
-        	 filaEjer=new TableRow(dialogo.getContext());
-        	 filaEjer.setTag(j);
-        	// row.setId(i);
-        	 if(j%2==0)
-        		 filaEjer.setBackgroundColor(getResources().getColor(R.color.tabla1));
-        	 else
-        		 filaEjer.setBackgroundColor(getResources().getColor(R.color.tabla2));
-        	 
-             filaEjer.setLayoutParams(new LayoutParams(
-                     LayoutParams.FILL_PARENT,
-                     LayoutParams.WRAP_CONTENT)); 
-             
-        	 fe1=new ImageView(dialogo.getContext());
-        	 fe1.setImageResource(R.drawable.borrar2);
-        	 fe1.setPadding(2, 0, 5, 0);
-        	 
-        	 //Si se pulsa la papelera
-        	 fe1.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					final TableRow trow=(TableRow)v.getParent();
-					TextView tnom=(TextView)trow.getChildAt(2);
-					AlertDialog.Builder alerta=new AlertDialog.Builder(trow.getContext());
-					alerta.setTitle("Eliminar");
-					alerta.setMessage("Se eliminará el ejercicio: "+tnom.getText().toString());
-					alerta.setCancelable(false);
-					alerta.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							serie.setNombre(nomSerie.getText().toString());
-							serie.setDuracion(Double.parseDouble(duracion.getText().toString()));
-							int pos=(Integer)trow.getTag();
-							serie.getEjercicios().remove(pos);
-							serie.setDuracion(getDuracionAutomatica(serie));
-							CrearModificarSeriesEjercicios(false,serie,insertar);
-							
-				               Toast.makeText(getApplicationContext(),
-					  	                 "Boorado"+ (Integer)trow.getTag(), Toast.LENGTH_LONG)
-					  	                 .show();
-						}
-					});
-
-					
-					alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					
-					alerta.show();
-				}
-			});
-        	 
-        	 
-        	 te2=new TextView(dialogo.getContext());
-        	 te2.setText(String.valueOf(j+1));
-        	 te2.setPadding(2, 0, 5, 0);
-        	 te2.setTextColor(getResources().getColor(R.color.texto_tabla));
-        	 
-        	 
-        	 te3=new TextView(dialogo.getContext());
-        	 //eds.open();
-        	 Ejercicio ej=eds.getEjercicios(serie.getEjercicios().get(j));
-        	 te3.setText(ej.getNombre());
-        	 te3.setPadding(2, 0, 5, 0);
-        	 te3.setTextColor(getResources().getColor(R.color.texto_tabla));
-        	 
-        	 te4=new TextView(dialogo.getContext());
-        	 te4.setText(String.valueOf(ej.getDuracion()));
-        	 te4.setPadding(2, 0, 5, 0);
-        	 te4.setTextColor(getResources().getColor(R.color.texto_tabla));
-        	 
-        	 filaEjer.addView(fe1);
-        	 filaEjer.addView(te2);
-        	 filaEjer.addView(te3);
-        	 filaEjer.addView(te4);
-
-        	tablaEjercicios.addView(filaEjer, new TableLayout.LayoutParams(
-                    LayoutParams.FILL_PARENT,
-                    LayoutParams.WRAP_CONTENT));
-    	}
-		*/
-    	if (mostrar==true){
-    		
-    		
+        lvEj.setAdapter(adapterselej);
+        	
     		
 		WindowManager.LayoutParams lp=new WindowManager.LayoutParams();
 		lp.copyFrom(dialogo.getWindow().getAttributes());
@@ -747,9 +522,7 @@ public class SeriesEjercicios extends Activity {
 		dialogo.show();
 		dialogo.getWindow().setAttributes(lp);	
     		
-    	}
-		
-		final List<Ejercicio> listaEjerEsta=leaux;
+    	
 		//Boton aniadir
 		View aniadirEjSer=dialogo.findViewById(R.id.laniadir_ser);
 		aniadirEjSer.setOnClickListener(new OnClickListener() {
@@ -770,17 +543,29 @@ public class SeriesEjercicios extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						serie.setNombre(nomSerie.getText().toString());
+						//lse.get(pos).setNombre(nomSerie.getText().toString());
 						
-						
+						/*
 						ArrayList<Integer> listaId=new ArrayList<Integer>();
-						for(int i=0;i<listaEjerEsta.size();i++)
-							listaId.add(listaEjerEsta.get(i).getIdEjercicio());
+						for(int i=0;i<lse.get(pos).getEjercicios().size();i++)
+							listaId.add(lse.get(pos).getEjercicios().get(i));
 						serie.setEjercicios(listaId);
 						serie.getEjercicios().add(le.get(which).getIdEjercicio());
 						serie.setDuracion(getDuracionAutomatica(serie));
+						*/
+						serie.getEjercicios().add(le.get(which).getIdEjercicio());
+						leaux.clear();
+				        for(int i=0;i<serie.getEjercicios().size();i++){
+				        	leaux.add(eds.getEjercicios(serie.getEjercicios().get(i)));
+				        }
+				        recargaDuracion();
+				        adapterselej = new adaptadorSelEj(dialogo.getContext(), R.layout.blist_item_handle_right, leaux);
+				        
+
+				        lvEj.setAdapter(adapterselej);
+						
 						//dialogo.dismiss();
-						CrearModificarSeriesEjercicios(false,serie,insertar);
+						//CrearModificarSeriesEjercicios(false,serie,insertar);
 					}
 				});
 	            //diaEjer.create();
@@ -797,12 +582,12 @@ public class SeriesEjercicios extends Activity {
 				// TODO Auto-generated method stub
 				
 				serie.setNombre(nomSerie.getText().toString());
-				serie.setDuracion(Double.parseDouble(duracion.getText().toString()));
+				serie.setDuracion(Integer.parseInt(duracion.getText().toString()));
 				serie.setFecha_modificacion(new Date());
 				
 				ArrayList<Integer> listaId=new ArrayList<Integer>();
-				for(int i=0;i<listaEjerEsta.size();i++)
-					listaId.add(listaEjerEsta.get(i).getIdEjercicio());
+				for(int i=0;i<leaux.size();i++)
+					listaId.add(leaux.get(i).getIdEjercicio());
 				
 				serie.setEjercicios(listaId);
 				boolean mo=false;
@@ -812,6 +597,7 @@ public class SeriesEjercicios extends Activity {
 					mo=seds.createSerieEjercicios(serie) != null;
 				if(mo){
 					dialogo.dismiss();
+					lse=seds.getAllSeriesEjercicios();
 					//Como se ha modificado la base de datos, volvemos ha acer una carga de la lista de series de ejercicios
 					CreaTablaSeries();
 					Toast.makeText(getApplicationContext(),
@@ -832,9 +618,9 @@ public class SeriesEjercicios extends Activity {
 		return dev;
 	}
 	
-	
-	private double getDuracionAutomatica(SerieEjercicios se){
-		double duracion=0;
+	/*
+	private int getDuracionAutomatica(SerieEjercicios se){
+		int duracion=0;
 		EjercicioDataSource eds_local=new EjercicioDataSource(getApplicationContext());
 		eds_local.open();
 		for(int i=0;i<se.getEjercicios().size();i++){
@@ -845,26 +631,204 @@ public class SeriesEjercicios extends Activity {
 		return duracion;
 	}
 	
-	
-	private class PickTime implements TimePickerDialog.OnTimeSetListener {
-
-		@Override
-		public void onTimeSet(TimePicker arg0, int arg1, int arg2) {
-			// TODO Auto-generated method stub
-			duracion.setText(arg1+":"+arg2);
-			Tiempo.hide();
-		}
-	    
-	}
-	
+		*/
 	
 	private void recargaDuracion(){
-		double dura=0;
+		int dura=0;
 		for(int i=0;i<leaux.size();i++){
 			dura+=leaux.get(i).getDuracion();
 		}
 		duracion.setText(String.valueOf(dura));
 	}
 	
+
+    private DragSortListView.DropListener onDropEj =
+	        new DragSortListView.DropListener() {
+	            @Override
+	            public void drop(int from, int to) {
+	                //Ejercicio item=adapterselej.getItem(from);
+	                Ejercicio item=adapterselej.getItem(from);
+	                
+	                adapterselej.notifyDataSetChanged();
+	                adapterselej.remove(item);
+	                adapterselej.insert(item, to);
+	            }
+	        };
+
+	    private DragSortListView.RemoveListener onRemoveEj = 
+	        new DragSortListView.RemoveListener() {
+	            @Override
+	            public void remove(int which) {
+	            	adapterselej.remove(adapterselej.getItem(which));
+	            	recargaDuracion();
+	            }
+	        };
+
+	    private DragSortListView.DragScrollProfile ssProfileEj =
+	        new DragSortListView.DragScrollProfile() {
+	            @Override
+	            public float getSpeed(float w, long t) {
+	                if (w > 0.8f) {
+	                    // Traverse all views in a millisecond
+	                    return ((float) adapterselej.getCount()) / 0.001f;
+	                } else {
+	                    return 10.0f * w;
+	                }
+	            }
+	        };
+ 
+	
+	        
+	        
+	        
+	        //Serie de ejercicios
+	        
+	        
+	        private DragSortListView.DropListener onDropSer =
+	    	        new DragSortListView.DropListener() {
+	    	            @Override
+	    	            public void drop(int from, int to) {
+	    	                //Ejercicio item=adapterselej.getItem(from);
+	    	                SerieEjercicios item=adaptador.getItem(from);
+	    	                
+	    	                adaptador.notifyDataSetChanged();
+	    	                adaptador.remove(item);
+	    	                adaptador.insert(item, to);
+	    	                
+
+	    	                
+	    	        		for(int i=0;i<lse.size();i++)
+	    	        			seds.actualizaOrden(lse.get(i), i+1);
+	    	        		
+	    	        		sonidos.playDrop();
+	    	                //playerDrop.start();
+	    	            }
+	    	        };
+
+	    	    private DragSortListView.RemoveListener onRemoveSer = 
+	    	        new DragSortListView.RemoveListener() {
+	    	            @Override
+	    	            public void remove(int which) {
+	    	            	sonidos.playRemove();
+	    	            	
+	    	            	AlertDialog.Builder alerta=new AlertDialog.Builder(micontexto);
+	    					alerta.setTitle("Eliminar");
+	    					final String nombre=lse.get(which).getNombre();
+	    					final int id=lse.get(which).getIdSerie();
+	    					adaptador.remove(adaptador.getItem(which));
+	    					alerta.setMessage("Se eliminará la serie: "+nombre);
+	    					alerta.setCancelable(false);
+	    					alerta.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+	    						
+	    						@Override
+	    						public void onClick(DialogInterface dialog, int which) {
+	    							// TODO Auto-generated method stub
+	    							boolean borrado=false;
+	    							borrado=seds.eliminarSerieEjercicios(id);
+	    							if(borrado==true){
+	    							// Toast.makeText(getApplicationContext(),"Borrado: "+nombre, Toast.LENGTH_LONG).show();
+	    		    	             
+	    		    	          //   lse=seds.getAllSeriesEjercicios();
+	    							 CreaTablaSeries();
+	    		    	        	 for(int i=0;i<lse.size();i++)
+	    		    	        		seds.actualizaOrden(lse.get(i), i+1);
+	    							}
+	    							 
+	    						}
+	    					});
+	    					
+	    					alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+	    						
+	    						@Override
+	    						public void onClick(DialogInterface dialog, int which) {
+	    							// TODO Auto-generated method stub
+	    		    	             lse=seds.getAllSeriesEjercicios();
+	    		    	             CreaTablaSeries();
+	    						}
+	    					});
+	    					
+	    					alerta.show();
+	    	            	
+
+	    	            }
+	    	        };
+
+	    	    private DragSortListView.DragScrollProfile ssProfileSer =
+	    	        new DragSortListView.DragScrollProfile() {
+	    	            @Override
+	    	            public float getSpeed(float w, long t) {
+	    	                if (w > 0.8f) {
+	    	                    // Traverse all views in a millisecond
+	    	                    return ((float) adaptador.getCount()) / 0.001f;
+	    	                } else {
+	    	                    return 10.0f * w;
+	    	                }
+	    	            }
+	    	        };
+	    	
+	        
+	        
+	    	
+	    	public class adaptadorSelSer extends ArrayAdapter<SerieEjercicios>{
+
+	    		
+	    		Context context;
+	    		
+	    		public adaptadorSelSer(Context context, int resource, List<SerieEjercicios> objects) {
+	    			super(context, resource, objects);
+	    			// TODO Auto-generated constructor stub
+	    			this.context=context;
+	    		}
+	    		
+	    		
+	    		 private class ViewHolder {
+	    			 ImageView img;
+	    			 TextView nombre;
+	    			 TextView duracion;
+	    			 TextView ultimaModificacion;
+	    			 ImageView drag;
+	    			 //TextView texto;
+	    		    }
+	    		 
+	    		 
+	    		 
+	    		    public View getView(int position, View convertView, ViewGroup parent) {
+	    		        ViewHolder holder = null;
+	    		        SerieEjercicios rowItem = getItem(position);
+	    		         
+	    		        LayoutInflater mInflater = (LayoutInflater) context
+	    		                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	    		        if (convertView == null) {
+	    		            convertView = mInflater.inflate(R.layout.drag_ser, null);
+	    		          
+	    		            //convertView.setBackgroundDrawable(convertView.getResources().getDrawable(R.drawable.listaredondeada));
+	    		            holder = new ViewHolder();
+	    		           
+	    		            holder.img = (ImageView) convertView.findViewById(R.id.imgSelSer);
+	    		            holder.nombre = (TextView) convertView.findViewById(R.id.NombSelSer);
+	    		            holder.duracion=(TextView) convertView.findViewById(R.id.DurSelSer);
+	    		            holder.ultimaModificacion=(TextView) convertView.findViewById(R.id.ModiSelSer);
+	    		            holder.drag=(ImageView)convertView.findViewById(R.id.midrag);
+	    		         
+	    		            convertView.setTag(holder);
+	    		        } else
+	    		            holder = (ViewHolder) convertView.getTag();
+	    		                
+	    		        holder.img.setImageResource(R.drawable.ic3);
+	    		        holder.nombre.setText(rowItem.getNombre());
+	    		        holder.duracion.setText(String.valueOf(rowItem.getDuracion())+ " minuto(s)");
+	    		        holder.ultimaModificacion.setText(rowItem.getFecha_modificacion_AsStrign());
+	    		        holder.drag.setImageResource(R.id.drag_handle);
+
+	    		         
+	    		        return convertView;
+	    		    }
+	    		
+	    		
+
+	    	}
+
+	    	
+	    	
 	
 }

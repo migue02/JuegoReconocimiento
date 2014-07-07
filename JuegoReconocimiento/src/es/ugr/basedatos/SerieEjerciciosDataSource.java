@@ -24,7 +24,8 @@ public class SerieEjerciciosDataSource {
 			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE,
 			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_IDEJERCICIOS,
 			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_DURACION,
-			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_FECHA_MODIFICACION};
+			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_FECHA_MODIFICACION,
+			MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_ORDEN};
 	private Context context;
 
 	public SerieEjerciciosDataSource(Context context) {
@@ -111,7 +112,7 @@ public class SerieEjerciciosDataSource {
 	
 
 	public boolean modificaSerieEjercicios(int id, String nombre,
-			ArrayList<Integer> ejercicios, double duracion, Date fecha_modificacion) {
+			ArrayList<Integer> ejercicios, int duracion, Date fecha_modificacion) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE, nombre);
@@ -129,7 +130,7 @@ public class SerieEjerciciosDataSource {
 	public boolean actualizaDuracion(SerieEjercicios serie){
 		ContentValues values = new ContentValues();
 		
-		double duracionAnterior = serie.getDuracion();
+		int duracionAnterior = serie.getDuracion();
 		EjercicioDataSource ejercicioDS = new EjercicioDataSource(context);
 		ejercicioDS.open();
 		
@@ -164,7 +165,7 @@ public class SerieEjerciciosDataSource {
 	public List<SerieEjercicios> getAllSeriesEjercicios() {
 		Log.w("Obteniendo...", "Obteniendo todas las series de ejercicios...");
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_SERIE_EJERCICIOS,
-				allColumns, null, null, null, null, null);
+				allColumns, null, null, null, null, MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_ORDEN);
 
 		List<SerieEjercicios> series = new ArrayList<SerieEjercicios>();
 
@@ -194,9 +195,18 @@ public class SerieEjerciciosDataSource {
 		return null;
 	}
 
+	public boolean actualizaOrden(SerieEjercicios serie, int posicion){
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_ORDEN, posicion);
+		
+		return database.update(MySQLiteHelper.TABLE_SERIE_EJERCICIOS, values,
+				MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_ID + " = " + serie.getIdSerie(), null) > 0;
+	}
+	
+	
 	private SerieEjercicios cursorToSerieEjercicios(Cursor cursor) {
 		SerieEjercicios serie = new SerieEjercicios(cursor.getInt(0), cursor.getString(1),
-				es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(2)),cursor.getDouble(3),new Date());
+				es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(2)),cursor.getInt(3),new Date());
 		try {
 			serie.setFecha_modificacion(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
 					.getString(3)));

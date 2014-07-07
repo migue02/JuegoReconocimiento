@@ -11,6 +11,7 @@ import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Periodo;
+import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -133,8 +134,8 @@ public class ResultadoDataSource {
 				MySQLiteHelper.COLUMN_RESULTADO_ID + " = " + id, null) > 0;
 	}
 
-	public boolean borraTodosResultados() {
-		return database.delete(MySQLiteHelper.TABLE_RESULTADO, null, null) > 0;
+	public int borraTodosResultados() {
+		return database.delete(MySQLiteHelper.TABLE_RESULTADO, null, null);
 	}
 
 	public List<Resultado> getAllResultados() {
@@ -229,7 +230,31 @@ public class ResultadoDataSource {
 		
 		return query;
 	}
+
+//JM	
 	
+	public Integer borrarResultadosAlumno(Alumno alumno,
+			SerieEjercicios serie, int dias) {
+
+		int dev=0;
+		
+		if(dias==Periodo.Semana||dias==Periodo.Mes){
+
+		dev=database.delete(MySQLiteHelper.TABLE_RESULTADO,
+				MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" >'"+new SimpleDateFormat("yyyy-MM-dd").format(restaDias(new Date(), dias))+"'", null);
+		}
+		else{
+			dev=database.delete(MySQLiteHelper.TABLE_RESULTADO,
+					MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
+					" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
+					" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" >'"+new SimpleDateFormat("yyyy-MM-dd").format(restaFechaMeses(dias))+"'",null);
+		}
+		return dev;
+	}
+
+	//Fin JM
 	private Resultado cursorToResultado(Cursor cursor) {
 		Resultado resultado = new Resultado();
 		resultado.setIdResultado(cursor.getInt(0));

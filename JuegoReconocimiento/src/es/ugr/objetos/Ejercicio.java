@@ -8,19 +8,20 @@ public class Ejercicio {
 	private String nombre;
 	private ArrayList<Integer> objetos;//escenario
 	private String descripcion;
-	private double duracion;
+	private int duracion;
 	private ArrayList<Integer> objetosReconocer;
+	private int orden;
 	
 	public Ejercicio() {
 		this.idEjercicio=-1;
 		this.nombre="";
 		this.objetos=new ArrayList<Integer>();
-		this.duracion=0.0;
+		this.duracion=0;
 		this.descripcion = "";
 		this.objetosReconocer=new ArrayList<Integer>();
 	}
 
-	public Ejercicio(int idEjercicio, String nombre, ArrayList<Integer> objetos, String descripcion, double duracion, ArrayList<Integer> objetosReconocer) {
+	public Ejercicio(int idEjercicio, String nombre, ArrayList<Integer> objetos, String descripcion, int duracion, ArrayList<Integer> objetosReconocer) {
 		this.idEjercicio = idEjercicio;
 		this.nombre = nombre;
 		this.objetos = new ArrayList<Integer>(objetos);
@@ -29,7 +30,7 @@ public class Ejercicio {
 		this.objetosReconocer=new ArrayList<Integer>(objetosReconocer);
 	}
 	
-	public Ejercicio(int idEjercicio, String nombre, String objetos, String descripcion, double duracion, String objetosReconocer) {
+	public Ejercicio(int idEjercicio, String nombre, String objetos, String descripcion, int duracion, String objetosReconocer) {
 		try {
 			this.idEjercicio = idEjercicio;
 			this.nombre = nombre;
@@ -53,6 +54,8 @@ public class Ejercicio {
 	@Override
 	public String toString() {
 		return nombre + " .Objetos["+objetosReconocer.toString()+"] .Escenario["+objetos.toString()+"]";
+		//return "Ejercicio [idEjercicio=" + idEjercicio + ", nombre=" + nombre
+			//	+ ", objetos=" + objetos + descripcion + duracion + "]";
 	}
 
 	public Integer getIdEjercicio() {
@@ -87,12 +90,20 @@ public class Ejercicio {
 		this.descripcion = descripcion;
 	}
 	
-	public double getDuracion() {
+	public int getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(double duracion) {
+	public void setDuracion(int duracion) {
 		this.duracion = duracion;
+	}
+
+	public int getOrden() {
+		return orden;
+	}
+
+	public void setOrden(int orden) {
+		this.orden = orden;
 	}
 
 	public void eliminaObjetoReconocer(int id) {

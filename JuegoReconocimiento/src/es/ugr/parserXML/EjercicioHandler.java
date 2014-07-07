@@ -77,8 +77,8 @@ public class EjercicioHandler extends DefaultHandler{
 	            } else if (localName.equals("descripcion")) {
 	            	 ejercicioActual.setDescripcion(sbText.toString().trim());	
 	            } else if (localName.equals("duracion")) {
-	            	value = Double.parseDouble(sbText.toString().trim());	
-	                ejercicioActual.setDuracion(value);
+	            	valueint=Integer.parseInt(sbText.toString().trim());
+	                ejercicioActual.setDuracion(valueint);
 	            } else if (localName.equals("objetore")){
 	            	reconocer.add(sbText.toString().trim());
 	            } else if (localName.equals("reconocer")){

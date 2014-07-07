@@ -12,9 +12,11 @@
         android:id="@+id/imgSelEj"
         android:src="@drawable/ic6"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="20dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/NombSelEj"
@@ -23,10 +25,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
-        android:layout_marginLeft="170dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_toRightOf="@+id/imgSelEj"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/DurSelEj"
@@ -35,10 +39,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
-        android:layout_marginLeft="570dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/NombSelEj"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp" />
 
     <ImageView
         android:id="@+id/midrag"

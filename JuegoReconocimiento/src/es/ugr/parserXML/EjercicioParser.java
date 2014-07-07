@@ -15,11 +15,25 @@ public class EjercicioParser {
 
 	private URL rssUrl;
 	private String fichero;
+	private boolean local;
 	
-    public EjercicioParser(String url)
+    public EjercicioParser(String url,String tipo)
     {
             //this.rssUrl = new URL(url);
-            this.fichero=url;
+
+            if(tipo=="URL"){
+            	local=false;
+            	try {
+					this.rssUrl=new URL(url);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+            if(tipo=="Fichero"){
+            	local=true;
+                this.fichero=url;
+            }
 
     }
     
@@ -30,7 +44,10 @@ public class EjercicioParser {
         {
             SAXParser parser = factory.newSAXParser();
             EjercicioHandler handler = new EjercicioHandler();
-            parser.parse(this.getInputStream2(), handler);
+            if (local==true)
+            	parser.parse(this.getInputStream2(), handler);
+            else
+            	parser.parse(this.getInputStream(), handler);
             return handler.getEjercicios();
         }
         catch (Exception e)

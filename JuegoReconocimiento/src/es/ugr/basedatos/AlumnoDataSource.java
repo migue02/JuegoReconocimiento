@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import es.ugr.objetos.Alumno;
+import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.TiposPropios.Sexo;
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,7 +26,8 @@ public class AlumnoDataSource {
 			MySQLiteHelper.COLUMN_ALUMNO_APELLIDOS,
 			MySQLiteHelper.COLUMN_ALUMNO_FECHA_NAC,
 			MySQLiteHelper.COLUMN_ALUMNO_SEXO,
-			MySQLiteHelper.COLUMN_ALUMNO_OBSERVACIONES };
+			MySQLiteHelper.COLUMN_ALUMNO_OBSERVACIONES,
+			MySQLiteHelper.COLUMN_ALUMNO_ORDEN};
 
 	public AlumnoDataSource(Context context) {
 		Log.w("Creando...", "Creando bd");
@@ -127,7 +129,7 @@ public class AlumnoDataSource {
 
 	public List<Alumno> getAllAlumnos() {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_ALUMNO, allColumns,
-				null, null, null, null, null);
+				null, null, null, null, MySQLiteHelper.COLUMN_ALUMNO_ORDEN);
 
 		List<Alumno> alumnos = new ArrayList<Alumno>();
 		if (cursor != null && cursor.getCount() > 0) {
@@ -154,6 +156,14 @@ public class AlumnoDataSource {
 			return alumno;
 		}
 		return null;
+	}
+	
+	public boolean actualizaOrden(Alumno alumno, int posicion){
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_ALUMNO_ORDEN, posicion);
+		
+		return database.update(MySQLiteHelper.TABLE_ALUMNO, values,
+				MySQLiteHelper.COLUMN_ALUMNO_ID + " = " + alumno.getIdAlumno(), null) > 0;
 	}
 
 	private Alumno cursorToAlumno(Cursor cursor) {

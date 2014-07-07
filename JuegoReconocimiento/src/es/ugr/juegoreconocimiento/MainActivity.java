@@ -27,6 +27,7 @@ import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
+import es.ugr.bdremota.AllEjerciciosActivity;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
@@ -37,6 +38,7 @@ import es.ugr.reconocimiento.EmpezarJuego;
 import es.ugr.reconocimiento.Juego;
 import es.ugr.reconocimiento.ReconocimientoObjeto;
 import es.ugr.reconocimiento.ReconocimientoObjeto2;
+import es.ugr.utilidades.FontsOverride;
 import es.ugr.utilidades.Utilidades;
 
 /**
@@ -81,6 +83,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		FontsOverride.setDefaultFont(this, "MONOSPACE", "wd.ttf");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		TextView bienv = (TextView) findViewById(R.id.textoBienv);
@@ -409,6 +412,12 @@ public class MainActivity extends Activity {
 		oDS.close();
 		startActivity(intent);
 	}
+	
+	public void onClickBDRemota(View v){
+		Intent intent = new Intent(this, AllEjerciciosActivity.class);
+		startActivity(intent);
+	}
+	
 	
 	@Override
 	protected void onPause() {

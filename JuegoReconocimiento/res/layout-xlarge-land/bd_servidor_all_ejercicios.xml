@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/rellenoTabla"
+    android:orientation="horizontal">
+    <!-- Main ListView
+         Always give id value as list(@android:id/list)
+    -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Base de datos remota"
+            android:id="@+id/textView"
+            android:gravity="center" />
+
+        <ListView
+            android:id="@+id/listRem"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="10dp"
+            android:headerDividersEnabled="false" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageDesc" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descargar"
+            android:id="@+id/buttonDesc"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:layout_margin="20dp"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Base de datos local"
+            android:id="@+id/textView2"
+            android:gravity="center" />
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/listLoc" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subir"
+            android:id="@+id/buttonSub"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+</LinearLayout>

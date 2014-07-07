@@ -3,9 +3,9 @@ package es.ugr.adaptadores;
 import java.util.List;
 
 import es.ugr.juegoreconocimiento.R;
-
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +16,11 @@ import android.widget.TextView;
 public class adaptadorTitle extends ArrayAdapter<RowItemTitle>{
 
 	
-	Context context;
+	Context context;	
 	
 	public adaptadorTitle(Context context, int resource, List<RowItemTitle> objects) {
 		super(context, resource, objects);
+
 		// TODO Auto-generated constructor stub
 		this.context=context;
 	}
@@ -47,7 +48,7 @@ public class adaptadorTitle extends ArrayAdapter<RowItemTitle>{
 	            convertView.setTag(holder);
 	        } else
 	            holder = (ViewHolder) convertView.getTag();
-	                 
+	            
 	        holder.txtTitle.setText(rowItem.getTitulo());
 	        holder.imageView.setImageResource(rowItem.getImageID());
 	         
