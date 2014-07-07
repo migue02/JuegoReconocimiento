@@ -1,50 +1,147 @@
-<!-- Autor: Namir Sayed-Ahmad Baraza
-	 mail: namirsab@gmail.com -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/ugr_background" >
+    android:background="@drawable/ugr_background" xmlns:app="http://schemas.android.com/apk/res/es.ugr.juegoreconocimiento">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/listViewResul"
-            android:layout_weight="0.75" />
-
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.25">
+            android:layout_height="fill_parent">
 
-            <ScrollView
-                android:id="@+id/scrollAl"
+            <ListView
+                android:id="@+id/listViewAlum"
+                style="@style/AppBaseTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.75"
+                android:focusableInTouchMode="true" />
+			
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                android:layout_weight="0.25">
+                
+				<RelativeLayout
+				    android:id="@+id/RelativeLayout1"
+				    android:layout_width="fill_parent"
+				    android:layout_height="40dp"
+				    android:background="@color/tituloTabla"
+				    android:orientation="horizontal" >
 
-                <TableLayout
-                    android:id="@+id/tabla_alumnos"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+ <TextView
+                    android:id="@+id/sexAl"
+                    style="@style/TituloTabla"
+                    android:layout_width="60dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+     android:text="Sexo"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" >
-                    </TableRow>
-                </TableLayout>
+                <TextView
+                    android:id="@+id/nomAl"
+                    style="@style/TituloTabla"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/sexAl"
+                    android:gravity="center_vertical"
+                    android:text="Nombre"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            </ScrollView>
+                <TextView
+                    android:id="@+id/apeAl"
+                    style="@style/TituloTabla"
+                    android:layout_width="300dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/nomAl"
+                    android:gravity="center_vertical"
+                    android:text="Apellidos"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/edadAl"
+                    style="@style/TituloTabla"
+                    android:layout_width="60dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/apeAl"
+                    android:gravity="center_vertical"
+                    android:text="Edad"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/movAl"
+                    style="@style/TituloTabla"
+                    android:layout_width="120dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical|left"
+                    android:text="Mover"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
+                
+                <com.mobeta.android.dslv.DragSortListView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:dslv="http://schemas.android.com/apk/res/es.ugr.juegoreconocimiento"
+                    android:id="@+id/ListaAl"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/rellenoTabla"
+                    android:dividerHeight="5dp"
+                    android:fastScrollEnabled="true"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:paddingTop="3dp"
+                    app:collapsed_height="2dp"
+                    app:drag_enabled="true"
+                    app:drag_handle_id="@id/midrag"
+                    app:drag_scroll_start="0.33"
+                    app:drag_start_mode="onDown"
+                    dslv:float_alpha="0.6"
+                    dslv:max_drag_scroll_speed="0.5"
+                    dslv:remove_enabled="true"
+                    dslv:remove_mode="flingRemove"
+                    dslv:slide_shuffle_speed="0.3"
+                    dslv:sort_enabled="true"
+                    dslv:track_drag_sort="false"
+                    dslv:use_default_controller="true" >
+                </com.mobeta.android.dslv.DragSortListView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
