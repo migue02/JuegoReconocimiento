@@ -20,20 +20,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	protected static String TABLE_OBJETO = "Objeto";
 	public static final String COLUMN_OBJETO_ID = "_id";
 	public static final String COLUMN_OBJETO_NOMBRE = "nombre";
+	public static final String COLUMN_OBJETO_DESCRIPCION = "decripcion";
+	public static final String COLUMN_OBJETO_FECHA = "fecha";
 	public static final String COLUMN_OBJETO_KEYPOINTS = "keypoints";
 	public static final String COLUMN_OBJETO_DESPCRIPTORES = "descriptores";
 	public static final String COLUMN_OBJETO_COLS = "cols";
 	public static final String COLUMN_OBJETO_ROWS = "rows";
 	public static final String COLUMN_OBJETO_IMAGEN = "imagen";
-
+	public static final String COLUMN_OBJETO_SONIDO_DESCRIPCION = "sonido_descripcion";
+	public static final String COLUMN_OBJETO_SONIDO_AYUDA = "sonido_ayuda";
+	public static final String COLUMN_OBJETO_SONIDO_NOMBRE = "sonido_nombre";
+	
 	private String sqlCreateObjeto = "create table if not exists " + TABLE_OBJETO + "(" 
 			+ COLUMN_OBJETO_ID + " integer primary key autoincrement, " 
-			+ COLUMN_OBJETO_NOMBRE + " varchar, " 
+			+ COLUMN_OBJETO_NOMBRE + " varchar unique, " 
+			+ COLUMN_OBJETO_DESCRIPCION + " varchar, "
+			+ COLUMN_OBJETO_FECHA + " datetime, "
 			+ COLUMN_OBJETO_KEYPOINTS + " text, "
 			+ COLUMN_OBJETO_DESPCRIPTORES + " text, "
 			+ COLUMN_OBJETO_COLS + " integer, "
 			+ COLUMN_OBJETO_ROWS + " integer, "
-			+ COLUMN_OBJETO_IMAGEN + " blob)";
+			+ COLUMN_OBJETO_IMAGEN + " varchar, "
+			+ COLUMN_OBJETO_SONIDO_DESCRIPCION + " varchar, "
+			+ COLUMN_OBJETO_SONIDO_AYUDA + " varchar, "
+			+ COLUMN_OBJETO_SONIDO_NOMBRE + " varchar )";
 
 	// ------------
 	// TABLA ALUMNO
@@ -64,20 +74,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_EJERCICIO_NOMBRE = "nombre";
 	public static final String COLUMN_EJERCICIO_OBJETOS = "objetos";
 	public static final String COLUMN_EJERCICIO_DESCRIPCION = "descripcion";
+	public static final String COLUMN_EJERCICIO_FECHA = "fecha";
 	public static final String COLUMN_EJERCICIO_DURACION = "duracion";
 	public static final String COLUMN_EJERCICIO_OBJETOS_REC = "objetosReconocer";
 	public static final String COLUMN_EJERCICIO_ORDEN = "orden";
-	// public static final String COLUMN_EJERCICIO_SONIDO_ACIERTO = "acierto";
+	public static final String COLUMN_EJERCICIO_SONIDO_DESCRIPCION = "sonido_descripcion";
 	// public static final String COLUMN_EJERCICIO_SONIDO_FALLO = "fallo";
 
 	private String sqlCreateEjercicio = "create table if not exists " + TABLE_EJERCICIO + "(" 
 			+ COLUMN_EJERCICIO_ID + " integer primary key autoincrement, " 
-			+ COLUMN_EJERCICIO_NOMBRE + " varchar, " 
+			+ COLUMN_EJERCICIO_NOMBRE + " varchar unique, " 
 			+ COLUMN_EJERCICIO_OBJETOS + " varchar, "
 			+ COLUMN_EJERCICIO_DESCRIPCION + " varchar, "
+			+ COLUMN_EJERCICIO_FECHA + " datetime, "
 			+ COLUMN_EJERCICIO_DURACION + " integer, "
 			+ COLUMN_EJERCICIO_OBJETOS_REC + " varchar, "
-	        + COLUMN_EJERCICIO_ORDEN + " integer)";
+	        + COLUMN_EJERCICIO_ORDEN + " integer, "
+	        + COLUMN_EJERCICIO_SONIDO_DESCRIPCION + " varchar)";
 	
 	// -------------------------
 	// TABLA SERIE DE EJERCICIOS

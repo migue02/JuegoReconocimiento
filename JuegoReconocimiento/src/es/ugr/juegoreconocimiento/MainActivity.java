@@ -36,7 +36,6 @@ import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.reconocimiento.EmpezarJuego;
 import es.ugr.reconocimiento.Juego;
-import es.ugr.reconocimiento.ReconocimientoObjeto;
 import es.ugr.reconocimiento.ReconocimientoObjeto2;
 import es.ugr.utilidades.FontsOverride;
 import es.ugr.utilidades.Utilidades;

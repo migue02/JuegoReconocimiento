@@ -25,13 +25,13 @@ vector<int> listaCols;
 vector<int> listaRows;
 int numMatches=10;
 
-double hessianThreshold=1300.0;
+double hessianThreshold=1700.0;
 int nOctaves=4;
 int nOctaveLayers=2;
 bool extended=true;
 bool upright=false;
 
-int nMatches = 4;
+int nMatches = 10;
 
 
 void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp)

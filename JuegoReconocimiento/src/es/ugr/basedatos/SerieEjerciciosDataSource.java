@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.SerieEjercicios;
 import android.content.ContentValues;
 import android.content.Context;

@@ -11,7 +11,6 @@ import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Periodo;
-import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

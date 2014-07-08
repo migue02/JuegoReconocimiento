@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/iconoObjeto"
+                android:id="@+id/imgObjeto"
                 android:layout_gravity="center"
                 android:src="@drawable/objeto" />
             
@@ -57,7 +57,7 @@
                 android:background="@color/texto_tabla"/>
 
             <EditText
-                android:id="@+id/daNombre"
+                android:id="@+id/edtNombreObjeto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -68,7 +68,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tamaño"
+                android:text="Descripcion"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginTop="40dp"
                 android:textColor="@color/texto_tabla" />
@@ -80,11 +80,11 @@
                 android:layout_marginBottom="10dp" />
 
             <TextView
-                android:id="@+id/daApellidos"
+                android:id="@+id/edtTamanioObjeto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Tamaño"
+                android:hint="Descripción"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginLeft="10dp" />
 
@@ -104,19 +104,21 @@
         android:layout_marginBottom="20dp">
 
         <Button
-            android:id="@+id/cAlumnos"
+            android:id="@+id/btnCancelar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancelar"
+            android:onClick="onCancelarClick"
             android:layout_gravity="bottom" />
 
         <Button
-            android:id="@+id/gAlumnos"
+            android:id="@+id/btnAceptar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Guardar Cambios"
+            android:onClick="onGuardarClick"
             android:layout_gravity="bottom" />
     </LinearLayout>
 

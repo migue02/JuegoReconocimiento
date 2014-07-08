@@ -2,6 +2,8 @@ package es.ugr.objetos;
 
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -13,6 +15,8 @@ import es.ugr.utilidades.Utilidades;
 public class Objeto{
 	private long id;
 	private String nombre;
+	private String descripcion;
+	private Date fecha;
 	private String keypoints;
 	private String descriptores;
 	public MatOfKeyPoint matKeyPoints;
@@ -20,15 +24,100 @@ public class Objeto{
 	private int cols;
 	private int rows;
 	private Bitmap imagen;
+	private String pathImagen;
+	private String sonidoDescripcion;
+	private String sonidoAyuda;
+	private String sonidoNombre;
+	
+	public Objeto(long id, String nombre, String descripcion, Date fecha, String keypoints,
+			String descriptores, int cols, int rows, String pathImagen,
+			String sonidoDescripcion, String sonidoAyuda, String sonidoNombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.fecha = fecha;
+		this.keypoints = keypoints;
+		this.descriptores = descriptores;
+		matDescriptores = new Mat();
+		matKeyPoints = new MatOfKeyPoint();
+		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
+		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		this.cols = cols;
+		this.rows = rows;
+		this.pathImagen = pathImagen;
+		this.sonidoDescripcion = sonidoDescripcion;
+		this.sonidoAyuda = sonidoAyuda;
+		this.sonidoNombre = sonidoNombre;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+	
+	public String getFechaAsString() {
+		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+		return date.format(fecha);
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getPathImagen() {
+		return pathImagen;
+	}
+
+	public void setPathImagen(String pathImagen) {
+		this.pathImagen = pathImagen;
+	}
+
+	public String getSonidoDescripcion() {
+		return sonidoDescripcion;
+	}
+
+	public void setSonidoDescripcion(String sonidoDescripcion) {
+		this.sonidoDescripcion = sonidoDescripcion;
+	}
+
+	public String getSonidoAyuda() {
+		return sonidoAyuda;
+	}
+
+	public void setSonidoAyuda(String sonidoAyuda) {
+		this.sonidoAyuda = sonidoAyuda;
+	}
+
+	public String getSonidoNombre() {
+		return sonidoNombre;
+	}
+
+	public void setSonidoNombre(String sonidoNombre) {
+		this.sonidoNombre = sonidoNombre;
+	}
+	
 
 	public Objeto() {
 		id=-1;
 		nombre="";
+		descripcion="";
+		fecha = new Date();
 		keypoints="";
 		descriptores="";
 		cols=0;
 		rows=0;
 		imagen=null;
+		sonidoAyuda="";
+		sonidoDescripcion="";
+		sonidoNombre="";
 	}
 
 	public Objeto(long id, String nombre, String keypoints,
@@ -44,6 +133,10 @@ public class Objeto{
 		this.cols = cols;
 		this.rows = rows;
 		this.imagen=imagen;
+		this.fecha = new Date();
+		sonidoAyuda="";
+		sonidoDescripcion="";
+		sonidoNombre="";
 	}
 
 	public Bitmap getImagen() {

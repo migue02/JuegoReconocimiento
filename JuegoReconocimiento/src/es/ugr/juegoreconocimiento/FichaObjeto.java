@@ -1,16 +1,11 @@
 package es.ugr.juegoreconocimiento;
 
-import org.opencv.android.OpenCVLoader;
-
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.objetos.Objeto;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,10 +73,17 @@ public class FichaObjeto extends Activity {
 	}
 	
 	public void onGuardarClick(View v){
+		boolean result=false;
+		oObjeto.setNombre(((EditText) findViewById(R.id.edtNombreObjeto)).getText().toString());
 		if (oObjeto.getId() == -1)
 			objetoDS.createObjeto(oObjeto);
 		else
-			objetoDS.modificaObjeto(oObjeto);
+			result = objetoDS.modificaObjeto(oObjeto);
+		if (result)
+			Toast.makeText(this, "Objeto modificado...", Toast.LENGTH_SHORT).show();
+		else
+			Toast.makeText(this, "Vuelve a guardar...", Toast.LENGTH_SHORT).show();
+		
 	}
 	
 	public void onCancelarClick(View v){

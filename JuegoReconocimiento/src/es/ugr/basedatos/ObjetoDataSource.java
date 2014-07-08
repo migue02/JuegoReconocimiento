@@ -1,12 +1,11 @@
 package es.ugr.basedatos;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Date;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
-import es.ugr.objetos.SerieEjercicios;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,11 +25,16 @@ public class ObjetoDataSource {
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { MySQLiteHelper.COLUMN_OBJETO_ID,
 			MySQLiteHelper.COLUMN_OBJETO_NOMBRE,
+			MySQLiteHelper.COLUMN_OBJETO_DESCRIPCION,
+			MySQLiteHelper.COLUMN_OBJETO_FECHA,
 			MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS,
 			MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES,
 			MySQLiteHelper.COLUMN_OBJETO_COLS,
 			MySQLiteHelper.COLUMN_OBJETO_ROWS,
-			MySQLiteHelper.COLUMN_OBJETO_IMAGEN};
+			MySQLiteHelper.COLUMN_OBJETO_IMAGEN,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_DESCRIPCION,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_AYUDA,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_NOMBRE};
 	
 	private String[] simpleColumns = { MySQLiteHelper.COLUMN_OBJETO_ID,
 			MySQLiteHelper.COLUMN_OBJETO_NOMBRE,
@@ -49,16 +53,26 @@ public class ObjetoDataSource {
 	public void close() {
 		dbHelper.close();
 	}
-
-	public Objeto createObjeto(Objeto objeto) {
+	
+	private ContentValues createValues(Objeto objeto){
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_OBJETO_NOMBRE, objeto.getNombre());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_DESCRIPCION, objeto.getDescripcion());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_FECHA, objeto.getFechaAsString());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS, objeto.getKeypoints());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, objeto.getDescriptores());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, objeto.getCols());
 		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, objeto.getRows());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_IMAGEN, objeto.getImagenAsByteArray());
-		
+		values.put(MySQLiteHelper.COLUMN_OBJETO_IMAGEN, objeto.getPathImagen());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_SONIDO_AYUDA, objeto.getSonidoAyuda());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_SONIDO_DESCRIPCION, objeto.getSonidoDescripcion());
+		values.put(MySQLiteHelper.COLUMN_OBJETO_SONIDO_NOMBRE, objeto.getSonidoNombre());
+		return values;
+	}
+
+	public Objeto createObjeto(Objeto objeto) {
+		ContentValues values = new ContentValues();
+		values = createValues(objeto);		
 		objeto.setId((int) database.insert(MySQLiteHelper.TABLE_OBJETO, null, values));
 		return objeto;
 	}
@@ -67,11 +81,8 @@ public class ObjetoDataSource {
 			String descriptores, int cols, int rows) {
 
 		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_OBJETO_NOMBRE, nombre);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS, keypoints);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, descriptores);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, cols);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, rows);
+		Objeto objeto = new Objeto(-1, nombre, keypoints, descriptores, cols, rows, null);
+		values = createValues(objeto);
 
 		long insertId = database.insert(MySQLiteHelper.TABLE_OBJETO, null,
 				values); // Se inserta un objeto y se deuelve su id
@@ -90,11 +101,8 @@ public class ObjetoDataSource {
 	public boolean modificaObjeto(int id, String nombre, String keypoints,
 			String descriptores, int cols, int rows) {
 		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_OBJETO_NOMBRE, nombre);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS, keypoints);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, descriptores);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, cols);
-		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, rows);
+		Objeto objeto = new Objeto(-1, nombre, keypoints, descriptores, cols, rows, null);
+		values = createValues(objeto);
 		
 
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
@@ -103,12 +111,7 @@ public class ObjetoDataSource {
 	
 	public boolean modificaObjeto(Objeto objeto) {
 		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_OBJETO_NOMBRE, objeto.getNombre());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_KEYPOINTS, objeto.getKeypoints());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_DESPCRIPTORES, objeto.getDescriptores());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_COLS, objeto.getCols());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_ROWS, objeto.getRows());
-		values.put(MySQLiteHelper.COLUMN_OBJETO_IMAGEN, objeto.getImagenAsByteArray());
+		values = createValues(objeto);	
 		
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
 				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + objeto.getId(), null) > 0;
@@ -219,16 +222,30 @@ public class ObjetoDataSource {
 		Objeto objeto = new Objeto();
 		objeto.setId(cursor.getLong(0));
 		objeto.setNombre(cursor.getString(1));
-		objeto.setKeypoints(cursor.getString(2));
-		objeto.setDescriptores(cursor.getString(3));
-		objeto.setCols(cursor.getInt(4));
-		objeto.setRows(cursor.getInt(5));
-		try{
+		objeto.setDescripcion(cursor.getString(2));
+		try {
+			objeto.setFecha(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
+					.getString(3)));
+		} catch (ParseException e) {
+			Log.e("ERROR_FECHA", "Error al obtener la fecha");
+			e.printStackTrace();
+			objeto.setFecha(new Date());
+		}
+		
+		objeto.setKeypoints(cursor.getString(4));
+		objeto.setDescriptores(cursor.getString(5));
+		objeto.setCols(cursor.getInt(6));
+		objeto.setRows(cursor.getInt(7));
+		/*try{
 			objeto.setImagenAsByteArray(cursor.getBlob(6));
 		}catch (Exception ex){
 			Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
 			ex.printStackTrace();
-		}
+		}*/
+		objeto.setPathImagen(cursor.getString(8));
+		objeto.setSonidoDescripcion(cursor.getString(9));
+		objeto.setSonidoAyuda(cursor.getString(10));
+		objeto.setSonidoNombre(cursor.getString(11));
 		objeto.setMats();
 		return objeto;
 	}

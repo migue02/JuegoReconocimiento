@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import es.ugr.objetos.Alumno;
-import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.TiposPropios.Sexo;
 import android.content.ContentValues;
 import android.content.Context;
