@@ -2,6 +2,7 @@ package es.ugr.reconocimiento;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -75,8 +76,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private int[] colsArray, rowsArray;
 	private TextToSpeech ttobj;
 	
-	private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
-	private CheckBox chkExtended, chkUpright;
+	//private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
+	//private CheckBox chkExtended, chkUpright;
 	
 	private double hessianThreshold=1300;
 	private int nOctaves=4, nOctaveLayers=2;
@@ -143,7 +144,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
 		
-		chkExtended = (CheckBox) findViewById(R.id.edtExtended);
+		/*chkExtended = (CheckBox) findViewById(R.id.edtExtended);
 		edthessianThreshold = (EditText) findViewById(R.id.edtHessian);
 		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
 		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
@@ -152,7 +153,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		edthessianThreshold.setText("1500");
 		edtnOctaveLayers.setText("2");
 		edtnOctaves.setText("4");
-		
+		*/
 		Bundle extras;
 		if (savedInstanceState == null) {
 		    extras = getIntent().getExtras();
@@ -399,8 +400,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	}
 
 	public void onInicializaSurf(View v){
-		InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
-				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());
+		/*InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
+				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());*/
 	}
 	
 	public void onVerObjetosReconocer(View v){
@@ -563,8 +564,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						String keyString, desString;				
 						keyString = Utilidades.keypointsToJson(keypoints_obj);
 						desString = Utilidades.matToJson(descriptores_obj);
-						Objeto objeto = new Objeto(-1,((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString(), 
-								keyString, desString, aux.cols(), aux.rows(), bmOrigen);
+						Objeto objeto = new Objeto(-1, ((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString(), 
+								"descripcion", new Date(), keyString, desString, aux.cols(), aux.rows(), 
+								"/mnt/sdcard/JuegoReconocimiento/imagenes/", "sonidoDescripcion", "sonidoAyuda", "sonidoNombre");
+						objeto.setImagen(bmOrigen);
 						dsObjetos.createObjeto(objeto);
 						descriptores_obj.release();
 						keypoints_obj.release();

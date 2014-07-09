@@ -74,6 +74,8 @@ public class ObjetoDataSource {
 		ContentValues values = new ContentValues();
 		values = createValues(objeto);		
 		objeto.setId((int) database.insert(MySQLiteHelper.TABLE_OBJETO, null, values));
+		if (objeto.getId() != -1)
+			objeto.guardarImagen();
 		return objeto;
 	}
 	
@@ -112,6 +114,7 @@ public class ObjetoDataSource {
 	public boolean modificaObjeto(Objeto objeto) {
 		ContentValues values = new ContentValues();
 		values = createValues(objeto);	
+		objeto.guardarImagen();
 		
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
 				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + objeto.getId(), null) > 0;
@@ -230,19 +233,13 @@ public class ObjetoDataSource {
 			Log.e("ERROR_FECHA", "Error al obtener la fecha");
 			e.printStackTrace();
 			objeto.setFecha(new Date());
-		}
-		
+		}		
 		objeto.setKeypoints(cursor.getString(4));
 		objeto.setDescriptores(cursor.getString(5));
 		objeto.setCols(cursor.getInt(6));
 		objeto.setRows(cursor.getInt(7));
-		/*try{
-			objeto.setImagenAsByteArray(cursor.getBlob(6));
-		}catch (Exception ex){
-			Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
-			ex.printStackTrace();
-		}*/
 		objeto.setPathImagen(cursor.getString(8));
+		objeto.setImagenFromPath();
 		objeto.setSonidoDescripcion(cursor.getString(9));
 		objeto.setSonidoAyuda(cursor.getString(10));
 		objeto.setSonidoNombre(cursor.getString(11));
@@ -259,12 +256,15 @@ public class ObjetoDataSource {
 			Objeto objeto = new Objeto();
 			cursor.moveToFirst();
 			objeto.setId(cursor.getLong(0));
-			objeto.setNombre(cursor.getString(1));try{
+			objeto.setNombre(cursor.getString(1));
+			/*try{
 				objeto.setImagenAsByteArray(cursor.getBlob(2));
 			}catch (Exception ex){
 				Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
 				ex.printStackTrace();
-			}
+			}*/
+			objeto.setPathImagen(cursor.getString(2));
+			objeto.setImagenFromPath();
 			cursor.close();
 			return objeto;
 		} else

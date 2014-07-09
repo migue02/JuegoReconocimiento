@@ -2,6 +2,8 @@ package es.ugr.objetos;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,6 +12,8 @@ import org.opencv.core.MatOfKeyPoint;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.Utilidades;
 
 public class Objeto{
@@ -28,6 +32,32 @@ public class Objeto{
 	private String sonidoDescripcion;
 	private String sonidoAyuda;
 	private String sonidoNombre;
+	
+	public void setImagenFromPath(){
+		try {
+			File imageFile = new File(pathImagen);
+			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+			Log.e("IMAGEN_CREADA", "Imagen creada en "+pathImagen);
+		} catch (Exception e) {
+			Log.e("ERROR_CREAR_IMAGEN", "Error al crear la imagen en "+pathImagen);
+		}
+	}
+	
+	public void guardarImagen(){
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(pathImagen+nombre+".png"); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
+			imagen.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try{
+				out.close();
+			} catch(Throwable ignore) {}
+		}
+
+	}
 	
 	public Objeto(long id, String nombre, String descripcion, Date fecha, String keypoints,
 			String descriptores, int cols, int rows, String pathImagen,
@@ -49,6 +79,7 @@ public class Objeto{
 		this.sonidoDescripcion = sonidoDescripcion;
 		this.sonidoAyuda = sonidoAyuda;
 		this.sonidoNombre = sonidoNombre;
+		imagen = null;
 	}
 
 	public Date getFecha() {
