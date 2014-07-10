@@ -363,7 +363,12 @@ public class MainActivity extends Activity {
 				rds.createResultado(r6);
 
 				rds.close();
-
+				
+				
+				Utilidades.eliminaImagenes(MainActivity.this);//Elimina contenido de la carpeta imagenes
+				Utilidades.eliminaSonidos(MainActivity.this);//Elimina contenido de la carpeta sonidos				
+				Utilidades.creaCarpetas(MainActivity.this);//Crea la carpeta images y sounds
+				Utilidades.copyAssets(MainActivity.this);//Inicializa la carpeta sonidos desde el assets
 			}
 		});
 		
@@ -378,6 +383,9 @@ public class MainActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+
+			
 
 	}
 
@@ -401,14 +409,17 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void onClickObjetoFicha(View v) {
-		Intent intent = new Intent(this,
-				FichaObjeto.class);
+	public void onClickObjetoFicha(View v) {		
 		ObjetoDataSource oDS= new ObjetoDataSource(this);
 		oDS.open();
-		intent.putExtra("Objeto", oDS.getAllObjetos().get(oDS.getAllObjetos().size()-1).getId());
+		Objeto objeto = oDS.getAllObjetos().get(oDS.getAllObjetos().size()-1);
 		oDS.close();
-		startActivity(intent);
+		if (objeto != null){
+			Intent intent = new Intent(this,
+					FichaObjeto.class);
+			intent.putExtra("Objeto", objeto.getId());
+			startActivity(intent);
+		}
 	}
 	
 	public void onClickBDRemota(View v){

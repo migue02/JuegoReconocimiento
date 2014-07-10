@@ -4,16 +4,20 @@ package es.ugr.objetos;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 
+import es.ugr.juegoreconocimiento.R;
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.util.Log;
-import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.Utilidades;
 
 public class Objeto{
@@ -29,13 +33,52 @@ public class Objeto{
 	private int rows;
 	private Bitmap imagen;
 	private String pathImagen;
-	private String sonidoDescripcion;
-	private String sonidoAyuda;
-	private String sonidoNombre;
+	private String pathSonidoDescripcion;
+	private String pathSonidoAyuda;
+	private String pathSonidoNombre;
+	
+	private MediaPlayer player = new MediaPlayer();
+
+	private void playSonido(String path, String pathError){
+		if(player.isPlaying()){
+			while(player.isPlaying());
+			player.release();
+			player = new MediaPlayer();
+		}		
+		try{
+			if (path.length() > 0)
+				player.setDataSource(path);
+			else
+				player.setDataSource(pathError);
+		    player.prepare();
+		    player.start();
+		} catch (IOException e){
+			try{
+				player.setDataSource(pathError);
+			    player.prepare();
+			    player.start();
+			} catch (IOException ex){
+				ex.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void playSonidoDescripcion(Context context){
+		playSonido(pathSonidoDescripcion,context.getString(R.string.pathSounds)+"/descripcion.mp3");
+	}
+	
+	public void playSonidoAyuda(Context context){
+		playSonido(pathSonidoAyuda,context.getString(R.string.pathSounds)+"/ayuda.mp3");	
+	}
+	
+	public void playSonidoNombre(Context context){
+		playSonido(pathSonidoNombre,context.getString(R.string.pathSounds)+"/nombre.mp3");
+	}
 	
 	public void setImagenFromPath(){
 		try {
-			File imageFile = new File(pathImagen+nombre+".png");
+			File imageFile = new File(pathImagen+"/"+nombre+".png");
 			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 			Log.e("IMAGEN_CREADA", "Imagen creada en "+pathImagen);
 		} catch (Exception e) {
@@ -46,7 +89,7 @@ public class Objeto{
 	public void guardarImagen(){
 		FileOutputStream out = null;
 		try {
-			out = new FileOutputStream(pathImagen+nombre+".png"); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
+			out = new FileOutputStream(pathImagen+"/"+nombre+".png"); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
 			imagen.compress(Bitmap.CompressFormat.PNG, 90, out);
 			out.close();
 		} catch (Exception e) {
@@ -76,9 +119,9 @@ public class Objeto{
 		this.cols = cols;
 		this.rows = rows;
 		this.pathImagen = pathImagen;
-		this.sonidoDescripcion = sonidoDescripcion;
-		this.sonidoAyuda = sonidoAyuda;
-		this.sonidoNombre = sonidoNombre;
+		this.pathSonidoDescripcion = sonidoDescripcion;
+		this.pathSonidoAyuda = sonidoAyuda;
+		this.pathSonidoNombre = sonidoNombre;
 		imagen = null;
 	}
 
@@ -112,27 +155,27 @@ public class Objeto{
 	}
 
 	public String getSonidoDescripcion() {
-		return sonidoDescripcion;
+		return pathSonidoDescripcion;
 	}
 
 	public void setSonidoDescripcion(String sonidoDescripcion) {
-		this.sonidoDescripcion = sonidoDescripcion;
+		this.pathSonidoDescripcion = sonidoDescripcion;
 	}
 
 	public String getSonidoAyuda() {
-		return sonidoAyuda;
+		return pathSonidoAyuda;
 	}
 
 	public void setSonidoAyuda(String sonidoAyuda) {
-		this.sonidoAyuda = sonidoAyuda;
+		this.pathSonidoAyuda = sonidoAyuda;
 	}
 
 	public String getSonidoNombre() {
-		return sonidoNombre;
+		return pathSonidoNombre;
 	}
 
 	public void setSonidoNombre(String sonidoNombre) {
-		this.sonidoNombre = sonidoNombre;
+		this.pathSonidoNombre = sonidoNombre;
 	}
 	
 
@@ -146,9 +189,9 @@ public class Objeto{
 		cols=0;
 		rows=0;
 		imagen=null;
-		sonidoAyuda="";
-		sonidoDescripcion="";
-		sonidoNombre="";
+		pathSonidoAyuda="";
+		pathSonidoDescripcion="";
+		pathSonidoNombre="";
 	}
 
 	public Objeto(long id, String nombre, String keypoints,
@@ -165,9 +208,9 @@ public class Objeto{
 		this.rows = rows;
 		this.imagen=imagen;
 		this.fecha = new Date();
-		sonidoAyuda="";
-		sonidoDescripcion="";
-		sonidoNombre="";
+		pathSonidoAyuda="";
+		pathSonidoDescripcion="";
+		pathSonidoNombre="";
 	}
 
 	public Bitmap getImagen() {

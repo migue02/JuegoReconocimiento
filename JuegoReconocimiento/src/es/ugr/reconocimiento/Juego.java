@@ -564,9 +564,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						String keyString, desString;				
 						keyString = Utilidades.keypointsToJson(keypoints_obj);
 						desString = Utilidades.matToJson(descriptores_obj);
-						Objeto objeto = new Objeto(-1, ((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString(), 
-								"descripcion", new Date(), keyString, desString, aux.cols(), aux.rows(), 
-								"/mnt/sdcard/JuegoReconocimiento/imagenes/", "sonidoDescripcion", "sonidoAyuda", "sonidoNombre");
+						String nombreObjeto = ((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString();
+						Objeto objeto = new Objeto(-1, nombreObjeto, "descripcion", new Date(), keyString, desString, 
+								aux.cols(), aux.rows(), Juego.this.getString(R.string.pathImages), 
+								Juego.this.getString(R.string.pathSounds)+"/descripcion"+nombreObjeto+".mp3", 
+								Juego.this.getString(R.string.pathSounds)+"/ayuda"+nombreObjeto+".mp3", 
+								Juego.this.getString(R.string.pathSounds)+"/nombre"+nombreObjeto+".mp3");
 						objeto.setImagen(bmOrigen);
 						dsObjetos.createObjeto(objeto);
 						descriptores_obj.release();
