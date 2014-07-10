@@ -422,9 +422,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int location, long arg3) {
 					if (!bJuegoIniciado){
-						int id=(int) llObjetos.get(location).getId();
-						oEjercicioActual.eliminaObjetoReconocer(id);
-						dsObjetos.eliminaObjeto(id);
+						String nombre= llObjetos.get(location).getNombre();
+						oEjercicioActual.eliminaObjetoReconocer(nombre);
+						dsObjetos.eliminaObjeto(nombre);
 						dsEjercicios.modificaEjercicio(oEjercicioActual);
 					}
 					dialog.dismiss();
@@ -452,9 +452,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int location, long arg3) {
 					if (!bJuegoIniciado){
-						int id=(int) llObjetosEscenario.get(location).getId();
-						oEjercicioActual.eliminaObjetoEscenario(id);
-						dsObjetos.eliminaObjeto(id);
+						String nombre= llObjetosEscenario.get(location).getNombre();
+						oEjercicioActual.eliminaObjetoEscenario(nombre);
+						dsObjetos.eliminaObjeto(nombre);
 						dsEjercicios.modificaEjercicio(oEjercicioActual);
 					}
 					dialog.dismiss();
@@ -641,9 +641,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int location, long id) {
-				listaEjercicios.get(location).getObjetosReconocer().add((int) objeto.getId());
-				listaEjercicios.get(location).getObjetos().add((int) objeto.getId());
+				listaEjercicios.get(location).getObjetosReconocer().add(objeto.getNombre());
+				listaEjercicios.get(location).getObjetos().add(objeto.getNombre());
 				dsEjercicios.modificaEjercicio(listaEjercicios.get(location));
+				oEjercicioActual.insertaObjetoReconocer(objeto);
 				dialog.dismiss();
 				Toast.makeText(Juego.this, "Añadido a reconocer", Toast.LENGTH_SHORT).show();
 			}});
@@ -652,15 +653,13 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,int location, long id) {
-				listaEjercicios.get(location).getObjetos().add((int) objeto.getId());
+				listaEjercicios.get(location).getObjetos().add(objeto.getNombre());
 				dsEjercicios.modificaEjercicio(listaEjercicios.get(location));
+				oEjercicioActual.insertaObjetoEscenario(objeto);
 				dialog.dismiss();
 				Toast.makeText(Juego.this, "Añadido a escenario", Toast.LENGTH_SHORT).show();
 				return true;		
-			}});
-		
-		
-		
+			}});		
 		dialog.show();	
 	}
 	

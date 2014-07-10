@@ -35,7 +35,7 @@ public class Objeto{
 	
 	public void setImagenFromPath(){
 		try {
-			File imageFile = new File(pathImagen);
+			File imageFile = new File(pathImagen+nombre+".png");
 			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 			Log.e("IMAGEN_CREADA", "Imagen creada en "+pathImagen);
 		} catch (Exception e) {

@@ -124,6 +124,11 @@ public class ObjetoDataSource {
 		return database.delete(MySQLiteHelper.TABLE_OBJETO,
 				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + id, null) > 0;
 	}
+	
+	public boolean eliminaObjeto(String nombre) {
+		return database.delete(MySQLiteHelper.TABLE_OBJETO,
+				MySQLiteHelper.COLUMN_OBJETO_NOMBRE + " = " + nombre, null) > 0;
+	}
 
 	public boolean eliminaTodosObjetos() {
 		return database.delete(MySQLiteHelper.TABLE_OBJETO, null, null) > 0;

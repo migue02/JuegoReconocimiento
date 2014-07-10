@@ -189,5 +189,17 @@ public class Ejercicio {
 		this.idEjercicio = (int)idEjercicio;
 	}
 
+	public void insertaObjetoEscenario(Objeto objeto) {
+		if (!objetos.contains(objeto.getNombre()))
+			objetos.add(objeto.getNombre());
+	}
+
+	public void insertaObjetoReconocer(Objeto objeto) {
+		if (!objetosReconocer.contains(objeto.getNombre())){
+			objetosReconocer.add(objeto.getNombre());
+			insertaObjetoEscenario(objeto);
+		}
+	}
+
 
 }
