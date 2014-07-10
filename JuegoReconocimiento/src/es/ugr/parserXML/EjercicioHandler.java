@@ -85,6 +85,8 @@ public class EjercicioHandler extends DefaultHandler{
 	            	ejercicioActual.setReconocer(reconocer);
 	            }  else if (localName.equals("ejercicio")) {
 	                listaEjercicios.add(ejercicioActual);
+	            } else if(localName.equals("sonido_descripcion")){
+	            	ejercicioActual.setSonidoDescripcion(sbText.toString().trim());
 	            }
 	 
 	            sbText.setLength(0);

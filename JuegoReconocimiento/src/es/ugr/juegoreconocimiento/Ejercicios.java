@@ -2,6 +2,7 @@ package es.ugr.juegoreconocimiento;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.mobeta.android.dslv.DragSortListView;
@@ -40,7 +41,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import ar.com.daidalos.afiledialog.FileChooserDialog;
-
+import es.ugr.bdremota.*;
 
 
 
@@ -58,7 +59,7 @@ public class Ejercicios extends Activity {
 	 private Dialog dialogo;
 	 private List<Ejercicio> le;
 	 private EjercicioDataSource eds;
-	 private View  ImportarEj;
+	 private View  ImportarEj,SincronizarEj;
 	 private adaptadorSelEj2 adaptador;
 	 private DragSortListView lv;
 	 private Sonidos sonidos;
@@ -87,6 +88,7 @@ public class Ejercicios extends Activity {
 	    
 	    
 		ImportarEj=findViewById(R.id.ImportarEj);
+		SincronizarEj=findViewById(R.id.SincronizarEj);
 		listView=(ListView)findViewById(R.id.listViewAlum);
 		
         eds=new EjercicioDataSource(this);
@@ -216,6 +218,15 @@ public class Ejercicios extends Activity {
 	            dialogo.show();              
 			}
 		});
+		
+		SincronizarEj.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+			new SincronizarEjercicios(Ejercicios.this).execute();
+		   }
+		});
 		sonidos=new Sonidos(this);
 
 	}
@@ -231,9 +242,9 @@ public class Ejercicios extends Activity {
 	
 
 	private void CreaLista(){
-		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios"
+		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios", "Objetos"
         };
-		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3};
+		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.ic5};
 
 		List<RowItemTitle> rowItems;
 		rowItems=new ArrayList<RowItemTitle>();
@@ -286,6 +297,12 @@ public class Ejercicios extends Activity {
 		case 4:
 			Intent SeriesIntent=new Intent(getApplicationContext(), SeriesEjercicios.class);
 			startActivity(SeriesIntent);
+			finish();
+			break;
+		
+		case 5:
+			Intent ObjetosIntent=new Intent(getApplicationContext(), Objetos.class);
+			startActivity(ObjetosIntent);
 			finish();
 			break;
 
@@ -448,7 +465,8 @@ public class Ejercicios extends Activity {
 	    	// TODO Auto-generated method stub
 	    	super.onPostExecute(result); 	
 	    	for(int i=0;i<ListaEj.size();i++){
-				 eds.createEjercicio(ListaEj.get(i).getNombre(), ListaIdObjetos(ListaEj.get(i).getEscenario()), ListaEj.get(i).getDescripcion(), ListaEj.get(i).getDuracion(),ListaIdObjetos(ListaEj.get(i).getReconocer()));
+				// eds.createEjercicio(ListaEj.get(i).getNombre(), ListaIdObjetos(ListaEj.get(i).getEscenario()), ListaEj.get(i).getDescripcion(), ListaEj.get(i).getDuracion(),ListaIdObjetos(ListaEj.get(i).getReconocer()));
+				 eds.createEjercicio(ListaEj.get(i).getNombre(), new Date(), ListaEj.get(i).getEscenario(), ListaEj.get(i).getDescripcion(), ListaEj.get(i).getDuracion(), ListaEj.get(i).getReconocer(), ListaEj.get(i).getSonidoDescripcion());
 			 }
 
 			 Toast toast2 = Toast.makeText(getApplicationContext(), "Creados "+String.valueOf(ListaEj.size())+" ejercicios.", Toast.LENGTH_LONG);
@@ -462,17 +480,7 @@ public class Ejercicios extends Activity {
 		}
 
 
-	
-	private ArrayList<Integer> ListaIdObjetos(List<String> ListaNombre){
-		ObjetoDataSource ods=new ObjetoDataSource(getApplicationContext());
-		ods.open();
-		ArrayList<Integer> ListaId=new ArrayList<Integer>();
-		for(int i=0;i<ListaNombre.size();i++){
-			ListaId.add((int) ods.getObjeto(ListaNombre.get(i)).getId());
-		}
-		ods.close();
-		return ListaId;
-	}
+
 	
 	
     private DragSortListView.DropListener onDrop =

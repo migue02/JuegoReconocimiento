@@ -266,29 +266,28 @@ public class MainActivity extends Activity {
 				}
 				
 				
-				ArrayList<Integer> escenario = new ArrayList<Integer>();
-				escenario.add((int) objAngryBirds.getId());
-				escenario.add((int) objAdidas.getId());
-				escenario.add((int) objKelme.getId());
-				escenario.add((int) objUGR.getId());
-				escenario.add((int) objWindows.getId());
-				escenario.add((int) objApple.getId());
+				ArrayList<String> escenario = new ArrayList<String>();
+				escenario.add(objAngryBirds.getNombre());
+				escenario.add(objAdidas.getNombre());
+				escenario.add(objKelme.getNombre());
+				escenario.add(objUGR.getNombre());
+				escenario.add(objWindows.getNombre());
+				escenario.add(objApple.getNombre());
 				
-				ArrayList<Integer> lista = new ArrayList<Integer>();
-				lista.add((int) objAdidas.getId());
-				lista.add((int) objKelme.getId());
+				ArrayList<String> lista = new ArrayList<String>();
+				lista.add(objAdidas.getNombre());
+				lista.add(objKelme.getNombre());
 				String tp1 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto Adidas, y cuando finalice dicho ejercicios, deberá detectar el objeto Kelme");
-				Ejercicio p1 = eds.createEjercicio("Adidas y kelme",
-						escenario, tp1, 5, lista);
+				Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(), escenario, tp1, 5, lista, "");
 				lista.clear();
-				lista.add((int) objUGR.getId());
-				lista.add((int) objApple.getId());
-				lista.add((int) objWindows.getId());
+				lista.add(objUGR.getNombre());
+				lista.add(objApple.getNombre());
+				lista.add(objWindows.getNombre());
 				String tp2 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto UGR, luego Apple, y cuando finalice, deberá detectar el objeto Windows");
-				Ejercicio p2 = eds.createEjercicio("UGR, Apple y Windows", escenario,
-						tp2, 6, lista);
+				Ejercicio p2 = eds.createEjercicio("UGR, Apple y Windows", new Date(), escenario,
+						tp2, 6, lista, "");
 				lista.clear();
 				/*lista.add((int) objeto4.getId());
 				lista.add((int) objeto5.getId());

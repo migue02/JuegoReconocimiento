@@ -44,7 +44,7 @@ public class SerieEjercicios implements Serializable {
 		try {
 			this.idSerie = idSerie;
 			this.nombre = nombre;
-			this.ejercicios = Utilidades.ArrayListFromJson(ejercicios);	
+			this.ejercicios = Utilidades.ArrayListFromJsonInt(ejercicios);	
 			this.duracion=duracion;
 			this.fecha_modificacion= fecha_modificacion; 
 		}catch (Exception e){

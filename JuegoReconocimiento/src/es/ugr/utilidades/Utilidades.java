@@ -195,16 +195,16 @@ public class Utilidades {
 		}
 	}
 	
-	public static String ArrayListToJson(ArrayList<Integer> idsObjeto){
+	public static String ArrayListToJson(ArrayList<String> objetos){
 		String result = "";
 		
-		if (!idsObjeto.isEmpty()) {
+		if (!objetos.isEmpty()) {
 
 			JsonArray jsonArr = new JsonArray();
 			
-			for (int i=0; i<idsObjeto.size();i++){
+			for (int i=0; i<objetos.size();i++){
 				JsonObject obj = new JsonObject();
-				obj.addProperty("id", idsObjeto.get(i));
+				obj.addProperty("id", objetos.get(i));
 				jsonArr.add(obj);
 			}
 			Gson gson = new Gson();
@@ -218,7 +218,51 @@ public class Utilidades {
 		
 	}
 	
-	public static ArrayList<Integer> ArrayListFromJson(String idsObjeto){
+	public static String ArrayListToJsonInt(ArrayList<Integer> objetos){
+		String result = "";
+		
+		if (!objetos.isEmpty()) {
+
+			JsonArray jsonArr = new JsonArray();
+			
+			for (int i=0; i<objetos.size();i++){
+				JsonObject obj = new JsonObject();
+				obj.addProperty("id", objetos.get(i));
+				jsonArr.add(obj);
+			}
+			Gson gson = new Gson();
+			result = gson.toJson(jsonArr);
+
+			return result;
+		} else {
+			Log.e(TAG, "Mat not continuous.");
+		}
+		return "{}";
+		
+	}
+	
+	
+	
+	public static ArrayList<String> ArrayListFromJson(String idsObjeto){
+		ArrayList<String> result=new ArrayList<String>();
+		
+		if (!idsObjeto.isEmpty()){
+			try{
+				JsonParser parser = new JsonParser();
+					JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
+					
+					for (int i=0; i< jsonArr.size(); i++)
+						result.add(((JsonObject)jsonArr.get(i)).get("id").getAsString());
+				}catch (Exception e){
+					
+				}
+		}
+		
+		return result;
+	}
+	
+	
+	public static ArrayList<Integer> ArrayListFromJsonInt(String idsObjeto){
 		ArrayList<Integer> result=new ArrayList<Integer>();
 		
 		if (!idsObjeto.isEmpty()){

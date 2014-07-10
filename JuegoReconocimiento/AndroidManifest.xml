@@ -96,6 +96,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity
+            android:name="es.ugr.juegoreconocimiento.Objetos"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
     <supports-screens

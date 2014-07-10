@@ -9,6 +9,7 @@ public class EjerciciosMarker {
 	private String Descripcion;
 	private int Duracion;
 	private ArrayList<String> Reconocer;
+	private String SonidoDescripcion;
 	
 	public EjerciciosMarker(){
 		this.Nombre="";
@@ -56,6 +57,14 @@ public class EjerciciosMarker {
 
 	public void setReconocer(ArrayList<String> reconocer) {
 		Reconocer = reconocer;
+	}
+
+	public String getSonidoDescripcion() {
+		return SonidoDescripcion;
+	}
+
+	public void setSonidoDescripcion(String sonidoDescripcion) {
+		SonidoDescripcion = sonidoDescripcion;
 	}
 	
 }

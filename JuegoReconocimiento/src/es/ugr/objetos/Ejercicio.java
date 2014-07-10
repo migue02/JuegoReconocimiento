@@ -9,10 +9,10 @@ public class Ejercicio {
 	private int idEjercicio;
 	private String nombre;
 	private Date fecha;
-	private ArrayList<Integer> objetos;//escenario
+	private ArrayList<String> objetos;//escenario
 	private String descripcion;
 	private int duracion;
-	private ArrayList<Integer> objetosReconocer;
+	private ArrayList<String> objetosReconocer;
 	private int orden;
 	private String sonido_descripcion;
 	
@@ -20,25 +20,25 @@ public class Ejercicio {
 		this.idEjercicio=-1;
 		this.nombre="";
 		this.fecha = new Date();
-		this.objetos=new ArrayList<Integer>();
+		this.objetos=new ArrayList<String>();
 		this.duracion=0;
 		this.descripcion = "";
-		this.objetosReconocer=new ArrayList<Integer>();
+		this.objetosReconocer=new ArrayList<String>();
 		this.sonido_descripcion="";
 	}
-
-	public Ejercicio(int idEjercicio, String nombre, ArrayList<Integer> objetos, String descripcion, int duracion, ArrayList<Integer> objetosReconocer) {
+/*
+	public Ejercicio(int idEjercicio, String nombre, ArrayList<String> objetos, String descripcion, int duracion, ArrayList<String> objetosReconocer) {
 		this.idEjercicio = idEjercicio;
 		this.nombre = nombre;
-		this.objetos = new ArrayList<Integer>(objetos);
+		this.objetos = new ArrayList<String>(objetos);
 		this.descripcion = descripcion;
 		this.duracion=duracion;
-		this.objetosReconocer=new ArrayList<Integer>(objetosReconocer);
-	}
-	
-	public Ejercicio(String nombre, Date fecha, ArrayList<Integer> objetos,
+		this.objetosReconocer=new ArrayList<String>(objetosReconocer);
+	}*/
+	/*
+	public Ejercicio(String nombre, Date fecha, ArrayList<String> objetos,
 			String descripcion, int duracion,
-			String objetosReconocer, int orden,
+			ArrayList<String> objetosReconocer, int orden,
 			String sonido_descripcion) {
 		super();
 		try{
@@ -49,15 +49,15 @@ public class Ejercicio {
 			this.duracion = duracion;
 			this.orden = orden;
 			this.sonido_descripcion = sonido_descripcion;
-			this.objetosReconocer=es.ugr.utilidades.Utilidades.ArrayListFromJson(objetosReconocer);
+			this.objetosReconocer=objetosReconocer;
 		}catch (Exception e){
 			new Ejercicio();
 		}
-	}
+	}*/
 	
-	public Ejercicio(String nombre, Date fecha, ArrayList<Integer> objetos,
+	public Ejercicio(String nombre, Date fecha, ArrayList<String> objetos,
 			String descripcion, int duracion,
-			ArrayList<Integer> objetosReconocer, int orden,
+			ArrayList<String> objetosReconocer,
 			String sonido_descripcion) {
 		super();
 		this.nombre = nombre;
@@ -66,7 +66,7 @@ public class Ejercicio {
 		this.descripcion = descripcion;
 		this.duracion = duracion;
 		this.objetosReconocer = objetosReconocer;
-		this.orden = orden;
+		this.orden = 0;
 		this.sonido_descripcion = sonido_descripcion;
 	}
 
@@ -106,11 +106,11 @@ public class Ejercicio {
 		}
 	}
 
-	public ArrayList<Integer> getObjetosReconocer() {
+	public ArrayList<String> getObjetosReconocer() {
 		return objetosReconocer;
 	}
 
-	public void setObjetosReconocer(ArrayList<Integer> objetosReconocer) {
+	public void setObjetosReconocer(ArrayList<String> objetosReconocer) {
 		this.objetosReconocer = objetosReconocer;
 	}
 
@@ -137,11 +137,11 @@ public class Ejercicio {
 		this.nombre = nombre;
 	}
 
-	public ArrayList<Integer> getObjetos() {
+	public ArrayList<String> getObjetos() {
 		return objetos;
 	}
 
-	public void setObjetos(ArrayList<Integer> objetos) {
+	public void setObjetos(ArrayList<String> objetos) {
 		this.objetos = objetos;
 	}	
 	
@@ -169,7 +169,7 @@ public class Ejercicio {
 		this.orden = orden;
 	}
 
-	public void eliminaObjetoReconocer(int id) {
+	public void eliminaObjetoReconocer(String id) {
 		for (int i=0;i<objetosReconocer.size();i++)
 			if(objetosReconocer.get(i)==id){
 				objetosReconocer.remove(i);
@@ -177,7 +177,7 @@ public class Ejercicio {
 			}
 	}
 
-	public void eliminaObjetoEscenario(int id) {
+	public void eliminaObjetoEscenario(String id) {
 		for (int i=0;i<objetos.size();i++)
 			if(objetos.get(i)==id){
 				objetos.remove(i);

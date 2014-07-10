@@ -70,6 +70,8 @@ import java.util.List;
 
 
 
+
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -83,6 +85,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
  
+
+
 
 
 
@@ -156,6 +160,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -253,6 +259,8 @@ public class AllEjerciciosActivity extends Activity {
         listaRem=new ArrayList<Ejercicio>();
         listaLocObj=new ArrayList<Objeto>();
         
+        if(isNetworkAvailable()==true){
+        
         rellenaLocal();
         
         
@@ -268,7 +276,7 @@ public class AllEjerciciosActivity extends Activity {
         	}
 		});
  
-
+        }
  
     }
 
@@ -469,7 +477,9 @@ public class AllEjerciciosActivity extends Activity {
         @Override
         protected String doInBackground(List<Objeto>... params) {
         	// TODO Auto-generated method stub
-        	 
+            FileOutputStream out;
+            String dirFich="";
+            Bitmap foto;
         	for(int i=0;i<params[0].size();i++){
         //int i=6;
         	 List<NameValuePair> parametros = new ArrayList<NameValuePair>();
@@ -479,11 +489,13 @@ public class AllEjerciciosActivity extends Activity {
              parametros.add(new BasicNameValuePair("descriptores", params[0].get(i).getDescriptores()));
              parametros.add(new BasicNameValuePair("cols", String.valueOf(params[0].get(i).getCols())));
              parametros.add(new BasicNameValuePair("rows",String.valueOf(params[0].get(i).getRows())));
-             Bitmap foto=params[0].get(i).getImagen();
+      
+             foto=params[0].get(i).getImagen();
              if(foto!=null){
-	             FileOutputStream out;
+
 	             try {
-	                    out = new FileOutputStream("/mnt/sdcard/"+nombre+".png");
+	            	 	dirFich="/mnt/sdcard/"+nombre+".png";
+	                    out = new FileOutputStream(dirFich);
 	                    foto.compress(Bitmap.CompressFormat.PNG, 90, out);
 	                    out.close();
 	             } catch (Exception e) {
@@ -517,6 +529,10 @@ public class AllEjerciciosActivity extends Activity {
                      // closing this screen
                  	// Toast toast = Toast.makeText(AllEjerciciosActivity.this, "Creado ejercicios.", Toast.LENGTH_LONG);
                  	// toast.show();
+                	 if(foto!=null){
+                		// deleteFile(dirFich);
+                		 dirFich="";
+                	 }
                  } else {
                      // failed to create product
                   //json.getString("message")
@@ -526,8 +542,7 @@ public class AllEjerciciosActivity extends Activity {
              } catch (JSONException e) {
                  e.printStackTrace();
              }
-            // File file = new File("/mnt/sdcard/temp.png");
-            // boolean deleted = file.delete();
+
         	}
         	
         	return null;
@@ -763,6 +778,14 @@ public class AllEjerciciosActivity extends Activity {
             }
         }
         
+    }
+    
+    
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager 
+              = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     

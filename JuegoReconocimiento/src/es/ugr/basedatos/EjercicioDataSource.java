@@ -69,9 +69,9 @@ public class EjercicioDataSource {
 		ejercicio.setIdEjercicio((int) database.insert(MySQLiteHelper.TABLE_EJERCICIO, null, values));
 		return ejercicio;
 	}
-
-	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, int duracion, 
-			ArrayList<Integer> objetosReconocer) {
+/*
+	public Ejercicio createEjercicio(String nombre, ArrayList<String> objetos, String descripcion, int duracion, 
+			ArrayList<String> objetosReconocer) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE, nombre);
@@ -96,10 +96,15 @@ public class EjercicioDataSource {
 		return newEjercicio;
 	}
 	
-	public Ejercicio createEjercicio(String nombre, ArrayList<Integer> objetos, String descripcion, int duracion) {
+*/	
+	
+	public Ejercicio createEjercicio(String nombre, Date fecha, ArrayList<String> objetos,
+			String descripcion, int duracion,
+			ArrayList<String> objetosReconocer,
+			String sonido_descripcion) {
 
 		ContentValues values = new ContentValues();
-		Ejercicio ejercicio = new Ejercicio(-1, nombre, objetos, descripcion, duracion, objetos);
+		Ejercicio ejercicio = new Ejercicio(nombre, fecha, objetos, descripcion, duracion,objetosReconocer,sonido_descripcion);
 		values = createValues(ejercicio);
 		
 		long insertId = database.insert(MySQLiteHelper.TABLE_EJERCICIO, null,
@@ -123,7 +128,7 @@ public class EjercicioDataSource {
 		return database.update(MySQLiteHelper.TABLE_EJERCICIO, values,
 				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + ejercicio.getIdEjercicio(), null) > 0;
 	}
-
+/*
 	public boolean modificaEjercicio(int id, String nombre,
 			ArrayList<Integer> objetos, String descripcion, int duracion) {
 
@@ -133,7 +138,7 @@ public class EjercicioDataSource {
 
 		return database.update(MySQLiteHelper.TABLE_EJERCICIO, values,
 				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + id, null) > 0;
-	}
+	}*/
 
 	public boolean eliminaEjercicio(int id) {
 		return database.delete(MySQLiteHelper.TABLE_EJERCICIO,
@@ -186,6 +191,21 @@ public class EjercicioDataSource {
 		return null;
 	}
 	
+	
+	public Ejercicio getEjercicios(String nombre) {
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
+				allColumns, MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE + " = " + nombre,
+				null, null, null, null);
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			Ejercicio ejercicio = cursorToEjercicio(cursor);
+			cursor.close();
+			return ejercicio;
+		}
+		return null;
+	}
+	
+	
 	public int getDuracion(int id) {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO, 
 				new String [] {MySQLiteHelper.COLUMN_EJERCICIO_DURACION}, 
@@ -210,16 +230,17 @@ public class EjercicioDataSource {
 		ejercicio.setIdEjercicio(cursor.getLong(0));
 		ejercicio.setNombre(cursor.getString(1));
 		ejercicio.setDescripcion(cursor.getString(2));
+		ejercicio.setObjetos(es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(3)));
 		try {
-			ejercicio.setFecha(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
-					.getString(3)));
+			ejercicio.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(cursor
+					.getString(4)));
 		} catch (ParseException e) {
 			Log.e("ERROR_FECHA", "Error al obtener la fecha");
 			e.printStackTrace();
 			ejercicio.setFecha(new Date());
 		}		
-		ejercicio.setDuracion(cursor.getInt(4));
-		ejercicio.setObjetos(es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(5)));
+		ejercicio.setDuracion(cursor.getInt(5));
+		
 		ejercicio.setObjetosReconocer(es.ugr.utilidades.Utilidades.ArrayListFromJson(cursor.getString(6)));
 		ejercicio.setSonido_descripcion(cursor.getString(7));
 		return ejercicio;
