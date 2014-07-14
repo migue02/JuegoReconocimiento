@@ -38,6 +38,7 @@ import android.os.SystemClock;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
@@ -55,6 +56,7 @@ import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -76,8 +78,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private int[] colsArray, rowsArray;
 	private TextToSpeech ttobj;
 	
-	//private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
-	//private CheckBox chkExtended, chkUpright;
+	private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
+	private CheckBox chkExtended, chkUpright;
 	
 	private double hessianThreshold=1300;
 	private int nOctaves=4, nOctaveLayers=2;
@@ -110,6 +112,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	
 	private AssetFileDescriptor afd;
 	private MediaPlayer player;
+	
+	private boolean bVistaCapturar;
+	
+	private int nLocation=-1;
 	
 	
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -144,7 +150,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
 		
-		/*chkExtended = (CheckBox) findViewById(R.id.edtExtended);
+		chkExtended = (CheckBox) findViewById(R.id.edtExtended);
 		edthessianThreshold = (EditText) findViewById(R.id.edtHessian);
 		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
 		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
@@ -153,7 +159,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		edthessianThreshold.setText("1500");
 		edtnOctaveLayers.setText("2");
 		edtnOctaves.setText("4");
-		*/
+		
 		Bundle extras;
 		if (savedInstanceState == null) {
 		    extras = getIntent().getExtras();
@@ -182,6 +188,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			        oSerie = new SerieEjercicios();
 			        bCiclico = false;
 		    	}
+		    	try{
+		    		bVistaCapturar = extras.getBoolean("VistaCapturar");
+		    	}catch (Exception e){
+		    		bVistaCapturar = false;
+		    	}
 		    }
 		} else {
 			try{
@@ -193,42 +204,54 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		        oSerie = new SerieEjercicios();
 		        bCiclico = false;
 	    	}
+			try{
+	    		bVistaCapturar = savedInstanceState.getBoolean("VistaCapturar");
+	    	}catch (Exception e){
+	    		bVistaCapturar = false;
+	    	}
 		}
-		
-		setTitle(oAlumno.getNombre() +" - "+oSerie.getNombre());
-		
-		
-		ttobj=new TextToSpeech(getApplicationContext(), 
-	      new TextToSpeech.OnInitListener() {
-	      @Override
-	      public void onInit(int status) {
-	         if(status != TextToSpeech.ERROR){
-	        	 Locale locale = new Locale("spa","ESP");
-	             ttobj.setLanguage(locale);
-	            }				
-	         }
-	      });
 		
 		dsObjetos = new ObjetoDataSource(this);
 		dsObjetos.open();
-		dsResultado = new ResultadoDataSource(this);
-		dsResultado.open();
-		dsEjercicios = new EjercicioDataSource(this);
-		dsEjercicios.open();
 		
-		try{
-			lEjercicios = dsEjercicios.getAllEjercicios(oSerie);
-			oEjercicioActual = lEjercicios.get(0);
-		} catch (Exception e){
-			lEjercicios = dsEjercicios.getAllEjercicios();
-			if (lEjercicios.size() > 0)
+		ttobj=new TextToSpeech(getApplicationContext(), 
+		  new TextToSpeech.OnInitListener() {
+		  @Override
+		  public void onInit(int status) {
+		     if(status != TextToSpeech.ERROR){
+		    	 Locale locale = new Locale("spa","ESP");
+		     ttobj.setLanguage(locale);
+		    }				
+		 }
+	    });
+		
+		if (!bVistaCapturar){
+		
+			setTitle(oAlumno.getNombre() +" - "+oSerie.getNombre());
+			
+			dsResultado = new ResultadoDataSource(this);
+			dsResultado.open();
+			dsEjercicios = new EjercicioDataSource(this);
+			dsEjercicios.open();
+			
+			try{
+				lEjercicios = dsEjercicios.getAllEjercicios(oSerie);
 				oEjercicioActual = lEjercicios.get(0);
-			else
-				oEjercicioActual = new Ejercicio();
+			} catch (Exception e){
+				lEjercicios = dsEjercicios.getAllEjercicios();
+				if (lEjercicios.size() > 0)
+					oEjercicioActual = lEjercicios.get(0);
+				else
+					oEjercicioActual = new Ejercicio();
+			}
+			((ImageView) findViewById(R.id.btnCapturar)).setVisibility(View.GONE);
+			
+		}else{
+			setTitle("Añadir objeto");
+			((LinearLayout) findViewById(R.id.layoutBotones)).setVisibility(View.GONE);
+			((LinearLayout) findViewById(R.id.layoutEdits)).setVisibility(View.GONE);
+			((ImageView) findViewById(R.id.btnReconocer)).setVisibility(View.GONE);
 		}
-		
-		
-		
 	}
 	
 	private void iniciarJuego(){
@@ -394,14 +417,23 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		((Chronometer) findViewById(R.id.cronometro)).start();
 	}
 	
+	public void onClickSalir(View v){
+		Toast.makeText(getApplicationContext(), "Mostrar activity resumen...", Toast.LENGTH_SHORT).show();
+	}
+	
+	public void onAyudaClick(View v){
+		if (oObjetoActual != null)
+			oObjetoActual.playSonidoAyuda(this);
+	}
+	
 	public void onReconocerClick(View v){
 		iniciarJuego();
 		iniciarCrono();
 	}
 
 	public void onInicializaSurf(View v){
-		/*InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
-				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());*/
+		InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
+				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());
 	}
 	
 	public void onVerObjetosReconocer(View v){
@@ -423,9 +455,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					int location, long arg3) {
 					if (!bJuegoIniciado){
 						String nombre= llObjetos.get(location).getNombre();
-						oEjercicioActual.eliminaObjetoReconocer(nombre);
-						dsObjetos.eliminaObjeto(nombre);
-						dsEjercicios.modificaEjercicio(oEjercicioActual);
+						if (dsObjetos.eliminaObjeto(nombre)){
+							if (oEjercicioActual != null){
+								oEjercicioActual.eliminaObjetoReconocer(nombre);
+								dsEjercicios.modificaEjercicio(oEjercicioActual);
+							}
+						}
 					}
 					dialog.dismiss();
 				return false;
@@ -453,9 +488,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					int location, long arg3) {
 					if (!bJuegoIniciado){
 						String nombre= llObjetosEscenario.get(location).getNombre();
-						oEjercicioActual.eliminaObjetoEscenario(nombre);
-						dsObjetos.eliminaObjeto(nombre);
-						dsEjercicios.modificaEjercicio(oEjercicioActual);
+						if (dsObjetos.eliminaObjeto(nombre)){
+							if (oEjercicioActual != null){
+								oEjercicioActual.eliminaObjetoEscenario(nombre);
+								dsEjercicios.modificaEjercicio(oEjercicioActual);
+							}
+						}
 					}
 					dialog.dismiss();
 				return false;
@@ -566,7 +604,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						desString = Utilidades.matToJson(descriptores_obj);
 						String nombreObjeto = ((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString();
 						Objeto objeto = new Objeto(-1, nombreObjeto, "descripcion", new Date(), keyString, desString, 
-								aux.cols(), aux.rows(), Juego.this.getString(R.string.pathImages), 
+								aux.cols(), aux.rows(), Juego.this.getString(R.string.pathImages)+"/"+nombreObjeto+".png", 
 								Juego.this.getString(R.string.pathSounds)+"/descripcion"+nombreObjeto+".mp3", 
 								Juego.this.getString(R.string.pathSounds)+"/ayuda"+nombreObjeto+".mp3", 
 								Juego.this.getString(R.string.pathSounds)+"/nombre"+nombreObjeto+".mp3");
@@ -629,39 +667,55 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	}
 
 	private void insertaEnEjercicio(SerieEjercicios serieEjercicios, final Objeto objeto) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Ejercicios - "+serieEjercicios.getNombre() +" - "+objeto.getNombre());		
-		final List<Ejercicio> listaEjercicios = dsEjercicios.getAllEjercicios(serieEjercicios);		
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Ejercicios - "+serieEjercicios.getNombre() +" - "+objeto.getNombre());
+		final EjercicioDataSource ldsEjercicios =  new EjercicioDataSource(this);
+		ldsEjercicios.open();
+		final List<Ejercicio> listaEjercicios = ldsEjercicios.getAllEjercicios(serieEjercicios);		
 		final ListView modeList = new ListView(this);
 		ArrayAdapter<Ejercicio> modeAdapter = 
 				new ArrayAdapter<Ejercicio>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listaEjercicios);
 		modeList.setAdapter(modeAdapter);
 
 		builder.setView(modeList);
+		
+		// Add the buttons
+		builder.setPositiveButton("Escenario", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   if (nLocation != -1){
+			        	   listaEjercicios.get(nLocation).getObjetos().add(objeto.getNombre());
+			        	   ldsEjercicios.modificaEjercicio(listaEjercicios.get(nLocation));
+			        	   if (oEjercicioActual != null 
+			        			   && listaEjercicios.get(nLocation).getIdEjercicio() == oEjercicioActual.getIdEjercicio())
+			        		   oEjercicioActual.insertaObjetoEscenario(objeto);
+			        	   dialog.dismiss();
+			        	   Toast.makeText(Juego.this, "Añadido a escenario", Toast.LENGTH_SHORT).show();
+			       	   }
+		           }
+		       });
+		builder.setNegativeButton("Reconocer", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   if(nLocation != -1){
+						   listaEjercicios.get(nLocation).getObjetosReconocer().add(objeto.getNombre());
+						   listaEjercicios.get(nLocation).getObjetos().add(objeto.getNombre());
+						   ldsEjercicios.modificaEjercicio(listaEjercicios.get(nLocation));
+						   if (oEjercicioActual != null 
+								   && listaEjercicios.get(nLocation).getIdEjercicio() == oEjercicioActual.getIdEjercicio())
+							   oEjercicioActual.insertaObjetoReconocer(objeto);
+						   dialog.dismiss();
+						   Toast.makeText(Juego.this, "Añadido a reconocer", Toast.LENGTH_SHORT).show();
+		        	   }
+		           }
+		       });
+		
 		final Dialog dialog = builder.create();
 
 		modeList.setOnItemClickListener(new OnItemClickListener() {		
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int location, long id) {
-				listaEjercicios.get(location).getObjetosReconocer().add(objeto.getNombre());
-				listaEjercicios.get(location).getObjetos().add(objeto.getNombre());
-				dsEjercicios.modificaEjercicio(listaEjercicios.get(location));
-				oEjercicioActual.insertaObjetoReconocer(objeto);
-				dialog.dismiss();
-				Toast.makeText(Juego.this, "Añadido a reconocer", Toast.LENGTH_SHORT).show();
-			}});
-		
-		modeList.setOnItemLongClickListener(new OnItemLongClickListener() {		
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,int location, long id) {
-				listaEjercicios.get(location).getObjetos().add(objeto.getNombre());
-				dsEjercicios.modificaEjercicio(listaEjercicios.get(location));
-				oEjercicioActual.insertaObjetoEscenario(objeto);
-				dialog.dismiss();
-				Toast.makeText(Juego.this, "Añadido a escenario", Toast.LENGTH_SHORT).show();
-				return true;		
+				nLocation = location;
+				dialog.setTitle("Insertar "+objeto.getNombre()+" en "+listaEjercicios.get(nLocation).getNombre());
 			}});		
 		dialog.show();	
 	}
@@ -730,9 +784,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	
 	@Override
 	public void onPause() {
-		dsObjetos.close();
-		dsEjercicios.close();
-		dsResultado.close();
+		if(dsObjetos!=null) dsObjetos.close();
+		if(dsEjercicios!=null) dsEjercicios.close();
+		if(dsResultado!=null) dsResultado.close();
 		if(ttobj !=null){
 			ttobj.stop();
 			ttobj.shutdown();

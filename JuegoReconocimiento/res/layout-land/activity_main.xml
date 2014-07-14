@@ -197,9 +197,9 @@
 	                 android:layout_width="match_parent"
 	                 android:layout_height="match_parent"
 	                 android:layout_weight="1"
-	                 android:onClick="onClickReconocimiento"
+	                 android:onClick="onClickAdmistrador"
 	                 style="?android:attr/buttonStyleSmall"
-	                 android:text="Reconocimiento" />
+	                 android:text="Admin" />
 	            
 	            <Button
 	                 android:id="@+id/button1"

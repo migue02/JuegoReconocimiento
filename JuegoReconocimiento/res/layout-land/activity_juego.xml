@@ -8,30 +8,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Juego" >
-
-    <!--
     
     <LinearLayout
         android:id="@+id/layoutEdits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/layoutBotones"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/TextView03"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Threshold"
+            android:text="Thresh"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
             android:id="@+id/edtHessian"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="numberDecimal" />
         
@@ -39,51 +37,50 @@
         <TextView
             android:id="@+id/TextView02"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="nOctaves"
+            android:text="nOct"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
             android:id="@+id/edtnOctaves"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="numberDecimal" />
 
         <TextView
             android:id="@+id/TextView01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="nOctaveLayers"
+            android:text="nOctLaye"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
             android:id="@+id/edtnOctaveLayers"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="numberDecimal" />
-
 
         <CheckBox
             android:id="@+id/edtExtended"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Extended" />
+            android:text="Ext" />
 
         <CheckBox
             android:id="@+id/edtUpRight"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:text="UpRi"
             android:layout_weight="1"
-            android:checked="false"
-            android:text="UpRight" />
+            android:checked="false" />
         
-    </LinearLayout> -->
+    </LinearLayout> 
 
     <FrameLayout
         android:id="@+id/layoutCamera"
@@ -91,13 +88,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/layoutEdits"
         android:layout_toLeftOf="@+id/layoutBotones"
         android:orientation="horizontal" >
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/surfaceView2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/layoutJugar"
@@ -139,6 +137,7 @@
             android:background="@drawable/fondo_tools"
             android:gravity="right"
             android:orientation="vertical"
+        	android:layout_below="@+id/layoutEdits"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -149,78 +148,117 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Chronometer" />
 
         </LinearLayout>
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutBotones"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
+	 <LinearLayout
+	        android:id="@+id/layoutBotones"
+	        android:layout_width="100dp"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_below="@+id/layoutEdits"
+	        android:orientation="vertical" >
+	        
+	        <LinearLayout
+	            android:id="@+id/layoutBtnsUp"
+	            android:layout_width="match_parent"
+	            android:layout_weight="1"
+	            android:layout_height="match_parent"
+	            android:orientation="horizontal" >
+	
+	             <ImageView
+	                android:id="@+id/button1"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:layout_weight="1"
+	                android:src="@drawable/surf"
+	                android:onClick="onInicializaSurf"
+	                android:text="Reinicia\nSURF" />
+	             
+	             <ImageView
+	                android:id="@+id/btnAyuda"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:layout_weight="1"
+	                android:onClick="onAyudaClick"
+	                android:src="@drawable/ayuda" 
+	                android:text="Ayuda" />
+	        </LinearLayout>
+	        
+	       	<LinearLayout
+	            android:id="@+id/layoutEncontrado"
+	            android:layout_width="match_parent"
+	            android:layout_weight="1"
+	            android:layout_height="match_parent"
+	            android:orientation="horizontal">
+	
+	            <ImageView
+	                android:id="@+id/btnMatch"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:onClick="onAciertoClick"
+	                android:src="@drawable/acierto" 
+	                android:layout_weight="1"
+	                android:contentDescription="Acierto"/>
+	            <ImageView
+	                android:id="@+id/btnError"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:onClick="onErrorClick"
+	                android:src="@drawable/error"
+	                android:layout_weight="1" 
+	                android:contentDescription="Error"/>
+	        </LinearLayout>
+	        
+	       	<LinearLayout
+	       	    android:id="@+id/layoutVerObjetos"
+	       	    android:layout_width="match_parent"
+	       	    android:layout_weight="1"
+	       	    android:layout_height="match_parent" >
+	            
+	       	    <LinearLayout
+		       	    android:id="@+id/layoutVerObjetos"
+		       	    android:layout_width="match_parent"
+		       	    android:layout_weight="1"
+		       	    android:layout_height="match_parent" >
+		
+		            <Button
+		                android:id="@+id/btnObjetosReconocer"
+		                android:layout_width="match_parent"
+		                android:layout_height="match_parent"
+		                android:onClick="onVerObjetosReconocer"
+		                android:text="Rec"
+		                android:layout_weight="1" />
+		            
+		            <Button
+		                android:id="@+id/btnObjetosEscenario"
+		                android:layout_width="match_parent"
+		                android:layout_height="match_parent"
+		                android:onClick="onVerObjetosEscenario"
+		                android:text="Esc"
+		                android:layout_weight="1" />            
+		           
+		        </LinearLayout>
+	
+	            
+	            <ImageView
+	                android:id="@+id/btnSalir"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:onClick="onClickSalir"
+	                android:text="Salir"
+	                android:src="@drawable/exit" 
+	                android:layout_weight="1" />            
+	           
+	        </LinearLayout>
+	        
+	     </LinearLayout>
         
-        <LinearLayout
-            android:id="@+id/layoutBtnsUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-             <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onInicializaSurf"
-                android:text="Reinicia\nSURF" />
-        </LinearLayout>
-        
-       	<LinearLayout
-            android:id="@+id/layoutEncontrado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/btnMatch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="onAciertoClick"
-                android:src="@drawable/acierto" 
-                android:contentDescription="Acierto"/>
-            <ImageView
-                android:id="@+id/btnError"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="onErrorClick"
-                android:src="@drawable/error" 
-                android:contentDescription="Error"/>
-        </LinearLayout>
-        
-       	<LinearLayout
-       	    android:id="@+id/layoutVerObjetos"
-       	    android:layout_width="match_parent"
-       	    android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/btnObjetosReconocer"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:onClick="onVerObjetosReconocer"
-                android:text="Objs-Reconocer" />
-            
-            <Button
-                android:id="@+id/btnObjetosEscenario"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:onClick="onVerObjetosEscenario"
-                android:text="Objs-Escenario" />            
-           
-        </LinearLayout>
-        
-    </LinearLayout>
 
 </RelativeLayout>

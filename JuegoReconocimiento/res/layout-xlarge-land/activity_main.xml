@@ -241,6 +241,14 @@
 		                    android:layout_weight="1"
 		                    android:onClick="onClickBDRemota"
 		                    android:text="BD-Remota" />
+		                <Button
+			                 android:id="@+id/button1"
+			                 android:layout_width="match_parent"
+			                 android:layout_height="match_parent"
+			                 android:layout_weight="1"
+			                 android:onClick="onClickAdmistrador"
+			                 style="?android:attr/buttonStyleSmall"
+			                 android:text="Admin" />
 		                
                 </LinearLayout>
 

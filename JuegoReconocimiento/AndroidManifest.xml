@@ -101,6 +101,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity
+            android:name="es.ugr.juegoreconocimiento.LoginAdministrador"
+            android:label="@string/title_activity_login_administrador"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
 
     <supports-screens
