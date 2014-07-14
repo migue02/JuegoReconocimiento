@@ -121,12 +121,28 @@ public class EjercicioDataSource {
 		return newEjercicio;
 	}
 	
+
+	public boolean modificaEjercicio(String nombre, Date fecha, ArrayList<String> objetos,
+			String descripcion, int duracion,
+			ArrayList<String> objetosReconocer,
+			String sonido_descripcion) {
+		
+		ContentValues values = new ContentValues();
+		Ejercicio ejercicio = new Ejercicio(nombre, fecha, objetos, descripcion, duracion,objetosReconocer,sonido_descripcion);
+		values = createValues(ejercicio);
+		
+		boolean mod=database.update(MySQLiteHelper.TABLE_EJERCICIO, values, MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE+" = "+"'"+nombre+"'", null)>0;
+
+		return mod;
+		
+	}
+	
 	public boolean modificaEjercicio(Ejercicio ejercicio) {
 		ContentValues values = new ContentValues();
 		values = createValues(ejercicio);
 
 		return database.update(MySQLiteHelper.TABLE_EJERCICIO, values,
-				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + ejercicio.getIdEjercicio(), null) > 0;
+				MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE + " = " +"'"+ejercicio.getNombre()+"'", null) > 0;
 	}
 /*
 	public boolean modificaEjercicio(int id, String nombre,
@@ -194,7 +210,7 @@ public class EjercicioDataSource {
 	
 	public Ejercicio getEjercicios(String nombre) {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
-				allColumns, MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE + " = " + nombre,
+				allColumns, MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE + " = " +"'"+nombre+"'",
 				null, null, null, null);
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();

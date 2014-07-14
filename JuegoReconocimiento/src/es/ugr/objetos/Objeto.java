@@ -40,11 +40,8 @@ public class Objeto{
 	private MediaPlayer player = new MediaPlayer();
 
 	private void playSonido(String path, String pathError){
-		if(player.isPlaying()){
-			while(player.isPlaying());
-			player.release();
-			player = new MediaPlayer();
-		}		
+		while(player.isPlaying());
+		player = new MediaPlayer();
 		try{
 			if (path.length() > 0)
 				player.setDataSource(path);
@@ -78,7 +75,7 @@ public class Objeto{
 	
 	public void setImagenFromPath(){
 		try {
-			File imageFile = new File(pathImagen+"/"+nombre+".png");
+			File imageFile = new File(pathImagen);
 			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 			Log.e("IMAGEN_CREADA", "Imagen creada en "+pathImagen);
 		} catch (Exception e) {
@@ -89,7 +86,7 @@ public class Objeto{
 	public void guardarImagen(){
 		FileOutputStream out = null;
 		try {
-			out = new FileOutputStream(pathImagen+"/"+nombre+".png"); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
+			out = new FileOutputStream(pathImagen); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
 			imagen.compress(Bitmap.CompressFormat.PNG, 90, out);
 			out.close();
 		} catch (Exception e) {
@@ -130,7 +127,7 @@ public class Objeto{
 	}
 	
 	public String getFechaAsString() {
-		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return date.format(fecha);
 	}
 
@@ -189,6 +186,7 @@ public class Objeto{
 		cols=0;
 		rows=0;
 		imagen=null;
+		pathImagen="";
 		pathSonidoAyuda="";
 		pathSonidoDescripcion="";
 		pathSonidoNombre="";

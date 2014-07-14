@@ -128,9 +128,9 @@ public class SeriesEjercicios extends Activity {
 	
 
 	private void CreaLista(){
-		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios"
+		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios", "Objetos"
         };
-		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3};
+		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.ic5};
 
 		List<RowItemTitle> rowItems;
 		rowItems=new ArrayList<RowItemTitle>();
@@ -154,7 +154,9 @@ public class SeriesEjercicios extends Activity {
 			long arg3) {
 		// TODO Auto-generated method stub
           int itemPosition     = arg2;
-		  sonidos.playNavegacion();
+		    //playerNavegacion.start();
+		    sonidos.playNavegacion();
+          
            // Show Alert
           switch (itemPosition) {
 		case 0:
@@ -181,6 +183,12 @@ public class SeriesEjercicios extends Activity {
 		case 4:
 			Intent SeriesIntent=new Intent(getApplicationContext(), SeriesEjercicios.class);
 			startActivity(SeriesIntent);
+			finish();
+			break;
+		
+		case 5:
+			Intent ObjetosIntent=new Intent(getApplicationContext(), Objetos.class);
+			startActivity(ObjetosIntent);
 			finish();
 			break;
 

@@ -1,45 +1,31 @@
 package es.ugr.juegoreconocimiento;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mobeta.android.dslv.DragSortListView;
 
 import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.objetos.*;
-import es.ugr.parserXML.EjercicioParser;
-import es.ugr.parserXML.EjerciciosMarker;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.basedatos.*;
+import es.ugr.bdremota.SincronizarObjetos;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-import ar.com.daidalos.afiledialog.FileChooserDialog;
 
 
 
@@ -54,26 +40,27 @@ import ar.com.daidalos.afiledialog.FileChooserDialog;
 
 public class Objetos extends Activity {
 	 private ListView listView;
-	 private Context micontexto;
+	 private Context context;
 	 private Dialog dialogo;
 	 private List<Objeto> lo;
 	 private ObjetoDataSource ods;
 	 private adaptadorSelObj adaptador;
 	 private ListView lv;
 	 private Sonidos sonidos;
+	 private View sincronizar;
 	// private Typeface font;	
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-	    getActionBar().setCustomView(R.layout.mibarraejer);
+	    getActionBar().setCustomView(R.layout.mibarraobj);
 
 		setContentView(R.layout.objetos);
 		
-
+		context=this;
 		
-	    ImageView principal=(ImageView)findViewById(R.id.principalEj);
+	    ImageView principal=(ImageView)findViewById(R.id.principalObj);
 	    principal.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -91,14 +78,21 @@ public class Objetos extends Activity {
 		
 		lv = (ListView) findViewById(R.id.ListaSelObj); 
 
-        lo=ods.getAllObjetos();
-		
-		
-		
+        
+				
 
 		CreaTablaObj(); 
 		
-
+		sincronizar=findViewById(R.id.SincronizarObj);
+		
+		sincronizar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new SincronizarObjetos(context).execute();
+			}
+		});
 
 	}
 	
@@ -113,9 +107,9 @@ public class Objetos extends Activity {
 	
 
 	private void CreaLista(){
-		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios"
+		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios", "Objetos"
         };
-		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3};
+		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.objeto};
 
 		List<RowItemTitle> rowItems;
 		rowItems=new ArrayList<RowItemTitle>();
@@ -160,7 +154,7 @@ public class Objetos extends Activity {
 			
 			break;
 		case 3:
-			Intent EjerciciosIntent=new Intent(getApplicationContext(), Objetos.class);
+			Intent EjerciciosIntent=new Intent(getApplicationContext(), Ejercicios.class);
 			startActivity(EjerciciosIntent);
 			finish();
 			break;			
@@ -168,6 +162,12 @@ public class Objetos extends Activity {
 		case 4:
 			Intent SeriesIntent=new Intent(getApplicationContext(), SeriesEjercicios.class);
 			startActivity(SeriesIntent);
+			finish();
+			break;
+		
+		case 5:
+			Intent ObjetosIntent=new Intent(getApplicationContext(), Objetos.class);
+			startActivity(ObjetosIntent);
 			finish();
 			break;
 
@@ -181,14 +181,13 @@ public class Objetos extends Activity {
 	}
 	
 	
-	private void CreaTablaObj(){
-		
-		micontexto=this;
-
-        adaptador = new adaptadorSelObj(this, R.layout.drag_obj, lo);
+	public void CreaTablaObj(){
+	
+	   lo=ods.getAllObjetos();
+       adaptador = new adaptadorSelObj(this, R.layout.drag_obj, lo);
        lv.setAdapter(adaptador);
 
-        lv.setOnItemClickListener(new OnItemClickListener() {
+       lv.setOnItemClickListener(new OnItemClickListener() {
         	
         	@Override
         	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -197,7 +196,7 @@ public class Objetos extends Activity {
         		int itemposicion=arg2;
         		//playerRow.start();
         		sonidos.playClickRow();
-        		MostrarDescripcion(itemposicion);
+        		MostrarDescripcion(lo.get(itemposicion));
         	}
 		});
         
@@ -208,13 +207,23 @@ public class Objetos extends Activity {
 	}
 
 
-	private void MostrarDescripcion(final int pos){
-		/*	
-		//Lanzar Dialog
-		dialogo = new Dialog(micontexto);
-		dialogo.setContentView(R.layout.dialogo_ejercicios);
-		dialogo.setTitle(le.get(pos).getNombre());
+	private void MostrarDescripcion(Objeto obj){
 		
+		//Lanzar Dialog
+		dialogo = new Dialog(context);
+		dialogo.setContentView(R.layout.ficha_objeto);
+		dialogo.setTitle(obj.getNombre());
+		
+		((TextView) dialogo.findViewById(R.id.edtNombreObjeto)).setText(obj.getNombre());
+		((TextView) dialogo.findViewById(R.id.edtTamanioObjeto)).setText(obj.getDescripcion());
+		if(obj.getImagen()!=null)
+			((ImageView) dialogo.findViewById(R.id.imgObjeto)).setImageBitmap(obj.getImagen());
+		else
+			((ImageView) dialogo.findViewById(R.id.imgObjeto)).setImageResource(R.drawable.objeto);
+		
+		dialogo.show();
+		
+		/*	
 		//Modificar elementos dentro del dialogo
 		final EditText duracion=(EditText)dialogo.findViewById(R.id.DuracionEj);
 		duracion.setText(String.valueOf(le.get(pos).getDuracion()));
@@ -354,7 +363,7 @@ public class Objetos extends Activity {
 		        if (rowItem.getImagen()!=null)
 		        	holder.img.setImageBitmap(rowItem.getImagen());
 		        else
-		        	holder.img.setImageResource(R.drawable.ic6);
+		        	holder.img.setImageResource(R.drawable.objeto);
 		        
 		        holder.nombre.setText(rowItem.getNombre());
 

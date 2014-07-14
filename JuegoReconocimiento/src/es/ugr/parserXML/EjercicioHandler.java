@@ -7,6 +7,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import es.ugr.bdremota.DescargarFicheros;
+
 
 
 
@@ -86,7 +88,13 @@ public class EjercicioHandler extends DefaultHandler{
 	            }  else if (localName.equals("ejercicio")) {
 	                listaEjercicios.add(ejercicioActual);
 	            } else if(localName.equals("sonido_descripcion")){
-	            	ejercicioActual.setSonidoDescripcion(sbText.toString().trim());
+                    if (!sbText.toString().trim().equals("")){
+                    	String sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sounds/"+ejercicioActual.getNombre()+".mp3";
+                    	new DescargarFicheros().execute(sbText.toString().trim(),sonido_descripcion_local);
+                    	ejercicioActual.setSonidoDescripcion(sonido_descripcion_local);
+                    } else
+                    	ejercicioActual.setSonidoDescripcion("");
+	            	
 	            }
 	 
 	            sbText.setLength(0);

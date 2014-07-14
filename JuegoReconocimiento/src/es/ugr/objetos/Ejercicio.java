@@ -79,7 +79,7 @@ public class Ejercicio {
 	}
 	
 	public String getFechaAsString() {
-		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return date.format(fecha);
 	}
 
@@ -169,19 +169,19 @@ public class Ejercicio {
 		this.orden = orden;
 	}
 
-	public void eliminaObjetoReconocer(String id) {
+	public void eliminaObjetoReconocer(String nombre) {
 		for (int i=0;i<objetosReconocer.size();i++)
-			if(objetosReconocer.get(i)==id){
+			if(objetosReconocer.get(i).equals(nombre)){
 				objetosReconocer.remove(i);
-				eliminaObjetoEscenario(id);
+				eliminaObjetoEscenario(nombre);
 			}
 	}
 
-	public void eliminaObjetoEscenario(String id) {
+	public void eliminaObjetoEscenario(String nombre) {
 		for (int i=0;i<objetos.size();i++)
-			if(objetos.get(i)==id){
+			if(objetos.get(i).equals(nombre)){
 				objetos.remove(i);
-				eliminaObjetoReconocer(id);
+				eliminaObjetoReconocer(nombre);
 			}
 	}
 

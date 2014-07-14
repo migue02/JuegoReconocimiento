@@ -244,24 +244,14 @@ public class MainActivity extends Activity {
 				}else {
 					MatOfKeyPoint matKey = new MatOfKeyPoint();
 					Mat mat = new Mat();
-					objAngryBirds = ods.createObjeto("Angry Birds",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
-					objAdidas = ods.createObjeto("Adidas",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
-					objKelme = ods.createObjeto("Kelme",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
-					objUGR= ods.createObjeto("UGR",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
-					objWindows = ods.createObjeto("Windows",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
-					objApple = ods.createObjeto("Apple",
-							Utilidades.keypointsToJson(matKey),
-							Utilidades.matToJson(mat), 0, 0);
+					
+					objAngryBirds = ods.createObjeto("Angry Birds", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
+					
+					objAdidas = ods.createObjeto("Adidas", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
+					objKelme = ods.createObjeto("Kelme", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
+					objUGR= ods.createObjeto("UGR", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
+					objWindows = ods.createObjeto("Windows", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
+					objApple = ods.createObjeto("Apple", "", new Date(), Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0, "", "", "", "");
 					ods.close();
 				}
 				
@@ -400,7 +390,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void onClickReconocimiento(View v) {
-		Intent intent = new Intent(this, ReconocimientoObjeto2.class);
+		Intent intent = new Intent(this, LoginAdministrador.class);
 		startActivity(intent);
 	}
 	

@@ -79,6 +79,29 @@ public class ObjetoDataSource {
 		return objeto;
 	}
 	
+	
+	public Objeto createObjeto(String nombre, String descripcion, Date fecha, String keypoints, 
+			String descriptores, int cols, int rows, String imagen, String sonido_descripcion, String sonido_ayuda, String sonido_nombre) {
+
+		ContentValues values = new ContentValues();
+		Objeto objeto = new Objeto(-1, nombre, descripcion, fecha, keypoints, descriptores, cols, rows, imagen, sonido_descripcion, sonido_ayuda, sonido_nombre);
+		values = createValues(objeto);
+
+		long insertId = database.insert(MySQLiteHelper.TABLE_OBJETO, null,
+				values); // Se inserta un objeto y se deuelve su id
+		Log.w("Creando...", "Objeto " + nombre + " creado con id " + insertId);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_OBJETO,
+
+		allColumns, MySQLiteHelper.COLUMN_OBJETO_ID + " = " + insertId, null,
+				null, null, null);// devuelve el objeto que se acaba de insertar
+
+		cursor.moveToFirst();
+		Objeto newObjeto = cursorToObjeto(cursor);
+		cursor.close();
+		return newObjeto;
+	}
+	
+	/*
 	public Objeto createObjeto(String nombre, String keypoints,
 			String descriptores, int cols, int rows) {
 
@@ -99,16 +122,16 @@ public class ObjetoDataSource {
 		cursor.close();
 		return newObjeto;
 	}
-	
-	public boolean modificaObjeto(int id, String nombre, String keypoints,
-			String descriptores, int cols, int rows) {
+	*/
+	public boolean modificaObjeto(String nombre, String descripcion, Date fecha, String keypoints, 
+			String descriptores, int cols, int rows, String imagen, String sonido_descripcion, String sonido_ayuda, String sonido_nombre) {
 		ContentValues values = new ContentValues();
-		Objeto objeto = new Objeto(-1, nombre, keypoints, descriptores, cols, rows, null);
+		Objeto objeto = new Objeto(-1, nombre, descripcion, fecha, keypoints, descriptores, cols, rows, imagen, sonido_descripcion, sonido_ayuda, sonido_nombre);
 		values = createValues(objeto);
 		
 
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
-				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + id, null) > 0;
+				MySQLiteHelper.COLUMN_OBJETO_NOMBRE+ " = '" + nombre+"'", null) > 0;
 	}
 	
 	public boolean modificaObjeto(Objeto objeto) {
@@ -117,7 +140,7 @@ public class ObjetoDataSource {
 		objeto.guardarImagen();
 		
 		return database.update(MySQLiteHelper.TABLE_OBJETO, values,
-				MySQLiteHelper.COLUMN_OBJETO_ID + " = " + objeto.getId(), null) > 0;
+				MySQLiteHelper.COLUMN_OBJETO_NOMBRE + " = '" + objeto.getNombre()+"'", null) > 0;
 	}
 
 	public boolean eliminaObjeto(int id) {
@@ -127,7 +150,7 @@ public class ObjetoDataSource {
 	
 	public boolean eliminaObjeto(String nombre) {
 		return database.delete(MySQLiteHelper.TABLE_OBJETO,
-				MySQLiteHelper.COLUMN_OBJETO_NOMBRE + " = " + nombre, null) > 0;
+				MySQLiteHelper.COLUMN_OBJETO_NOMBRE + " = '" + nombre+"'", null) > 0;
 	}
 
 	public boolean eliminaTodosObjetos() {
@@ -138,6 +161,8 @@ public class ObjetoDataSource {
 		return database.delete(MySQLiteHelper.TABLE_OBJETO, 
 				MySQLiteHelper.COLUMN_OBJETO_ID + " > " + id, null) > 0;
 	}
+	
+	
 	
 	public void dropTableObjeto() {
 		Log.w("Deleting...", "Borrando tabla objetos");
@@ -232,7 +257,7 @@ public class ObjetoDataSource {
 		objeto.setNombre(cursor.getString(1));
 		objeto.setDescripcion(cursor.getString(2));
 		try {
-			objeto.setFecha(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
+			objeto.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(cursor
 					.getString(3)));
 		} catch (ParseException e) {
 			Log.e("ERROR_FECHA", "Error al obtener la fecha");

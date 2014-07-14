@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import com.mobeta.android.dslv.DragSortListView;
 
@@ -13,6 +14,7 @@ import es.ugr.objetos.*;
 import es.ugr.parserXML.EjercicioParser;
 import es.ugr.parserXML.EjerciciosMarker;
 import es.ugr.utilidades.Sonidos;
+import es.ugr.utilidades.Utilidades;
 import es.ugr.basedatos.*;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
@@ -55,7 +57,7 @@ import es.ugr.bdremota.*;
 
 public class Ejercicios extends Activity {
 	 private ListView listView;
-	 private Context micontexto;
+	 private Context context;
 	 private Dialog dialogo;
 	 private List<Ejercicio> le;
 	 private EjercicioDataSource eds;
@@ -72,7 +74,7 @@ public class Ejercicios extends Activity {
 	    getActionBar().setCustomView(R.layout.mibarraejer);
 
 		setContentView(R.layout.ejercicios);
-		
+		context=this;
 
 		
 	    ImageView principal=(ImageView)findViewById(R.id.principalEj);
@@ -100,7 +102,7 @@ public class Ejercicios extends Activity {
         lv.setDropListener(onDrop);
         lv.setRemoveListener(onRemove);
         lv.setDragScrollProfile(ssProfile);
-        le=eds.getAllEjercicios();
+
 		
 		
 		
@@ -224,7 +226,20 @@ public class Ejercicios extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-			new SincronizarEjercicios(Ejercicios.this).execute();
+				/*
+			try {
+				String str=new SincronizarEjercicios(Ejercicios.this).execute().get();
+				//CreaTablaEjer();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+				new SincronizarEjercicios(context).execute();
+				//new SincronizarObjetos(context).execute();
+
 		   }
 		});
 		sonidos=new Sonidos(this);
@@ -316,10 +331,11 @@ public class Ejercicios extends Activity {
 	}
 	
 	
-	private void CreaTablaEjer(){
+	public void CreaTablaEjer(){
 		
-		micontexto=this;
-
+        le=eds.getAllEjercicios();
+		
+		Utilidades.creaCarpetas(context);
         adaptador = new adaptadorSelEj2(this, R.layout.drag_ej, le);
         lv.setAdapter(adaptador);
         lv.setOnItemClickListener(new OnItemClickListener() {
@@ -345,7 +361,7 @@ public class Ejercicios extends Activity {
 	private void MostrarDescripcion(final int pos){
 			
 		//Lanzar Dialog
-		dialogo = new Dialog(micontexto);
+		dialogo = new Dialog(context);
 		dialogo.setContentView(R.layout.dialogo_ejercicios);
 		dialogo.setTitle(le.get(pos).getNombre());
 		
@@ -471,7 +487,6 @@ public class Ejercicios extends Activity {
 
 			 Toast toast2 = Toast.makeText(getApplicationContext(), "Creados "+String.valueOf(ListaEj.size())+" ejercicios.", Toast.LENGTH_LONG);
 			 toast2.show();
-			 le=eds.getAllEjercicios();
 			 CreaTablaEjer();
 			 
 
