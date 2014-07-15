@@ -11,11 +11,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import es.ugr.basedatos.EjercicioDataSource;
+import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.utilidades.JSONParser;
 
@@ -27,7 +30,7 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private String url_all_ejercicios = "http://192.168.1.103/bd_reconocimiento/get_all_id_ejercicios.php";
+	private String url_all_ejercicios = "";
 	
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_EJERCICIOS = "ejercicios";
@@ -38,9 +41,6 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
     private ArrayList<String> NombEjerciciosListRem;
     private ArrayList<Date> FechaEjerciciosListRem;
     
- //   private ArrayList<String> NombEjerciciosListLoc;
-   // private ArrayList<Date> FechaEjerciciosListLoc;
-    
     private List<String> addToLocal;
     private List<String> addToRemote;
     private List<String> updateToLocal;
@@ -50,11 +50,9 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 	public SincronizarEjercicios(Context context) {
 		// TODO Auto-generated constructor stub
 		this.context=context;
+		url_all_ejercicios=context.getString(R.string.servidor_remoto)+"get_all_id_ejercicios.php";
 		jParser = new JSONParser();
-		//this.context.getResources().getString(R.string.servidor_remoto);
-	//	NombEjerciciosListLoc=new ArrayList<String>();
-	//	FechaEjerciciosListLoc=new ArrayList<Date>();
-		
+	
 		NombEjerciciosListRem=new ArrayList<String>();
 		FechaEjerciciosListRem=new ArrayList<Date>();
 		
@@ -169,10 +167,30 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
         	if(!found)
         		addToLocal.add(NombEjerciciosListRem.get(i));
         }
-        
-        new SubirEjercicios(context).execute(addToRemote,updateToRemote);
-        new DescargarEjercicios(context).execute(addToLocal,updateToLocal);
-        
+        if(addToRemote.size()>0||updateToRemote.size()>0||addToLocal.size()>0||updateToLocal.size()>0){
+        	AlertDialog.Builder alertDialog=new AlertDialog.Builder(context);
+        	alertDialog.setTitle("Sincronizar Ejercicios");
+        	String mensaje=String.valueOf(addToRemote.size())+" nuevo(s), "+String.valueOf(updateToRemote.size())+" a actualizar en remoto. \n"+String.valueOf(addToLocal.size())+" nuevo(s), "+String.valueOf(updateToLocal.size())+" a actualizar en local. \n \n¿Desea sincronizar?";
+        	alertDialog.setMessage(mensaje).setPositiveButton("Si", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					new SubirEjercicios(context).execute(addToRemote,updateToRemote);
+			        new DescargarEjercicios(context).execute(addToLocal,updateToLocal);
+				}
+			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+        	
+        	AlertDialog alert=alertDialog.create();
+	        alert.show();
+        }
     }
 
 }

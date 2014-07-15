@@ -18,7 +18,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import es.ugr.basedatos.ObjetoDataSource;
-import es.ugr.juegoreconocimiento.Objetos;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.JSONParser;
 
@@ -31,7 +30,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private String url_get_objeto = "http://192.168.1.103/bd_reconocimiento/get_objeto.php";
+	private String url_get_objeto = "";
 	
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_OBJETO = "objeto";
@@ -54,6 +53,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
     
     public DescargarObjetos(Context context){
     	this.context=context;
+    	url_get_objeto=context.getString(R.string.servidor_remoto)+"get_objeto.php";
     	ods=new ObjetoDataSource(context);
     	ods.open();
     	jParser=new JSONParser();
@@ -64,7 +64,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Descargando nuevos objetos, por favor espere...");
+        pDialog.setMessage("Sincronizando objetos, por favor espere...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -79,11 +79,11 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 protected String doInBackground(List<String>... params) {
         // Building Parameters
 		for(int i=0;i<params[0].size();i++){
-			Insertar(params[0].get(i));
+			InsertarModificar(params[0].get(i),true);
 		}
 		
 		for(int i=0;i<params[1].size();i++)
-			Modificar(params[1].get(i));
+			InsertarModificar(params[1].get(i),false);
         return "Añadidos: "+params[0].size()+" nuevos objetos; Actualizados: "+params[1].size()+" objetos.";
     }
 
@@ -103,7 +103,7 @@ protected String doInBackground(List<String>... params) {
     }
     
     
-    private void Insertar(String nombreFila){
+    private void InsertarModificar(String nombreFila, boolean insertar){
         List<NameValuePair> parametros = new ArrayList<NameValuePair>();
         parametros.add(new BasicNameValuePair("nombre",nombreFila));
         
@@ -152,7 +152,7 @@ protected String doInBackground(List<String>... params) {
                     String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
                     String ruta_descripcion_local="";
                     if(!sonido_descripcion.equals("")){
-                    	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
+                    	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/descripcion"+nombre+".mp3";
                     	new DescargarFicheros(context).execute(sonido_descripcion,ruta_descripcion_local);
                     }
                     
@@ -160,19 +160,21 @@ protected String doInBackground(List<String>... params) {
                     String sonido_ayuda=c.getString(TAG_SONIDO_AYUDA);
                     String ruta_ayuda_local="";
                     if(!sonido_ayuda.equals("")){
-                    	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_ayuda,ruta_descripcion_local);
+                    	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/ayuda"+nombre+".mp3";
+                    	new DescargarFicheros(context).execute(sonido_ayuda,ruta_ayuda_local);
                     }
                     
                   
                     String sonido_nombre=c.getString(TAG_SONIDO_NOMBRE);
                     String ruta_nombre_local="";
-                    if(!ruta_nombre_local.equals("")){
-                    	ruta_nombre_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
+                    if(!sonido_nombre.equals("")){
+                    	ruta_nombre_local=context.getString(R.string.pathSounds)+"/nombre"+nombre+".mp3";
                     	new DescargarFicheros(context).execute(sonido_nombre,ruta_nombre_local);
                     }
-                    
-                    ods.createObjeto(nombre, descripcion, fecha, keypoints, descriptores, cols, rows, ruta_imagen_local, ruta_descripcion_local, ruta_ayuda_local, ruta_nombre_local);
+                    if(insertar==true)
+                    	ods.createObjeto(nombre, descripcion, fecha, keypoints, descriptores, cols, rows, ruta_imagen_local, ruta_descripcion_local, ruta_ayuda_local, ruta_nombre_local);
+                    else
+                    	ods.modificaObjeto(nombre, descripcion, fecha, keypoints, descriptores, cols, rows, ruta_imagen_local, ruta_descripcion_local, ruta_ayuda_local, ruta_nombre_local);
                 }
             } 
         } catch (JSONException e) {
@@ -182,88 +184,6 @@ protected String doInBackground(List<String>... params) {
     
     
     
-    
-    
-    private void Modificar(String nombreFila){
-        List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-        parametros.add(new BasicNameValuePair("nombre",nombreFila));
-        
-        // getting JSON string from URL
-        
-        JSONObject json = jParser.makeHttpRequest(url_get_objeto, "GET", parametros);
 
-        // Check your log cat for JSON reponse
-        Log.d("Crear objeto Local: ", json.toString());
-
-        try {
-            // Checking for SUCCESS TAG
-            int success = json.getInt(TAG_SUCCESS);
-
-            if (success == 1) {
-                // products found
-                // Getting Array of Products
-                objetos = json.getJSONArray(TAG_OBJETO);
-
-                // looping through All Products
-                for (int j = 0; j < objetos.length(); j++) {
-                    JSONObject c = objetos.getJSONObject(j);
-
-                    // Storing each json item in variable
-                   // String id = c.getString(TAG_ID);
-                    String nombre = c.getString(TAG_NOMBRE);
-                    Date fecha=new Date();
-                    try {
-					    fecha=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(c.getString(TAG_FECHA));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                   
-                    String descripcion = c.getString(TAG_DESCRIPCION);
-                    String keypoints= c.getString(TAG_KEYPOINTS);
-                    String descriptores= c.getString(TAG_DESCRIPTORES);
-                    
-                    int cols=Integer.valueOf(c.getString(TAG_COLS));
-                    int rows=Integer.valueOf(c.getString(TAG_ROWS));
-                    String imagen=c.getString(TAG_IMAGEN);
-                    String ruta_imagen_local="";
-                    if(!imagen.equals("")){
-                    	ruta_imagen_local=context.getString(R.string.pathImages)+"/"+nombre+".png";
-                    	new DescargarFicheros(context).execute(imagen,ruta_imagen_local);
-                    }
-                    String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
-                    String ruta_descripcion_local="";
-                    if(!sonido_descripcion.equals("")){
-                    	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_descripcion,ruta_descripcion_local);
-                    }
-                    
-                   
-                    String sonido_ayuda=c.getString(TAG_SONIDO_AYUDA);
-                    String ruta_ayuda_local="";
-                    if(!sonido_ayuda.equals("")){
-                    	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_ayuda,ruta_descripcion_local);
-                    }
-                    
-                  
-                    String sonido_nombre=c.getString(TAG_SONIDO_NOMBRE);
-                    String ruta_nombre_local="";
-                    if(!ruta_nombre_local.equals("")){
-                    	ruta_nombre_local=context.getString(R.string.pathSounds)+"/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_nombre,ruta_nombre_local);
-                    }
-                    
-                    ods.modificaObjeto(nombre, descripcion, fecha, keypoints, descriptores, cols, rows, ruta_imagen_local, ruta_descripcion_local, ruta_ayuda_local, ruta_nombre_local);
-           
-                }
-            } 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-    
     
 }

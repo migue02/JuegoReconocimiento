@@ -7,7 +7,9 @@ import es.ugr.adaptadores.RowItemTitle;
 import es.ugr.adaptadores.adaptadorTitle;
 import es.ugr.objetos.*;
 import es.ugr.utilidades.Sonidos;
+import es.ugr.utilidades.Utilidades;
 import es.ugr.basedatos.*;
+import es.ugr.bdremota.SincronizarEjercicios;
 import es.ugr.bdremota.SincronizarObjetos;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
@@ -26,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 
@@ -90,7 +93,15 @@ public class Objetos extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new SincronizarObjetos(context).execute();
+				
+				if (Utilidades.hasInternetConnection(context))
+					new SincronizarObjetos(context).execute();
+				else{
+					Toast toast=Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG);
+					toast.show();
+				}
+				
+				
 			}
 		});
 

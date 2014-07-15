@@ -16,6 +16,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import es.ugr.juegoreconocimiento.R;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -49,7 +50,7 @@ public class SubirFicheros extends AsyncTask<String,Void,String>{
 	          data = IOUtils.toByteArray(inputStream);
 
 	          HttpClient httpClient = new DefaultHttpClient();
-	          HttpPost httpPost = new HttpPost("http://192.168.1.103/bd_reconocimiento/up.php");
+	          HttpPost httpPost = new HttpPost(context.getString(R.string.servidor_remoto)+"up.php");
 	     
 	          InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(data), params[1]);
 	          

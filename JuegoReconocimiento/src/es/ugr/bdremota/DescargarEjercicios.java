@@ -31,7 +31,7 @@ public class DescargarEjercicios extends AsyncTask<List<String>, String, String>
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private String url_get_ejercicio = "http://192.168.1.103/bd_reconocimiento/get_ejercicio.php";
+	private String url_get_ejercicio = "";
 	
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_EJERCICIOS = "ejercicio";
@@ -49,6 +49,7 @@ public class DescargarEjercicios extends AsyncTask<List<String>, String, String>
     
     public DescargarEjercicios(Context context){
     	this.context=context;
+    	url_get_ejercicio=context.getString(R.string.servidor_remoto)+"get_ejercicio.php";
     	eds=new EjercicioDataSource(context);
     	eds.open();
     	jParser=new JSONParser();
@@ -59,7 +60,7 @@ public class DescargarEjercicios extends AsyncTask<List<String>, String, String>
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Descargando nuevos ejercicios, por favor espere...");
+        pDialog.setMessage("Sincronizando ejercicios, por favor espere...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();

@@ -27,7 +27,6 @@ import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
-import es.ugr.bdremota.AllEjerciciosActivity;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
@@ -412,10 +411,7 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	public void onClickBDRemota(View v){
-		Intent intent = new Intent(this, AllEjerciciosActivity.class);
-		startActivity(intent);
-	}
+
 	
 	
 	@Override

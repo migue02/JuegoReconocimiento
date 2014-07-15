@@ -139,7 +139,7 @@ public class GestionAlumnos extends Activity {
 	private void CreaLista(){
 		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios", "Objetos"
         };
-		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.ic5};
+		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.objeto};
 
 		List<RowItemTitle> rowItems;
 		rowItems=new ArrayList<RowItemTitle>();
@@ -521,14 +521,14 @@ public class GestionAlumnos extends Activity {
 			
 			chico.setSelected(true);
 			chica.setSelected(false);
-			imPrincipal.setImageResource(R.drawable.boy);
+			imPrincipal.setImageResource(R.drawable.boy_amp);
 			sexo=Sexo.Hombre;
 			break;
 		case Mujer:
 
 			chica.setSelected(true);
 			chico.setSelected(false);
-			imPrincipal.setImageResource(R.drawable.girl);
+			imPrincipal.setImageResource(R.drawable.girl_amp);
 			sexo=Sexo.Mujer;
 			break;
 

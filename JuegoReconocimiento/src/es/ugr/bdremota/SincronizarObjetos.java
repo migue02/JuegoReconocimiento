@@ -11,11 +11,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import es.ugr.basedatos.ObjetoDataSource;
+import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Objeto;
 import es.ugr.utilidades.JSONParser;
 
@@ -27,7 +30,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private String url_all_objetos = "http://192.168.1.103/bd_reconocimiento/get_all_id_objetos.php";
+	private String url_all_objetos = "";
 	
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_OBJETOS = "objetos";
@@ -50,6 +53,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 	public SincronizarObjetos(Context context) {
 		// TODO Auto-generated constructor stub
 		this.context=context;
+		url_all_objetos=context.getString(R.string.servidor_remoto)+"get_all_id_objetos.php";
 		jParser = new JSONParser();
 		//this.context.getResources().getString(R.string.servidor_remoto);
 	//	NombObjetosListLoc=new ArrayList<String>();
@@ -170,8 +174,33 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
         		addToLocal.add(NombObjetosListRem.get(i));
         }
         
-        new SubirObjetos(context).execute(addToRemote,updateToRemote);
-        new DescargarObjetos(context).execute(addToLocal,updateToLocal);
+        if(addToRemote.size()>0||updateToRemote.size()>0||addToLocal.size()>0||updateToLocal.size()>0){
+        	AlertDialog.Builder alertDialog=new AlertDialog.Builder(context);
+        	alertDialog.setTitle("Sincronizar Objetos");
+        	String mensaje=String.valueOf(addToRemote.size())+" nuevo(s), "+String.valueOf(updateToRemote.size())+" a actualizar en remoto. \n"+String.valueOf(addToLocal.size())+" nuevo(s), "+String.valueOf(updateToLocal.size())+" a actualizar en local. \n \n¿Desea sincronizar?";
+        	alertDialog.setMessage(mensaje).setPositiveButton("Si", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+			        new SubirObjetos(context).execute(addToRemote,updateToRemote);
+			        new DescargarObjetos(context).execute(addToLocal,updateToLocal);
+				}
+			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+        	
+        	AlertDialog alert=alertDialog.create();
+	        alert.show();
+        }
+        
+        
+
         
     }
 

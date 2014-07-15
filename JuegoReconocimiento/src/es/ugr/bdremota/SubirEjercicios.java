@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import es.ugr.basedatos.EjercicioDataSource;
+import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.utilidades.JSONParser;
 
@@ -26,9 +27,9 @@ class SubirEjercicios extends AsyncTask<List<String>, String, String> {
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private static String url_create_ejercicio = "http://192.168.1.103/bd_reconocimiento/create_ejercicio.php";
-	private static String url_update_ejercicio = "http://192.168.1.103/bd_reconocimiento/update_ejercicio.php";
-    private static String url_sounds="http://192.168.1.103/bd_reconocimiento/sounds/";
+	private static String url_create_ejercicio = "";
+	private static String url_update_ejercicio = "";
+    private static String url_sounds="";
 	
     private static final String TAG_SUCCESS = "success";
 	
@@ -36,6 +37,9 @@ class SubirEjercicios extends AsyncTask<List<String>, String, String> {
 	
     public SubirEjercicios(Context context){
     	this.context=context;
+    	url_create_ejercicio=context.getString(R.string.servidor_remoto)+"create_ejercicio.php";
+    	url_update_ejercicio=context.getString(R.string.servidor_remoto)+"update_ejercicio.php";
+    	url_sounds=context.getString(R.string.servidor_remoto)+"sounds/";
     	eds=new EjercicioDataSource(context);
     	eds.open();
     	jParser=new JSONParser();
@@ -45,7 +49,7 @@ class SubirEjercicios extends AsyncTask<List<String>, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Subiendo nuevos ejercicios, por favor espere...");
+        pDialog.setMessage("Sincronizando ejercicios, por favor espere...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();

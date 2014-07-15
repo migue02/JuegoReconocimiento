@@ -27,11 +27,11 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
-	private static String url_create_objeto = "http://192.168.1.103/bd_reconocimiento/create_objeto.php";
-	private static String url_update_objeto = "http://192.168.1.103/bd_reconocimiento/update_objeto.php";
+	private static String url_create_objeto = "";
+	private static String url_update_objeto = "";
 	
-	private static String path_imagen_rem = "http://192.168.1.103/bd_reconocimiento/images/";
-	private static String path_sound_rem = "http://192.168.1.103/bd_reconocimiento/sounds/";
+	private static String path_imagen_rem = "";
+	private static String path_sound_rem = "";
 	
     private static final String TAG_SUCCESS = "success";
 	
@@ -39,6 +39,11 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
 	
     public SubirObjetos(Context context){
     	this.context=context;
+    	url_create_objeto=context.getString(R.string.servidor_remoto)+"create_objeto.php";
+    	url_update_objeto=context.getString(R.string.servidor_remoto)+"update_objeto.php";
+    	
+    	path_imagen_rem=context.getString(R.string.servidor_remoto)+"images/";
+    	path_sound_rem=context.getString(R.string.servidor_remoto)+"sounds/";
     	ods=new ObjetoDataSource(context);
     	ods.open();
     	jParser=new JSONParser();
@@ -48,7 +53,7 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Subiendo nuevos objetos, por favor espere...");
+        pDialog.setMessage("Sincronizando objetos, por favor espere...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();

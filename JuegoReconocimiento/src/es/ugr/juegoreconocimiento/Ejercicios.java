@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -226,20 +228,12 @@ public class Ejercicios extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				/*
-			try {
-				String str=new SincronizarEjercicios(Ejercicios.this).execute().get();
-				//CreaTablaEjer();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-				new SincronizarEjercicios(context).execute();
-				//new SincronizarObjetos(context).execute();
-
+				if (Utilidades.hasInternetConnection(context))
+					new SincronizarEjercicios(context).execute();
+				else{
+					Toast toast=Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG);
+					toast.show();
+				}
 		   }
 		});
 		sonidos=new Sonidos(this);
@@ -259,7 +253,7 @@ public class Ejercicios extends Activity {
 	private void CreaLista(){
 		String[] titulos = new String[] { "Menú Principal","Gestión Alumnos","Resultados/Estadísticas"," Ejercicios","Serie Ejercicios", "Objetos"
         };
-		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.ic5};
+		Integer[] images=new Integer[]{R.drawable.anterior,R.drawable.ic2,R.drawable.ic1,R.drawable.ic6,R.drawable.ic3,R.drawable.objeto};
 
 		List<RowItemTitle> rowItems;
 		rowItems=new ArrayList<RowItemTitle>();
@@ -600,7 +594,7 @@ public class Ejercicios extends Activity {
 
 	}
 
-	
+
 	
 
 }
