@@ -197,7 +197,7 @@
 	                 android:layout_width="match_parent"
 	                 android:layout_height="match_parent"
 	                 android:layout_weight="1"
-	                 android:onClick="onClickAdmistrador"
+	                 android:onClick="onClickLogin"
 	                 style="?android:attr/buttonStyleSmall"
 	                 android:text="Admin" />
 	            
@@ -208,16 +208,8 @@
 	                 android:layout_weight="1"
 	                 android:onClick="onClickJugar"
 	                 style="?android:attr/buttonStyleSmall"
+	                 android:visibility="gone"
 	                 android:text="Jugar" />
-	            
-	            <Button
-	                 android:id="@+id/button1"
-	                 android:layout_width="match_parent"
-	                 android:layout_height="match_parent"
-	                 android:layout_weight="1"
-	                 android:onClick="onClickObjetoFicha"
-	                 style="?android:attr/buttonStyleSmall"
-	                 android:text="Ficha objeto" />
             
             </LinearLayout>
             

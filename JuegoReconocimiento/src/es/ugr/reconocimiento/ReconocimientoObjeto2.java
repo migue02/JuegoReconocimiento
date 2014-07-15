@@ -283,7 +283,7 @@ public class ReconocimientoObjeto2 extends Activity implements CvCameraViewListe
 					String keyString, desString;				
 					keyString = Utilidades.keypointsToJson(keypoints_obj);
 					desString = Utilidades.matToJson(descriptores_obj);
-					datasource.createObjeto(edtNombre.getText().toString(), keyString, desString, aux.cols(), aux.rows());
+					//datasource.createObjeto(edtNombre.getText().toString(), keyString, desString, aux.cols(), aux.rows());
 					objetos.clear();
 					objetos=datasource.getAllObjetos(7);
 					LiberaObjetos();

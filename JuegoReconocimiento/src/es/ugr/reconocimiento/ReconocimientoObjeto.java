@@ -324,7 +324,7 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 					//keypoints_obj = new MatOfKeyPoint(listaKP_obj);
 					keyString = Utilidades.keypointsToJson(mKeyPointsObjeto);
 					desString = Utilidades.matToJson(mDescriptoresObjeto);
-					/*Objeto obj=*/dsObjeto.createObjeto(edtNombre.getText().toString(), keyString, desString, mAux.cols(), mAux.rows());
+					/*Objeto obj=*///dsObjeto.createObjeto(edtNombre.getText().toString(), keyString, desString, mAux.cols(), mAux.rows());
 					//lObjetos.add(obj);
 					//rellenar(true);
 					//id = obj.getId();

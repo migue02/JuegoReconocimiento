@@ -126,9 +126,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				Log.i(TAG, "OpenCV loaded successfully");
 
 				// Load native library after(!) OpenCV initialization
-				System.loadLibrary("opencv_java");
+				/*System.loadLibrary("opencv_java");
 				System.loadLibrary("nonfree");
-				System.loadLibrary("juegoReconocimientoLib");
+				System.loadLibrary("juegoReconocimientoLib");*/
 
 				mOpenCvCameraView.enableView();
 				
@@ -245,12 +245,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					oEjercicioActual = new Ejercicio();
 			}
 			((ImageView) findViewById(R.id.btnCapturar)).setVisibility(View.GONE);
-			
+			((LinearLayout) findViewById(R.id.layoutEdits)).setVisibility(View.GONE);
 		}else{
 			setTitle("Añadir objeto");
 			((LinearLayout) findViewById(R.id.layoutBotones)).setVisibility(View.GONE);
-			((LinearLayout) findViewById(R.id.layoutEdits)).setVisibility(View.GONE);
 			((ImageView) findViewById(R.id.btnReconocer)).setVisibility(View.GONE);
+			((LinearLayout) findViewById(R.id.layoutCrono)).setVisibility(View.GONE);
 		}
 	}
 	
@@ -274,6 +274,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
 		oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 		oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
+		
+		if (oObjetoActual != null) 
+			Toast.makeText(Juego.this, "Buscando "+oObjetoActual.getNombre(), Toast.LENGTH_SHORT).show();
 		
 	}
 
@@ -424,6 +427,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	public void onAyudaClick(View v){
 		if (oObjetoActual != null)
 			oObjetoActual.playSonidoAyuda(this);
+	}
+	
+	public void onDescripcionClick(View v){
+		if (oObjetoActual != null)
+			oObjetoActual.playSonidoDescripcion(this);
 	}
 	
 	public void onReconocerClick(View v){

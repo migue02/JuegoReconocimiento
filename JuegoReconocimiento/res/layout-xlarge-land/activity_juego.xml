@@ -80,6 +80,15 @@
             android:layout_weight="1"
             android:checked="false" />
         
+         <ImageView
+            android:id="@+id/ImageView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onInicializaSurf"
+            android:src="@drawable/surf"
+            android:text="Reinicia\nSURF" />
+        
     </LinearLayout> 
 
     <FrameLayout
@@ -132,12 +141,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutCrono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/fondo_tools"
             android:gravity="right"
             android:orientation="vertical"
-        	android:layout_below="@+id/layoutEdits"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -177,9 +186,9 @@
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:layout_weight="1"
-	                android:src="@drawable/surf"
-	                android:onClick="onInicializaSurf"
-	                android:text="Reinicia\nSURF" />
+	                android:src="@drawable/descripcion"
+	                android:onClick="onDescripcionClick"
+	                android:text="Descripcion" />
              
              <ImageView
                 android:id="@+id/btnAyuda"

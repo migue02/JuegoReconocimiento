@@ -192,9 +192,9 @@ public class MainActivity extends Activity {
 				Date d2 = cal.getTime();
 
 				Alumno alumno1 = ads.createAlumno("Juan Manuel",
-						"Lucena Morales", d, Sexo.Hombre, "");
+						"Lucena Morales", d, Sexo.Mujer, "");
 				Alumno alumno2 = ads.createAlumno("Miguel",
-						"Morales Rodríguez", d2, Sexo.Mujer, "");
+						"Morales Rodríguez", d2, Sexo.Hombre, "");
  
 				ads.close();
 
@@ -389,7 +389,7 @@ public class MainActivity extends Activity {
 		startActivity(empiezaJuego);
 	}
 
-	public void onClickReconocimiento(View v) {
+	public void onClickLogin(View v) {
 		Intent intent = new Intent(this, LoginAdministrador.class);
 		startActivity(intent);
 	}

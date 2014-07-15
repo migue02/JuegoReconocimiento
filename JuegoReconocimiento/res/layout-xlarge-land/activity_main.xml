@@ -216,39 +216,16 @@
 			                 android:layout_width="wrap_content"
 			                 android:layout_height="wrap_content"
 			                 android:layout_weight="1"
-			                 android:onClick="onClickReconocimiento"
-			                 android:text="Reconocimiento" />
-		                
-		                <Button
-			                 android:id="@+id/button2"
-			                 android:layout_width="match_parent"
-			                 android:layout_height="match_parent"
-			                 android:layout_weight="1"
-			                 android:onClick="onClickJugar"
-			                 android:text="Jugar" />
-		                <Button
-			                 android:id="@+id/button1"
-			                 android:layout_width="match_parent"
-			                 android:layout_height="match_parent"
-			                 android:layout_weight="1"
-			                 android:onClick="onClickObjetoFicha"
-			                 style="?android:attr/buttonStyleSmall"
-			                 android:text="Ficha objeto" />
+			                 android:onClick="onClickLogin"
+			                 android:text="Administrador" />
 		                <Button
 		                    android:id="@+id/buttonBDRemota"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
 		                    android:layout_weight="1"
 		                    android:onClick="onClickBDRemota"
+		                    android:visibility="gone"
 		                    android:text="BD-Remota" />
-		                <Button
-			                 android:id="@+id/button1"
-			                 android:layout_width="match_parent"
-			                 android:layout_height="match_parent"
-			                 android:layout_weight="1"
-			                 android:onClick="onClickAdmistrador"
-			                 style="?android:attr/buttonStyleSmall"
-			                 android:text="Admin" />
 		                
                 </LinearLayout>
 

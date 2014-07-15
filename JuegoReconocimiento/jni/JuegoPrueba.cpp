@@ -427,6 +427,7 @@ int getNumMatches(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descri
 		// -----------------------------------------------------------------------------------
 		// Si se han encontrado más de cuatro coincidencias se ha encontrado el objeto nObjeto
 		// -----------------------------------------------------------------------------------
+		nMatches = keyPoints_obj.size()/2;
 		if (good_matches.size() >= numMatches) {
 
 			vector < Point2f > obj;

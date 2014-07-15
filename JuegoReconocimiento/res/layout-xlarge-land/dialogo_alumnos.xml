@@ -5,15 +5,15 @@
     android:orientation="vertical" >
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_weight="0.2">
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp">
@@ -21,7 +21,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp">
 
                 <ImageView
@@ -46,8 +46,9 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_width="match_parent"
+                    android:baselineAligned="false"
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -61,7 +62,7 @@
                         <ImageButton
                             android:id="@+id/BotonHombre"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
                             android:src="@drawable/boy"
                             android:layout_marginLeft="2dp"
@@ -89,7 +90,7 @@
                         <ImageButton
                             android:id="@+id/BotonMujer"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
                             android:src="@drawable/girl"
                             android:layout_marginRight="2dp"
@@ -111,8 +112,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="1">
 
@@ -164,7 +165,7 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fecha de Nacimiento"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -228,9 +229,8 @@
     </ScrollView>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/scrollView"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:visibility="visible"

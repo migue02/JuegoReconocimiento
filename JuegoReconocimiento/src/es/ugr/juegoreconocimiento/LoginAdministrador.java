@@ -193,24 +193,24 @@ public class LoginAdministrador extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
-
+			boolean exito = false;
 			try {
 				// Simulate network access.
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				return false;
+				exito = false;
 			}
 
 			for (String credential : DUMMY_CREDENTIALS) {
 				String[] pieces = credential.split(":");
 				if (pieces[0].equals(mEmail)) {
 					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
+					exito = pieces[1].equals(mPassword);
 				}
 			}
 
 			// TODO: register the new account here.
-			return true;
+			return exito;
 		}
 
 		@Override
