@@ -67,7 +67,6 @@ public class EjercicioHandler extends DefaultHandler{
 	 
 	        super.endElement(uri, localName, name);
 	        int valueint;
-	        double value;
 	        if (this.ejercicioActual != null) {
 	 
 	            if (localName.equals("nombre")) {

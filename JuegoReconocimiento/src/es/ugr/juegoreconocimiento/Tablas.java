@@ -1,6 +1,5 @@
 package es.ugr.juegoreconocimiento;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +22,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 import es.ugr.adaptadores.*;

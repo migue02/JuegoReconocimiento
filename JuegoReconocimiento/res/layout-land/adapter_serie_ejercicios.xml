@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="67dp"
+    android:background="@drawable/tablerowsel"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/layoutTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ModiSelSer"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/NombSelSer"
+            style="@style/TextoTabla"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.32"
+            android:drawableLeft="@drawable/ic3"
+            android:gravity="center|left"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/DurSelSer"
+            style="@style/TextoTabla"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.68"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="2dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ModiSelSer"
+        style="@style/TextoTabla"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/midrag"
+        android:gravity="center_vertical|right"
+        android:paddingBottom="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/midrag"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/drag"
+        android:paddingBottom="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp" />
+
+</RelativeLayout>

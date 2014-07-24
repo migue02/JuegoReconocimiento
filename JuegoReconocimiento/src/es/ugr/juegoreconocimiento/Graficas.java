@@ -1,23 +1,14 @@
 package es.ugr.juegoreconocimiento;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -34,23 +25,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.MonthDisplayHelper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.widget.TabHost.TabSpec;
 
@@ -65,7 +49,6 @@ import android.widget.TabHost.TabSpec;
  * 
  */
 public class Graficas extends Activity {
-	private LinearLayout ll;
 	private static Context contexto;
 	private int fechaTipo,graficaTipo;
 	private ViewAnimator va;
@@ -115,13 +98,6 @@ public class Graficas extends Activity {
 		
 	    final TextView titulo=(TextView)findViewById(R.id.TitGraf);
 	    final TextView subtitulo=(TextView)findViewById(R.id.TitEjerGraf);
-	    
-	    final SimpleDateFormat formatoDia;
-		final SimpleDateFormat formatoMes;
-		final SimpleDateFormat formatoAño;
-	    formatoDia=new SimpleDateFormat("dd");
-	    formatoMes=new SimpleDateFormat("MM");
-	    formatoAño=new SimpleDateFormat("yyyy");
 	    
 	    
         va=(ViewAnimator)findViewById(R.id.viewAnimator1);
@@ -183,7 +159,6 @@ public class Graficas extends Activity {
 		
         
         //Obtener parametros del Intent
-		ll=(LinearLayout)findViewById(R.id.linearGraficos);
 		Bundle extras = getIntent().getExtras();
 	    fechaTipo=extras.getInt("tipoFecha"); 
 	    listaAlumnos=extras.getIntegerArrayList("listaAlumnos");

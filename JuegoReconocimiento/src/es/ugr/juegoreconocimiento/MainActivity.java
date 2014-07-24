@@ -27,6 +27,7 @@ import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
+import es.ugr.lista_navegacion.ListaNavegacionActivity;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
@@ -34,8 +35,6 @@ import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.reconocimiento.EmpezarJuego;
-import es.ugr.reconocimiento.Juego;
-import es.ugr.reconocimiento.ReconocimientoObjeto2;
 import es.ugr.utilidades.FontsOverride;
 import es.ugr.utilidades.Utilidades;
 
@@ -371,10 +370,7 @@ public class MainActivity extends Activity {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-
-			
+		}	
 
 	}
 
@@ -393,26 +389,10 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void onClickJugar(View v) {
-		Intent intent = new Intent(this, Juego.class);
+	public void onClickMasterDetail(View v) {
+		Intent intent = new Intent(this, ListaNavegacionActivity.class);
 		startActivity(intent);
 	}
-	
-	public void onClickObjetoFicha(View v) {		
-		ObjetoDataSource oDS= new ObjetoDataSource(this);
-		oDS.open();
-		Objeto objeto = oDS.getAllObjetos().get(oDS.getAllObjetos().size()-1);
-		oDS.close();
-		if (objeto != null){
-			Intent intent = new Intent(this,
-					FichaObjeto.class);
-			intent.putExtra("Objeto", objeto.getId());
-			startActivity(intent);
-		}
-	}
-	
-
-	
 	
 	@Override
 	protected void onPause() {

@@ -1,105 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout1" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="Importar fichero desde..."
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:id="@+id/layoutRadioButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView1"
+                android:orientation="vertical" >
+
+                <RadioGroup
+                    android:id="@+id/RGImportar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp" >
+
+                    <RadioButton
+                        android:id="@+id/radioButtonExp1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Fichero"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <RadioButton
+                        android:id="@+id/radioButtonExp2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="URL"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutTextos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView1"
+                android:layout_toRightOf="@id/layoutRadioButtons"
+                android:orientation="vertical"
+                android:weightSum="1" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/editTextFich"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <Button
+                        android:id="@+id/BotonSelFich"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Elegir"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/editTextURL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
 
-        <TextView
+        <Button
+            android:id="@+id/aImportar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Importar fichero desde..."
-            android:gravity="top"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp" />
+            android:layout_weight="1"
+            android:text="Importar"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <RadioGroup
+        <Button
+            android:id="@+id/cImportar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/RGImportar">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fichero"
-                    android:id="@+id/radioButtonExp1"
-                    android:checked="true"
-                    android:layout_marginRight="30dp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextFich"
-                    android:layout_weight="0.3"
-                    android:layout_marginRight="30dp" />
-
-                <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="fill_parent"
-                    android:layout_height="30dp"
-                    android:text="Seleccionar Archivo..."
-                    android:id="@+id/BotonSelFich"
-                    android:layout_weight="0.7" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="URL"
-                    android:id="@+id/radioButtonExp2" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextURL"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp" />
-            </LinearLayout>
-
-        </RadioGroup>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scrollView"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:layout_marginTop="20dp">
-
-            <Button
-                android:id="@+id/aImportar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Importar" />
-
-            <Button
-                android:id="@+id/cImportar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancelar" />
-        </LinearLayout>
+            android:layout_weight="1"
+            android:text="Cancelar"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

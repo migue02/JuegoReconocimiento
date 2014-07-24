@@ -12,6 +12,9 @@
     <string name="btnBorrarDB">Borrrar DB</string>
     <string name="title_activity_reconocimiento_objeto">ReconocimientoObjeto</string>
 
+    <!-- String GestionAlumnos -->
+    <string name= "tituloGestionAlumnos">Alumnos</string>
+    
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
     <string name="appsUgr">Visitar Catálogo AppsUGR</string>
@@ -25,9 +28,11 @@
     <string name="title_activity_ficha_objeto">Objeto</string>
     <string name="cancelar">Cancelar</string>
     <string name="guardarCambios">Guardar cambios</string>
-    
     <string name="servidor_remoto">http://192.168.1.103/bd_reconocimiento/</string>
     <string name="pathSounds">/mnt/sdcard/JuegoReconocimiento/sounds</string>
     <string name="pathImages">/mnt/sdcard/JuegoReconocimiento/images</string>
-	<string name="pathJuego">/mnt/sdcard/JuegoReconocimiento</string>
+    <string name="pathJuego">/mnt/sdcard/JuegoReconocimiento</string>
+    <string name="title_ventana_list">Ventanas</string>
+    <string name="title_ventana_detail">Ventana Detail</string>
+
 </resources>

@@ -13,7 +13,6 @@ import org.opencv.core.MatOfKeyPoint;
 
 import es.ugr.juegoreconocimiento.R;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -267,7 +266,6 @@ public class Objeto{
 		this.rows = rows;
 	}
 
-	// Will be used by the ArrayAdapter in the ListView
 	@Override
 	public String toString() {
 		return id + ".- " + nombre +" KPnts "+ matKeyPoints.size() ;

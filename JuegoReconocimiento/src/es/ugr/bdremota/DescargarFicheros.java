@@ -8,21 +8,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.PowerManager;
-import android.widget.Toast;
 
 
 public class DescargarFicheros extends AsyncTask<String, Integer, String> {
 
-    private Context context;
-    private PowerManager.WakeLock mWakeLock;
-
-    public DescargarFicheros(Context context){
-    	this.context=context;
-    }
-    
     public DescargarFicheros(){
     	
     }

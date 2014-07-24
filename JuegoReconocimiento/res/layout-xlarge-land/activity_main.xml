@@ -2,33 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@drawable/ugr_background" >
+    android:background="@drawable/ugr_background"
+    tools:context=".MainActivity" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/rellenoTabla">
+        android:background="@color/rellenoTabla" >
 
         <TextView
+            android:id="@+id/textoBienv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="¡Bienvenido!"
-            android:id="@+id/textoBienv"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:text="¡Bienvenido!"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffff2c08"
             android:textSize="50dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="40dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
 
             <TableLayout
                 android:layout_width="wrap_content"
@@ -41,42 +41,42 @@
                 <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_marginTop="50dp">
+                    android:layout_marginTop="50dp" >
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_marginBottom="100dp"
                         android:layout_marginRight="130dp"
-                        android:layout_marginBottom="100dp">
+                        android:orientation="vertical" >
 
                         <ImageButton
                             android:id="@+id/buttonAlum"
                             android:layout_width="125dp"
                             android:layout_height="125dp"
-                            android:layout_gravity="center"
                             android:layout_alignParentStart="true"
+                            android:layout_gravity="center"
                             android:background="@drawable/selicono"
                             android:gravity="center"
-                            android:src="@drawable/ic2"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic2" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="235dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:text="Gestión Alumnos"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:layout_gravity="center_horizontal" />
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/linearLayout2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="100dp">
+                        android:layout_marginBottom="100dp"
+                        android:orientation="vertical" >
 
                         <ImageButton
                             android:id="@+id/buttonEj"
@@ -85,34 +85,33 @@
                             android:layout_gravity="center"
                             android:background="@drawable/selicono"
                             android:gravity="center"
-                            android:textAlignment="gravity"
+                            android:scaleType="fitXY"
                             android:src="@drawable/ic6"
-                            android:scaleType="fitXY"/>
+                            android:textAlignment="gravity" />
 
                         <TextView
                             android:id="@+id/textView3"
                             android:layout_width="139dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:text="Ejercicios"
                             android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:layout_gravity="center_horizontal" />
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
                     </LinearLayout>
-
                 </TableRow>
 
                 <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" >
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_marginBottom="50dp"
                         android:layout_marginRight="100dp"
-                        android:layout_marginBottom="50dp">
+                        android:orientation="vertical" >
 
                         <ImageButton
                             android:id="@+id/buttonEsta"
@@ -122,26 +121,26 @@
                             android:layout_gravity="center"
                             android:background="@drawable/selicono"
                             android:gravity="center"
-                            android:textAlignment="gravity"
+                            android:scaleType="fitXY"
                             android:src="@drawable/ic1"
-                            android:scaleType="fitXY"/>
+                            android:textAlignment="gravity" />
 
                         <TextView
                             android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:text="Resultados"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:layout_gravity="center_horizontal" />
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/LinearLayout01"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="50dp">
+                        android:layout_marginBottom="50dp"
+                        android:orientation="vertical" >
 
                         <ImageButton
                             android:id="@+id/ButtonSerie"
@@ -150,20 +149,19 @@
                             android:layout_alignStart="@+id/buttonAlum"
                             android:layout_gravity="center"
                             android:background="@drawable/selicono"
-                            android:textAlignment="gravity"
+                            android:scaleType="fitXY"
                             android:src="@drawable/ic3"
-                            android:scaleType="fitXY"/>
+                            android:textAlignment="gravity" />
 
                         <TextView
                             android:id="@+id/TextView01"
                             android:layout_width="257dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:text="Serie Ejercicios"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:layout_gravity="center_horizontal" />
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
                     </LinearLayout>
-
                 </TableRow>
             </TableLayout>
 
@@ -171,21 +169,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="0.07"
                 android:orientation="vertical"
-                android:weightSum="1"
-                android:layout_marginTop="20dp">
+                android:weightSum="1" >
 
                 <ImageButton
                     android:id="@+id/empezar"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:layout_gravity="center"
                     android:layout_marginTop="150dp"
                     android:background="@drawable/selicono"
                     android:onClick="onClickEmpezar"
-                    android:layout_gravity="center"
-                    android:src="@drawable/empezar"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empezar" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -197,38 +195,36 @@
                     android:textSize="30dp" />
 
                 <LinearLayout
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:orientation="horizontal"
-	                android:layout_gravity="center" >
-                    
-		                <Button
-		                    android:id="@+id/Reinicia"
-		                    style="?android:attr/buttonStyleSmall"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:text="ReiniciaBD"
-		                    android:layout_gravity="center" />
-		                
-		                
-		                <Button
-			                 android:id="@+id/button1"
-			                 android:layout_width="wrap_content"
-			                 android:layout_height="wrap_content"
-			                 android:layout_weight="1"
-			                 android:onClick="onClickLogin"
-			                 android:text="Administrador" />
-		                <Button
-		                    android:id="@+id/buttonBDRemota"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:layout_weight="1"
-		                    android:onClick="onClickBDRemota"
-		                    android:visibility="gone"
-		                    android:text="BD-Remota" />
-		                
-                </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal" >
 
+                    <Button
+                        android:id="@+id/Reinicia"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="ReiniciaBD" />
+
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClickLogin"
+                        android:text="Administrador" />
+
+                    <Button
+                        android:id="@+id/button1"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="onClickMasterDetail"
+                        android:text="Master-Detail" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

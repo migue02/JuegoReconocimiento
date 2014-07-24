@@ -8,6 +8,10 @@ import es.ugr.objetos.TiposPropios.Sexo;
 
 public class Alumno implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idAlumno;
 	private String nombre;
 	private String apellidos;

@@ -9,7 +9,6 @@ import es.ugr.objetos.*;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.utilidades.Utilidades;
 import es.ugr.basedatos.*;
-import es.ugr.bdremota.SincronizarEjercicios;
 import es.ugr.bdremota.SincronizarObjetos;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar;
@@ -226,7 +225,7 @@ public class Objetos extends Activity {
 		dialogo.setTitle(obj.getNombre());
 		
 		((TextView) dialogo.findViewById(R.id.edtNombreObjeto)).setText(obj.getNombre());
-		((TextView) dialogo.findViewById(R.id.edtTamanioObjeto)).setText(obj.getDescripcion());
+		((TextView) dialogo.findViewById(R.id.edtDescripcion)).setText(obj.getDescripcion());
 		if(obj.getImagen()!=null)
 			((ImageView) dialogo.findViewById(R.id.imgObjeto)).setImageBitmap(obj.getImagen());
 		else

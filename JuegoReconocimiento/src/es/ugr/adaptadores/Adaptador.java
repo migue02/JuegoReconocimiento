@@ -54,7 +54,6 @@ public class Adaptador extends BaseExpandableListAdapter {
 	public View getChildView(final int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		final Resultado children = (Resultado) getChild(groupPosition, childPosition);
-		TextView textvw = null;
 		convertView = inflater.inflate(R.layout.subitems_layout, null);
 		
 		

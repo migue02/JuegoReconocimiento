@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
     <application
@@ -42,12 +42,27 @@
             android:theme="@style/AppTheme" >
         </activity>
         <activity
+            android:name="es.ugr.gestion_alumnos.GestionAlumnosActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="es.ugr.gestion_resultados.ResultadosActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
             android:name="es.ugr.juegoreconocimiento.Resultados"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="es.ugr.juegoreconocimiento.SeriesEjercicios"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="es.ugr.gestion_series.SeriesEjerciciosActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
         </activity>
@@ -63,6 +78,16 @@
         </activity>
         <activity
             android:name="es.ugr.juegoreconocimiento.Ejercicios"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="es.ugr.gestion_objetos.ObjetosActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="es.ugr.gestion_ejercicios.EjerciciosActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" >
         </activity>
@@ -83,8 +108,8 @@
         <activity
             android:name="es.ugr.reconocimiento.Juego"
             android:label="@string/title_activity_juego"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
         <activity
@@ -102,6 +127,20 @@
             android:label="@string/title_activity_login_administrador"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="es.ugr.lista_navegacion.ListaNavegacionActivity"
+            android:label="@string/title_ventana_list"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="es.ugr.lista_navegacion.DetalleItemActivity"
+            android:label="@string/title_ventana_detail"
+            android:parentActivityName="es.ugr.lista_navegacion.VentanaListActivity"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VentanaListActivity" />
         </activity>
     </application>
 

@@ -8,69 +8,74 @@ import android.media.MediaPlayer;
 
 public class Sonidos {
 
-	Context contexto;
-	 private AssetFileDescriptor afdNavegacion, afdDrop,afdRow,afdRemove, afdResultados;
-	 private MediaPlayer playerNavegacion,playerDrop,playerRow,playerRemove, playerResultados;
-	
+	private Context contexto;
+	private AssetFileDescriptor afdNavegacion, afdDrop, afdRow, afdRemove,
+			afdResultados;
+	private MediaPlayer playerNavegacion, playerDrop, playerRow, playerRemove,
+			playerResultados;
+
 	public Sonidos(Context contexto) {
-		// TODO Auto-generated constructor stub
-		this.contexto=contexto;
-		
+		this.contexto = contexto;
+
 		try {
-			//Sonido barra navegacion
+			// Sonido barra navegacion
 			afdNavegacion = contexto.getAssets().openFd("click1.mp3");
 			playerNavegacion = new MediaPlayer();
-			playerNavegacion.setDataSource(afdNavegacion.getFileDescriptor(),afdNavegacion.getStartOffset(),afdNavegacion.getLength());
+			playerNavegacion.setDataSource(afdNavegacion.getFileDescriptor(),
+					afdNavegacion.getStartOffset(), afdNavegacion.getLength());
 			playerNavegacion.prepare();
-			
-			//Sonido soltar
+
+			// Sonido soltar
 			afdDrop = contexto.getAssets().openFd("drop1.mp3");
 			playerDrop = new MediaPlayer();
-			playerDrop.setDataSource(afdDrop.getFileDescriptor(),afdDrop.getStartOffset(),afdDrop.getLength());
+			playerDrop.setDataSource(afdDrop.getFileDescriptor(),
+					afdDrop.getStartOffset(), afdDrop.getLength());
 			playerDrop.prepare();
-			
-			//Sonido click en fila
+
+			// Sonido click en fila
 			afdRow = contexto.getAssets().openFd("clickTabla.mp3");
 			playerRow = new MediaPlayer();
-			playerRow.setDataSource(afdRow.getFileDescriptor(),afdRow.getStartOffset(),afdRow.getLength());
+			playerRow.setDataSource(afdRow.getFileDescriptor(),
+					afdRow.getStartOffset(), afdRow.getLength());
 			playerRow.prepare();
-			
-			//Sonido eliminar fila
+
+			// Sonido eliminar fila
 			afdRemove = contexto.getAssets().openFd("removeTabla.mp3");
 			playerRemove = new MediaPlayer();
-			playerRemove.setDataSource(afdRemove.getFileDescriptor(),afdRemove.getStartOffset(),afdRemove.getLength());
+			playerRemove.setDataSource(afdRemove.getFileDescriptor(),
+					afdRemove.getStartOffset(), afdRemove.getLength());
 			playerRemove.prepare();
-			
+
 			afdResultados = contexto.getAssets().openFd("clickResultados.mp3");
 			playerResultados = new MediaPlayer();
-			playerResultados.setDataSource(afdResultados.getFileDescriptor(),afdResultados.getStartOffset(),afdResultados.getLength());
+			playerResultados.setDataSource(afdResultados.getFileDescriptor(),
+					afdResultados.getStartOffset(), afdResultados.getLength());
 			playerResultados.prepare();
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void playNavegacion(){
+
+	public void playNavegacion() {
 		playerNavegacion.start();
 	}
-	
-	public void playDrop(){
+
+	public void playDrop() {
 		playerDrop.start();
 	}
-	
-	public void playClickRow(){
+
+	public void playClickRow() {
 		playerRow.start();
 	}
 
-	public void playRemove(){
+	public void playRemove() {
 		playerRemove.start();
 	}
-	
-	public void playResultados(){
+
+	public void playResultados() {
 		playerResultados.start();
 	}
-	
+
 }

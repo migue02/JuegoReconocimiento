@@ -9,6 +9,10 @@ import es.ugr.utilidades.Utilidades;
 
 public class SerieEjercicios implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idSerie;
 	private String nombre;
 	private ArrayList<Integer> ejercicios;

@@ -320,10 +320,10 @@ public class ReconocimientoObjeto extends Activity implements CvCameraViewListen
 				
 				@Override
 				public void onClick(View v) {
-					String keyString, desString;				
+					//String keyString, desString;				
 					//keypoints_obj = new MatOfKeyPoint(listaKP_obj);
-					keyString = Utilidades.keypointsToJson(mKeyPointsObjeto);
-					desString = Utilidades.matToJson(mDescriptoresObjeto);
+					//keyString = Utilidades.keypointsToJson(mKeyPointsObjeto);
+					//desString = Utilidades.matToJson(mDescriptoresObjeto);
 					/*Objeto obj=*///dsObjeto.createObjeto(edtNombre.getText().toString(), keyString, desString, mAux.cols(), mAux.rows());
 					//lObjetos.add(obj);
 					//rellenar(true);

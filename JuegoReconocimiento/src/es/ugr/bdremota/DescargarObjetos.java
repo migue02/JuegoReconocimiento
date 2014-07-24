@@ -147,13 +147,13 @@ protected String doInBackground(List<String>... params) {
                     String ruta_imagen_local="";
                     if(!imagen.equals("")){
                     	ruta_imagen_local=context.getString(R.string.pathImages)+"/"+nombre+".png";
-                    	new DescargarFicheros(context).execute(imagen,ruta_imagen_local);
+                    	new DescargarFicheros().execute(imagen,ruta_imagen_local);
                     }
                     String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
                     String ruta_descripcion_local="";
                     if(!sonido_descripcion.equals("")){
                     	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/descripcion"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_descripcion,ruta_descripcion_local);
+                    	new DescargarFicheros().execute(sonido_descripcion,ruta_descripcion_local);
                     }
                     
                    
@@ -161,7 +161,7 @@ protected String doInBackground(List<String>... params) {
                     String ruta_ayuda_local="";
                     if(!sonido_ayuda.equals("")){
                     	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/ayuda"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_ayuda,ruta_ayuda_local);
+                    	new DescargarFicheros().execute(sonido_ayuda,ruta_ayuda_local);
                     }
                     
                   
@@ -169,7 +169,7 @@ protected String doInBackground(List<String>... params) {
                     String ruta_nombre_local="";
                     if(!sonido_nombre.equals("")){
                     	ruta_nombre_local=context.getString(R.string.pathSounds)+"/nombre"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_nombre,ruta_nombre_local);
+                    	new DescargarFicheros().execute(sonido_nombre,ruta_nombre_local);
                     }
                     if(insertar==true)
                     	ods.createObjeto(nombre, descripcion, fecha, keypoints, descriptores, cols, rows, ruta_imagen_local, ruta_descripcion_local, ruta_ayuda_local, ruta_nombre_local);

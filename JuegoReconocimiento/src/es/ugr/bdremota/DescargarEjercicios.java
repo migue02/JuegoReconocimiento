@@ -143,7 +143,7 @@ protected String doInBackground(List<String>... params) {
                     	String ruta=context.getString(R.string.pathSounds);
                     	sonido_descripcion_local=ruta+"/"+nombre+".mp3";
                     	//sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sonidos/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_descripcion,sonido_descripcion_local);
+                    	new DescargarFicheros().execute(sonido_descripcion,sonido_descripcion_local);
                     	
                     }
                     eds.createEjercicio(nombre, fecha, objetos, descripcion, duracion, objetosReconocer, sonido_descripcion_local);
@@ -204,7 +204,7 @@ protected String doInBackground(List<String>... params) {
                     String sonido_descripcion_local="";
                     if (!sonido_descripcion.equals("")){
                     	sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sonidos/"+nombre+".mp3";
-                    	new DescargarFicheros(context).execute(sonido_descripcion,sonido_descripcion_local);
+                    	new DescargarFicheros().execute(sonido_descripcion,sonido_descripcion_local);
                     	
                     }
                     eds.modificaEjercicio(nombre, fecha, objetos, descripcion, duracion, objetosReconocer, sonido_descripcion_local);
