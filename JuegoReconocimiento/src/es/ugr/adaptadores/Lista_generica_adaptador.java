@@ -1,4 +1,4 @@
-package es.ugr.adapters;
+package es.ugr.adaptadores;
 
 import java.util.ArrayList;
 

@@ -46,10 +46,13 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
     private List<String> updateToLocal;
     private List<String> updateToRemote;    
     
+    private Runnable creaTabla;
+    
 	
-	public SincronizarEjercicios(Context context) {
+	public SincronizarEjercicios(Context context, Runnable creaTabla) {
 		// TODO Auto-generated constructor stub
 		this.context=context;
+		this.creaTabla = creaTabla;
 		url_all_ejercicios=context.getString(R.string.servidor_remoto)+"get_all_id_ejercicios.php";
 		jParser = new JSONParser();
 	
@@ -177,7 +180,7 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
 					new SubirEjercicios(context).execute(addToRemote,updateToRemote);
-			        new DescargarEjercicios(context).execute(addToLocal,updateToLocal);
+			        new DescargarEjercicios(context, creaTabla).execute(addToLocal,updateToLocal);
 				}
 			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
 				

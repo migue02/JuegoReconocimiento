@@ -18,7 +18,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import es.ugr.basedatos.EjercicioDataSource;
-import es.ugr.juegoreconocimiento.Ejercicios;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.JSONParser;
 
@@ -46,9 +45,11 @@ public class DescargarEjercicios extends AsyncTask<List<String>, String, String>
     private JSONArray ejercicios = null;
 	
     private EjercicioDataSource eds;
+    private Runnable creaTabla;
     
-    public DescargarEjercicios(Context context){
+    public DescargarEjercicios(Context context, Runnable creaTabla){
     	this.context=context;
+    	this.creaTabla = creaTabla;
     	url_get_ejercicio=context.getString(R.string.servidor_remoto)+"get_ejercicio.php";
     	eds=new EjercicioDataSource(context);
     	eds.open();
@@ -91,8 +92,7 @@ protected String doInBackground(List<String>... params) {
     protected void onPostExecute(String msg) {
         pDialog.dismiss();
         eds.close();
-        Ejercicios ej=(Ejercicios)context;
-        ej.CreaTablaEjer();
+        creaTabla.run();
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         toast.show();
 

@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import es.ugr.lista_navegacion.ContenidoBarraPrincipal;
-import es.ugr.adapters.Lista_generica_adaptador;
+import es.ugr.adaptadores.Lista_generica_adaptador;
 import es.ugr.fragments.EjerciciosFragment;
 import es.ugr.fragments.GestionAlumnosFragment;
 import es.ugr.fragments.ObjetosFragment;

@@ -2,7 +2,7 @@ package es.ugr.librerias;
 
 import java.util.List;
 
-import es.ugr.adapters.AdapterSerieEjercicios;
+import es.ugr.adaptadores.AdapterSerieEjercicios;
 import es.ugr.basedatos.*;
 import es.ugr.dialogs.FichaSerieEjercicios;
 import es.ugr.objetos.*;

@@ -38,7 +38,7 @@ public class Tablas extends Activity {
 	private ViewAnimator va;
 	private List<Integer> listaAlumnos;
 	private List<Integer> listaSeries;
-	private SparseArray<GrupoDeItems> grupos = new SparseArray<GrupoDeItems>();
+	private SparseArray<GrupoDeItemsResultado> grupos = new SparseArray<GrupoDeItemsResultado>();
 	private int posAnimation = 0;
 	private int totalAnimation = 0;
 	private List<String> nombSeries = new ArrayList<String>();
@@ -222,9 +222,9 @@ public class Tablas extends Activity {
 
 	public void TablaRanking(int fechaTipo, int idSerie) {
 
-		grupos = new SparseArray<GrupoDeItems>();
+		grupos = new SparseArray<GrupoDeItemsResultado>();
 		ExpandableListView listView = new ExpandableListView(this);
-		Adaptador adapter = new Adaptador(this, grupos, graficaTipo);
+		AdaptadorResultado adapter = new AdaptadorResultado(this, grupos, graficaTipo);
 		listView.setAdapter(adapter);
 
 		List<List<Resultado>> listaFinal = new ArrayList<List<Resultado>>();
@@ -292,7 +292,7 @@ public class Tablas extends Activity {
 			}
 		}
 
-		List<GrupoDeItems> grupo = new ArrayList<GrupoDeItems>(fechaTipo);
+		List<GrupoDeItemsResultado> grupo = new ArrayList<GrupoDeItemsResultado>(fechaTipo);
 
 		// Crear Datos
 
@@ -306,7 +306,7 @@ public class Tablas extends Activity {
 				case Periodo.Semana:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaDias(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(semana[cal
+					grupo.add(new GrupoDeItemsResultado(semana[cal
 							.get(Calendar.DAY_OF_WEEK) - 1]
 							+ ", "
 							+ String.valueOf(cal.get(Calendar.DAY_OF_MONTH))));
@@ -314,7 +314,7 @@ public class Tablas extends Activity {
 				case Periodo.Mes:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaDias(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(semana[cal
+					grupo.add(new GrupoDeItemsResultado(semana[cal
 							.get(Calendar.DAY_OF_WEEK) - 1]
 							+ ", "
 							+ cal.get(Calendar.DAY_OF_MONTH)
@@ -324,7 +324,7 @@ public class Tablas extends Activity {
 				case Periodo.SeisMeses:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaMeses(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(mMonth[cal.get(Calendar.MONTH)]
+					grupo.add(new GrupoDeItemsResultado(mMonth[cal.get(Calendar.MONTH)]
 							+ ", " + cal.get(Calendar.YEAR)));
 					break;
 				}
@@ -344,9 +344,9 @@ public class Tablas extends Activity {
 
 	public void TablaAlumno(int fechaTipo, int idAlumno) {
 
-		grupos = new SparseArray<GrupoDeItems>();
+		grupos = new SparseArray<GrupoDeItemsResultado>();
 		ExpandableListView listView = new ExpandableListView(this);
-		Adaptador adapter = new Adaptador(this, grupos, graficaTipo);
+		AdaptadorResultado adapter = new AdaptadorResultado(this, grupos, graficaTipo);
 		listView.setAdapter(adapter);
 
 		List<List<Resultado>> listaFinal = new ArrayList<List<Resultado>>();
@@ -413,7 +413,7 @@ public class Tablas extends Activity {
 			}
 		}
 
-		List<GrupoDeItems> grupo = new ArrayList<GrupoDeItems>(fechaTipo);
+		List<GrupoDeItemsResultado> grupo = new ArrayList<GrupoDeItemsResultado>(fechaTipo);
 
 		// Crear Datos
 
@@ -427,7 +427,7 @@ public class Tablas extends Activity {
 				case Periodo.Semana:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaDias(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(semana[cal
+					grupo.add(new GrupoDeItemsResultado(semana[cal
 							.get(Calendar.DAY_OF_WEEK) - 1]
 							+ ", "
 							+ String.valueOf(cal.get(Calendar.DAY_OF_MONTH))));
@@ -435,7 +435,7 @@ public class Tablas extends Activity {
 				case Periodo.Mes:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaDias(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(semana[cal
+					grupo.add(new GrupoDeItemsResultado(semana[cal
 							.get(Calendar.DAY_OF_WEEK) - 1]
 							+ ", "
 							+ cal.get(Calendar.DAY_OF_MONTH)
@@ -445,7 +445,7 @@ public class Tablas extends Activity {
 				case Periodo.SeisMeses:
 					cal = Calendar.getInstance();
 					cal.setTime(restaFechaMeses(fechaTipo - 1 - i));
-					grupo.add(new GrupoDeItems(mMonth[cal.get(Calendar.MONTH)]
+					grupo.add(new GrupoDeItemsResultado(mMonth[cal.get(Calendar.MONTH)]
 							+ ", " + cal.get(Calendar.YEAR)));
 					break;
 				}

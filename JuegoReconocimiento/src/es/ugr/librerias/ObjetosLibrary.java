@@ -2,7 +2,7 @@ package es.ugr.librerias;
 
 import java.util.List;
 
-import es.ugr.adapters.AdapterObjeto;
+import es.ugr.adaptadores.AdapterObjeto;
 import es.ugr.objetos.*;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.utilidades.Utilidades;

@@ -20,14 +20,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 
-public class Adaptador extends BaseExpandableListAdapter {
-	private final SparseArray<GrupoDeItems> grupos;
+public class AdaptadorResultado extends BaseExpandableListAdapter {
+	private final SparseArray<GrupoDeItemsResultado> grupos;
 	private int tipoTabla;
 	public LayoutInflater inflater;
 	public Activity activity;
 
 	// Constructor
-	public Adaptador(Activity act, SparseArray<GrupoDeItems> grupos, int tipoTabla) {
+	public AdaptadorResultado(Activity act, SparseArray<GrupoDeItemsResultado> grupos, int tipoTabla) {
 		activity = act;
 		this.grupos = grupos;
 		inflater = act.getLayoutInflater();
@@ -274,7 +274,7 @@ public class Adaptador extends BaseExpandableListAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.items_layout, null);
 		}
-		GrupoDeItems grupo = (GrupoDeItems) getGroup(groupPosition);
+		GrupoDeItemsResultado grupo = (GrupoDeItemsResultado) getGroup(groupPosition);
 		((CheckedTextView) convertView).setText(grupo.string);
 		((CheckedTextView) convertView).setChecked(isExpanded);
 		return convertView;

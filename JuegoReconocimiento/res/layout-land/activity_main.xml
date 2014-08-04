@@ -196,15 +196,6 @@
                     android:onClick="onClickLogin"
                     android:text="Admin"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                <Button
-                    android:id="@+id/button1"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:onClick="onClickMasterDetail"
-                    android:text="Master-Detail"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

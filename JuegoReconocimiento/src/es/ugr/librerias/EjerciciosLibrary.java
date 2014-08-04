@@ -7,7 +7,7 @@ import com.mobeta.android.dslv.DragSortListView;
 import es.ugr.objetos.*;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.utilidades.Utilidades;
-import es.ugr.adapters.AdapterEjercicio;
+import es.ugr.adaptadores.AdapterEjercicio;
 import es.ugr.basedatos.*;
 import es.ugr.juegoreconocimiento.R;
 import android.app.Activity;
@@ -76,7 +76,7 @@ public class EjerciciosLibrary {
 
 	public void sincronizarEjercicios() {
 		if (Utilidades.hasInternetConnection(context))
-			new SincronizarEjercicios(context).execute();
+			new SincronizarEjercicios(context, runCreaTabla).execute();
 		else
 			Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG)
 					.show();

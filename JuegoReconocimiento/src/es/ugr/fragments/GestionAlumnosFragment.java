@@ -41,7 +41,7 @@ public class GestionAlumnosFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.gestion_alumnos2, container,
+		View rootView = inflater.inflate(R.layout.gestion_alumnos, container,
 				false);
 		oLibreria.setView(rootView);
 		oLibreria.onCreate(getActivity());

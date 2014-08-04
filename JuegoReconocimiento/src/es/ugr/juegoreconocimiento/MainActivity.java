@@ -97,10 +97,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent alumnoIntent = new Intent(getApplicationContext(),
-						GestionAlumnos.class);
-				startActivity(alumnoIntent);
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "1");
+				startActivity(intent);
 
 			}
 		});
@@ -111,10 +111,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent resultadosIntent = new Intent(getApplicationContext(),
-						Resultados.class);
-				startActivity(resultadosIntent);
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "2");
+				startActivity(intent);
 
 			}
 		});
@@ -126,10 +126,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent seriesIntent = new Intent(getApplicationContext(),
-						SeriesEjercicios.class);
-				startActivity(seriesIntent);
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "4");
+				startActivity(intent);
 			}
 		});
 
@@ -138,10 +138,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent ejerciciosIntent = new Intent(getApplicationContext(),
-						Ejercicios.class);
-				startActivity(ejerciciosIntent);
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "3");
+				startActivity(intent);
 			}
 		});
 

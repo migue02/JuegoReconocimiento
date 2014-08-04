@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import es.ugr.objetos.*;
-import es.ugr.adapters.AdapterAlumno;
+import es.ugr.adaptadores.AdapterAlumno;
 import es.ugr.basedatos.*;
 import es.ugr.dialogs.FichaAlumno;
 import es.ugr.utilidades.Sonidos;
@@ -66,7 +66,7 @@ public class GestionAlumnosLibrary {
 	private void CreaTablaAlumnos() {
 		
 		ls = dsAlumno.getAllAlumnos();
-		adaptador = new AdapterAlumno(activity, R.layout.drag_alum, ls);
+		adaptador = new AdapterAlumno(activity, R.layout.adapter_alumno, ls);
 		lv.setAdapter(adaptador);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 

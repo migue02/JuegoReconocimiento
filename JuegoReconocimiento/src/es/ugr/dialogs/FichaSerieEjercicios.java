@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.mobeta.android.dslv.DragSortListView;
 
-import es.ugr.adapters.AdapterEjercicio;
+import es.ugr.adaptadores.AdapterEjercicio;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.juegoreconocimiento.R;

@@ -61,7 +61,20 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 		}
 
-		// TODO: If exposing deep links into your app, handle intents here.
+		if (savedInstanceState == null) {
+			String id;
+			if (savedInstanceState == null) {
+			    Bundle extras = getIntent().getExtras();
+			    if(extras == null) {
+			        id= null;
+			    } else {
+			        id= extras.getString("ID");
+			    }
+			} else {
+			    id= (String) savedInstanceState.getSerializable("ID");
+			}
+			onItemSelected(id);
+		}
 	}
 
 	@Override

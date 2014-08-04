@@ -215,15 +215,6 @@
                         android:layout_weight="1"
                         android:onClick="onClickLogin"
                         android:text="Administrador" />
-
-                    <Button
-                        android:id="@+id/button1"
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="onClickMasterDetail"
-                        android:text="Master-Detail" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

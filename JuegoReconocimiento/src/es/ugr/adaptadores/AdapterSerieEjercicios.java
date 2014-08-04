@@ -1,4 +1,4 @@
-package es.ugr.adapters;
+package es.ugr.adaptadores;
 
 import java.util.List;
 
@@ -11,45 +11,55 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import es.ugr.juegoreconocimiento.R;
-import es.ugr.objetos.Objeto;
+import es.ugr.objetos.SerieEjercicios;
 
-public class AdapterObjeto extends ArrayAdapter<Objeto> {
+public class AdapterSerieEjercicios extends ArrayAdapter<SerieEjercicios> {
 
 	private Context context;
 
-	public AdapterObjeto(Context context, int resource, List<Objeto> objects) {
+	public AdapterSerieEjercicios(Context context, int resource,
+			List<SerieEjercicios> objects) {
 		super(context, resource, objects);
 		this.context = context;
 	}
 
 	private class ViewHolder {
-		ImageView img;
 		TextView nombre;
+		TextView duracion;
+		TextView ultimaModificacion;
+		ImageView drag;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
-		Objeto rowItem = getItem(position);
+		SerieEjercicios rowItem = getItem(position);
 
 		LayoutInflater mInflater = (LayoutInflater) context
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.adapter_objeto, null);
+			convertView = mInflater.inflate(R.layout.adapter_serie_ejercicios,
+					null);
+
 			holder = new ViewHolder();
 
-			holder.img = (ImageView) convertView.findViewById(R.id.imgSelObj);
 			holder.nombre = (TextView) convertView
-					.findViewById(R.id.NombSelObj);
+					.findViewById(R.id.NombSelSer);
+			holder.duracion = (TextView) convertView
+					.findViewById(R.id.DurSelSer);
+			holder.ultimaModificacion = (TextView) convertView
+					.findViewById(R.id.ModiSelSer);
+			holder.drag = (ImageView) convertView.findViewById(R.id.midrag);
 
 			convertView.setTag(holder);
 		} else
 			holder = (ViewHolder) convertView.getTag();
-		if (rowItem.getImagen() != null)
-			holder.img.setImageBitmap(rowItem.getImagen());
-		else
-			holder.img.setImageResource(R.drawable.objeto);
 
 		holder.nombre.setText(rowItem.getNombre());
+		holder.duracion.setText(String.valueOf(rowItem.getDuracion())
+				+ " minuto(s)");
+		holder.ultimaModificacion.setText(rowItem
+				.getFecha_modificacion_AsStrign());
+		holder.drag.setImageResource(R.id.drag_handle);
 
 		return convertView;
 	}

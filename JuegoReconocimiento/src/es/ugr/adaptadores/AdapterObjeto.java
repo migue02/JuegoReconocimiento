@@ -1,4 +1,4 @@
-package es.ugr.adapters;
+package es.ugr.adaptadores;
 
 import java.util.List;
 
@@ -11,49 +11,45 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import es.ugr.juegoreconocimiento.R;
-import es.ugr.objetos.Ejercicio;
+import es.ugr.objetos.Objeto;
 
-public class AdapterEjercicio extends ArrayAdapter<Ejercicio> {
+public class AdapterObjeto extends ArrayAdapter<Objeto> {
 
 	private Context context;
 
-	public AdapterEjercicio(Context context, int resource,
-			List<Ejercicio> objects) {
+	public AdapterObjeto(Context context, int resource, List<Objeto> objects) {
 		super(context, resource, objects);
 		this.context = context;
 	}
 
 	private class ViewHolder {
+		ImageView img;
 		TextView nombre;
-		TextView duracion;
-		ImageView drag;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
-		Ejercicio rowItem = getItem(position);
+		Objeto rowItem = getItem(position);
 
 		LayoutInflater mInflater = (LayoutInflater) context
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.adapter_ejercicios, null);
-
+			convertView = mInflater.inflate(R.layout.adapter_objeto, null);
 			holder = new ViewHolder();
 
+			holder.img = (ImageView) convertView.findViewById(R.id.imgSelObj);
 			holder.nombre = (TextView) convertView
-					.findViewById(R.id.NombSelEj);
-			holder.duracion = (TextView) convertView
-					.findViewById(R.id.DurSelEj);
-			holder.drag = (ImageView) convertView.findViewById(R.id.midrag);
+					.findViewById(R.id.NombSelObj);
 
 			convertView.setTag(holder);
 		} else
 			holder = (ViewHolder) convertView.getTag();
+		if (rowItem.getImagen() != null)
+			holder.img.setImageBitmap(rowItem.getImagen());
+		else
+			holder.img.setImageResource(R.drawable.objeto);
 
 		holder.nombre.setText(rowItem.getNombre());
-		holder.duracion.setText(String.valueOf(rowItem.getDuracion())
-				+ " minuto(s)");
-		holder.drag.setImageResource(R.id.drag_handle);
 
 		return convertView;
 	}

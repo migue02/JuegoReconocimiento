@@ -43,7 +43,7 @@ public class EjerciciosFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater
-				.inflate(R.layout.ejercicios2, container, false);
+				.inflate(R.layout.ejercicios, container, false);
 		oLibreria.setView(rootView);
 		oLibreria.onCreate(getActivity());
 		setHasOptionsMenu(true);
