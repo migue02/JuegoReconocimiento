@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/itemAniadir"
+          android:icon="@drawable/aniadir"
+          android:title="@string/aniadirAlumno"
+          android:showAsAction="ifRoom|withText" />
+</menu>

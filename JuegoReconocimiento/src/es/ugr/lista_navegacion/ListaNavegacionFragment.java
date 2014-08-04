@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import es.ugr.adaptadores.Lista_generica_adaptador;
+import es.ugr.adapters.Lista_generica_adaptador;
 import es.ugr.juegoreconocimiento.R;
 
 /**

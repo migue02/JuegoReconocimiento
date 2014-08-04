@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/view"
                         android:layout_marginBottom="20dp"
-                        android:capitalize="characters"
+                        android:inputType="textCapCharacters"
                         android:hint="Nombre Serie" />
 
                     <TextView

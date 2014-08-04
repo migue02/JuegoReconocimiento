@@ -21,44 +21,37 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:gravity="center"
-                android:text="Importar fichero desde..."
+                android:text="@string/importarDesde"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <LinearLayout
-                android:id="@+id/layoutRadioButtons"
+            <RadioGroup
+                android:id="@+id/RGImportar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView1"
-                android:orientation="vertical" >
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp" >
 
-                <RadioGroup
-                    android:id="@+id/RGImportar"
+                <RadioButton
+                    android:id="@+id/radioButtonExp1"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp" >
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/fichero" />
 
-                    <RadioButton
-                        android:id="@+id/radioButtonExp1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Fichero" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonExp2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="URL" />
-                </RadioGroup>
-            </LinearLayout>
+                <RadioButton
+                    android:id="@+id/radioButtonExp2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/url" />
+            </RadioGroup>
 
             <LinearLayout
                 android:id="@+id/layoutTextos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView1"
-                android:layout_toRightOf="@id/layoutRadioButtons"
+                android:layout_toRightOf="@id/RGImportar"
                 android:orientation="vertical"
                 android:weightSum="1" >
 
@@ -73,21 +66,23 @@
                         android:id="@+id/editTextFich"
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25" />
+                        android:layout_weight="0.25"
+                        android:inputType="text" />
 
                     <Button
                         android:id="@+id/BotonSelFich"
-                        style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="Elegir" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/elegir"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/editTextURL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:inputType="textUri" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
@@ -105,16 +100,18 @@
         <Button
             android:id="@+id/aImportar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Importar" />
+            android:text="@string/importarEjercicios"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
             android:id="@+id/cImportar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Cancelar" />
+            android:text="@string/cancelar"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
 </RelativeLayout>

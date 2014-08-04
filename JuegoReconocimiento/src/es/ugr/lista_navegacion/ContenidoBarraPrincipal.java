@@ -13,13 +13,12 @@ import es.ugr.juegoreconocimiento.R;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class ContenidoBarraPrincipal {
-	
-	public static String[] titulos = new String[] { "Gestión Alumnos",
+
+	public static String[] titulos = new String[] {"Menu Principal", "Gestión Alumnos",
 			"Resultados/Estadísticas", " Ejercicios", "Serie Ejercicios",
 			"Objetos" };
-	public static Integer[] images = new Integer[] { R.drawable.ic2,
-			R.drawable.ic1, R.drawable.ic6, R.drawable.ic3,
-			R.drawable.objeto };
+	public static Integer[] images = new Integer[] {R.drawable.anterior, R.drawable.ic2,
+			R.drawable.ic1, R.drawable.ic6, R.drawable.ic3, R.drawable.objeto };
 
 	/**
 	 * An array of sample (dummy) items.
@@ -34,7 +33,7 @@ public class ContenidoBarraPrincipal {
 	static {
 		// Add 3 sample items.
 		for (int i = 0; i < titulos.length; i++) {
-			addItem(new Item(Integer.toString(i),images[i], titulos[i]));
+			addItem(new Item(Integer.toString(i), images[i], titulos[i]));
 		}
 	}
 
@@ -43,16 +42,15 @@ public class ContenidoBarraPrincipal {
 		ITEM_MAP.put(item.id, item);
 	}
 
-
 	public static class Item {
 		public String id;
-		public int idImagen; 
-		public String titulo; 
-		  
-		public Item (String id, int idImagen, String titulo) { 
+		public int idImagen;
+		public String titulo;
+
+		public Item(String id, int idImagen, String titulo) {
 			this.id = id;
-		    this.idImagen = idImagen; 
-		    this.titulo = titulo; 
+			this.idImagen = idImagen;
+			this.titulo = titulo;
 		}
 	}
 }

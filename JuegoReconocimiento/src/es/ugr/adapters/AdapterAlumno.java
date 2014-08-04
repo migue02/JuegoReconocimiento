@@ -41,7 +41,7 @@ public class AdapterAlumno extends ArrayAdapter<Alumno> {
 		LayoutInflater mInflater = (LayoutInflater) context
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.drag_alum, null);
+			convertView = mInflater.inflate(R.layout.adapter_alumno, null);
 
 			// convertView.setBackgroundDrawable(convertView.getResources().getDrawable(R.drawable.listaredondeada));
 			holder = new ViewHolder();

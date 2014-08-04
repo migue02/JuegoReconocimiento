@@ -6,16 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import es.ugr.gestion_alumnos.GestionAlumnosActivity;
-import es.ugr.gestion_alumnos.GestionAlumnosFragment;
-import es.ugr.gestion_ejercicios.EjerciciosActivity;
-import es.ugr.gestion_ejercicios.EjerciciosFragment;
-import es.ugr.gestion_objetos.ObjetosActivity;
-import es.ugr.gestion_objetos.ObjetosFragment;
-import es.ugr.gestion_resultados.ResultadosActivity;
-import es.ugr.gestion_resultados.ResultadosFragment;
-import es.ugr.gestion_series.SeriesEjerciciosActivity;
-import es.ugr.gestion_series.SeriesEjerciciosFragment;
+import es.ugr.fragments.EjerciciosFragment;
+import es.ugr.fragments.GestionAlumnosFragment;
+import es.ugr.fragments.ObjetosFragment;
+import es.ugr.fragments.ResultadosFragment;
+import es.ugr.fragments.SeriesEjerciciosFragment;
 import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
 
@@ -49,6 +44,8 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ventana_list);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setTitle(
+				getResources().getStringArray(R.array.menu_principal)[0]);
 
 		if (findViewById(R.id.ventana_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -72,6 +69,7 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -90,43 +88,36 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			Bundle arguments = new Bundle();
-			arguments.putString(DetalleItemFragment.ARG_ITEM_ID, id);
-			Fragment newFragment;
-			if (id.equals("0"))
+			Fragment newFragment = null;
+			if (id.equals("0")) {
+				NavUtils.navigateUpTo(this,
+						new Intent(this, MainActivity.class));
+				finish();
+			} else if (id.equals("1"))
 				newFragment = new GestionAlumnosFragment();
-			else if (id.equals("1"))
-				newFragment = new ResultadosFragment();
 			else if (id.equals("2"))
-				newFragment = new EjerciciosFragment();
+				newFragment = new ResultadosFragment();
 			else if (id.equals("3"))
-				newFragment = new SeriesEjerciciosFragment();
+				newFragment = new EjerciciosFragment();
 			else if (id.equals("4"))
+				newFragment = new SeriesEjerciciosFragment();
+			else if (id.equals("5"))
 				newFragment = new ObjetosFragment();
-			else
-				newFragment = new DetalleItemFragment();
-			newFragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.ventana_detail_container, newFragment)
-					.commit();
+			if (newFragment != null){
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.ventana_detail_container, newFragment)
+						.commit();
+				getActionBar()
+						.setTitle(
+								getResources().getStringArray(
+						R.array.menu_principal)[Integer.valueOf(id)]);
+			}
 
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = null;
-			if (id.equals("0"))
-				detailIntent = new Intent(this, GestionAlumnosActivity.class);
-			else if (id.equals("1"))
-				detailIntent = new Intent(this, ResultadosActivity.class);
-			else if (id.equals("2"))
-				detailIntent = new Intent(this, EjerciciosActivity.class);
-			else if (id.equals("3"))
-				detailIntent = new Intent(this, SeriesEjerciciosActivity.class);
-			else if (id.equals("4"))
-				detailIntent = new Intent(this, ObjetosActivity.class);
-			else
-				detailIntent = new Intent(this, DetalleItemActivity.class);
-			detailIntent.putExtra(DetalleItemFragment.ARG_ITEM_ID, id);
+			Intent detailIntent = new Intent(this, ParentActivity.class);
+			detailIntent.putExtra("ID", id);
 			startActivity(detailIntent);
 		}
 	}

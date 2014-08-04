@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
 
     <string name="app_name">Juego Reconocimiento</string>
     <string name="action_settings">Settings</string>
@@ -11,14 +12,43 @@
     <string name="hintNombreEdit">Nombre</string>
     <string name="btnBorrarDB">Borrrar DB</string>
     <string name="title_activity_reconocimiento_objeto">ReconocimientoObjeto</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+
+    <!-- String MenuPrincipal -->
+    <string-array name="menu_principal">
+        <item>Menu Principal</item>
+        <item>Gestión Alumnos</item>
+        <item>Resultados/Estadísticas</item>
+        <item>Ejercicios</item>
+        <item>Serie Ejercicios</item>
+        <item>Objetos</item>
+    </string-array>
 
     <!-- String GestionAlumnos -->
-    <string name= "tituloGestionAlumnos">Alumnos</string>
-    
+    <string name="tituloGestionAlumnos">Alumnos</string>
+    <string name="aniadirAlumno">Añadir alumn@</string>
+
+    <!-- String Ejercicios -->
+    <string name="sincronizarEjercicios">Sincronizar ejercicios</string>
+    <string name="importarEjercicios">Importar ejercicios</string>
+    <string name="elegir">Elegir</string>
+    <string name="importarDesde">Importar fichero desde:</string>
+    <string name="fichero">Fichero</string>
+    <string name="url">URL</string>
+
+    <!-- String SerieEjercicios -->
+    <string name="aniadirSerie">Añadir serie</string>
+
+    <!-- String Objetos -->
+    <string name="sincronizarObjetos">Sincronizar objetos</string>
+
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
     <string name="appsUgr">Visitar Catálogo AppsUGR</string>
-    <!-- TODO: Introduce en la linea de debajo el texto del disclaimer -->
+
     <string name="disclaimer">Texto libre sobre el autor</string>
     <string name="promotedBy">Promovido por:</string>
     <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>

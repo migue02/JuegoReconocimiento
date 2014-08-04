@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/itemSincronizar"
+          android:icon="@drawable/ciclico"
+          android:title="@string/sincronizarEjercicios"
+          android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/itemImportar"
+          android:icon="@drawable/aniadir"
+          android:title="@string/importarEjercicios"
+          android:showAsAction="ifRoom|withText" />
+</menu>

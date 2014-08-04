@@ -80,8 +80,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		FontsOverride.setDefaultFont(this, "MONOSPACE", "wd.ttf");
 		super.onCreate(savedInstanceState);
+		FontsOverride.setDefaultFont(this, "MONOSPACE", "wd.ttf");
 		setContentView(R.layout.activity_main);
 		TextView bienv = (TextView) findViewById(R.id.textoBienv);
 		ObjectAnimator.ofFloat(bienv, "rotationY", 0, 360)
@@ -398,6 +398,12 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		player.pause();
 		super.onStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		player.start();
+		super.onResume();
 	}
 	
 }

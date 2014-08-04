@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/itemTitulo"
+        android:showAsAction="ifRoom|withText"
+        android:title=""/>
+    <item
+        android:id="@+id/itemInfo"
+        android:showAsAction="ifRoom|withText"
+        android:title=""/>
+    <item
+        android:id="@+id/itemIzquierda"
+        android:icon="@drawable/ant_blanco"
+        android:showAsAction="ifRoom|withText"
+        android:title=""/>
+    <item
+        android:id="@+id/itemDerecha"
+        android:icon="@drawable/sig_blanco"
+        android:showAsAction="ifRoom|withText"
+        android:title=""/>
+
+</menu>

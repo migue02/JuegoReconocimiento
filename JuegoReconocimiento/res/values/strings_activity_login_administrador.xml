@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
 
     <string name="title_activity_login_administrador">Introduzca datos de administrador</string>
 
@@ -8,7 +9,7 @@
     <string name="action_sign_in_register"><b>Sign in</b> o registrarse</string>
     <string name="action_sign_in_short">Conectarse</string>
     <string name="action_forgot_password">Recuperar contraseña olvidada</string>
-    <string name="login_progress_signing_in">Conectando...</string>
+    <string name="login_progress_signing_in">Conectando . . .</string>
     <string name="error_invalid_email">Este usuario es incorrecto</string>
     <string name="error_invalid_password">Esta contraseña no es válida</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
