@@ -55,18 +55,18 @@ public class SubirFicheros extends AsyncTask<String,Void,String>{
 	          
 	          MultipartEntityBuilder builder= MultipartEntityBuilder.create();
 	          builder.addPart("file", inputStreamBody);
-	          builder.addTextBody("tipo", params[2]+"/");
+	          builder.addTextBody("tipo", context.getString(R.string.servidor_remoto)+"/"+params[2]+"/");
 	          httpPost.setEntity(builder.build());
 	          
 	     
 	          HttpResponse httpResponse = httpClient.execute(httpPost);
 	     
 	          // Handle response back from script.
-	          if(httpResponse != null) {
-	     
-	          } else { // Error, no response.
-	     
-	          }
+//	          if(httpResponse != null) {
+//	     
+//	          } else { // Error, no response.
+//	     
+//	          }
 	        } catch (IOException e) {
 	          e.printStackTrace();
 	        }
