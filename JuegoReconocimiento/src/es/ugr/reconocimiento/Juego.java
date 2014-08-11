@@ -695,15 +695,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 								desString, aux.cols(), aux.rows(), Juego.this
 										.getString(R.string.pathImages)
 										+ "/"
-										+ nombreObjeto + ".png", Juego.this
-										.getString(R.string.pathSounds)
-										+ "/descripcion"
-										+ nombreObjeto
-										+ ".mp3", Juego.this
-										.getString(R.string.pathSounds)
-										+ "/ayuda" + nombreObjeto + ".mp3",
-								Juego.this.getString(R.string.pathSounds)
-										+ "/nombre" + nombreObjeto + ".mp3");
+										+ nombreObjeto + ".png", "","","");
 						objeto.setImagen(bmOrigen);
 						dsObjetos.createObjeto(objeto);
 						descriptores_obj.release();
