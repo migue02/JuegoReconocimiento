@@ -35,6 +35,7 @@ import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
 import es.ugr.objetos.TiposPropios.Sexo;
 import es.ugr.reconocimiento.EmpezarJuego;
+import es.ugr.utilidades.Ficheros;
 import es.ugr.utilidades.FontsOverride;
 import es.ugr.utilidades.Utilidades;
 
@@ -267,15 +268,15 @@ public class MainActivity extends Activity {
 				lista.add(objKelme.getNombre());
 				String tp1 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto Adidas, y cuando finalice dicho ejercicios, deberá detectar el objeto Kelme");
-				Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(), escenario, tp1, 5, lista, "");
-				lista.clear();
+				Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(), escenario, tp1, 5, lista, getString(R.string.pathSounds)+"/Adidas y kelme.mp3");
+                lista.clear();
 				lista.add(objUGR.getNombre());
 				lista.add(objApple.getNombre());
 				lista.add(objWindows.getNombre());
 				String tp2 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto UGR, luego Apple, y cuando finalice, deberá detectar el objeto Windows");
 				Ejercicio p2 = eds.createEjercicio("UGR, Apple y Windows", new Date(), escenario,
-						tp2, 6, lista, "");
+						tp2, 6, lista, getString(R.string.pathSounds)+"/UGR, Apple y Windows.mp3");
 				lista.clear();
 				/*lista.add((int) objeto4.getId());
 				lista.add((int) objeto5.getId());
@@ -353,10 +354,10 @@ public class MainActivity extends Activity {
 				rds.close();
 				
 				
-				Utilidades.eliminaImagenes(MainActivity.this);//Elimina contenido de la carpeta imagenes
-				Utilidades.eliminaSonidos(MainActivity.this);//Elimina contenido de la carpeta sonidos				
-				Utilidades.creaCarpetas(MainActivity.this);//Crea la carpeta images y sounds
-				Utilidades.copyAssets(MainActivity.this);//Inicializa la carpeta sonidos desde el assets
+				Ficheros.eliminaImagenes(MainActivity.this);//Elimina contenido de la carpeta imagenes
+				Ficheros.eliminaSonidos(MainActivity.this);//Elimina contenido de la carpeta sonidos				
+				Ficheros.creaCarpetas(MainActivity.this);//Crea la carpeta images y sounds
+				Ficheros.copyAssets(MainActivity.this);//Inicializa la carpeta sonidos desde el assets
 			}
 		});
 		
@@ -368,7 +369,6 @@ public class MainActivity extends Activity {
 		    player.prepare();
 		    player.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 
@@ -389,8 +389,10 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void onClickMasterDetail(View v) {
-		Intent intent = new Intent(this, ListaNavegacionActivity.class);
+	public void onObjetosClick(View v) {
+		Intent intent = new Intent(getApplicationContext(),
+				ListaNavegacionActivity.class);
+		intent.putExtra("ID", "5");
 		startActivity(intent);
 	}
 	

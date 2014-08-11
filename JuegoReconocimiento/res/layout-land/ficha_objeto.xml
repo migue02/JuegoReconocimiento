@@ -9,9 +9,9 @@
     <ImageView
         android:id="@+id/imgObjeto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_weight="0.7"
         android:scaleType="fitXY"
         android:src="@drawable/objeto" />
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.3"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -28,10 +28,9 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre"
+                android:text="@string/nombre"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/texto_tabla" />
 
@@ -46,15 +45,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Nombre"
-                android:inputType="textCapSentences" />
+                android:hint="@string/nombre" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Descripcion"
+                android:text="@string/descripcion"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/texto_tabla" />
 
@@ -70,15 +67,14 @@
                 android:layout_height="150dp"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
-                android:hint="Descripción"
+                android:hint="@string/descripcion"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Sonidos"
+                android:text="@string/sonidos"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/texto_tabla" />
 
@@ -97,11 +93,10 @@
                 android:weightSum="1" >
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Nombre"
+                    android:text="@string/nombre"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/texto_tabla" />
 
@@ -117,35 +112,83 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/btnSonidoNombre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/altavoz" />
+                        android:orientation="vertical" >
 
-                    <ImageButton
-                        android:id="@+id/btnEligeSonidoMemoria"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/archivo_sonido" />
+                        <ImageButton
+                            android:id="@+id/btnNombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/altavoz" />
 
-                    <ImageButton
-                        android:id="@+id/btnEligeSonidoMicrofono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/escuchar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/microfono" />
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnNombreArchivo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/archivo_sonido" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/elegir"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnNombreGrabar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/microfono" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/grabar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -158,11 +201,10 @@
                 android:weightSum="1" >
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Descripcion"
+                    android:text="@string/descripcion"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/texto_tabla" />
 
@@ -178,35 +220,83 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/btnSonidoDescripcion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/altavoz" />
+                        android:orientation="vertical" >
 
-                    <ImageButton
-                        android:id="@id/btnEligeSonidoMemoria"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/archivo_sonido" />
+                        <ImageButton
+                            android:id="@+id/btnDescripcion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/altavoz" />
 
-                    <ImageButton
-                        android:id="@id/btnEligeSonidoMicrofono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/escuchar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/microfono" />
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnDescripcionArchivo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/archivo_sonido" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/elegir"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnDescripcionGrabar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/microfono" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/grabar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -219,11 +309,10 @@
                 android:weightSum="1" >
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Ayuda"
+                    android:text="@string/ayuda"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/texto_tabla" />
 
@@ -239,35 +328,83 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/btnSonidoAyuda"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/altavoz" />
+                        android:orientation="vertical" >
 
-                    <ImageButton
-                        android:id="@id/btnEligeSonidoMemoria"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/archivo_sonido" />
+                        <ImageButton
+                            android:id="@+id/btnAyuda"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/altavoz" />
 
-                    <ImageButton
-                        android:id="@id/btnEligeSonidoMicrofono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/escuchar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/microfono" />
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnAyudaArchivo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/archivo_sonido" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/elegir"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btnAyudaGrabar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dip"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/microfono" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/grabar"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

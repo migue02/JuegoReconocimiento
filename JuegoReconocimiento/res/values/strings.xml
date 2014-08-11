@@ -44,11 +44,22 @@
 
     <!-- String Objetos -->
     <string name="sincronizarObjetos">Sincronizar objetos</string>
+    
+    <!-- String FichaObjetos -->
+    <string name="sonidos">Sonidos</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="escuchar">Escuchar</string>
+    <string name="elegir">Elegir</string>
+    <string name="grabar">Grabar</string>
+
+    <!-- String Genéricos -->
+    <string name="nombre">Nombre</string>
+    <string name="descripcion">Descripción</string>
+    <string name="aceptar">Aceptar</string>
 
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
     <string name="appsUgr">Visitar Catálogo AppsUGR</string>
-
     <string name="disclaimer">Texto libre sobre el autor</string>
     <string name="promotedBy">Promovido por:</string>
     <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>
@@ -64,7 +75,8 @@
     <string name="pathSounds">/mnt/sdcard/JuegoReconocimiento/sounds</string>
     <string name="pathImages">/mnt/sdcard/JuegoReconocimiento/images</string>
     <string name="pathJuego">/mnt/sdcard/JuegoReconocimiento</string>
-    <string name="title_ventana_list">Ventanas</string>
-    <string name="title_ventana_detail">Ventana Detail</string>
+    <string name="title_lista_navegacion">Menu principal</string>
+    <string name="title_activity_resultado_serie">ResultadoSerie</string>
+
 
 </resources>

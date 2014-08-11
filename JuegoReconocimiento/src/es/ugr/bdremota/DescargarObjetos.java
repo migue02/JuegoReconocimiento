@@ -152,7 +152,7 @@ protected String doInBackground(List<String>... params) {
                     String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
                     String ruta_descripcion_local="";
                     if(!sonido_descripcion.equals("")){
-                    	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/descripcion"+nombre+".mp3";
+                    	ruta_descripcion_local=context.getString(R.string.pathSounds)+"/"+nombre+"_Descripcion.mp3";
                     	new DescargarFicheros().execute(sonido_descripcion,ruta_descripcion_local);
                     }
                     
@@ -160,7 +160,7 @@ protected String doInBackground(List<String>... params) {
                     String sonido_ayuda=c.getString(TAG_SONIDO_AYUDA);
                     String ruta_ayuda_local="";
                     if(!sonido_ayuda.equals("")){
-                    	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/ayuda"+nombre+".mp3";
+                    	ruta_ayuda_local=context.getString(R.string.pathSounds)+"/"+nombre+"_Ayuda.mp3";
                     	new DescargarFicheros().execute(sonido_ayuda,ruta_ayuda_local);
                     }
                     
@@ -168,7 +168,7 @@ protected String doInBackground(List<String>... params) {
                     String sonido_nombre=c.getString(TAG_SONIDO_NOMBRE);
                     String ruta_nombre_local="";
                     if(!sonido_nombre.equals("")){
-                    	ruta_nombre_local=context.getString(R.string.pathSounds)+"/nombre"+nombre+".mp3";
+                    	ruta_nombre_local=context.getString(R.string.pathSounds)+"/"+nombre+"_Nombre.mp3";
                     	new DescargarFicheros().execute(sonido_nombre,ruta_nombre_local);
                     }
                     if(insertar==true)

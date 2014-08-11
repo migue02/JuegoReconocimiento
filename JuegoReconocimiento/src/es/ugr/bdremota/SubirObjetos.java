@@ -8,8 +8,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.chilkatsoft.CkSFtp;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;

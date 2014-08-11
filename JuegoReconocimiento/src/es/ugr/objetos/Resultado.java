@@ -96,12 +96,13 @@ public class Resultado{
 	}
 	@Override
 	public String toString() {
-		return "Resultado [idResultado=" + idResultado + ", idAlumno="
+		/*return "Resultado [idResultado=" + idResultado + ", idAlumno="
 				+ idAlumno + ", idEjercicio=" + idEjercicio
 				+ ", fechaRealizacion=" + fechaRealizacion + ", duracion="
 				+ duracion + ", numeroObjetosReconocer="
 				+ numeroObjetosReconocer + ", aciertos=" + aciertos
-				+ ", fallos=" + fallos + ", puntuacion=" + puntuacion + "]";
+				+ ", fallos=" + fallos + ", puntuacion=" + puntuacion + "]";*/
+		return String.valueOf(idResultado);
 	}
 
 	public String getFechaRealizacion_AsStrign() {

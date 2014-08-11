@@ -5,6 +5,7 @@ import java.util.List;
 import com.mobeta.android.dslv.DragSortListView;
 
 import es.ugr.objetos.*;
+import es.ugr.utilidades.Ficheros;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.utilidades.Utilidades;
 import es.ugr.adaptadores.AdapterEjercicio;
@@ -63,7 +64,7 @@ public class EjerciciosLibrary {
 		lv.setDragScrollProfile(ssProfile);
 		lEjercicios = dsEjercicio.getAllEjercicios();
 
-		Utilidades.creaCarpetas(context);// por que?¿?¿?¿
+		Ficheros.creaCarpetas(context);// por que?¿?¿?¿
 
 		CreaTablaEjer();
 

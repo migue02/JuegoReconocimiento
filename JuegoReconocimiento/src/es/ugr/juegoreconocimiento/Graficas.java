@@ -21,14 +21,11 @@ import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.objetos.*;
 import es.ugr.objetos.TiposPropios.Periodo;
 import es.ugr.juegoreconocimiento.R;
-import es.ugr.lista_navegacion.ListaNavegacionActivity;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +45,8 @@ import android.widget.TabHost.TabSpec;
  * 
  */
 public class Graficas extends Activity {
-	private static Context contexto;
+	
+	private Context contexto;
 	private int fechaTipo, graficaTipo;
 	private ViewAnimator va;
 	private List<Integer> listaAlumnos;
@@ -221,8 +219,7 @@ public class Graficas extends Activity {
 
 	}
 
-	public static Context getContext() {
-		// return instance.getApplicationContext();
+	public Context getContext() {
 		return contexto;
 	}
 

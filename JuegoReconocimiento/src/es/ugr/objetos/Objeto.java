@@ -1,6 +1,5 @@
 package es.ugr.objetos;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,9 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
+import es.ugr.utilidades.Ficheros;
 import es.ugr.utilidades.Utilidades;
 
-public class Objeto{
+public class Objeto {
 	private long id;
 	private String nombre;
 	private String descripcion;
@@ -35,72 +35,87 @@ public class Objeto{
 	private String pathSonidoDescripcion;
 	private String pathSonidoAyuda;
 	private String pathSonidoNombre;
-	
+
 	private MediaPlayer player = new MediaPlayer();
 
-	private void playSonido(String path, String pathError){
-		while(player.isPlaying());
+	private void playSonido(String path, String pathError) {
+		if (player != null) {
+			player.release();
+			player = null;
+		}
 		player = new MediaPlayer();
-		try{
+		try {
 			if (path.length() > 0)
 				player.setDataSource(path);
 			else
 				player.setDataSource(pathError);
-		    player.prepare();
-		    player.start();
-		} catch (IOException e){
-			try{
+			player.prepare();
+			player.start();
+		} catch (IOException e) {
+			try {
 				player.setDataSource(pathError);
-			    player.prepare();
-			    player.start();
-			} catch (IOException ex){
+				player.prepare();
+				player.start();
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
-		
+
 	}
-	
-	public void playSonidoDescripcion(Context context){
-		playSonido(pathSonidoDescripcion,context.getString(R.string.pathSounds)+"/descripcion.mp3");
+
+	public void playSonidoDescripcion(Context context) {
+		playSonido(pathSonidoDescripcion,
+				context.getString(R.string.pathSounds) + "/descripcion.mp3");
 	}
-	
-	public void playSonidoAyuda(Context context){
-		playSonido(pathSonidoAyuda,context.getString(R.string.pathSounds)+"/ayuda.mp3");	
+
+	public void playSonidoAyuda(Context context) {
+		playSonido(pathSonidoAyuda, context.getString(R.string.pathSounds)
+				+ "/ayuda.mp3");
 	}
-	
-	public void playSonidoNombre(Context context){
-		playSonido(pathSonidoNombre,context.getString(R.string.pathSounds)+"/nombre.mp3");
+
+	public void playSonidoNombre(Context context) {
+		playSonido(pathSonidoNombre, context.getString(R.string.pathSounds)
+				+ "/nombre.mp3");
 	}
-	
-	public void setImagenFromPath(){
+
+	public void stopSonido() {
+		player.release();
+		player = null;
+	}
+
+	public void setImagenFromPath() {
 		try {
 			File imageFile = new File(pathImagen);
 			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-			Log.e("IMAGEN_CREADA", "Imagen creada en "+pathImagen);
+			Log.e("IMAGEN_CREADA", "Imagen creada en " + pathImagen);
 		} catch (Exception e) {
-			Log.e("ERROR_CREAR_IMAGEN", "Error al crear la imagen en "+pathImagen);
+			Log.e("ERROR_CREAR_IMAGEN", "Error al crear la imagen en "
+					+ pathImagen);
 		}
 	}
-	
-	public void guardarImagen(){
+
+	public void guardarImagen() {
 		FileOutputStream out = null;
 		try {
-			out = new FileOutputStream(pathImagen); //el path es /mnt/sdcard/JuegoReconocimiento/imagenes/
+			out = new FileOutputStream(pathImagen); // el path es
+													// /mnt/sdcard/JuegoReconocimiento/imagenes/
 			imagen.compress(Bitmap.CompressFormat.PNG, 90, out);
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try{
+			try {
 				out.close();
-			} catch(Throwable ignore) {}
+			} catch (Throwable ignore) {
+			}
 		}
 
 	}
-	
-	public Objeto(long id, String nombre, String descripcion, Date fecha, String keypoints,
-			String descriptores, int cols, int rows, String pathImagen,
-			String sonidoDescripcion, String sonidoAyuda, String sonidoNombre) {
+
+	public Objeto(long id, String nombre, String descripcion, Date fecha,
+			String keypoints, String descriptores, int cols, int rows,
+			String pathImagen, String sonidoDescripcion, String sonidoAyuda,
+			String sonidoNombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -124,7 +139,7 @@ public class Objeto{
 	public Date getFecha() {
 		return fecha;
 	}
-	
+
 	public String getFechaAsString() {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return date.format(fecha);
@@ -173,22 +188,21 @@ public class Objeto{
 	public void setSonidoNombre(String sonidoNombre) {
 		this.pathSonidoNombre = sonidoNombre;
 	}
-	
 
 	public Objeto() {
-		id=-1;
-		nombre="";
-		descripcion="";
+		id = -1;
+		nombre = "";
+		descripcion = "";
 		fecha = new Date();
-		keypoints="";
-		descriptores="";
-		cols=0;
-		rows=0;
-		imagen=null;
-		pathImagen="";
-		pathSonidoAyuda="";
-		pathSonidoDescripcion="";
-		pathSonidoNombre="";
+		keypoints = "";
+		descriptores = "";
+		cols = 0;
+		rows = 0;
+		imagen = null;
+		pathImagen = "";
+		pathSonidoAyuda = "";
+		pathSonidoDescripcion = "";
+		pathSonidoNombre = "";
 	}
 
 	public Objeto(long id, String nombre, String keypoints,
@@ -203,11 +217,11 @@ public class Objeto{
 		matDescriptores = Utilidades.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
-		this.imagen=imagen;
+		this.imagen = imagen;
 		this.fecha = new Date();
-		pathSonidoAyuda="";
-		pathSonidoDescripcion="";
-		pathSonidoNombre="";
+		pathSonidoAyuda = "";
+		pathSonidoDescripcion = "";
+		pathSonidoNombre = "";
 	}
 
 	public Bitmap getImagen() {
@@ -248,8 +262,8 @@ public class Objeto{
 
 	public void setDescriptores(String descriptores) {
 		this.descriptores = descriptores;
-	}	
-	
+	}
+
 	public int getCols() {
 		return cols;
 	}
@@ -268,7 +282,7 @@ public class Objeto{
 
 	@Override
 	public String toString() {
-		return id + ".- " + nombre +" KPnts "+ matKeyPoints.size() ;
+		return id + ".- " + nombre + " KPnts " + matKeyPoints.size();
 	}
 
 	public void setMats() {
@@ -279,12 +293,24 @@ public class Objeto{
 	}
 
 	public byte[] getImagenAsByteArray() {
-		ByteArrayOutputStream bos=new ByteArrayOutputStream();
-        imagen.compress(Bitmap.CompressFormat.PNG, 100, bos);
-        return bos.toByteArray();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		imagen.compress(Bitmap.CompressFormat.PNG, 100, bos);
+		return bos.toByteArray();
 	}
 
 	public void setImagenAsByteArray(byte[] blob) {
 		imagen = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+	}
+
+	public void creaFicherosSonido(Context context) {
+		if (!Ficheros.ExisteFichero(pathSonidoAyuda))
+			pathSonidoAyuda = context.getString(R.string.pathSounds) + "/"
+					+ nombre + "Ayuda.mp3";
+		if (!Ficheros.ExisteFichero(pathSonidoDescripcion))
+			pathSonidoDescripcion = context.getString(R.string.pathSounds)
+					+ "/" + nombre + "Descripcion.mp3";
+		if (!Ficheros.ExisteFichero(pathSonidoNombre))
+			pathSonidoNombre = context.getString(R.string.pathSounds) + "/"
+					+ nombre + "Nombre.mp3";
 	}
 }

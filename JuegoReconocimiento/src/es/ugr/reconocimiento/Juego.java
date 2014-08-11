@@ -21,6 +21,7 @@ import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.lista_navegacion.ListaNavegacionActivity;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
@@ -39,6 +40,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
@@ -61,11 +63,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-
 public class Juego extends Activity implements CvCameraViewListener2 {
-	
+
 	private static final String TAG = "Juego::Activity";
-	
+
 	private CameraBridgeViewBase mOpenCvCameraView;
 	private int nObjeto = -1;
 	private Mat mGray, mRgba;
@@ -73,51 +74,50 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private MatOfKeyPoint keypoints_obj = new MatOfKeyPoint();
 	private Mat descriptores_obj = new Mat();
 	private KeyPoint[] listaKP_obj;
-	private ArrayList<Mat> matsDescriptores = new ArrayList<Mat>(); 
+	private ArrayList<Mat> matsDescriptores = new ArrayList<Mat>();
 	private ArrayList<MatOfKeyPoint> matsKeyPoints = new ArrayList<MatOfKeyPoint>();
 	private int[] colsArray, rowsArray;
 	private TextToSpeech ttobj;
-	
+
 	private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
 	private CheckBox chkExtended, chkUpright;
-	
-	private double hessianThreshold=1300;
-	private int nOctaves=4, nOctaveLayers=2;
-	private boolean extended=false, upright=false;
-	
+
+	private double hessianThreshold = 1300;
+	private int nOctaves = 4, nOctaveLayers = 2;
+	private boolean extended = false, upright = false;
+
 	private Alumno oAlumno;
 	private SerieEjercicios oSerie;
 	private boolean bCiclico = false;
-	
+
 	private List<Ejercicio> lEjercicios;
 	private List<Objeto> lObjetosEscenario;
 	private List<Objeto> lObjetos;
-	
+
 	private EjercicioDataSource dsEjercicios;
 	private Ejercicio oEjercicioActual;
 	private Objeto oObjetoActual;
 	private Objeto oObjetoReconocido;
-	
+
 	private ObjetoDataSource dsObjetos;
-	
+
 	private List<Resultado> lResultados;
 	private Resultado oResultadoActual;
 	private ResultadoDataSource dsResultado;
-	
+
 	private boolean bEsperandoRespuesta = false;
 	private boolean bJuegoIniciado = false;
-	
+
 	private static String acierto = "Acierto ";
 	private static String error = "Error ";
-	
+
 	private AssetFileDescriptor afd;
 	private MediaPlayer player;
-	
+
 	private boolean bVistaCapturar;
-	
-	private int nLocation=-1;
-	
-	
+
+	private int nLocation = -1;
+
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
 		public void onManagerConnected(int status) {
@@ -126,13 +126,15 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				Log.i(TAG, "OpenCV loaded successfully");
 
 				// Load native library after(!) OpenCV initialization
-				/*System.loadLibrary("opencv_java");
-				System.loadLibrary("nonfree");
-				System.loadLibrary("juegoReconocimientoLib");*/
+				/*
+				 * System.loadLibrary("opencv_java");
+				 * System.loadLibrary("nonfree");
+				 * System.loadLibrary("juegoReconocimientoLib");
+				 */
 
 				mOpenCvCameraView.enableView();
-				
-				//InicializaSurf(1800.0, 4, 2, true, true);
+
+				// InicializaSurf(1800.0, 4, 2, true, true);
 			}
 				break;
 			default: {
@@ -149,342 +151,403 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		setContentView(R.layout.activity_juego);
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
-		
+
 		chkExtended = (CheckBox) findViewById(R.id.edtExtended);
 		edthessianThreshold = (EditText) findViewById(R.id.edtHessian);
 		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
 		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
 		chkUpright = (CheckBox) findViewById(R.id.edtUpRight);
-		
+
 		edthessianThreshold.setText("1500");
 		edtnOctaveLayers.setText("2");
 		edtnOctaves.setText("4");
-		
+
 		Bundle extras;
 		if (savedInstanceState == null) {
-		    extras = getIntent().getExtras();
-		    if(extras == null) {
-		    	AlumnoDataSource dsAlumnos = new AlumnoDataSource(Juego.this);
-		    	dsAlumnos.open();
-		    	SerieEjerciciosDataSource dsSeries = new SerieEjerciciosDataSource(Juego.this);
-		    	dsSeries.open();
-		    	try{
-			        oAlumno = dsAlumnos.getAllAlumnos().get(0);
-			        oSerie = dsSeries.getAllSeriesEjercicios().get(0);
-		    	} catch (Exception e){
-			        oAlumno = new Alumno();
-			        oSerie = new SerieEjercicios();
-		    	}
-		        bCiclico = false;
-		        dsAlumnos.close();
-		        dsSeries.close();
-		    } else {
-		    	try{
-			        oAlumno= (Alumno) extras.getSerializable("Alumno");
-			        oSerie= (SerieEjercicios) extras.getSerializable("Serie");
-			        bCiclico = extras.getBoolean("Ciclico");
-		    	}catch (Exception e){
-			        oAlumno = new Alumno();
-			        oSerie = new SerieEjercicios();
-			        bCiclico = false;
-		    	}
-		    	try{
-		    		bVistaCapturar = extras.getBoolean("VistaCapturar");
-		    	}catch (Exception e){
-		    		bVistaCapturar = false;
-		    	}
-		    }
+			extras = getIntent().getExtras();
+			if (extras == null) {
+				AlumnoDataSource dsAlumnos = new AlumnoDataSource(Juego.this);
+				dsAlumnos.open();
+				SerieEjerciciosDataSource dsSeries = new SerieEjerciciosDataSource(
+						Juego.this);
+				dsSeries.open();
+				try {
+					oAlumno = dsAlumnos.getAllAlumnos().get(0);
+					oSerie = dsSeries.getAllSeriesEjercicios().get(0);
+				} catch (Exception e) {
+					oAlumno = new Alumno();
+					oSerie = new SerieEjercicios();
+				}
+				bCiclico = false;
+				dsAlumnos.close();
+				dsSeries.close();
+			} else {
+				try {
+					oAlumno = (Alumno) extras.getSerializable("Alumno");
+					oSerie = (SerieEjercicios) extras.getSerializable("Serie");
+					bCiclico = extras.getBoolean("Ciclico");
+				} catch (Exception e) {
+					oAlumno = new Alumno();
+					oSerie = new SerieEjercicios();
+					bCiclico = false;
+				}
+				try {
+					bVistaCapturar = extras.getBoolean("VistaCapturar");
+				} catch (Exception e) {
+					bVistaCapturar = false;
+				}
+			}
 		} else {
-			try{
-				oAlumno= (Alumno) savedInstanceState.getSerializable("Alumno");
-		        oSerie= (SerieEjercicios) savedInstanceState.getSerializable("Serie");
-		        bCiclico = savedInstanceState.getBoolean("Ciclico");
-			}catch (Exception e){
-		        oAlumno = new Alumno();
-		        oSerie = new SerieEjercicios();
-		        bCiclico = false;
-	    	}
-			try{
-	    		bVistaCapturar = savedInstanceState.getBoolean("VistaCapturar");
-	    	}catch (Exception e){
-	    		bVistaCapturar = false;
-	    	}
+			try {
+				oAlumno = (Alumno) savedInstanceState.getSerializable("Alumno");
+				oSerie = (SerieEjercicios) savedInstanceState
+						.getSerializable("Serie");
+				bCiclico = savedInstanceState.getBoolean("Ciclico");
+			} catch (Exception e) {
+				oAlumno = new Alumno();
+				oSerie = new SerieEjercicios();
+				bCiclico = false;
+			}
+			try {
+				bVistaCapturar = savedInstanceState.getBoolean("VistaCapturar");
+			} catch (Exception e) {
+				bVistaCapturar = false;
+			}
 		}
-		
+
 		dsObjetos = new ObjetoDataSource(this);
 		dsObjetos.open();
-		
-		ttobj=new TextToSpeech(getApplicationContext(), 
-		  new TextToSpeech.OnInitListener() {
-		  @Override
-		  public void onInit(int status) {
-		     if(status != TextToSpeech.ERROR){
-		    	 Locale locale = new Locale("spa","ESP");
-		     ttobj.setLanguage(locale);
-		    }				
-		 }
-	    });
-		
-		if (!bVistaCapturar){
-		
-			setTitle(oAlumno.getNombre() +" - "+oSerie.getNombre());
-			
+
+		ttobj = new TextToSpeech(getApplicationContext(),
+				new TextToSpeech.OnInitListener() {
+					@Override
+					public void onInit(int status) {
+						if (status != TextToSpeech.ERROR) {
+							Locale locale = new Locale("spa", "ESP");
+							ttobj.setLanguage(locale);
+						}
+					}
+				});
+
+		if (!bVistaCapturar) {
+
+			setTitle(oAlumno.getNombre() + " - " + oSerie.getNombre());
+
 			dsResultado = new ResultadoDataSource(this);
 			dsResultado.open();
 			dsEjercicios = new EjercicioDataSource(this);
 			dsEjercicios.open();
-			
-			try{
+
+			try {
 				lEjercicios = dsEjercicios.getAllEjercicios(oSerie);
 				oEjercicioActual = lEjercicios.get(0);
-			} catch (Exception e){
+			} catch (Exception e) {
 				lEjercicios = dsEjercicios.getAllEjercicios();
 				if (lEjercicios.size() > 0)
 					oEjercicioActual = lEjercicios.get(0);
 				else
 					oEjercicioActual = new Ejercicio();
 			}
-			((ImageView) findViewById(R.id.btnCapturar)).setVisibility(View.GONE);
-			((LinearLayout) findViewById(R.id.layoutEdits)).setVisibility(View.GONE);
-		}else{
+			((ImageView) findViewById(R.id.btnCapturar))
+					.setVisibility(View.GONE);
+			((LinearLayout) findViewById(R.id.layoutEdits))
+					.setVisibility(View.GONE);
+		} else {
 			setTitle("Añadir objeto");
-			((LinearLayout) findViewById(R.id.layoutBotones)).setVisibility(View.GONE);
-			((ImageView) findViewById(R.id.btnReconocer)).setVisibility(View.GONE);
-			((LinearLayout) findViewById(R.id.layoutCrono)).setVisibility(View.GONE);
+			((LinearLayout) findViewById(R.id.layoutBotones))
+					.setVisibility(View.GONE);
+			((ImageView) findViewById(R.id.btnReconocer))
+					.setVisibility(View.GONE);
+			((LinearLayout) findViewById(R.id.layoutCrono))
+					.setVisibility(View.GONE);
 		}
 	}
-	
-	private void iniciarJuego(){
-		
+
+	private void iniciarJuego() {
+
 		bEsperandoRespuesta = false;
-		nObjeto=-1;
+		nObjeto = -1;
 		bJuegoIniciado = true;
-		
+
 		lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
-		lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);	
-		if (lObjetos.size() > 0){
+		lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
+		if (lObjetos.size() > 0) {
 			oObjetoActual = lObjetos.get(0);
 			rellenar(false);
-		}else{
+		} else {
 			oObjetoActual = new Objeto();
 		}
-		
-		
+
 		oResultadoActual = new Resultado();
 		oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
 		oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 		oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
-		
-		if (oObjetoActual != null) 
-			Toast.makeText(Juego.this, "Buscando "+oObjetoActual.getNombre(), Toast.LENGTH_SHORT).show();
-		
+
+		if (oObjetoActual != null)
+			Toast.makeText(Juego.this, "Buscando " + oObjetoActual.getNombre(),
+					Toast.LENGTH_SHORT).show();
+
 	}
 
-	private int getEjercicioActual(){
-		int lnEjercicioActual=-1;
-		for (int i=0; i<lEjercicios.size();i++)
-			if (lEjercicios.get(i).getIdEjercicio() == oEjercicioActual.getIdEjercicio()){
+	private int getEjercicioActual() {
+		int lnEjercicioActual = -1;
+		for (int i = 0; i < lEjercicios.size(); i++)
+			if (lEjercicios.get(i).getIdEjercicio() == oEjercicioActual
+					.getIdEjercicio()) {
 				lnEjercicioActual = i;
 				break;
 			}
 		return lnEjercicioActual;
 	}
-	
-	private int getObjetoActual(){
-		int lnObjetoActual=-1;
-		for (int i=0; i<lObjetos.size();i++)
-			if (lObjetos.get(i).getId() == oObjetoActual.getId()){
+
+	private int getObjetoActual() {
+		int lnObjetoActual = -1;
+		for (int i = 0; i < lObjetos.size(); i++)
+			if (lObjetos.get(i).getId() == oObjetoActual.getId()) {
 				lnObjetoActual = i;
 				break;
 			}
 		return lnObjetoActual;
 	}
-	
-	private boolean actualizaJuego(){
-		
-		boolean lbJuegoTerminado=true;
-		
-		int lnObjetoActual=getObjetoActual();
-		
-		if (lnObjetoActual >= 0){
-			
-			lnObjetoActual = (lnObjetoActual+1) % lObjetos.size();
-		
-			if (lnObjetoActual < lObjetos.size()){
-				
+
+	private boolean actualizaJuego() {
+
+		boolean lbJuegoTerminado = true;
+
+		int lnObjetoActual = getObjetoActual();
+
+		if (lnObjetoActual >= 0) {
+
+			lnObjetoActual = (lnObjetoActual + 1) % lObjetos.size();
+
+			if (lnObjetoActual < lObjetos.size()) {
+
 				oObjetoActual = lObjetos.get(lnObjetoActual);
 				lbJuegoTerminado = false;
-			
-			}else{ //Era último objeto del ejercicio lnObjetoActual == lObjetos.size()
-			
-				int lnEjercicioActual=getEjercicioActual();
-				
-				if ((lnEjercicioActual >= 0) && (lnEjercicioActual < lEjercicios.size()) || bCiclico){
-					
-					lnEjercicioActual = (lnEjercicioActual+1) % lEjercicios.size();
-					
-					if (lnEjercicioActual == 0){
-						oResultadoActual.setDuracion(getDuracionActual()); //en minutos
+
+			} else { // Era último objeto del ejercicio lnObjetoActual ==
+						// lObjetos.size()
+
+				int lnEjercicioActual = getEjercicioActual();
+
+				if ((lnEjercicioActual >= 0)
+						&& (lnEjercicioActual < lEjercicios.size()) || bCiclico) {
+
+					lnEjercicioActual = (lnEjercicioActual + 1)
+							% lEjercicios.size();
+
+					if (lnEjercicioActual == 0) {
+						oResultadoActual.setDuracion(getDuracionActual()); // en
+																			// minutos
 						oResultadoActual.calculaPuntuacion();
 						lResultados.add(oResultadoActual);
-						
+
 						oResultadoActual = new Resultado();
-						oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
+						oResultadoActual
+								.setFechaRealizacion(new GregorianCalendar()
+										.getTime());
 						oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 						oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
 						iniciarCrono();
 					}
-					
+
 					oEjercicioActual = lEjercicios.get(lnEjercicioActual);
-					
-					lnObjetoActual=0;
-					
-					lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
-					lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);		
+
+					lnObjetoActual = 0;
+
+					lObjetosEscenario = dsObjetos
+							.getAllObjetosEscenario(oEjercicioActual);
+					lObjetos = dsObjetos
+							.getAllObjetosReconocer(oEjercicioActual);
 					oObjetoActual = lObjetos.get(lnObjetoActual);
-					
+
 					lbJuegoTerminado = false;
 				}
 			}
 		}
-		
-		if (lbJuegoTerminado){
-			oResultadoActual.setDuracion(getDuracionActual()); //en minutos
+
+		if (lbJuegoTerminado) {
+			oResultadoActual.setDuracion(getDuracionActual()); // en minutos
 			lResultados.add(oResultadoActual);
-			//Mostrar todos los resultados en una actividad nueva o dialog
-		}else
-			Toast.makeText(Juego.this, "Buscando "+oObjetoActual.getNombre(), Toast.LENGTH_SHORT).show();
+			// Mostrar todos los resultados en una actividad nueva o dialog
+		} else
+			Toast.makeText(Juego.this, "Buscando " + oObjetoActual.getNombre(),
+					Toast.LENGTH_SHORT).show();
 		return lbJuegoTerminado;
-		
+
 	}
-	
-	private void rellenar(boolean aniadir){
-		
+
+	private void rellenar(boolean aniadir) {
+
 		rowsArray = null;
 		colsArray = null;
 		matsDescriptores.clear();
 		matsKeyPoints.clear();
-		
+
 		colsArray = new int[lObjetosEscenario.size()];
 		rowsArray = new int[lObjetosEscenario.size()];
-		
-		for(int i=0;i<lObjetosEscenario.size(); i++){
+
+		for (int i = 0; i < lObjetosEscenario.size(); i++) {
 			colsArray[i] = lObjetosEscenario.get(i).getCols();
 			rowsArray[i] = lObjetosEscenario.get(i).getRows();
-			
-			Mat tempMat=Utilidades.matFromJson(lObjetosEscenario.get(i).getDescriptores());
-            matsDescriptores.add(tempMat);
-			
-            MatOfKeyPoint tempMatKeyPoint=Utilidades.keypointsFromJson(lObjetosEscenario.get(i).getKeypoints());
-    		matsKeyPoints.add(tempMatKeyPoint);
-		}
-		
-        long[] tempAddrDesc = new long[matsDescriptores.size()]; 
-        long[] tempAddrKeyP = new long[matsKeyPoints.size()]; 
-        int[] tempCols = new int[colsArray.length];
-        int[] tempRows = new int[rowsArray.length];
-        
-        for (int i=0;i<matsDescriptores.size();i++)
-        {
-            tempAddrDesc[i]= matsDescriptores.get(i).getNativeObjAddr();
-            tempAddrKeyP[i]= matsKeyPoints.get(i).getNativeObjAddr();            
-            tempCols[i] = lObjetosEscenario.get(i).getCols();
-            tempRows[i] = lObjetosEscenario.get(i).getRows();
-        }
 
-        RellenarObjetos(tempAddrDesc, tempAddrKeyP, tempCols, tempRows);
-        
-        tempAddrDesc = null;
-        tempAddrKeyP = null;
-        tempCols = null;
-        tempRows = null;
-        
+			Mat tempMat = Utilidades.matFromJson(lObjetosEscenario.get(i)
+					.getDescriptores());
+			matsDescriptores.add(tempMat);
+
+			MatOfKeyPoint tempMatKeyPoint = Utilidades
+					.keypointsFromJson(lObjetosEscenario.get(i).getKeypoints());
+			matsKeyPoints.add(tempMatKeyPoint);
+		}
+
+		long[] tempAddrDesc = new long[matsDescriptores.size()];
+		long[] tempAddrKeyP = new long[matsKeyPoints.size()];
+		int[] tempCols = new int[colsArray.length];
+		int[] tempRows = new int[rowsArray.length];
+
+		for (int i = 0; i < matsDescriptores.size(); i++) {
+			tempAddrDesc[i] = matsDescriptores.get(i).getNativeObjAddr();
+			tempAddrKeyP[i] = matsKeyPoints.get(i).getNativeObjAddr();
+			tempCols[i] = lObjetosEscenario.get(i).getCols();
+			tempRows[i] = lObjetosEscenario.get(i).getRows();
+		}
+
+		RellenarObjetos(tempAddrDesc, tempAddrKeyP, tempCols, tempRows);
+
+		tempAddrDesc = null;
+		tempAddrKeyP = null;
+		tempCols = null;
+		tempRows = null;
+
 	}
-	
-	private int getDuracionActual(){
+
+	private int getDuracionActual() {
 		((Chronometer) findViewById(R.id.cronometro)).stop();
-		long elapsedMillis = (SystemClock.elapsedRealtime() - ((Chronometer) findViewById(R.id.cronometro)).getBase())/1000;
-		int horas = (int)elapsedMillis/3600;
+		long elapsedMillis = (SystemClock.elapsedRealtime() - ((Chronometer) findViewById(R.id.cronometro))
+				.getBase()) / 1000;
+		int horas = (int) elapsedMillis / 3600;
 		int remainder = (int) elapsedMillis - horas * 3600;
-	    int mins = remainder / 60;
-	    remainder = remainder - mins * 60;
-	    double secs = remainder; 
-	    double tiempo = (horas*60) + mins + (secs/10);
-		Toast.makeText(Juego.this, "Tiempo: " + tiempo, 
-	            Toast.LENGTH_SHORT).show();
+		int mins = remainder / 60;
+		remainder = remainder - mins * 60;
+		double secs = remainder;
+		double tiempo = (horas * 60) + mins + (secs / 10);
+		Toast.makeText(Juego.this, "Tiempo: " + tiempo, Toast.LENGTH_SHORT)
+				.show();
 		return mins;
 	}
-	
-	private void iniciarCrono(){
-		((Chronometer) findViewById(R.id.cronometro)).setBase(SystemClock.elapsedRealtime());
+
+	private void iniciarCrono() {
+		((Chronometer) findViewById(R.id.cronometro)).setBase(SystemClock
+				.elapsedRealtime());
 		((Chronometer) findViewById(R.id.cronometro)).start();
 	}
-	
-	public void onClickSalir(View v){
-		Toast.makeText(getApplicationContext(), "Mostrar activity resumen...", Toast.LENGTH_SHORT).show();
+
+	public void onClickSalir(View v) {
+		Intent intent = new Intent(this, ResultadoSerie.class);
+		if (lResultados == null)
+			lResultados = new ArrayList<Resultado>();
+
+		if (lResultados.isEmpty()) {
+			Resultado a = new Resultado();
+			a.setAciertos(15);
+			a.setDuracion(20);
+			a.setFallos(6);
+			a.setFechaRealizacion(new Date());
+			a.setIdAlumno(oAlumno.getIdAlumno());
+			a.setIdEjercicio(oSerie.getIdSerie());
+			a.calculaPuntuacion();
+			dsResultado.createResultado(a);
+			lResultados.add(a);
+		}
+		int [] ids = new int[lResultados.size()];
+		
+		for (int i=0; i<lResultados.size() ; i++)
+			ids[i] = lResultados.get(i).getIdEjercicio();
+		
+		intent.putExtra("Resultados", ids);
+		intent.putExtra("Alumno", oAlumno.getNombre());
+		intent.putExtra("Serie", oSerie.getNombre());
+		startActivity(intent);
 	}
-	
-	public void onAyudaClick(View v){
+
+	public void onAyudaClick(View v) {
 		if (oObjetoActual != null)
 			oObjetoActual.playSonidoAyuda(this);
 	}
-	
-	public void onDescripcionClick(View v){
+
+	public void onDescripcionClick(View v) {
 		if (oObjetoActual != null)
 			oObjetoActual.playSonidoDescripcion(this);
 	}
-	
-	public void onReconocerClick(View v){
+
+	public void onReconocerClick(View v) {
 		iniciarJuego();
 		iniciarCrono();
 	}
 
-	public void onInicializaSurf(View v){
-		InicializaSurf(Double.parseDouble(edthessianThreshold.getText().toString()), Integer.parseInt(edtnOctaves.getText().toString()), 
-				Integer.parseInt(edtnOctaveLayers.getText().toString()), chkExtended.isChecked(), chkUpright.isChecked());
+	public void onFrameClick(View v) {
+		if (!bVistaCapturar)
+			onReconocerClick(v);
+		else
+			onCapturarClick(v);
 	}
-	
-	public void onVerObjetosReconocer(View v){
-			
+
+	public void onInicializaSurf(View v) {
+		InicializaSurf(
+				Double.parseDouble(edthessianThreshold.getText().toString()),
+				Integer.parseInt(edtnOctaves.getText().toString()),
+				Integer.parseInt(edtnOctaveLayers.getText().toString()),
+				chkExtended.isChecked(), chkUpright.isChecked());
+	}
+
+	public void onVerObjetosReconocer(View v) {
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Objetos reconocer");
 
 		ListView modeList = new ListView(this);
-		final ArrayList<Objeto> llObjetos = new ArrayList<Objeto>(dsObjetos.getAllObjetosReconocer(oEjercicioActual));
-		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(this, android.R.layout.simple_list_item_1, android.R.id.text1, llObjetos);
+		final ArrayList<Objeto> llObjetos = new ArrayList<Objeto>(
+				dsObjetos.getAllObjetosReconocer(oEjercicioActual));
+		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(this,
+				android.R.layout.simple_list_item_1, android.R.id.text1,
+				llObjetos);
 		modeList.setAdapter(modeAdapter);
 
 		builder.setView(modeList);
 		final Dialog dialog = builder.create();
-		
+
 		modeList.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int location, long arg3) {
-					if (!bJuegoIniciado){
-						String nombre= llObjetos.get(location).getNombre();
-						if (dsObjetos.eliminaObjeto(nombre)){
-							if (oEjercicioActual != null){
-								oEjercicioActual.eliminaObjetoReconocer(nombre);
-								dsEjercicios.modificaEjercicio(oEjercicioActual);
-							}
+				if (!bJuegoIniciado) {
+					String nombre = llObjetos.get(location).getNombre();
+					if (dsObjetos.eliminaObjeto(nombre)) {
+						if (oEjercicioActual != null) {
+							oEjercicioActual.eliminaObjetoReconocer(nombre);
+							dsEjercicios.modificaEjercicio(oEjercicioActual);
 						}
 					}
-					dialog.dismiss();
+				}
+				dialog.dismiss();
 				return false;
-			}});
-		
+			}
+		});
+
 		dialog.show();
 	}
-	
-	public void onVerObjetosEscenario(View v){
-		
+
+	public void onVerObjetosEscenario(View v) {
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(Juego.this);
 		builder.setTitle("Objetos escenario");
 
 		ListView modeList = new ListView(Juego.this);
-		final ArrayList<Objeto> llObjetosEscenario = new ArrayList<Objeto>(dsObjetos.getAllObjetosEscenario(oEjercicioActual));
-		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(Juego.this, android.R.layout.simple_list_item_1, android.R.id.text1, llObjetosEscenario);
+		final ArrayList<Objeto> llObjetosEscenario = new ArrayList<Objeto>(
+				dsObjetos.getAllObjetosEscenario(oEjercicioActual));
+		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(Juego.this,
+				android.R.layout.simple_list_item_1, android.R.id.text1,
+				llObjetosEscenario);
 		modeList.setAdapter(modeAdapter);
 
 		builder.setView(modeList);
@@ -494,128 +557,153 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int location, long arg3) {
-					if (!bJuegoIniciado){
-						String nombre= llObjetosEscenario.get(location).getNombre();
-						if (dsObjetos.eliminaObjeto(nombre)){
-							if (oEjercicioActual != null){
-								oEjercicioActual.eliminaObjetoEscenario(nombre);
-								dsEjercicios.modificaEjercicio(oEjercicioActual);
-							}
+				if (!bJuegoIniciado) {
+					String nombre = llObjetosEscenario.get(location)
+							.getNombre();
+					if (dsObjetos.eliminaObjeto(nombre)) {
+						if (oEjercicioActual != null) {
+							oEjercicioActual.eliminaObjetoEscenario(nombre);
+							dsEjercicios.modificaEjercicio(oEjercicioActual);
 						}
 					}
-					dialog.dismiss();
+				}
+				dialog.dismiss();
 				return false;
-			}});
-		
-		dialog.show();
-	}
-	
-	public void onAciertoClick(View v){
-		final ImageView btn = (ImageView) findViewById(R.id.btnMatch);
-		btn.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-		    	 	btn.setImageResource(R.drawable.acierto_pulsado);
-                }
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                	btn.setImageResource(R.drawable.acierto);
-                	if(bEsperandoRespuesta){
-                		oResultadoActual.incrementaAcierto();
-            			if (actualizaJuego()){
-            				Toast.makeText(Juego.this, "El juego ha acabado con un resultado de "+lResultados.get(0).getPuntuacion(), 
-            			            Toast.LENGTH_LONG).show();
-            				bJuegoIniciado = false;
-            			}
-            			bEsperandoRespuesta = false;
-                	}
-                }
-                return true;
 			}
 		});
+
+		dialog.show();
 	}
-	
-	public void onErrorClick(View v){
-		
-		final ImageView btn = (ImageView) findViewById(R.id.btnError);
+
+	public void onAciertoClick(View v) {
+		final ImageView btn = (ImageView) findViewById(R.id.btnMatch);
 		btn.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-					btn.setImageResource(R.drawable.error_pulsado);
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn.setImageResource(R.drawable.acierto_pulsado);
 				}
-				if(event.getAction() == MotionEvent.ACTION_UP){
-					btn.setImageResource(R.drawable.error);
-					if (bEsperandoRespuesta){		
-						oResultadoActual.incrementaFallo();
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn.setImageResource(R.drawable.acierto);
+					if (bEsperandoRespuesta) {
+						oResultadoActual.incrementaAcierto();
+						if (actualizaJuego()) {
+							Toast.makeText(
+									Juego.this,
+									"El juego ha acabado con un resultado de "
+											+ lResultados.get(
+													lResultados.size() - 1)
+													.getPuntuacion(),
+									Toast.LENGTH_LONG).show();
+							bJuegoIniciado = false;
+						}
 						bEsperandoRespuesta = false;
-						/*if (actualizaJuego())
-							Toast.makeText(Juego.this, "El juego ha acabado con un resultado de "+lResultados.get(0).getPuntuacion(), 
-						            Toast.LENGTH_LONG).show();*/
 					}
 				}
 				return true;
 			}
 		});
-			
 	}
-	
-	public void onCapturarClick(View v){
-		
-		if (!bJuegoIniciado){
-		
+
+	public void onErrorClick(View v) {
+
+		final ImageView btn = (ImageView) findViewById(R.id.btnError);
+		btn.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn.setImageResource(R.drawable.error_pulsado);
+				}
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn.setImageResource(R.drawable.error);
+					if (bEsperandoRespuesta) {
+						oResultadoActual.incrementaFallo();
+						bEsperandoRespuesta = false;
+					}
+				}
+				return true;
+			}
+		});
+
+	}
+
+	public void onCapturarClick(View v) {
+
+		if (!bJuegoIniciado) {
+
 			auxGray = mGray.clone();
 			aux = mRgba.clone();
-			
-			
-			Imgproc.GaussianBlur(auxGray, auxGray, new Size(3,3), 2);
+
+			Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
 			Imgproc.Canny(auxGray, auxGray, 40, 120);
-	
-			Imgproc.GaussianBlur(aux, aux, new Size(3,3), 2);
+
+			Imgproc.GaussianBlur(aux, aux, new Size(3, 3), 2);
 			Imgproc.Canny(aux, aux, 40, 120);
-			
-			Imgproc.resize(auxGray, auxGray, new Size(320,240));
-			Imgproc.resize(aux, aux, new Size(320,240));
-			//long startTime = System.currentTimeMillis();
-			
-			float elapsedTime=FindFeatures(auxGray.getNativeObjAddr(),
-					aux.getNativeObjAddr(), descriptores_obj.getNativeObjAddr(), keypoints_obj.getNativeObjAddr());
-	
-			//long stopTime = System.currentTimeMillis();
-			//long elapsedTime = stopTime - startTime;		
-			Toast.makeText(this, "Tiempo = "+elapsedTime+"\n"+"KeyPoints = "+keypoints_obj.size(), Toast.LENGTH_SHORT).show();
+
+			Imgproc.resize(auxGray, auxGray, new Size(320, 240));
+			Imgproc.resize(aux, aux, new Size(320, 240));
+			// long startTime = System.currentTimeMillis();
+
+			float elapsedTime = FindFeatures(auxGray.getNativeObjAddr(),
+					aux.getNativeObjAddr(),
+					descriptores_obj.getNativeObjAddr(),
+					keypoints_obj.getNativeObjAddr());
+
+			// long stopTime = System.currentTimeMillis();
+			// long elapsedTime = stopTime - startTime;
+			Toast.makeText(
+					this,
+					"Tiempo = " + elapsedTime + "\n" + "KeyPoints = "
+							+ keypoints_obj.size(), Toast.LENGTH_SHORT).show();
 			if (!keypoints_obj.empty() || !descriptores_obj.empty()) {
+
 				final Dialog dialog = new Dialog(this);
 				dialog.setContentView(R.layout.activity_dialog_objeto);
 				dialog.setTitle("¿Desea guardar este objeto?");
-		
+
 				// set the custom dialog components - image and button
 				// convert to bitmap:
-				Bitmap bmModificado = Bitmap.createBitmap(aux.cols(), aux.rows(),Bitmap.Config.ARGB_8888);
-		        org.opencv.android.Utils.matToBitmap(aux, bmModificado);
-				((ImageView) dialog.findViewById(R.id.imageObjeto)).setImageBitmap(bmModificado);
-				
-				final Bitmap bmOrigen = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(),Bitmap.Config.ARGB_8888);
-		        org.opencv.android.Utils.matToBitmap(mRgba, bmOrigen);
-				((ImageView) dialog.findViewById(R.id.imageObjetoOriginal)).setImageBitmap(bmOrigen);
-				
-				Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptar);
+				Bitmap bmModificado = Bitmap.createBitmap(aux.cols(),
+						aux.rows(), Bitmap.Config.ARGB_8888);
+				org.opencv.android.Utils.matToBitmap(aux, bmModificado);
+				((ImageView) dialog.findViewById(R.id.imageObjeto))
+						.setImageBitmap(bmModificado);
+
+				final Bitmap bmOrigen = Bitmap.createBitmap(mRgba.cols(),
+						mRgba.rows(), Bitmap.Config.ARGB_8888);
+				org.opencv.android.Utils.matToBitmap(mRgba, bmOrigen);
+				((ImageView) dialog.findViewById(R.id.imageObjetoOriginal))
+						.setImageBitmap(bmOrigen);
+
+				Button btnAceptar = (Button) dialog
+						.findViewById(R.id.btnAceptar);
 				// if button is clicked, close the custom dialog
 				btnAceptar.setOnClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						String keyString, desString;				
+						String keyString, desString;
 						keyString = Utilidades.keypointsToJson(keypoints_obj);
 						desString = Utilidades.matToJson(descriptores_obj);
-						String nombreObjeto = ((EditText) dialog.findViewById(R.id.edtNombre)).getText().toString();
-						Objeto objeto = new Objeto(-1, nombreObjeto, "descripcion", new Date(), keyString, desString, 
-								aux.cols(), aux.rows(), Juego.this.getString(R.string.pathImages)+"/"+nombreObjeto+".png", 
-								Juego.this.getString(R.string.pathSounds)+"/descripcion"+nombreObjeto+".mp3", 
-								Juego.this.getString(R.string.pathSounds)+"/ayuda"+nombreObjeto+".mp3", 
-								Juego.this.getString(R.string.pathSounds)+"/nombre"+nombreObjeto+".mp3");
+						String nombreObjeto = ((EditText) dialog
+								.findViewById(R.id.edtNombre)).getText()
+								.toString();
+						Objeto objeto = new Objeto(-1, nombreObjeto,
+								"descripcion", new Date(), keyString,
+								desString, aux.cols(), aux.rows(), Juego.this
+										.getString(R.string.pathImages)
+										+ "/"
+										+ nombreObjeto + ".png", Juego.this
+										.getString(R.string.pathSounds)
+										+ "/descripcion"
+										+ nombreObjeto
+										+ ".mp3", Juego.this
+										.getString(R.string.pathSounds)
+										+ "/ayuda" + nombreObjeto + ".mp3",
+								Juego.this.getString(R.string.pathSounds)
+										+ "/nombre" + nombreObjeto + ".mp3");
 						objeto.setImagen(bmOrigen);
 						dsObjetos.createObjeto(objeto);
 						descriptores_obj.release();
@@ -627,10 +715,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 							insertaEnSerie(objeto);
 					}
 				});
-				
-				Button btnCancelar = (Button) dialog.findViewById(R.id.btnCancelar);
+
+				Button btnCancelar = (Button) dialog
+						.findViewById(R.id.btnCancelar);
 				// if button is clicked, close the custom dialog
-				btnCancelar.setOnClickListener(new View.OnClickListener() {				
+				btnCancelar.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
@@ -639,163 +728,205 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						aux.release();
 						auxGray.release();
 					}
-				});		
+				});
 				dialog.show();
-			}else
-				Toast.makeText(this, "Es necesario capturar de nuevo el objeto", Toast.LENGTH_SHORT).show();
-		
+			} else
+				Toast.makeText(this,
+						"Es necesario capturar de nuevo el objeto",
+						Toast.LENGTH_SHORT).show();
+
 		}
-		
+
 	}
-	
+
 	private void insertaEnSerie(final Objeto objeto) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Series + "+objeto.getNombre());
-		SerieEjerciciosDataSource dsSerie =  new SerieEjerciciosDataSource(this);
+		builder.setTitle("Series + " + objeto.getNombre());
+		SerieEjerciciosDataSource dsSerie = new SerieEjerciciosDataSource(this);
 		dsSerie.open();
-		final List<SerieEjercicios> listaSeries = dsSerie.getAllSeriesEjercicios();
+		final List<SerieEjercicios> listaSeries = dsSerie
+				.getAllSeriesEjercicios();
 		dsSerie.close();
 		ListView modeList = new ListView(this);
-		ArrayAdapter<SerieEjercicios> modeAdapter = 
-				new ArrayAdapter<SerieEjercicios>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listaSeries);
+		ArrayAdapter<SerieEjercicios> modeAdapter = new ArrayAdapter<SerieEjercicios>(
+				this, android.R.layout.simple_list_item_1, android.R.id.text1,
+				listaSeries);
 		modeList.setAdapter(modeAdapter);
 
 		builder.setView(modeList);
 		final Dialog dialog = builder.create();
 
-		modeList.setOnItemClickListener(new OnItemClickListener() {		
+		modeList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,int location, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int location, long id) {
 				insertaEnEjercicio(listaSeries.get(location), objeto);
 				dialog.dismiss();
-			}});
-		
-		dialog.show();		
+			}
+		});
+
+		dialog.show();
 	}
 
-	private void insertaEnEjercicio(SerieEjercicios serieEjercicios, final Objeto objeto) {
+	private void insertaEnEjercicio(SerieEjercicios serieEjercicios,
+			final Objeto objeto) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Ejercicios - "+serieEjercicios.getNombre() +" - "+objeto.getNombre());
-		final EjercicioDataSource ldsEjercicios =  new EjercicioDataSource(this);
+		builder.setTitle("Ejercicios - " + serieEjercicios.getNombre() + " - "
+				+ objeto.getNombre());
+		final EjercicioDataSource ldsEjercicios = new EjercicioDataSource(this);
 		ldsEjercicios.open();
-		final List<Ejercicio> listaEjercicios = ldsEjercicios.getAllEjercicios(serieEjercicios);		
+		final List<Ejercicio> listaEjercicios = ldsEjercicios
+				.getAllEjercicios(serieEjercicios);
 		final ListView modeList = new ListView(this);
-		ArrayAdapter<Ejercicio> modeAdapter = 
-				new ArrayAdapter<Ejercicio>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listaEjercicios);
+		ArrayAdapter<Ejercicio> modeAdapter = new ArrayAdapter<Ejercicio>(this,
+				android.R.layout.simple_list_item_1, android.R.id.text1,
+				listaEjercicios);
 		modeList.setAdapter(modeAdapter);
 
 		builder.setView(modeList);
-		
+
 		// Add the buttons
-		builder.setPositiveButton("Escenario", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		        	   if (nLocation != -1){
-			        	   listaEjercicios.get(nLocation).getObjetos().add(objeto.getNombre());
-			        	   ldsEjercicios.modificaEjercicio(listaEjercicios.get(nLocation));
-			        	   if (oEjercicioActual != null 
-			        			   && listaEjercicios.get(nLocation).getIdEjercicio() == oEjercicioActual.getIdEjercicio())
-			        		   oEjercicioActual.insertaObjetoEscenario(objeto);
-			        	   dialog.dismiss();
-			        	   Toast.makeText(Juego.this, "Añadido a escenario", Toast.LENGTH_SHORT).show();
-			       	   }
-		           }
-		       });
-		builder.setNegativeButton("Reconocer", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		        	   if(nLocation != -1){
-						   listaEjercicios.get(nLocation).getObjetosReconocer().add(objeto.getNombre());
-						   listaEjercicios.get(nLocation).getObjetos().add(objeto.getNombre());
-						   ldsEjercicios.modificaEjercicio(listaEjercicios.get(nLocation));
-						   if (oEjercicioActual != null 
-								   && listaEjercicios.get(nLocation).getIdEjercicio() == oEjercicioActual.getIdEjercicio())
-							   oEjercicioActual.insertaObjetoReconocer(objeto);
-						   dialog.dismiss();
-						   Toast.makeText(Juego.this, "Añadido a reconocer", Toast.LENGTH_SHORT).show();
-		        	   }
-		           }
-		       });
-		
+		builder.setPositiveButton("Escenario",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						if (nLocation != -1) {
+							listaEjercicios.get(nLocation).getObjetos()
+									.add(objeto.getNombre());
+							ldsEjercicios.modificaEjercicio(listaEjercicios
+									.get(nLocation));
+							if (oEjercicioActual != null
+									&& listaEjercicios.get(nLocation)
+											.getIdEjercicio() == oEjercicioActual
+											.getIdEjercicio())
+								oEjercicioActual.insertaObjetoEscenario(objeto);
+							dialog.dismiss();
+							Toast.makeText(Juego.this, "Añadido a escenario",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+		builder.setNegativeButton("Reconocer",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						if (nLocation != -1) {
+							listaEjercicios.get(nLocation)
+									.getObjetosReconocer()
+									.add(objeto.getNombre());
+							listaEjercicios.get(nLocation).getObjetos()
+									.add(objeto.getNombre());
+							ldsEjercicios.modificaEjercicio(listaEjercicios
+									.get(nLocation));
+							if (oEjercicioActual != null
+									&& listaEjercicios.get(nLocation)
+											.getIdEjercicio() == oEjercicioActual
+											.getIdEjercicio())
+								oEjercicioActual.insertaObjetoReconocer(objeto);
+							dialog.dismiss();
+							Toast.makeText(Juego.this, "Añadido a reconocer",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+
 		final Dialog dialog = builder.create();
 
-		modeList.setOnItemClickListener(new OnItemClickListener() {		
+		modeList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,int location, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int location, long id) {
 				nLocation = location;
-				dialog.setTitle("Insertar "+objeto.getNombre()+" en "+listaEjercicios.get(nLocation).getNombre());
-			}});		
-		dialog.show();	
+				dialog.setTitle("Insertar " + objeto.getNombre() + " en "
+						+ listaEjercicios.get(nLocation).getNombre());
+			}
+		});
+		dialog.show();
 	}
-	
+
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		if ((!bJuegoIniciado || (bJuegoIniciado && nObjeto == -1)) && !bEsperandoRespuesta){
+		if ((!bJuegoIniciado || (bJuegoIniciado && nObjeto == -1))
+				&& !bEsperandoRespuesta) {
 			mRgba = inputFrame.rgba();
 			mGray = inputFrame.gray();
 
-			if ((bJuegoIniciado && lObjetos.size()>0)) {
+			if ((bJuegoIniciado && lObjetos.size() > 0)) {
 				auxGray = mGray.clone();
-				
-				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3,3), 2);
-				Imgproc.Canny(auxGray, auxGray, 40, 120);				
-				Imgproc.resize(auxGray, auxGray, new Size(320,240));
-				
-				nObjeto=FindObjects(auxGray.getNativeObjAddr(), mRgba.getNativeObjAddr());
-				
+
+				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
+				Imgproc.Canny(auxGray, auxGray, 40, 120);
+				Imgproc.resize(auxGray, auxGray, new Size(320, 240));
+
+				nObjeto = FindObjects(auxGray.getNativeObjAddr(),
+						mRgba.getNativeObjAddr());
+
 				mGray = auxGray.clone();
 				auxGray.release();
-				
-				if (nObjeto!=-1){
-					int id = (int)lObjetosEscenario.get(nObjeto).getId();
+
+				if (nObjeto != -1) {
+					int id = (int) lObjetosEscenario.get(nObjeto).getId();
 					bEsperandoRespuesta = true;
-					
-					oObjetoReconocido = dsObjetos.getObjetoSimple(id); //Solo id, nombre e imagen
+
+					oObjetoReconocido = dsObjetos.getObjetoSimple(id); // Solo
+																		// id,
+																		// nombre
+																		// e
+																		// imagen
 					String respuestaAux = "";
-					
-					if (oObjetoReconocido.getId() == oObjetoActual.getId()){
+
+					if (oObjetoReconocido.getId() == oObjetoActual.getId()) {
 						respuestaAux = acierto;
-						try{
+						try {
 							afd = getAssets().openFd("acierto.mp3");
-						} catch (IOException e){
+						} catch (IOException e) {
 							e.printStackTrace();
 						}
-					}else{
+					} else {
 						respuestaAux = error;
-						try{
+						try {
 							afd = getAssets().openFd("fallo.mp3");
-						} catch (IOException e){
+						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-					
+
 					final String respuesta = respuestaAux;
 					this.runOnUiThread(new Runnable() {
-					    public void run() {
-					    	try {
+						public void run() {
+							try {
 								player = new MediaPlayer();
-								player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-							    player.prepare();
-							    player.start();
+								player.setDataSource(afd.getFileDescriptor(),
+										afd.getStartOffset(), afd.getLength());
+								player.prepare();
+								player.start();
 							} catch (IOException e) {
 								e.printStackTrace();
-							}	
-					    	ttobj.speak(respuesta, TextToSpeech.QUEUE_FLUSH, null);					    	
-					    	Toast.makeText(getApplicationContext(), respuesta + " - encontrado el objeto " + oObjetoReconocido.getNombre(), Toast.LENGTH_SHORT).show();
-					    }
+							}
+							ttobj.speak(respuesta, TextToSpeech.QUEUE_FLUSH,
+									null);
+							Toast.makeText(
+									getApplicationContext(),
+									respuesta + " - encontrado el objeto "
+											+ oObjetoReconocido.getNombre(),
+									Toast.LENGTH_SHORT).show();
+						}
 					});
-					nObjeto=-1;
+					nObjeto = -1;
 				}
 			}
 		}
 		return mRgba;
 	}
-	
+
 	@Override
 	public void onPause() {
-		if(dsObjetos!=null) dsObjetos.close();
-		if(dsEjercicios!=null) dsEjercicios.close();
-		if(dsResultado!=null) dsResultado.close();
-		if(ttobj !=null){
+		if (dsObjetos != null)
+			dsObjetos.close();
+		if (dsEjercicios != null)
+			dsEjercicios.close();
+		if (dsResultado != null)
+			dsResultado.close();
+		if (ttobj != null) {
 			ttobj.stop();
 			ttobj.shutdown();
 		}
@@ -803,14 +934,17 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			mOpenCvCameraView.disableView();
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onResume() {
 		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this,
 				mLoaderCallback);
-		if(dsObjetos!=null) dsObjetos.open();
-		if(dsEjercicios!=null) dsEjercicios.open();
-		if(dsResultado!=null) dsResultado.open();
+		if (dsObjetos != null)
+			dsObjetos.open();
+		if (dsEjercicios != null)
+			dsEjercicios.open();
+		if (dsResultado != null)
+			dsResultado.open();
 		mOpenCvCameraView.enableView();
 		super.onResume();
 	}
@@ -836,7 +970,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		mGray = new Mat(height, width, CvType.CV_8UC1);
 		auxGray = new Mat(height, width, CvType.CV_8UC1);
 	}
-	
+
 	@Override
 	public void onCameraViewStopped() {
 		mGray.release();
@@ -850,29 +984,30 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			if (bJuegoIniciado){
-				bJuegoIniciado=false;
-				nObjeto=-1;
+			if (bJuegoIniciado) {
+				bJuegoIniciado = false;
+				nObjeto = -1;
 				return false;
-			}
-			else{
+			} else {
 				finish();
 				return super.onKeyDown(keyCode, event);
 			}
-				
+
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
 	public native float FindFeatures(long matAddrGr, long matAddrRgba,
 			long matAddrDescriptores, long matAddrKeyPoints);
-	
+
 	public native int FindObjects(long matAddrGray, long matAddrRgba);
-	
-	public native int RellenarObjetos(long[] descriptors, long[] keyPoints, int[] cols, int[] rows);
-	
+
+	public native int RellenarObjetos(long[] descriptors, long[] keyPoints,
+			int[] cols, int[] rows);
+
 	public native int LiberaObjetos();
-	
-	public native void InicializaSurf(double phessian, int pnOctaves, int pnOctaveLayers, boolean pExtended, boolean pUpright);
+
+	public native void InicializaSurf(double phessian, int pnOctaves,
+			int pnOctaveLayers, boolean pExtended, boolean pUpright);
 
 }
