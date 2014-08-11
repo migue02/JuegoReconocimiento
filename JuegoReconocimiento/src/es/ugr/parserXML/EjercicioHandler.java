@@ -1,5 +1,11 @@
 package es.ugr.parserXML;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +21,19 @@ import es.ugr.bdremota.DescargarFicheros;
 
 public class EjercicioHandler extends DefaultHandler{
 
+	public String fichero_local;
+	
 	private List<EjerciciosMarker> listaEjercicios;
 	private ArrayList<String> escenario;
 	private ArrayList<String> reconocer;
 	private EjerciciosMarker ejercicioActual;
     private StringBuilder sbText;
     public Boolean parsingError = false;
+    
+    public EjercicioHandler(String fichero){
+    	if(!fichero.equals(""))
+    		fichero_local=fichero;
+    }
     
 	public List<EjerciciosMarker> getEjercicios(){
 		return listaEjercicios;
@@ -86,10 +99,25 @@ public class EjercicioHandler extends DefaultHandler{
 	            	ejercicioActual.setReconocer(reconocer);
 	            }  else if (localName.equals("ejercicio")) {
 	                listaEjercicios.add(ejercicioActual);
-	            } else if(localName.equals("sonido_descripcion")){
+	            } else if(localName.equals("sonido_descripcion_rem")){
                     if (!sbText.toString().trim().equals("")){
                     	String sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sounds/"+ejercicioActual.getNombre()+".mp3";
                     	new DescargarFicheros().execute(sbText.toString().trim(),sonido_descripcion_local);
+                    	ejercicioActual.setSonidoDescripcion(sonido_descripcion_local);
+                    } else
+                    	ejercicioActual.setSonidoDescripcion("");
+	            	
+	            } else if(localName.equals("sonido_descripcion_loc")){
+                    if (!sbText.toString().trim().equals("")){
+                    	String sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sounds/"+ejercicioActual.getNombre()+".mp3";
+                    	sonido_descripcion_local=sonido_descripcion_local.replaceAll("\\s+", "_");
+                    	try {
+							copy(new File(new File(fichero_local).getParent()+sbText.toString().trim()),new File(sonido_descripcion_local));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                    	//new DescargarFicheros().execute(sbText.toString().trim(),sonido_descripcion_local);
                     	ejercicioActual.setSonidoDescripcion(sonido_descripcion_local);
                     } else
                     	ejercicioActual.setSonidoDescripcion("");
@@ -102,4 +130,18 @@ public class EjercicioHandler extends DefaultHandler{
 		
 	 
 	 
+		public void copy(File src, File dst) throws IOException {
+		    InputStream in = new FileInputStream(src);
+		    OutputStream out = new FileOutputStream(dst);
+
+		    // Transfer bytes from in to out
+		    byte[] buf = new byte[1024];
+		    int len;
+		    while ((len = in.read(buf)) > 0) {
+		        out.write(buf, 0, len);
+		    }
+		    in.close();
+		    out.close();
+		}
+		
 }

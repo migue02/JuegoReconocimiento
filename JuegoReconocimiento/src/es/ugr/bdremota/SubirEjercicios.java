@@ -97,7 +97,7 @@ class SubirEjercicios extends AsyncTask<List<String>, String, String> {
         if(!ej.getSonido_descripcion().equals("")){
         	String nombre_fich=ej.getNombre()+".mp3";
         	nombre_fich=nombre_fich.trim().replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(ej.getSonido_descripcion(),nombre_fich,"sounds");
+        	new SubirFicherosSFTP(context).execute(ej.getSonido_descripcion(),nombre_fich,"sounds");
         	params.add(new BasicNameValuePair("sonido_descripcion",url_sounds+nombre_fich));
         }
         

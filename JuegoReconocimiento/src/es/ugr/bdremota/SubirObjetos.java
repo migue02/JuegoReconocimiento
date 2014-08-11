@@ -8,6 +8,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.chilkatsoft.CkSFtp;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -106,28 +108,29 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
         if(!obj.getSonidoDescripcion().equals("")){
         	String nombre_fich=obj.getNombre()+"Descripcion.mp3";
         	nombre_fich=nombre_fich.replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(obj.getSonidoDescripcion(),nombre_fich,"sounds");
+        	new SubirFicherosSFTP(context).execute(obj.getSonidoDescripcion(),nombre_fich,"sounds");
         	params.add(new BasicNameValuePair("sonido_descripcion", path_sound_rem+nombre_fich));
         }
         
         if(!obj.getSonidoAyuda().equals("")){
         	String nombre_fich=obj.getNombre()+"Ayuda.mp3";
         	nombre_fich=nombre_fich.replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(obj.getSonidoAyuda(),nombre_fich,"sounds");
+        	new SubirFicherosSFTP(context).execute(obj.getSonidoAyuda(),nombre_fich,"sounds");
         	params.add(new BasicNameValuePair("sonido_ayuda",path_sound_rem+nombre_fich));
         }
         
         if(!obj.getSonidoNombre().equals("")){
         	String nombre_fich=obj.getNombre()+"Nombre.mp3";
         	nombre_fich=nombre_fich.replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(obj.getSonidoNombre(),nombre_fich,"sounds");
+        	new SubirFicherosSFTP(context).execute(obj.getSonidoNombre(),nombre_fich,"sounds");
         	params.add(new BasicNameValuePair("sonido_nombre",path_sound_rem+nombre_fich));
         }
         
         if(!obj.getPathImagen().equals("")){
         	String nombre_fich=obj.getNombre()+".png";
         	nombre_fich=nombre_fich.replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(obj.getPathImagen(),nombre_fich,"images");
+        	new SubirFicherosSFTP(context).execute(obj.getPathImagen(),nombre_fich,"images");
+        	//funcion();
         	params.add(new BasicNameValuePair("imagen",path_imagen_rem+nombre_fich));
         }
         
@@ -165,5 +168,8 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
             e.printStackTrace();
         }
     }
+    
+    
 
+    
 }

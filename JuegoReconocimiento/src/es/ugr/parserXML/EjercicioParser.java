@@ -25,13 +25,14 @@ public class EjercicioParser {
             	local=false;
             	try {
 					this.rssUrl=new URL(url);
+					this.fichero="";//Se importa desde remoto
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
             if(tipo=="Fichero"){
-            	local=true;
+            	local=true;//Se importa desde fichero local
                 this.fichero=url;
             }
 
@@ -43,7 +44,7 @@ public class EjercicioParser {
         try
         {
             SAXParser parser = factory.newSAXParser();
-            EjercicioHandler handler = new EjercicioHandler();
+            EjercicioHandler handler = new EjercicioHandler(this.fichero);
             if (local==true)
             	parser.parse(this.getInputStream2(), handler);
             else

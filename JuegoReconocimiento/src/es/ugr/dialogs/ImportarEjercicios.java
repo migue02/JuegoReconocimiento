@@ -46,7 +46,7 @@ public class ImportarEjercicios extends Dialog {
 
 		edtURL = ((EditText) findViewById(R.id.editTextURL));
 		edtFichero = ((EditText) findViewById(R.id.editTextFich));
-		edtURL.setText("http://192.168.1.103/bd_reconocimiento/XML/segun.xml");
+		edtURL.setText("http://tamen.ugr.es/~diversidad/XML/segun.xml");
 		
 		btnAceptar = (Button) findViewById(R.id.aImportar);
 		btnCancelar = (Button) findViewById(R.id.cImportar);
