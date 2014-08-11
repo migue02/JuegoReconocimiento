@@ -110,7 +110,7 @@ public class EjercicioHandler extends DefaultHandler{
 	            } else if(localName.equals("sonido_descripcion_loc")){
                     if (!sbText.toString().trim().equals("")){
                     	String sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sounds/"+ejercicioActual.getNombre()+".mp3";
-                    	sonido_descripcion_local=sonido_descripcion_local.replaceAll("\\s+", "_");
+                    	//sonido_descripcion_local=sonido_descripcion_local.replaceAll("\\s+", "_");
                     	try {
 							copy(new File(new File(fichero_local).getParent()+sbText.toString().trim()),new File(sonido_descripcion_local));
 						} catch (IOException e) {
