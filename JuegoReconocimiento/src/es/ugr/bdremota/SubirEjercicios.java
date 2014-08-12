@@ -145,8 +145,8 @@ class SubirEjercicios extends AsyncTask<List<String>, String, String> {
         params.add(new BasicNameValuePair("objetosReconocer",es.ugr.utilidades.Utilidades.ArrayListToJson(ej.getObjetosReconocer())));
         if(!ej.getSonido_descripcion().equals("")){
         	String nombre_fich=ej.getNombre()+".mp3";
-        	nombre_fich.replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
-        	new SubirFicheros(context).execute(ej.getSonido_descripcion(),nombre_fich,"sounds");
+        	nombre_fich=nombre_fich.trim().replaceAll("\\s+", "_"); //sustituye espacios por barras_baja
+        	new SubirFicherosSFTP(context).execute(ej.getSonido_descripcion(),nombre_fich,"sounds");
         	params.add(new BasicNameValuePair("sonido_descripcion",url_sounds+ej.getNombre()+".mp3"));
         }
         

@@ -268,7 +268,7 @@ public class MainActivity extends Activity {
 				lista.add(objKelme.getNombre());
 				String tp1 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto Adidas, y cuando finalice dicho ejercicios, deberá detectar el objeto Kelme");
-				Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(), escenario, tp1, 5, lista, getString(R.string.pathSounds)+"/Adidas y kelme.mp3");
+				Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(), escenario, tp1, 5, lista, "");
                 lista.clear();
 				lista.add(objUGR.getNombre());
 				lista.add(objApple.getNombre());
@@ -276,7 +276,7 @@ public class MainActivity extends Activity {
 				String tp2 = new String(
 						"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto UGR, luego Apple, y cuando finalice, deberá detectar el objeto Windows");
 				Ejercicio p2 = eds.createEjercicio("UGR, Apple y Windows", new Date(), escenario,
-						tp2, 6, lista, getString(R.string.pathSounds)+"/UGR, Apple y Windows.mp3");
+						tp2, 6, lista, "");
 				lista.clear();
 				/*lista.add((int) objeto4.getId());
 				lista.add((int) objeto5.getId());
