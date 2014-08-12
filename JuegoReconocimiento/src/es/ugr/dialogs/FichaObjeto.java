@@ -3,6 +3,7 @@ package es.ugr.dialogs;
 import java.io.File;
 import java.io.IOException;
 
+import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Objeto;
 import android.media.MediaRecorder;
@@ -30,12 +31,13 @@ public class FichaObjeto extends Dialog {
 	private MediaRecorder mRecorder = null;
 
 	private Integer ayuda = 0, nombre = 1, descripcion = 2;
+	
+	private boolean bModificado = false;
 
 	public FichaObjeto(Context context, Objeto objeto) {
 		super(context);
 		this.context = context;
 		oObjeto = objeto;
-		oObjeto.creaFicherosSonido(context);
 	}
 
 	@Override
@@ -118,10 +120,16 @@ public class FichaObjeto extends Dialog {
 			String fileName = "";
 			if (v.getTag().equals(ayuda)) {
 				fileName = oObjeto.getSonidoAyuda();
+				if (fileName.isEmpty())
+					fileName = oObjeto.creaFicherosSonidoAyuda(context);									
 			} else if (v.getTag().equals(nombre)) {
 				fileName = oObjeto.getSonidoNombre();
+				if (fileName.isEmpty())
+					fileName = oObjeto.creaFicherosSonidoNombre(context);	
 			} else if (v.getTag().equals(descripcion)) {
 				fileName = oObjeto.getSonidoDescripcion();
+				if (fileName.isEmpty())
+					fileName = oObjeto.creaFicherosSonidoDescripcion(context);	
 			}
 			onRecord(mStartRecording, fileName);
 			if (mStartRecording) {
@@ -132,6 +140,7 @@ public class FichaObjeto extends Dialog {
 						R.drawable.microfono);
 			}
 			mStartRecording = !mStartRecording;
+			bModificado = true;
 		}
 	};
 
@@ -169,6 +178,8 @@ public class FichaObjeto extends Dialog {
 								oObjeto.setSonidoNombre(fileName);
 							else if (tag.equals(descripcion))
 								oObjeto.setSonidoDescripcion(fileName);
+							
+							bModificado = true;
 						}
 					} else
 						Toast.makeText(source.getContext(),
@@ -202,8 +213,6 @@ public class FichaObjeto extends Dialog {
 
 	private void onRecord(boolean start, String fileName) {
 		if (start) {			
-			if (Ficheros.ExisteFichero(fileName))
-				Ficheros.CreaFichero(fileName);
 			startRecording(fileName);
 		} else {
 			stopRecording();
@@ -241,6 +250,12 @@ public class FichaObjeto extends Dialog {
 			mRecorder = null;
 		}
 		oObjeto.stopSonido();
+		if (bModificado){
+			ObjetoDataSource dsObjeto = new ObjetoDataSource(context);
+			dsObjeto.open();
+			dsObjeto.modificaObjeto(oObjeto);
+			dsObjeto.close();
+		}
 	}
 
 }

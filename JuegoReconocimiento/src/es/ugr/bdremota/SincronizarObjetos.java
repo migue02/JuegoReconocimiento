@@ -44,8 +44,10 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 	private List<String> addToRemote;
 	private List<String> updateToLocal;
 	private List<String> updateToRemote;
+	
+	private Runnable rCreaTabla;
 
-	public SincronizarObjetos(Context context) {
+	public SincronizarObjetos(Context context, Runnable creaTabla) {
 		this.context = context;
 		url_all_objetos = context.getString(R.string.servidor_remoto)
 				+ "get_all_id_objetos.php";
@@ -60,6 +62,8 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 		updateToLocal = new ArrayList<String>();
 		updateToRemote = new ArrayList<String>();
 
+		rCreaTabla = creaTabla;
+		
 	}
 
 	@Override
@@ -170,7 +174,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 										int which) {
 									new SubirObjetos(context).execute(
 											addToRemote, updateToRemote);
-									new DescargarObjetos(context).execute(
+									new DescargarObjetos(context, rCreaTabla).execute(
 											addToLocal, updateToLocal);
 								}
 							})

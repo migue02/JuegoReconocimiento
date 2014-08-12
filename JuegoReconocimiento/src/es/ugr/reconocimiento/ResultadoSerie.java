@@ -18,7 +18,6 @@ public class ResultadoSerie extends Activity {
 
 	private List<Resultado> lResultados;
 	private Resultado oResultado;
-
 	private FrameLayout layoutGrafica;
 
 	@Override

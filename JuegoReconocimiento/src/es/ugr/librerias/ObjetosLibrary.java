@@ -79,10 +79,16 @@ public class ObjetosLibrary {
 		});
 
 	}
+	
+	private Runnable runCreaTabla = new Runnable() {
+	    public void run() {
+	    	CreaTablaObj();
+	    }
+	};
 
 	public void sincronizarObjetos() {
 		if (Utilidades.hasInternetConnection(context))
-			new SincronizarObjetos(context).execute();
+			new SincronizarObjetos(context, runCreaTabla).execute();
 		else
 			Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG)
 					.show();

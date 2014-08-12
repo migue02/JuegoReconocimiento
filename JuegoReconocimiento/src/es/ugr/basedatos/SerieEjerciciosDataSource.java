@@ -96,6 +96,7 @@ public class SerieEjerciciosDataSource {
 	
 	public boolean modificaSerieEjercicios(SerieEjercicios serieEjercicios) {
 
+		serieEjercicios.setFecha_modificacion(new Date());
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE, serieEjercicios.getNombre());
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_IDEJERCICIOS,
@@ -113,6 +114,7 @@ public class SerieEjerciciosDataSource {
 	public boolean modificaSerieEjercicios(int id, String nombre,
 			ArrayList<Integer> ejercicios, int duracion, Date fecha_modificacion) {
 
+		fecha_modificacion = new Date();
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE, nombre);
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_IDEJERCICIOS,

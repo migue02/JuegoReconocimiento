@@ -128,7 +128,7 @@ public class EjercicioDataSource {
 			String sonido_descripcion) {
 		
 		ContentValues values = new ContentValues();
-		Ejercicio ejercicio = new Ejercicio(nombre, fecha, objetos, descripcion, duracion,objetosReconocer,sonido_descripcion);
+		Ejercicio ejercicio = new Ejercicio(nombre, new Date(), objetos, descripcion, duracion,objetosReconocer,sonido_descripcion);
 		values = createValues(ejercicio);
 		
 		boolean mod=database.update(MySQLiteHelper.TABLE_EJERCICIO, values, MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE+" = "+"'"+nombre+"'", null)>0;
@@ -139,6 +139,7 @@ public class EjercicioDataSource {
 	
 	public boolean modificaEjercicio(Ejercicio ejercicio) {
 		ContentValues values = new ContentValues();
+		ejercicio.setFecha(new Date());
 		values = createValues(ejercicio);
 
 		return database.update(MySQLiteHelper.TABLE_EJERCICIO, values,

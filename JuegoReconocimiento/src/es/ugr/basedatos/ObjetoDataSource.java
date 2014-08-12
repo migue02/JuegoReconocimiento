@@ -126,7 +126,7 @@ public class ObjetoDataSource {
 	public boolean modificaObjeto(String nombre, String descripcion, Date fecha, String keypoints, 
 			String descriptores, int cols, int rows, String imagen, String sonido_descripcion, String sonido_ayuda, String sonido_nombre) {
 		ContentValues values = new ContentValues();
-		Objeto objeto = new Objeto(-1, nombre, descripcion, fecha, keypoints, descriptores, cols, rows, imagen, sonido_descripcion, sonido_ayuda, sonido_nombre);
+		Objeto objeto = new Objeto(-1, nombre, descripcion, new Date(), keypoints, descriptores, cols, rows, imagen, sonido_descripcion, sonido_ayuda, sonido_nombre);
 		values = createValues(objeto);
 		
 
@@ -134,8 +134,10 @@ public class ObjetoDataSource {
 				MySQLiteHelper.COLUMN_OBJETO_NOMBRE+ " = '" + nombre+"'", null) > 0;
 	}
 	
+	
 	public boolean modificaObjeto(Objeto objeto) {
 		ContentValues values = new ContentValues();
+		objeto.setFecha(new Date());
 		values = createValues(objeto);	
 		objeto.guardarImagen();
 		

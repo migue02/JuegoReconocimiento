@@ -302,15 +302,21 @@ public class Objeto {
 		imagen = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 	}
 
-	public void creaFicherosSonido(Context context) {
-		if (!Ficheros.ExisteFichero(pathSonidoAyuda))
-			pathSonidoAyuda = context.getString(R.string.pathSounds) + "/"
-					+ nombre + "Ayuda.mp3";
-		if (!Ficheros.ExisteFichero(pathSonidoDescripcion))
-			pathSonidoDescripcion = context.getString(R.string.pathSounds)
-					+ "/" + nombre + "Descripcion.mp3";
-		if (!Ficheros.ExisteFichero(pathSonidoNombre))
-			pathSonidoNombre = context.getString(R.string.pathSounds) + "/"
-					+ nombre + "Nombre.mp3";
+	public String creaFicherosSonidoAyuda(Context context) {
+		pathSonidoAyuda = context.getString(R.string.pathSounds) + "/"
+				+ nombre + "Ayuda.mp3";
+		return pathSonidoAyuda;
+	}
+	
+	public String creaFicherosSonidoDescripcion(Context context) {
+		pathSonidoDescripcion = context.getString(R.string.pathSounds) + "/"
+				+ nombre + "Descripcion.mp3";
+		return pathSonidoDescripcion;
+	}
+	
+	public String creaFicherosSonidoNombre(Context context) {
+		pathSonidoNombre = context.getString(R.string.pathSounds) + "/"
+				+ nombre + "Nombre.mp3";
+		return pathSonidoNombre;
 	}
 }
