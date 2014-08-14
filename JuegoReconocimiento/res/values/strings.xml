@@ -19,7 +19,7 @@
 
     <!-- String MenuPrincipal -->
     <string-array name="menu_principal">
-        <item>Menu Principal</item>
+        <item>Menú Principal</item>
         <item>Gestión Alumnos</item>
         <item>Resultados/Estadísticas</item>
         <item>Ejercicios</item>

@@ -62,7 +62,7 @@ public class EjerciciosLibrary {
 		lv.setDropListener(onDrop);
 		lv.setRemoveListener(onRemove);
 		lv.setDragScrollProfile(ssProfile);
-		lEjercicios = dsEjercicio.getAllEjercicios();
+		
 
 		Ficheros.creaCarpetas(context);// por que?¿?¿?¿
 
@@ -97,7 +97,7 @@ public class EjerciciosLibrary {
 	}
 
 	private void CreaTablaEjer() {
-
+		lEjercicios = dsEjercicio.getAllEjercicios();
 		adaptador = new AdapterEjercicio(context, R.layout.adapter_ejercicios,
 				lEjercicios);
 		lv.setAdapter(adaptador);

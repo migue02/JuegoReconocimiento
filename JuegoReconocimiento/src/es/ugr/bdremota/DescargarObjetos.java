@@ -63,7 +63,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();
+		super.onPreExecute();		
 		pDialog = new ProgressDialog(context);
 		pDialog.setMessage("Sincronizando objetos, por favor espere...");
 		pDialog.setIndeterminate(false);

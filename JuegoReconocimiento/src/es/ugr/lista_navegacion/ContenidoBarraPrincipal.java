@@ -14,7 +14,7 @@ import es.ugr.juegoreconocimiento.R;
  */
 public class ContenidoBarraPrincipal {
 
-	public static String[] titulos = new String[] {"Menu Principal", "Gestión Alumnos",
+	public static String[] titulos = new String[] {"Menú Principal", "Gestión Alumnos",
 			"Resultados/Estadísticas", " Ejercicios", "Serie Ejercicios",
 			"Objetos" };
 	public static Integer[] images = new Integer[] {R.drawable.anterior, R.drawable.ic2,

@@ -41,7 +41,7 @@ public class FichaAlumno extends Dialog {
 	private EditText edtNombre;
 	private EditText edtApellidos;
 	private EditText edtObservaciones;
-	private ImageButton imgChico, imgChica;
+	private View imgChico, imgChica;
 	private ImageView imgPincipal;
 	private TextView tvFecha;
 	private DatePickerDialog dtpFecha;
@@ -71,8 +71,8 @@ public class FichaAlumno extends Dialog {
 		edtApellidos = (EditText) findViewById(R.id.daApellidos);
 		tvFecha = (TextView) findViewById(R.id.MuestraFecha);
 		edtObservaciones = (EditText) findViewById(R.id.daObserva);
-		imgChico = (ImageButton) findViewById(R.id.BotonHombre);
-		imgChica = (ImageButton) findViewById(R.id.BotonMujer);
+		imgChico = findViewById(R.id.pulsaChica);
+		imgChica = findViewById(R.id.pulsaChico);
 		GuardarDia = (Button) findViewById(R.id.gAlumnos);
 		CancelarDialog = (Button) findViewById(R.id.cAlumnos);
 		imgPincipal = (ImageView) findViewById(R.id.AlumPrin);

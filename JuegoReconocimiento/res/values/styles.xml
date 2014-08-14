@@ -110,6 +110,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:typeface">monospace</item>
+        <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
@@ -118,5 +119,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
     </style>
+    
+    
+<style name="MyActionButtonStyle" parent="AppBaseTheme">
+    <item name="android:padding">5dp</item>
+</style>
 
 </resources>
