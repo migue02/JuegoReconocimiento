@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--  Active state --> 
-    <item android:state_selected="true" android:state_focused="false" android:state_pressed="false" android:drawable="@drawable/resulsel" />     
-<!--  Inactive state--> 
-    <item android:state_selected="false" android:state_focused="false"         android:state_pressed="false" android:drawable="@drawable/resuldesel" />
-     <!--  Pressed state-->
-     <item android:state_pressed="true" android:drawable="@android:color/holo_blue_light" /> 
-    <!--  Selected state (using d-pad) -->
-     <item android:state_focused="true" android:state_selected="true"         android:state_pressed="false" android:drawable="@android:color/holo_blue_light" />
- </selector> 
+
+    <!-- Active state -->
+    <item android:drawable="@drawable/resulsel" android:state_focused="false" android:state_pressed="false" android:state_selected="true"/>
+    <!-- Inactive state -->
+    <item android:drawable="@drawable/resuldesel" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+    <!-- Pressed state -->
+    <item android:drawable="@android:color/holo_blue_light" android:state_pressed="true"/>
+    <!-- Selected state (using d-pad) -->
+    <item android:drawable="@android:color/holo_blue_light" android:state_focused="true" android:state_pressed="false" android:state_selected="true"/>
+
+</selector>

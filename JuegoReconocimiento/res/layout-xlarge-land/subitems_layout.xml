@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="67dp"
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="40dp"
     tools:context=".MainActivity" >
 
     <TableLayout
+        android:id="@+id/tableLayoutTablas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableLayoutTablas" >
+        android:layout_height="wrap_content" >
 
         <TableRow
             android:id="@+id/tableRowTablas"
@@ -20,9 +20,9 @@
 
             <ImageView
                 android:id="@+id/imageViewSexo"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:src="@drawable/boy"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/boy" />
 
             <TextView
                 android:id="@+id/textViewNombre"
@@ -70,9 +70,7 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="5dp"
                 android:width="75dp" />
-
         </TableRow>
-
     </TableLayout>
 
     <View
@@ -80,4 +78,4 @@
         android:layout_height="1dp"
         android:background="@android:color/black" />
 
-</LinearLayout> 
+</LinearLayout>

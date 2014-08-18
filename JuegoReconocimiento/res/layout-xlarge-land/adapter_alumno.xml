@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/sexAl"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"

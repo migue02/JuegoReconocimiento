@@ -90,7 +90,7 @@
             android:layout_height="300dp"
             android:layout_gravity="top|center"
             android:padding="5dp"
-            android:src="@drawable/ic3" />
+            android:src="@drawable/series" />
 
         <RelativeLayout
             android:id="@+id/laniadir_ser"

@@ -247,8 +247,8 @@ public class ResultadosLibrary {
 		tit1 = new TextView(context);
 		tit3 = new TextView(context);
 
-		imgtit1.setImageResource(R.drawable.ic2);
-		imgtit2.setImageResource(R.drawable.ic3);
+		imgtit1.setImageResource(R.drawable.alumnos);
+		imgtit2.setImageResource(R.drawable.series);
 
 		imgtit1.setLayoutParams(imageParams);
 		imgtit2.setLayoutParams(imageParams);

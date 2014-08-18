@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res/es.ugr.juegoreconocimiento"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ugr_background"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:background="@color/tituloTabla"
-        android:orientation="horizontal"
-        android:weightSum="1" >
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/NombSelEj"
@@ -23,37 +22,37 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="0.2"
+            android:layout_toLeftOf="@+id/DurSelEj"
             android:gravity="left|center"
             android:paddingLeft="8dp"
             android:text="Nombre"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/DurSelEj"
+            android:id="@id/DurSelEj"
             style="@style/TituloTabla"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="0.4"
+            android:layout_toLeftOf="@+id/MovSelEj"
             android:gravity="right|center"
             android:paddingLeft="8dp"
             android:text="Duración"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/MovSelEj"
+            android:id="@id/MovSelEj"
             style="@style/TituloTabla"
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
+            android:layout_alignParentRight="true"
             android:gravity="right|center"
             android:text="Mover"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.mobeta.android.dslv.DragSortListView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,8 +74,7 @@
         app:drag_start_mode="onDown"
         dslv:float_alpha="0.6"
         dslv:max_drag_scroll_speed="0.5"
-        dslv:remove_enabled="true"
-        dslv:remove_mode="flingRemove"
+        dslv:remove_enabled="false"
         dslv:slide_shuffle_speed="0.3"
         dslv:sort_enabled="true"
         dslv:track_drag_sort="false"

@@ -21,7 +21,6 @@ import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
 import es.ugr.juegoreconocimiento.R;
-import es.ugr.lista_navegacion.ListaNavegacionActivity;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
@@ -35,11 +34,8 @@ import es.ugr.objetos.SerieEjercicios;
 import es.ugr.utilidades.Utilidades;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -50,18 +46,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+import es.ugr.reconocimiento.JuegoLibreria;
 
 public class Juego extends Activity implements CvCameraViewListener2 {
 
@@ -116,25 +107,16 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	private boolean bVistaCapturar;
 
-	private int nLocation = -1;
-
+	// //////////////
+	// Iniciar cámara
+	// //////////////
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
 		public void onManagerConnected(int status) {
 			switch (status) {
 			case LoaderCallbackInterface.SUCCESS: {
 				Log.i(TAG, "OpenCV loaded successfully");
-
-				// Load native library after(!) OpenCV initialization
-				/*
-				 * System.loadLibrary("opencv_java");
-				 * System.loadLibrary("nonfree");
-				 * System.loadLibrary("juegoReconocimientoLib");
-				 */
-
 				mOpenCvCameraView.enableView();
-
-				// InicializaSurf(1800.0, 4, 2, true, true);
 			}
 				break;
 			default: {
@@ -145,10 +127,25 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		}
 	};
 
+	// /////////////////
+	// Iniciar actividad
+	// /////////////////
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.activity_juego);
+
+		ttobj = new TextToSpeech(getApplicationContext(),
+				new TextToSpeech.OnInitListener() {
+					@Override
+					public void onInit(int status) {
+						if (status != TextToSpeech.ERROR) {
+							Locale locale = new Locale("spa", "ESP");
+							ttobj.setLanguage(locale);
+						}
+					}
+				});
+
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -157,7 +154,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
 		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
 		chkUpright = (CheckBox) findViewById(R.id.edtUpRight);
-
 		edthessianThreshold.setText("1500");
 		edtnOctaveLayers.setText("2");
 		edtnOctaves.setText("4");
@@ -218,18 +214,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		dsObjetos = new ObjetoDataSource(this);
 		dsObjetos.open();
 
-		ttobj = new TextToSpeech(getApplicationContext(),
-				new TextToSpeech.OnInitListener() {
-					@Override
-					public void onInit(int status) {
-						if (status != TextToSpeech.ERROR) {
-							Locale locale = new Locale("spa", "ESP");
-							ttobj.setLanguage(locale);
-						}
-					}
-				});
-
-		if (!bVistaCapturar) {
+		if (!bVistaCapturar) { // Modo Juego
 
 			setTitle(oAlumno.getNombre() + " - " + oSerie.getNombre());
 
@@ -252,7 +237,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					.setVisibility(View.GONE);
 			((LinearLayout) findViewById(R.id.layoutEdits))
 					.setVisibility(View.GONE);
-		} else {
+		} else { // Modo añadir objeto
+
 			setTitle("Añadir objeto");
 			((LinearLayout) findViewById(R.id.layoutBotones))
 					.setVisibility(View.GONE);
@@ -263,6 +249,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		}
 	}
 
+	// ///////////////////
+	// Empezar a reconocer
+	// ///////////////////
 	private void iniciarJuego() {
 
 		bEsperandoRespuesta = false;
@@ -289,32 +278,15 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	}
 
-	private int getEjercicioActual() {
-		int lnEjercicioActual = -1;
-		for (int i = 0; i < lEjercicios.size(); i++)
-			if (lEjercicios.get(i).getIdEjercicio() == oEjercicioActual
-					.getIdEjercicio()) {
-				lnEjercicioActual = i;
-				break;
-			}
-		return lnEjercicioActual;
-	}
-
-	private int getObjetoActual() {
-		int lnObjetoActual = -1;
-		for (int i = 0; i < lObjetos.size(); i++)
-			if (lObjetos.get(i).getId() == oObjetoActual.getId()) {
-				lnObjetoActual = i;
-				break;
-			}
-		return lnObjetoActual;
-	}
-
+	// ///////////////////////////////////////////////////////
+	// Decidir siguiente objeto a reconocer y de que ejercicio
+	// ///////////////////////////////////////////////////////
 	private boolean actualizaJuego() {
 
 		boolean lbJuegoTerminado = true;
 
-		int lnObjetoActual = getObjetoActual();
+		int lnObjetoActual = JuegoLibreria.getObjetoActual(lObjetos,
+				oObjetoActual);
 
 		if (lnObjetoActual >= 0) {
 
@@ -328,7 +300,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			} else { // Era último objeto del ejercicio lnObjetoActual ==
 						// lObjetos.size()
 
-				int lnEjercicioActual = getEjercicioActual();
+				int lnEjercicioActual = JuegoLibreria.getEjercicioActual(
+						lEjercicios, oEjercicioActual);
 
 				if ((lnEjercicioActual >= 0)
 						&& (lnEjercicioActual < lEjercicios.size()) || bCiclico) {
@@ -337,8 +310,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 							% lEjercicios.size();
 
 					if (lnEjercicioActual == 0) {
-						oResultadoActual.setDuracion(getDuracionActual()); // en
-																			// minutos
+						oResultadoActual.setDuracion(JuegoLibreria
+								.getDuracionActual(this)); // en
+						// minutos
 						oResultadoActual.calculaPuntuacion();
 						lResultados.add(oResultadoActual);
 
@@ -348,7 +322,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 										.getTime());
 						oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 						oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
-						iniciarCrono();
+						JuegoLibreria.iniciarCrono(this);
 					}
 
 					oEjercicioActual = lEjercicios.get(lnEjercicioActual);
@@ -367,7 +341,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		}
 
 		if (lbJuegoTerminado) {
-			oResultadoActual.setDuracion(getDuracionActual()); // en minutos
+			oResultadoActual.setDuracion(JuegoLibreria.getDuracionActual(this)); // en
+																					// minutos
 			lResultados.add(oResultadoActual);
 			// Mostrar todos los resultados en una actividad nueva o dialog
 		} else
@@ -377,6 +352,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	}
 
+	// ////////////////////////////////////////////////////////////////////////
+	// Rellenar matrices de KeyPoints y Descriptors en la actividad y en nativo
+	// ////////////////////////////////////////////////////////////////////////
 	private void rellenar(boolean aniadir) {
 
 		rowsArray = null;
@@ -421,27 +399,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	}
 
-	private int getDuracionActual() {
-		((Chronometer) findViewById(R.id.cronometro)).stop();
-		long elapsedMillis = (SystemClock.elapsedRealtime() - ((Chronometer) findViewById(R.id.cronometro))
-				.getBase()) / 1000;
-		int horas = (int) elapsedMillis / 3600;
-		int remainder = (int) elapsedMillis - horas * 3600;
-		int mins = remainder / 60;
-		remainder = remainder - mins * 60;
-		double secs = remainder;
-		double tiempo = (horas * 60) + mins + (secs / 10);
-		Toast.makeText(Juego.this, "Tiempo: " + tiempo, Toast.LENGTH_SHORT)
-				.show();
-		return mins;
-	}
-
-	private void iniciarCrono() {
-		((Chronometer) findViewById(R.id.cronometro)).setBase(SystemClock
-				.elapsedRealtime());
-		((Chronometer) findViewById(R.id.cronometro)).start();
-	}
-
+	// //////////////////////////////////////////////////////////////////
+	// Se ha hecho click en terminar juego y se muestra actividad resumen
+	// //////////////////////////////////////////////////////////////////
 	public void onClickSalir(View v) {
 		Intent intent = new Intent(this, ResultadoSerie.class);
 		if (lResultados == null)
@@ -459,39 +419,38 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			dsResultado.createResultado(a);
 			lResultados.add(a);
 		}
-		int [] ids = new int[lResultados.size()];
-		
-		for (int i=0; i<lResultados.size() ; i++)
+		int[] ids = new int[lResultados.size()];
+
+		for (int i = 0; i < lResultados.size(); i++)
 			ids[i] = lResultados.get(i).getIdEjercicio();
-		
+
 		intent.putExtra("Resultados", ids);
 		intent.putExtra("Alumno", oAlumno.getNombre());
 		intent.putExtra("Serie", oSerie.getNombre());
 		startActivity(intent);
 	}
 
+	// /////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en ayuda y se escucha la ayuda asociada al objeto a
+	// reconocer actualmente
+	// /////////////////////////////////////////////////////////////////////
 	public void onAyudaClick(View v) {
 		if (oObjetoActual != null)
 			oObjetoActual.playSonidoAyuda(this);
 	}
 
+	// /////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en descripción y se escucha la descripción asociada
+	// al objeto a reconocer actualmente
+	// /////////////////////////////////////////////////////////////////////
 	public void onDescripcionClick(View v) {
 		if (oObjetoActual != null)
 			oObjetoActual.playSonidoDescripcion(this);
 	}
 
-	public void onReconocerClick(View v) {
-		iniciarJuego();
-		iniciarCrono();
-	}
-
-	public void onFrameClick(View v) {
-		if (!bVistaCapturar)
-			onReconocerClick(v);
-		else
-			onCapturarClick(v);
-	}
-
+	// ////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en SURF y se inicializan los valores del algoritmo
+	// ////////////////////////////////////////////////////////////////////
 	public void onInicializaSurf(View v) {
 		InicializaSurf(
 				Double.parseDouble(edthessianThreshold.getText().toString()),
@@ -500,81 +459,27 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				chkExtended.isChecked(), chkUpright.isChecked());
 	}
 
+	// //////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en ver objetos a reconocer y se muestran los objetos
+	// a reconocer en este ejercicio
+	// //////////////////////////////////////////////////////////////////////
 	public void onVerObjetosReconocer(View v) {
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Objetos reconocer");
-
-		ListView modeList = new ListView(this);
-		final ArrayList<Objeto> llObjetos = new ArrayList<Objeto>(
-				dsObjetos.getAllObjetosReconocer(oEjercicioActual));
-		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(this,
-				android.R.layout.simple_list_item_1, android.R.id.text1,
-				llObjetos);
-		modeList.setAdapter(modeAdapter);
-
-		builder.setView(modeList);
-		final Dialog dialog = builder.create();
-
-		modeList.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int location, long arg3) {
-				if (!bJuegoIniciado) {
-					String nombre = llObjetos.get(location).getNombre();
-					if (dsObjetos.eliminaObjeto(nombre)) {
-						if (oEjercicioActual != null) {
-							oEjercicioActual.eliminaObjetoReconocer(nombre);
-							dsEjercicios.modificaEjercicio(oEjercicioActual);
-						}
-					}
-				}
-				dialog.dismiss();
-				return false;
-			}
-		});
-
-		dialog.show();
+		JuegoLibreria.onVerObjetos(this, dsObjetos, oEjercicioActual,
+				dsEjercicios, bJuegoIniciado, true);
 	}
 
+	// ///////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en ver objetos con los que se jugarán en el ejercicio
+	// actual y se muestran todos los objetos de este ejercicio
+	// ///////////////////////////////////////////////////////////////////////
 	public void onVerObjetosEscenario(View v) {
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(Juego.this);
-		builder.setTitle("Objetos escenario");
-
-		ListView modeList = new ListView(Juego.this);
-		final ArrayList<Objeto> llObjetosEscenario = new ArrayList<Objeto>(
-				dsObjetos.getAllObjetosEscenario(oEjercicioActual));
-		ArrayAdapter<Objeto> modeAdapter = new ArrayAdapter<Objeto>(Juego.this,
-				android.R.layout.simple_list_item_1, android.R.id.text1,
-				llObjetosEscenario);
-		modeList.setAdapter(modeAdapter);
-
-		builder.setView(modeList);
-		final Dialog dialog = builder.create();
-
-		modeList.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int location, long arg3) {
-				if (!bJuegoIniciado) {
-					String nombre = llObjetosEscenario.get(location)
-							.getNombre();
-					if (dsObjetos.eliminaObjeto(nombre)) {
-						if (oEjercicioActual != null) {
-							oEjercicioActual.eliminaObjetoEscenario(nombre);
-							dsEjercicios.modificaEjercicio(oEjercicioActual);
-						}
-					}
-				}
-				dialog.dismiss();
-				return false;
-			}
-		});
-
-		dialog.show();
+		JuegoLibreria.onVerObjetos(this, dsObjetos, oEjercicioActual,
+				dsEjercicios, bJuegoIniciado, false);
 	}
 
+	// /////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en acierto y se suma un acierto al resultado actual
+	// /////////////////////////////////////////////////////////////////////
 	public void onAciertoClick(View v) {
 		final ImageView btn = (ImageView) findViewById(R.id.btnMatch);
 		btn.setOnTouchListener(new OnTouchListener() {
@@ -606,6 +511,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		});
 	}
 
+	// /////////////////////////////////////////////////////////////////
+	// Se ha hecho click en fallo y se suma un fallo al resultado actual
+	// /////////////////////////////////////////////////////////////////
 	public void onErrorClick(View v) {
 
 		final ImageView btn = (ImageView) findViewById(R.id.btnError);
@@ -629,6 +537,22 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	}
 
+	// ////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en iniciar reconocimiento y se empieza a reconocer
+	// objetos
+	// ////////////////////////////////////////////////////////////////////
+	public void onReconocerClick(View v) {
+		if (!bJuegoIniciado) {
+			iniciarJuego();
+			JuegoLibreria.iniciarCrono(this);
+		}
+	}
+
+	// ////////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en capturar objeto y se muestra un diálogo para crear
+	// un objeto. Este formulario contiene la imagen original y la imagen
+	// procesada, con el que se podrá guardar en la base de datos o descartarlo
+	// ////////////////////////////////////////////////////////////////////////
 	public void onCapturarClick(View v) {
 
 		if (!bJuegoIniciado) {
@@ -644,15 +568,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 			Imgproc.resize(auxGray, auxGray, new Size(320, 240));
 			Imgproc.resize(aux, aux, new Size(320, 240));
-			// long startTime = System.currentTimeMillis();
 
 			float elapsedTime = FindFeatures(auxGray.getNativeObjAddr(),
 					aux.getNativeObjAddr(),
 					descriptores_obj.getNativeObjAddr(),
 					keypoints_obj.getNativeObjAddr());
 
-			// long stopTime = System.currentTimeMillis();
-			// long elapsedTime = stopTime - startTime;
 			Toast.makeText(
 					this,
 					"Tiempo = " + elapsedTime + "\n" + "KeyPoints = "
@@ -695,7 +616,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 								desString, aux.cols(), aux.rows(), Juego.this
 										.getString(R.string.pathImages)
 										+ "/"
-										+ nombreObjeto + ".png", "","","");
+										+ nombreObjeto + ".png", "", "", "");
 						objeto.setImagen(bmOrigen);
 						dsObjetos.createObjeto(objeto);
 						descriptores_obj.release();
@@ -704,7 +625,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						aux.release();
 						auxGray.release();
 						if (objeto.getId() != -1)
-							insertaEnSerie(objeto);
+							JuegoLibreria.insertaEnSerie(Juego.this, objeto,
+									oEjercicioActual);
 					}
 				});
 
@@ -726,114 +648,20 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				Toast.makeText(this,
 						"Es necesario capturar de nuevo el objeto",
 						Toast.LENGTH_SHORT).show();
-
 		}
 
 	}
 
-	private void insertaEnSerie(final Objeto objeto) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Series + " + objeto.getNombre());
-		SerieEjerciciosDataSource dsSerie = new SerieEjerciciosDataSource(this);
-		dsSerie.open();
-		final List<SerieEjercicios> listaSeries = dsSerie
-				.getAllSeriesEjercicios();
-		dsSerie.close();
-		ListView modeList = new ListView(this);
-		ArrayAdapter<SerieEjercicios> modeAdapter = new ArrayAdapter<SerieEjercicios>(
-				this, android.R.layout.simple_list_item_1, android.R.id.text1,
-				listaSeries);
-		modeList.setAdapter(modeAdapter);
-
-		builder.setView(modeList);
-		final Dialog dialog = builder.create();
-
-		modeList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int location, long id) {
-				insertaEnEjercicio(listaSeries.get(location), objeto);
-				dialog.dismiss();
-			}
-		});
-
-		dialog.show();
-	}
-
-	private void insertaEnEjercicio(SerieEjercicios serieEjercicios,
-			final Objeto objeto) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Ejercicios - " + serieEjercicios.getNombre() + " - "
-				+ objeto.getNombre());
-		final EjercicioDataSource ldsEjercicios = new EjercicioDataSource(this);
-		ldsEjercicios.open();
-		final List<Ejercicio> listaEjercicios = ldsEjercicios
-				.getAllEjercicios(serieEjercicios);
-		final ListView modeList = new ListView(this);
-		ArrayAdapter<Ejercicio> modeAdapter = new ArrayAdapter<Ejercicio>(this,
-				android.R.layout.simple_list_item_1, android.R.id.text1,
-				listaEjercicios);
-		modeList.setAdapter(modeAdapter);
-
-		builder.setView(modeList);
-
-		// Add the buttons
-		builder.setPositiveButton("Escenario",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						if (nLocation != -1) {
-							listaEjercicios.get(nLocation).getObjetos()
-									.add(objeto.getNombre());
-							ldsEjercicios.modificaEjercicio(listaEjercicios
-									.get(nLocation));
-							if (oEjercicioActual != null
-									&& listaEjercicios.get(nLocation)
-											.getIdEjercicio() == oEjercicioActual
-											.getIdEjercicio())
-								oEjercicioActual.insertaObjetoEscenario(objeto);
-							dialog.dismiss();
-							Toast.makeText(Juego.this, "Añadido a escenario",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-		builder.setNegativeButton("Reconocer",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						if (nLocation != -1) {
-							listaEjercicios.get(nLocation)
-									.getObjetosReconocer()
-									.add(objeto.getNombre());
-							listaEjercicios.get(nLocation).getObjetos()
-									.add(objeto.getNombre());
-							ldsEjercicios.modificaEjercicio(listaEjercicios
-									.get(nLocation));
-							if (oEjercicioActual != null
-									&& listaEjercicios.get(nLocation)
-											.getIdEjercicio() == oEjercicioActual
-											.getIdEjercicio())
-								oEjercicioActual.insertaObjetoReconocer(objeto);
-							dialog.dismiss();
-							Toast.makeText(Juego.this, "Añadido a reconocer",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-
-		final Dialog dialog = builder.create();
-
-		modeList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int location, long id) {
-				nLocation = location;
-				dialog.setTitle("Insertar " + objeto.getNombre() + " en "
-						+ listaEjercicios.get(nLocation).getNombre());
-			}
-		});
-		dialog.show();
+	// /////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en el frame de la cámara y se empezará a jugar o se
+	// capturará un objeto depediendo de como se ha iniciado la actividad
+	// /////////////////////////////////////////////////////////////////////
+	public void onFrameClick(View v) {
+		if (!bVistaCapturar) {
+			if (!bJuegoIniciado)
+				onReconocerClick(v);
+		} else
+			onCapturarClick(v);
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
@@ -989,16 +817,22 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		return super.onKeyDown(keyCode, event);
 	}
 
+	// Procesa una imagen aplicacion el algoritmo SURF
 	public native float FindFeatures(long matAddrGr, long matAddrRgba,
 			long matAddrDescriptores, long matAddrKeyPoints);
 
+	// Devuelve el id del objeto encontrado por el algoritmo SURF
 	public native int FindObjects(long matAddrGray, long matAddrRgba);
 
+	// Crear todas las matrices de KeyPoints y Descriptors que se usarán para
+	// encontrar objetos
 	public native int RellenarObjetos(long[] descriptors, long[] keyPoints,
 			int[] cols, int[] rows);
 
+	// Libera recursos creados en la parte nativa
 	public native int LiberaObjetos();
 
+	// Inicializa los valores que usa el algoritmo SURF
 	public native void InicializaSurf(double phessian, int pnOctaves,
 			int pnOctaveLayers, boolean pExtended, boolean pUpright);
 

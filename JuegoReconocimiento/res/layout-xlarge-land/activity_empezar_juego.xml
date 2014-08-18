@@ -5,7 +5,7 @@
     android:orientation="vertical"
 
     tools:context=".EmpezarJuego"
-    android:background="@drawable/ugr_background">
+    android:background="@drawable/background">
 
     <LinearLayout
         android:orientation="vertical"
@@ -34,10 +34,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imageView"
-                    android:src="@drawable/male"
+                    android:src="@drawable/alumnos_64"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp" />
 
@@ -70,10 +70,10 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imageView2"
-                    android:src="@drawable/serie"
+                    android:src="@drawable/series_64"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp" />
 
@@ -148,7 +148,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/selicono"
+                android:background="@drawable/sel_icono"
                 android:onClick="empezarJuego">
 
                 <ImageView

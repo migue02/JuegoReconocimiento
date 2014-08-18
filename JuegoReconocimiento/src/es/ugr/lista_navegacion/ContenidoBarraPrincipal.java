@@ -17,8 +17,8 @@ public class ContenidoBarraPrincipal {
 	public static String[] titulos = new String[] {"Menú Principal", "Gestión Alumnos",
 			"Resultados/Estadísticas", " Ejercicios", "Serie Ejercicios",
 			"Objetos" };
-	public static Integer[] images = new Integer[] {R.drawable.anterior, R.drawable.ic2,
-			R.drawable.ic1, R.drawable.ic6, R.drawable.ic3, R.drawable.objeto };
+	public static Integer[] images = new Integer[] {R.drawable.anterior, R.drawable.alumnos,
+			R.drawable.resultados, R.drawable.ejercicios, R.drawable.series, R.drawable.objeto };
 
 	/**
 	 * An array of sample (dummy) items.

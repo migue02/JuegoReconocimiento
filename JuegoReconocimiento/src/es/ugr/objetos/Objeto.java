@@ -16,7 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
-import es.ugr.utilidades.Ficheros;
 import es.ugr.utilidades.Utilidades;
 
 public class Objeto {
@@ -37,6 +36,83 @@ public class Objeto {
 	private String pathSonidoNombre;
 
 	private MediaPlayer player = new MediaPlayer();
+
+	public Objeto() {
+		id = -1;
+		nombre = "";
+		descripcion = "";
+		fecha = new Date();
+		keypoints = "";
+		descriptores = "";
+		cols = 0;
+		rows = 0;
+		imagen = null;
+		pathImagen = "";
+		pathSonidoAyuda = "";
+		pathSonidoDescripcion = "";
+		pathSonidoNombre = "";
+	}
+	
+	public Objeto(long id, String nombre, String descripcion, Date fecha,
+			String keypoints, String descriptores, int cols, int rows,
+			String pathImagen, String sonidoDescripcion, String sonidoAyuda,
+			String sonidoNombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.fecha = fecha;
+		this.keypoints = keypoints;
+		this.descriptores = descriptores;
+		matDescriptores = new Mat();
+		matKeyPoints = new MatOfKeyPoint();
+		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
+		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		this.cols = cols;
+		this.rows = rows;
+		this.pathImagen = pathImagen;
+		this.pathSonidoDescripcion = sonidoDescripcion;
+		this.pathSonidoAyuda = sonidoAyuda;
+		this.pathSonidoNombre = sonidoNombre;
+		imagen = null;
+	}
+
+	public Objeto(long id, String nombre, String keypoints,
+			String descriptores, int cols, int rows, Bitmap imagen) {
+		this.id = id;
+		this.nombre = nombre;
+		this.keypoints = keypoints;
+		this.descriptores = descriptores;
+		matDescriptores = new Mat();
+		matKeyPoints = new MatOfKeyPoint();
+		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
+		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		this.cols = cols;
+		this.rows = rows;
+		this.imagen = imagen;
+		this.fecha = new Date();
+		pathSonidoAyuda = "";
+		pathSonidoDescripcion = "";
+		pathSonidoNombre = "";
+	}
+	
+	public Objeto(Objeto pObjeto) {
+		super();
+		this.id = pObjeto.id;
+		this.nombre = pObjeto.nombre;
+		this.descripcion = pObjeto.descripcion;
+		this.fecha = pObjeto.fecha;
+		this.keypoints = pObjeto.keypoints;
+		this.descriptores = pObjeto.descriptores;
+		this.cols = pObjeto.cols;
+		this.rows = pObjeto.rows;
+		this.imagen.createBitmap(pObjeto.imagen);
+		this.pathImagen = pObjeto.pathImagen;
+		this.pathSonidoDescripcion = pObjeto.pathSonidoDescripcion;
+		this.pathSonidoAyuda = pObjeto.pathSonidoAyuda;
+		this.pathSonidoNombre = pObjeto.pathSonidoNombre;
+		setMats();
+	}
 
 	private void playSonido(String path, String pathError) {
 		if (player != null) {
@@ -112,30 +188,6 @@ public class Objeto {
 
 	}
 
-	public Objeto(long id, String nombre, String descripcion, Date fecha,
-			String keypoints, String descriptores, int cols, int rows,
-			String pathImagen, String sonidoDescripcion, String sonidoAyuda,
-			String sonidoNombre) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.fecha = fecha;
-		this.keypoints = keypoints;
-		this.descriptores = descriptores;
-		matDescriptores = new Mat();
-		matKeyPoints = new MatOfKeyPoint();
-		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
-		matDescriptores = Utilidades.matFromJson(this.descriptores);
-		this.cols = cols;
-		this.rows = rows;
-		this.pathImagen = pathImagen;
-		this.pathSonidoDescripcion = sonidoDescripcion;
-		this.pathSonidoAyuda = sonidoAyuda;
-		this.pathSonidoNombre = sonidoNombre;
-		imagen = null;
-	}
-
 	public Date getFecha() {
 		return fecha;
 	}
@@ -187,41 +239,6 @@ public class Objeto {
 
 	public void setSonidoNombre(String sonidoNombre) {
 		this.pathSonidoNombre = sonidoNombre;
-	}
-
-	public Objeto() {
-		id = -1;
-		nombre = "";
-		descripcion = "";
-		fecha = new Date();
-		keypoints = "";
-		descriptores = "";
-		cols = 0;
-		rows = 0;
-		imagen = null;
-		pathImagen = "";
-		pathSonidoAyuda = "";
-		pathSonidoDescripcion = "";
-		pathSonidoNombre = "";
-	}
-
-	public Objeto(long id, String nombre, String keypoints,
-			String descriptores, int cols, int rows, Bitmap imagen) {
-		this.id = id;
-		this.nombre = nombre;
-		this.keypoints = keypoints;
-		this.descriptores = descriptores;
-		matDescriptores = new Mat();
-		matKeyPoints = new MatOfKeyPoint();
-		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
-		matDescriptores = Utilidades.matFromJson(this.descriptores);
-		this.cols = cols;
-		this.rows = rows;
-		this.imagen = imagen;
-		this.fecha = new Date();
-		pathSonidoAyuda = "";
-		pathSonidoDescripcion = "";
-		pathSonidoNombre = "";
 	}
 
 	public Bitmap getImagen() {

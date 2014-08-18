@@ -204,7 +204,7 @@ public class AdaptadorResultado extends BaseExpandableListAdapter {
 					.getIdEjercicio());
 			seds.close();
 
-			imgSexo.setImageResource(R.drawable.ic5);
+			imgSexo.setImageResource(R.drawable.resultados);
 			idAl.setText(ser.getNombre());
 		}
 		totales.setText(String.valueOf(children.getAciertos()

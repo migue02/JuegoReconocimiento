@@ -4,7 +4,7 @@
     android:id="@+id/layoutResultados"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ugr_background"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:weightSum="8"
     tools:context=".MainActivity" >
@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/selicono"
+            android:background="@drawable/sel_icono"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -179,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/selicono"
+            android:background="@drawable/sel_icono"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/selicono"
+            android:background="@drawable/sel_icono"
             android:gravity="center"
             android:longClickable="false"
             android:orientation="vertical" >
@@ -226,7 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/selicono"
+            android:background="@drawable/sel_icono"
             android:gravity="center"
             android:orientation="vertical" >
 

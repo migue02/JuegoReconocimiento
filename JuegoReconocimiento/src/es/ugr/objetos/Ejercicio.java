@@ -26,34 +26,19 @@ public class Ejercicio {
 		this.objetosReconocer=new ArrayList<String>();
 		this.sonido_descripcion="";
 	}
-/*
-	public Ejercicio(int idEjercicio, String nombre, ArrayList<String> objetos, String descripcion, int duracion, ArrayList<String> objetosReconocer) {
-		this.idEjercicio = idEjercicio;
-		this.nombre = nombre;
-		this.objetos = new ArrayList<String>(objetos);
-		this.descripcion = descripcion;
-		this.duracion=duracion;
-		this.objetosReconocer=new ArrayList<String>(objetosReconocer);
-	}*/
-	/*
-	public Ejercicio(String nombre, Date fecha, ArrayList<String> objetos,
-			String descripcion, int duracion,
-			ArrayList<String> objetosReconocer, int orden,
-			String sonido_descripcion) {
+	
+	public Ejercicio(Ejercicio pEjercicio) {
 		super();
-		try{
-			this.nombre = nombre;
-			this.fecha = fecha;
-			this.objetos = objetos;
-			this.descripcion = descripcion;
-			this.duracion = duracion;
-			this.orden = orden;
-			this.sonido_descripcion = sonido_descripcion;
-			this.objetosReconocer=objetosReconocer;
-		}catch (Exception e){
-			new Ejercicio();
-		}
-	}*/
+		this.idEjercicio = pEjercicio.idEjercicio;
+		this.nombre = pEjercicio.nombre;
+		this.fecha = pEjercicio.fecha;
+		this.objetos = new ArrayList<String>(pEjercicio.objetos);
+		this.descripcion = pEjercicio.descripcion;
+		this.duracion = pEjercicio.duracion;
+		this.objetosReconocer = new ArrayList<String>(pEjercicio.objetosReconocer);
+		this.orden = pEjercicio.orden;
+		this.sonido_descripcion = pEjercicio.sonido_descripcion;
+	}
 	
 	public Ejercicio(String nombre, Date fecha, ArrayList<String> objetos,
 			String descripcion, int duracion,
@@ -200,6 +185,5 @@ public class Ejercicio {
 			insertaObjetoEscenario(objeto);
 		}
 	}
-
 
 }

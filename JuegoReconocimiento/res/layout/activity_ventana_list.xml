@@ -4,6 +4,6 @@
     android:name="es.ugr.lista_navegacion.ListaNavegacionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ugr_background"
+    android:background="@drawable/background"
     tools:context=".VentanaListActivity"
     tools:layout="@layout/list_navegacion" />

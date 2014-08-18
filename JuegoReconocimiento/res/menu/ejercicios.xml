@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/itemSincronizar"
-          android:icon="@drawable/ciclico"
+          android:icon="@drawable/sincronizar"
           android:title="@string/sincronizarEjercicios"
           android:showAsAction="ifRoom|withText" />
     <item android:id="@+id/itemImportar"

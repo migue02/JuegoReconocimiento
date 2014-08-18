@@ -20,11 +20,11 @@
             android:id="@+id/NombSelSer"
             style="@style/TextoTabla"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_weight="0.2"
-            android:drawableLeft="@drawable/ic3"
+            android:drawableLeft="@drawable/series_64"
             android:gravity="center|left"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

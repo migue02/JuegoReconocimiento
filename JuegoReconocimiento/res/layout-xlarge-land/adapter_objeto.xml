@@ -8,15 +8,15 @@
 
     <ImageView
         android:id="@+id/imgSelObj"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/ic6" />
+        android:src="@drawable/objetos_64" />
 
     <TextView
         android:id="@+id/NombSelObj"

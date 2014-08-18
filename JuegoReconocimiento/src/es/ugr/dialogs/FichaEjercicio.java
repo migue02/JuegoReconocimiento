@@ -93,7 +93,7 @@ public class FichaEjercicio extends Dialog {
 		ods.close();
 
 		ImageButton guardarSerie = (ImageButton) findViewById(R.id.guardarDiaEj);
-		guardarSerie.setBackgroundResource(R.drawable.selicono);
+		guardarSerie.setBackgroundResource(R.drawable.sel_icono);
 		guardarSerie.setOnClickListener(onGuardarClick);
 
 	}

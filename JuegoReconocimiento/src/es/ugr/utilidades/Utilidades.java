@@ -20,6 +20,7 @@ import org.opencv.features2d.KeyPoint;
 
 import com.google.gson.*;
 
+import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import es.ugr.objetos.TiposPropios.Sexo;
 import android.content.Context;
@@ -31,26 +32,27 @@ import android.widget.Toast;
 
 public class Utilidades {
 
-	public static Date fechaRandom(){
+	public static Date fechaRandom() {
 		Calendar cal = Calendar.getInstance();
 		Random rn = new Random();
-		cal.set(1960 + rn.nextInt(2014 - 1960 + 1), rn.nextInt(12), 1960 + rn.nextInt(28));
+		cal.set(1960 + rn.nextInt(2014 - 1960 + 1), rn.nextInt(12),
+				1960 + rn.nextInt(28));
 		return cal.getTime();
 	}
-	
-	public static String nombreRandom(){
+
+	public static String nombreRandom() {
 		List<String> nombres = Arrays.asList("Miguel", "Juan", "Manuel",
 				"Pepe", "Ángela", "Sofía", "Almudena");
 		return nombres.get(new Random().nextInt(nombres.size()));
 	}
-	
-	public static String apellidoRandom(){
+
+	public static String apellidoRandom() {
 		List<String> apellidos = Arrays.asList("Martín", "Morales", "Lucena",
 				"Briviesca", "Bello", "López", "Rodríguez");
 		return apellidos.get(new Random().nextInt(apellidos.size()));
 	}
-	
-	public static Sexo sexoRandom(){
+
+	public static Sexo sexoRandom() {
 		switch (new Random().nextInt(3)) {
 		case 0:
 			return Sexo.Mujer;
@@ -58,9 +60,9 @@ public class Utilidades {
 			return Sexo.Hombre;
 		default:
 			return Sexo.NoDef;
-		} 
+		}
 	}
-	
+
 	private static final String TAG = "Reconocimiento::Utils";
 
 	public static String matToJson(Mat mat) {
@@ -81,16 +83,17 @@ public class Utilidades {
 
 			// We cannot set binary data to a json object, so:
 			// Encoding data byte array to Base64.
-			//String dataString = new String(Base64.encode(data, Base64.DEFAULT));
-			//String dataString = new String(data);
-			
-			
-			ByteBuffer buf = ByteBuffer.allocate(data.length*4);
-			
-			for (int i=0; i<data.length;i++)
+			// String dataString = new String(Base64.encode(data,
+			// Base64.DEFAULT));
+			// String dataString = new String(data);
+
+			ByteBuffer buf = ByteBuffer.allocate(data.length * 4);
+
+			for (int i = 0; i < data.length; i++)
 				buf.putFloat(data[i]);
 
-			String dataString = new String(Base64.encode(buf.array(), Base64.DEFAULT));	
+			String dataString = new String(Base64.encode(buf.array(),
+					Base64.DEFAULT));
 
 			obj.addProperty("data", dataString);
 
@@ -108,34 +111,34 @@ public class Utilidades {
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject JsonObject = parser.parse(json).getAsJsonObject();
-			
+
 			int rows = JsonObject.get("rows").getAsInt();
 			int cols = JsonObject.get("cols").getAsInt();
 			int type = JsonObject.get("type").getAsInt();
 
 			String dataString = JsonObject.get("data").getAsString();
 			byte[] data = Base64.decode(dataString.getBytes(), Base64.DEFAULT);
-			
+
 			final FloatBuffer fb = ByteBuffer.wrap(data).asFloatBuffer();
-			
+
 			final float[] dst = new float[fb.capacity()];
-			
+
 			fb.get(dst);
 
 			Mat mat = new Mat(rows, cols, type);
 			mat.put(0, 0, dst);
-	
+
 			return mat;
-			
+
 		} catch (Exception e) {
 			return new Mat();
-		}		
+		}
 	}
 
 	public static String keypointsToJson(MatOfKeyPoint mat) {
 		if (mat != null && !mat.empty()) {
 			Gson gson = new Gson();
-			
+
 			JsonArray jsonArr = new JsonArray();
 
 			KeyPoint[] array = mat.toArray();
@@ -144,13 +147,13 @@ public class Utilidades {
 
 				JsonObject obj = new JsonObject();
 
-				//obj.addProperty("class_id", kp.class_id);
+				// obj.addProperty("class_id", kp.class_id);
 				obj.addProperty("x", kp.pt.x);
 				obj.addProperty("y", kp.pt.y);
 				obj.addProperty("size", kp.size);
-				//obj.addProperty("angle", kp.angle);
-				//obj.addProperty("octave", kp.octave);
-				//obj.addProperty("response", kp.response);
+				// obj.addProperty("angle", kp.angle);
+				// obj.addProperty("octave", kp.octave);
+				// obj.addProperty("response", kp.response);
 
 				jsonArr.add(obj);
 			}
@@ -163,47 +166,47 @@ public class Utilidades {
 	}
 
 	public static MatOfKeyPoint keypointsFromJson(String json) {
-		try{
+		try {
 			JsonParser parser = new JsonParser();
 			JsonArray jsonArr = parser.parse(json).getAsJsonArray();
-	
+
 			int size = jsonArr.size();
-	
+
 			KeyPoint[] kpArray = new KeyPoint[size];
-	
+
 			for (int i = 0; i < size; i++) {
 				KeyPoint kp = new KeyPoint();
-	
+
 				JsonObject obj = (JsonObject) jsonArr.get(i);
-	
-				Point point = new Point(obj.get("x").getAsDouble(), obj.get("y")
-						.getAsDouble());
-	
+
+				Point point = new Point(obj.get("x").getAsDouble(), obj
+						.get("y").getAsDouble());
+
 				kp.pt = point;
-				//kp.class_id = obj.get("class_id").getAsInt();
+				// kp.class_id = obj.get("class_id").getAsInt();
 				kp.size = obj.get("size").getAsFloat();
-				//kp.angle = obj.get("angle").getAsFloat();
-				//kp.octave = obj.get("octave").getAsInt();
-				//kp.response = obj.get("response").getAsFloat();
-	
+				// kp.angle = obj.get("angle").getAsFloat();
+				// kp.octave = obj.get("octave").getAsInt();
+				// kp.response = obj.get("response").getAsFloat();
+
 				kpArray[i] = kp;
 			}
 			MatOfKeyPoint result = new MatOfKeyPoint();
 			result.fromArray(kpArray);
 			return result;
-		}catch (Exception e){
+		} catch (Exception e) {
 			return new MatOfKeyPoint();
 		}
 	}
-	
-	public static String ArrayListToJson(ArrayList<String> objetos){
+
+	public static String ArrayListToJson(ArrayList<String> objetos) {
 		String result = "";
-		
+
 		if (!objetos.isEmpty()) {
 
 			JsonArray jsonArr = new JsonArray();
-			
-			for (int i=0; i<objetos.size();i++){
+
+			for (int i = 0; i < objetos.size(); i++) {
 				JsonObject obj = new JsonObject();
 				obj.addProperty("id", objetos.get(i));
 				jsonArr.add(obj);
@@ -216,17 +219,17 @@ public class Utilidades {
 			Log.e(TAG, "Mat not continuous.");
 		}
 		return "{}";
-		
+
 	}
-	
-	public static String ArrayListToJsonInt(ArrayList<Integer> objetos){
+
+	public static String ArrayListToJsonInt(ArrayList<Integer> objetos) {
 		String result = "";
-		
+
 		if (!objetos.isEmpty()) {
 
 			JsonArray jsonArr = new JsonArray();
-			
-			for (int i=0; i<objetos.size();i++){
+
+			for (int i = 0; i < objetos.size(); i++) {
 				JsonObject obj = new JsonObject();
 				obj.addProperty("id", objetos.get(i));
 				jsonArr.add(obj);
@@ -239,92 +242,81 @@ public class Utilidades {
 			Log.e(TAG, "Mat not continuous.");
 		}
 		return "{}";
-		
+
 	}
-	
-	
-	
-	public static ArrayList<String> ArrayListFromJson(String idsObjeto){
-		ArrayList<String> result=new ArrayList<String>();
-		
-		if (!idsObjeto.isEmpty()){
-			try{
+
+	public static ArrayList<String> ArrayListFromJson(String idsObjeto) {
+		ArrayList<String> result = new ArrayList<String>();
+
+		if (!idsObjeto.isEmpty()) {
+			try {
 				JsonParser parser = new JsonParser();
-					JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
-					
-					for (int i=0; i< jsonArr.size(); i++)
-						result.add(((JsonObject)jsonArr.get(i)).get("id").getAsString());
-				}catch (Exception e){
-					
-				}
+				JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
+
+				for (int i = 0; i < jsonArr.size(); i++)
+					result.add(((JsonObject) jsonArr.get(i)).get("id")
+							.getAsString());
+			} catch (Exception e) {
+
+			}
 		}
-		
-		return result;
-	}
-	
-	
-	public static ArrayList<Integer> ArrayListFromJsonInt(String idsObjeto){
-		ArrayList<Integer> result=new ArrayList<Integer>();
-		
-		if (!idsObjeto.isEmpty()){
-			try{
-				JsonParser parser = new JsonParser();
-					JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
-					
-					for (int i=0; i< jsonArr.size(); i++)
-						result.add(((JsonObject)jsonArr.get(i)).get("id").getAsInt());
-				}catch (Exception e){
-					
-				}
-		}
-		
+
 		return result;
 	}
 
-	public static void toast(Objeto obj, Context context){
-		Toast.makeText(context, "Id ="+obj.getId() , Toast.LENGTH_SHORT).show();
+	public static ArrayList<Integer> ArrayListFromJsonInt(String idsObjeto) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+
+		if (!idsObjeto.isEmpty()) {
+			try {
+				JsonParser parser = new JsonParser();
+				JsonArray jsonArr = parser.parse(idsObjeto).getAsJsonArray();
+
+				for (int i = 0; i < jsonArr.size(); i++)
+					result.add(((JsonObject) jsonArr.get(i)).get("id")
+							.getAsInt());
+			} catch (Exception e) {
+
+			}
+		}
+
+		return result;
+	}
+
+	public static boolean hasInternetConnection(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo wifiNetwork = cm
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if (wifiNetwork != null && wifiNetwork.isConnected()) {
+			return true;
+		}
+		NetworkInfo mobileNetwork = cm
+				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if (mobileNetwork != null && mobileNetwork.isConnected()) {
+			return true;
+		}
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		if (activeNetwork != null && activeNetwork.isConnected()) {
+			return true;
+		}
+		return false;
 	}
 	
-	public static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
-	    FileChannel fromChannel = null;
-	    FileChannel toChannel = null;
-	    try {
-	        fromChannel = fromFile.getChannel();
-	        toChannel = toFile.getChannel();
-	        fromChannel.transferTo(0, fromChannel.size(), toChannel);
-	    } finally {
-	        try {
-	            if (fromChannel != null) {
-	                fromChannel.close();
-	            }
-	        } finally {
-	            if (toChannel != null) {
-	                toChannel.close();
-	            }
-	        }
+	public static ArrayList<Objeto> copiaObjetos(ArrayList<Objeto> plObjeto) {
+		ArrayList<Objeto> clonedList = new ArrayList<Objeto>(plObjeto.size());
+	    for (Objeto objeto : plObjeto) {
+	        clonedList.add(new Objeto(objeto));
 	    }
+	    return clonedList;
 	}
 	
-	public static boolean hasInternetConnection(Context context)
-	{
-	    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-	    if (wifiNetwork != null && wifiNetwork.isConnected())
-	    {
-	        return true;
+	public static ArrayList<Ejercicio> copiaEjercicios(ArrayList<Ejercicio> plEjercicio) {
+		ArrayList<Ejercicio> clonedList = new ArrayList<Ejercicio>(plEjercicio.size());
+	    for (Ejercicio ejercicio : plEjercicio) {
+	        clonedList.add(new Ejercicio(ejercicio));
 	    }
-	    NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-	    if (mobileNetwork != null && mobileNetwork.isConnected())
-	    {
-	        return true;
-	    }
-	    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-	    if (activeNetwork != null && activeNetwork.isConnected())
-	    {
-	        return true;
-	    }
-	    return false;
+	    return clonedList;
 	}
-	
 
 }

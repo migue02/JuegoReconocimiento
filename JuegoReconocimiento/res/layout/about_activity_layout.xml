@@ -12,7 +12,7 @@
         android:id="@+id/ugrBar"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="2.0"
         android:background="@drawable/ugr_bar_background"
         android:src="@drawable/ugr_word" />
 
@@ -20,8 +20,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:layout_weight="8.0"
-        android:background="@drawable/ugr_background"
+        android:layout_weight="6.0"
+        android:background="@drawable/background"
         android:scrollbars="vertical"
          >
 
@@ -98,7 +98,6 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/about_promovidopor_background"
-            
                 android:drawableLeft="@drawable/arrow_contact"
                 android:text="@string/appsUgr"
                 android:textColor="@color/black"
@@ -134,7 +133,7 @@
         android:id="@+id/copyright"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="2.0"
         android:background="@color/about_naranja"
         android:gravity="center"
         android:text="@string/copyright"
