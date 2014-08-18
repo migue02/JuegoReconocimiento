@@ -34,7 +34,6 @@
     <!-- String Ejercicios -->
     <string name="sincronizarEjercicios">Sincronizar ejercicios</string>
     <string name="importarEjercicios">Importar ejercicios</string>
-    <string name="elegir">Elegir</string>
     <string name="importarDesde">Importar fichero desde:</string>
     <string name="fichero">Fichero</string>
     <string name="url">URL</string>
@@ -49,13 +48,13 @@
     <string name="sonidos">Sonidos</string>
     <string name="ayuda">Ayuda</string>
     <string name="escuchar">Escuchar</string>
-    <string name="elegir">Elegir</string>
     <string name="grabar">Grabar</string>
 
     <!-- String Genéricos -->
     <string name="nombre">Nombre</string>
     <string name="descripcion">Descripción</string>
     <string name="aceptar">Aceptar</string>
+    <string name="elegir">Elegir</string>
 
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
