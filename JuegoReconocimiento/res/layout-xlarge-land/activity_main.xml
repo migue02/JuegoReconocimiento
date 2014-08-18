@@ -42,6 +42,7 @@
                     android:id="@+id/buttonAlum"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
+                    android:onClick="onAlumnosClick"
                     android:src="@drawable/alumnos" />
 
                 <ImageView
@@ -49,6 +50,7 @@
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="100dp"
+                    android:onClick="onEjerciciosClick"
                     android:src="@drawable/ejercicios" />
             </LinearLayout>
 
@@ -62,6 +64,7 @@
                     android:id="@+id/buttonEsta"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
+                    android:onClick="onResultadosClick"
                     android:src="@drawable/resultados" />
 
                 <ImageView
@@ -69,6 +72,7 @@
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="100dp"
+                    android:onClick="onSeriesClick"
                     android:src="@drawable/series" />
             </LinearLayout>
 
