@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import es.ugr.dialogs.Ayuda;
+import es.ugr.dialogs.FichaAlumno;
 import es.ugr.fragments.EjerciciosFragment;
 import es.ugr.fragments.GestionAlumnosFragment;
 import es.ugr.fragments.ObjetosFragment;
@@ -13,6 +17,7 @@ import es.ugr.fragments.ResultadosFragment;
 import es.ugr.fragments.SeriesEjerciciosFragment;
 import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.utilidades.Globals;
 
 /**
  * An activity representing a list of Ventanas. This activity has different
@@ -64,25 +69,40 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 		if (savedInstanceState == null) {
 			String id;
 			if (savedInstanceState == null) {
-			    Bundle extras = getIntent().getExtras();
-			    if(extras == null) {
-			        id= null;
-			    } else {
-			        id= extras.getString("ID");
-			    }
+				Bundle extras = getIntent().getExtras();
+				if (extras == null) {
+					id = null;
+				} else {
+					id = extras.getString("ID");
+				}
 			} else {
-			    id= (String) savedInstanceState.getSerializable("ID");
+				id = (String) savedInstanceState.getSerializable("ID");
 			}
 			onItemSelected(id);
 		}
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.parent_activity, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Globals g= (Globals)getApplication();
+		int nfragment=g.getNFragment();
+		
 		switch (item.getItemId()) {
+		
 		case android.R.id.home:
 			NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
 			finish();
+			return true;
+		case R.id.itemAyuda:
+			Ayuda dialogo = new Ayuda(this,nfragment);
+			dialogo.show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -102,6 +122,9 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Fragment newFragment = null;
+			Globals g=(Globals)getApplication();
+			g.setNFragment(Integer.parseInt(id));
+			
 			if (id.equals("0")) {
 				NavUtils.navigateUpTo(this,
 						new Intent(this, MainActivity.class));
@@ -116,14 +139,15 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 				newFragment = new SeriesEjerciciosFragment();
 			else if (id.equals("5"))
 				newFragment = new ObjetosFragment();
-			if (newFragment != null){
+			if (newFragment != null) {
 				getSupportFragmentManager().beginTransaction()
 						.replace(R.id.ventana_detail_container, newFragment)
 						.commit();
 				getActionBar()
 						.setTitle(
 								getResources().getStringArray(
-						R.array.menu_principal)[Integer.valueOf(id)]);
+										R.array.menu_principal)[Integer
+										.valueOf(id)]);
 			}
 
 		} else {

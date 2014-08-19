@@ -56,6 +56,13 @@
 	
 	<color name="degradado2d">#2200ffff</color>
 	
+	<!-- Color iconos -->
+	<color name="verde_ic">#76cda0</color>
+	<color name="rojo_ic">#ff7070</color>
+	<color name="azul_ic">#7a8be6</color>
+	<color name="naranja_ic">#ff9738</color>
+	<color name="amarillo_ic">#fff57a</color>
+	
 	
 
 </resources>

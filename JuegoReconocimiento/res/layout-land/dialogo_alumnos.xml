@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.2" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
+            android:layout_height="0dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:id="@+id/layoutSexo"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:gravity="top"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/AlumPrin"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="top|center"
+                    android:layout_width="309dp"
+                    android:layout_height="309dp"
                     android:src="@drawable/boy" />
 
                 <TextView
@@ -38,84 +35,52 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Género"
-                    android:textAppearance="@android:style/TextAppearance.Small"
-                    android:layout_gravity="top|left"
+                    android:textAppearance="@android:style/TextAppearance.Large"
                     android:textColor="@color/texto_tabla" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_gravity="top|center"
                     android:background="@color/texto_tabla" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:baselineAligned="false"
-                    android:layout_gravity="top|center"
                     android:orientation="horizontal" >
 
-                    <LinearLayout
+
+                    <Button
                         android:id="@+id/pulsaChico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_gravity="top|center"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/BotonHombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/boy" />
-
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Chico"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                        android:drawableTop="@drawable/boy"
+                        android:text="Chico" />
+                    
+                    <Button
                         android:id="@+id/pulsaChica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top|center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
-                        android:orientation="vertical" >
+                        android:drawableTop="@drawable/girl"
+                        android:text="Chica" />
 
-                        <ImageButton
-                            android:id="@+id/BotonMujer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/girl" />
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Chica"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/layoutSexo"
                 android:orientation="vertical"
                 android:weightSum="1" >
 
@@ -124,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/texto_tabla" />
 
                 <View
@@ -147,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apellidos"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/texto_tabla" />
 
                 <View
@@ -170,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fecha de Nacimiento"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/texto_tabla" />
 
                 <View
@@ -198,6 +163,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:background="@drawable/seliconodialogo"
+                        android:textColor="#ffffff"
+                        android:drawableRight="@drawable/fecha"
                         android:text="Cambiar Fecha" />
                 </LinearLayout>
 
@@ -207,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:text="Observaciones"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/texto_tabla" />
 
                 <View
@@ -216,22 +184,45 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/texto_tabla" />
 
-                <EditText
-                    android:id="@+id/daObserva"
+                <ScrollView
+                    android:id="@+id/scrollView1"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:gravity="top"
-                    android:hint="Observaciones"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:singleLine="false" />
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <EditText
+                            android:id="@+id/daObserva"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:hint="Observaciones"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:singleLine="false" >
+
+                            <requestFocus />
+                        </EditText>
+
+                    </LinearLayout>
+                </ScrollView>
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="0.05"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="visible" >
 
         <Button
             android:id="@+id/cAlumnos"
@@ -239,6 +230,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
+            android:background="@drawable/seliconodialogo"
+            android:textColor="#ffffff"
             android:text="Cancelar" />
 
         <Button
@@ -247,7 +240,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Guardar" />
+            android:background="@drawable/seliconodialogo"
+            android:textColor="#ffffff"
+            android:text="Guardar Cambios" />
+
     </LinearLayout>
 
 </LinearLayout>

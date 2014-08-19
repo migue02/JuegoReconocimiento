@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -126,6 +128,13 @@ public class ParentActivity extends FragmentActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.parent_activity, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
@@ -138,6 +147,9 @@ public class ParentActivity extends FragmentActivity {
 			NavUtils.navigateUpTo(this, new Intent(this,
 					ListaNavegacionActivity.class));
 			finish();
+			return true;
+		case R.id.itemAyuda:
+			
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

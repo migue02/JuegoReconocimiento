@@ -30,6 +30,8 @@
     <!-- String GestionAlumnos -->
     <string name="tituloGestionAlumnos">Alumnos</string>
     <string name="aniadirAlumno">Añadir alumn@</string>
+    <string name="ayuda">Ayuda</string>
+    
 
     <!-- String Ejercicios -->
     <string name="sincronizarEjercicios">Sincronizar ejercicios</string>

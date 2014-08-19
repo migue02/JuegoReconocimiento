@@ -41,7 +41,7 @@ public class FichaAlumno extends Dialog {
 	private EditText edtNombre;
 	private EditText edtApellidos;
 	private EditText edtObservaciones;
-	private View imgChico, imgChica;
+	private Button Chico, Chica;
 	private ImageView imgPincipal;
 	private TextView tvFecha;
 	private DatePickerDialog dtpFecha;
@@ -71,8 +71,10 @@ public class FichaAlumno extends Dialog {
 		edtApellidos = (EditText) findViewById(R.id.daApellidos);
 		tvFecha = (TextView) findViewById(R.id.MuestraFecha);
 		edtObservaciones = (EditText) findViewById(R.id.daObserva);
-		imgChico = findViewById(R.id.pulsaChica);
-		imgChica = findViewById(R.id.pulsaChico);
+		Chico = (Button)findViewById(R.id.pulsaChico);
+		Chica = (Button)findViewById(R.id.pulsaChica);
+		
+		
 		GuardarDia = (Button) findViewById(R.id.gAlumnos);
 		CancelarDialog = (Button) findViewById(R.id.cAlumnos);
 		imgPincipal = (ImageView) findViewById(R.id.AlumPrin);
@@ -84,8 +86,8 @@ public class FichaAlumno extends Dialog {
 		edtObservaciones.setText(alumno.getObservaciones());
 
 		
-		imgChico.setSelected(alumno.getSexo()==Sexo.Hombre);
-		imgChica.setSelected(alumno.getSexo()==Sexo.Mujer);
+		Chico.setSelected(alumno.getSexo()==Sexo.Hombre);
+		Chica.setSelected(alumno.getSexo()==Sexo.Mujer);
 		if (alumno.getSexo() == Sexo.Hombre){
 			imgPincipal.setImageResource(R.drawable.boy_amp);
 			sexo = Sexo.Hombre;
@@ -102,8 +104,9 @@ public class FichaAlumno extends Dialog {
 
 		GuardarDia.setOnClickListener(onGuardarClick);
 		CancelarDialog.setOnClickListener(onCancelarClick);
-		imgChica.setOnClickListener(onChicaClick);
-		imgChico.setOnClickListener(onChicoClick);
+		Chica.setOnClickListener(onChicaClick);
+		Chico.setOnClickListener(onChicoClick);
+		
 		btnFecha.setOnClickListener(onFechaClick);
 
 	}
@@ -120,8 +123,8 @@ public class FichaAlumno extends Dialog {
 
 	View.OnClickListener onChicoClick = new View.OnClickListener() {
 		public void onClick(View v) {
-			imgChico.setSelected(true);
-			imgChica.setSelected(false);
+			Chico.setSelected(true);
+			Chica.setSelected(false);
 			imgPincipal.setImageResource(R.drawable.boy_amp);
 			sexo = Sexo.Hombre;
 		}
@@ -129,8 +132,8 @@ public class FichaAlumno extends Dialog {
 
 	View.OnClickListener onChicaClick = new View.OnClickListener() {
 		public void onClick(View v) {
-			imgChica.setSelected(true);
-			imgChico.setSelected(false);
+			Chica.setSelected(true);
+			Chico.setSelected(false);
 			imgPincipal.setImageResource(R.drawable.girl_amp);
 			sexo = Sexo.Mujer;
 		}
