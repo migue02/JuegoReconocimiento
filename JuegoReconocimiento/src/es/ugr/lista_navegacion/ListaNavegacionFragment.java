@@ -1,5 +1,7 @@
 package es.ugr.lista_navegacion;
 
+import com.squareup.picasso.Picasso;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -70,11 +72,10 @@ public class ListaNavegacionFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		setListAdapter(new Lista_generica_adaptador(getActivity(), R.layout.item_navegacion, 
-				ContenidoBarraPrincipal.ITEMS) {
-			
+
+		setListAdapter(new Lista_generica_adaptador(getActivity(),
+				R.layout.item_navegacion, ContenidoBarraPrincipal.ITEMS) {
+
 			@Override
 			public void onEntrada(Object entrada, View view) {
 				if (entrada != null) {
@@ -87,8 +88,9 @@ public class ListaNavegacionFragment extends ListFragment {
 					ImageView imagen_entrada = (ImageView) view
 							.findViewById(R.id.imageNavegacion);
 					if (imagen_entrada != null)
-						imagen_entrada
-								.setImageResource(((ContenidoBarraPrincipal.Item) entrada).idImagen);
+						Picasso.with(view.getContext())
+								.load(((ContenidoBarraPrincipal.Item) entrada).idImagen)
+								.into(imagen_entrada);
 				}
 			}
 		});
@@ -136,7 +138,8 @@ public class ListaNavegacionFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(ContenidoBarraPrincipal.ITEMS.get(position).id);
+		mCallbacks
+				.onItemSelected(ContenidoBarraPrincipal.ITEMS.get(position).id);
 	}
 
 	@Override

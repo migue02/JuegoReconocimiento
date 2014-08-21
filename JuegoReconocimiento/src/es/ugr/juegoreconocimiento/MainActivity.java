@@ -159,14 +159,46 @@ public class MainActivity extends Activity {
 
 	}
 
+	public void onBorrarEjerciciosObjetos(View v) {
+		AlumnoDataSource ads = new AlumnoDataSource(this);
+		ObjetoDataSource ods = new ObjetoDataSource(this);
+		EjercicioDataSource eds = new EjercicioDataSource(this);
+		SerieEjerciciosDataSource seds = new SerieEjerciciosDataSource(this);
+		ResultadoDataSource rds = new ResultadoDataSource(this);
+
+		ads.open();
+		ods.open();
+		eds.open();
+		seds.open();
+		rds.open();
+
+		rds.borraTodosResultados();
+		seds.eliminarTodasSeriesEjercicios();
+		eds.eliminaTodosEjercicios();
+		ods.eliminaTodosObjetos();
+		ads.borraTodosAlumno();
+
+		ads.close();
+		ods.close();
+		eds.close();
+		seds.close();
+		rds.close();
+
+		Ficheros.eliminaImagenes(MainActivity.this);
+		Ficheros.eliminaSonidos(MainActivity.this);
+		Ficheros.creaCarpetas(MainActivity.this);
+		Ficheros.copyAssets(MainActivity.this);
+	}
+
 	public void onReiniciaClick(View v) {
+
 		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		AlumnoDataSource ads = new AlumnoDataSource(v.getContext());
-		ObjetoDataSource ods = new ObjetoDataSource(v.getContext());
-		EjercicioDataSource eds = new EjercicioDataSource(v.getContext());
-		SerieEjerciciosDataSource seds = new SerieEjerciciosDataSource(
-				v.getContext());
-		ResultadoDataSource rds = new ResultadoDataSource(v.getContext());
+
+		AlumnoDataSource ads = new AlumnoDataSource(this);
+		ObjetoDataSource ods = new ObjetoDataSource(this);
+		EjercicioDataSource eds = new EjercicioDataSource(this);
+		SerieEjerciciosDataSource seds = new SerieEjerciciosDataSource(this);
+		ResultadoDataSource rds = new ResultadoDataSource(this);
 
 		// Abrir y borrar todos los datos
 		ads.open();
@@ -182,7 +214,6 @@ public class MainActivity extends Activity {
 		ads.borraTodosAlumno();
 
 		// Alumnos
-
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH, 14);
 		cal.set(Calendar.MONTH, 6);
@@ -202,130 +233,22 @@ public class MainActivity extends Activity {
 		Alumno alumno2 = ads.createAlumno("Miguel", "Morales Rodríguez", d2,
 				Sexo.Hombre, "");
 
-		ads.close();
-
-		// Crear objetos
-		/*
-		 * MatOfKeyPoint matKey = new MatOfKeyPoint(); Mat mat = new Mat();
-		 * ObjetoDataSource obs = new ObjetoDataSource(v.getContext());
-		 * obs.open(); Objeto objeto1 = obs.createObjeto("Pelota tenis",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto2 = obs.createObjeto("Pelota beisbol",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto3 = obs.createObjeto("Teléfono",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto4 = obs.createObjeto("Bolígrafo",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto5 = obs.createObjeto("Rotulador",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto6 = obs.createObjeto("Estuche",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto7 = obs.createObjeto("Lápiz",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto8 = obs.createObjeto("Vaso",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * Objeto objeto9 = obs.createObjeto("Plato",
-		 * Utilidades.keypointsToJson(matKey), Utilidades.matToJson(mat), 0, 0);
-		 * obs.close();
-		 */
-
 		// Crear Ejercicios
-		Objeto objAngryBirds, objAdidas, objKelme, objUGR, objWindows, objApple;
-		objAngryBirds = ods.getObjeto(1);
-		if (objAngryBirds != null) {
-			objAdidas = ods.getObjeto(2);// Adidas
-			objKelme = ods.getObjeto(3);// Kelme
-			objUGR = ods.getObjeto(4);// ugr
-			objWindows = ods.getObjeto(5);// windows
-			objApple = ods.getObjeto(6);// apple
-		} else {
-			MatOfKeyPoint matKey = new MatOfKeyPoint();
-			Mat mat = new Mat();
-
-			objAngryBirds = ods.createObjeto("Angry Birds", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-
-			objAdidas = ods.createObjeto("Adidas", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-			objKelme = ods.createObjeto("Kelme", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-			objUGR = ods.createObjeto("UGR", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-			objWindows = ods.createObjeto("Windows", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-			objApple = ods.createObjeto("Apple", "", new Date(),
-					Utilidades.keypointsToJson(matKey),
-					Utilidades.matToJson(mat), 0, 0, "", "", "", "");
-			ods.close();
-		}
-
-		ArrayList<String> escenario = new ArrayList<String>();
-		escenario.add(objAngryBirds.getNombre());
-		escenario.add(objAdidas.getNombre());
-		escenario.add(objKelme.getNombre());
-		escenario.add(objUGR.getNombre());
-		escenario.add(objWindows.getNombre());
-		escenario.add(objApple.getNombre());
-
-		ArrayList<String> lista = new ArrayList<String>();
-		lista.add(objAdidas.getNombre());
-		lista.add(objKelme.getNombre());
-		String tp1 = new String(
-				"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto Adidas, y cuando finalice dicho ejercicios, deberá detectar el objeto Kelme");
-		Ejercicio p1 = eds.createEjercicio("Adidas y kelme", new Date(),
-				escenario, tp1, 5, lista, "");
-		lista.clear();
-		lista.add(objUGR.getNombre());
-		lista.add(objApple.getNombre());
-		lista.add(objWindows.getNombre());
-		String tp2 = new String(
-				"En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar el objeto UGR, luego Apple, y cuando finalice, deberá detectar el objeto Windows");
-		Ejercicio p2 = eds.createEjercicio("UGR, Apple y Windows", new Date(),
-				escenario, tp2, 6, lista, "");
-		lista.clear();
-		/*
-		 * lista.add((int) objeto4.getId()); lista.add((int) objeto5.getId());
-		 * String tp3 = new String(
-		 * "En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar un bolígrafo, y cuando finalice dicho ejercicios, deberá detectar un rotulador"
-		 * ); eds.createEjercicio("Bolígrafo y rotulador", escenario, tp3, 7,
-		 * lista);
+		/*ArrayList<String> lista = new ArrayList<String>();
+		Ejercicio p1 = eds.createEjercicio("Ejercicio 1", new Date(), lista,
+				"Descripcion 2", 5, lista, "");
+		Ejercicio p2 = eds.createEjercicio("Ejercicio 2", new Date(), lista,
+				"Descripcion 2", 5, lista, "");
 		 */
-		lista.clear();
-		/*
-		 * lista.add((int) objeto6.getId()); lista.add((int) objeto7.getId());
-		 * String tp4 = new String(
-		 * "En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar un estuche, y cuando finalice dicho ejercicios, deberá detectar un lápiz"
-		 * ); eds.createEjercicio("Estuche y lápiz", escenario, tp4, 8, lista);
-		 */
-		lista.clear();
-		/*
-		 * lista.add((int) objeto8.getId()); lista.add((int) objeto9.getId());
-		 * String tp5 = new String(
-		 * "En este ejercicios el alumno deberá seleccionar de entre una serie de objetos, en primer lugar un vaso, y cuando finalice dicho ejercicios, deberá detectar un plato"
-		 * ); eds.createEjercicio("Vaso y plato", escenario, tp5, 9, lista);
-		 */
-		lista.clear();
-		escenario.clear();
-		eds.close();
-		ods.close();
-
 		// Crear Serie
-
 		ArrayList<Integer> miarray = new ArrayList<Integer>();
-		miarray.add(p1.getIdEjercicio());
-		miarray.add(p2.getIdEjercicio());
-		SerieEjercicios serie1 = seds.createSerieEjercicios("PELOTAS", miarray,
+		//miarray.add(p1.getIdEjercicio());
+		//miarray.add(p2.getIdEjercicio());
+		SerieEjercicios serie1 = seds.createSerieEjercicios("Serie", miarray,
 				0, new Date());
 		seds.actualizaDuracion(serie1);
-		seds.close();
 
 		// Crear Resultados
-
 		cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		Date fecha1 = cal.getTime();
@@ -364,6 +287,10 @@ public class MainActivity extends Activity {
 		rds.createResultado(r5);
 		rds.createResultado(r6);
 
+		ads.close();
+		ods.close();
+		eds.close();
+		seds.close();
 		rds.close();
 
 		Ficheros.eliminaImagenes(MainActivity.this);// Elimina contenido de la

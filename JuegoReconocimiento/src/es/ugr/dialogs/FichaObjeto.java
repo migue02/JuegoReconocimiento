@@ -25,13 +25,14 @@ public class FichaObjeto extends Dialog {
 	private Context context;
 	private ImageButton btnAyuda, btnAyudaArchivo, btnAyudaGrabar;
 	private ImageButton btnNombre, btnNombreArchivo, btnNombreGrabar;
-	private ImageButton btnDescripcion, btnDescripcionArchivo, btnDescripcionGrabar;
+	private ImageButton btnDescripcion, btnDescripcionArchivo,
+			btnDescripcionGrabar;
 
 	private boolean mStartRecording = true;
 	private MediaRecorder mRecorder = null;
 
 	private Integer ayuda = 0, nombre = 1, descripcion = 2;
-	
+
 	private boolean bModificado = false;
 
 	public FichaObjeto(Context context, Objeto objeto) {
@@ -121,23 +122,25 @@ public class FichaObjeto extends Dialog {
 			if (v.getTag().equals(ayuda)) {
 				fileName = oObjeto.getSonidoAyuda();
 				if (fileName.isEmpty())
-					fileName = oObjeto.creaFicherosSonidoAyuda(context);									
+					fileName = oObjeto.creaFicherosSonidoAyuda(context);
 			} else if (v.getTag().equals(nombre)) {
 				fileName = oObjeto.getSonidoNombre();
 				if (fileName.isEmpty())
-					fileName = oObjeto.creaFicherosSonidoNombre(context);	
+					fileName = oObjeto.creaFicherosSonidoNombre(context);
 			} else if (v.getTag().equals(descripcion)) {
 				fileName = oObjeto.getSonidoDescripcion();
 				if (fileName.isEmpty())
-					fileName = oObjeto.creaFicherosSonidoDescripcion(context);	
+					fileName = oObjeto.creaFicherosSonidoDescripcion(context);
 			}
 			onRecord(mStartRecording, fileName);
 			if (mStartRecording) {
-				getButtonGrabar(v.getTag()).setImageResource(
-						R.drawable.microfono_rojo);
+				getButtonGrabar(v.getTag()).setImageDrawable(
+						getContext().getResources().getDrawable(
+								R.drawable.microfono_rojo));
 			} else {
-				getButtonGrabar(v.getTag()).setImageResource(
-						R.drawable.microfono);
+				getButtonGrabar(v.getTag()).setImageDrawable(
+						getContext().getResources().getDrawable(
+								R.drawable.microfono));
 			}
 			mStartRecording = !mStartRecording;
 			bModificado = true;
@@ -151,7 +154,7 @@ public class FichaObjeto extends Dialog {
 			dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
 
 				@Override
-				public void onFileSelected(Dialog source, File file) {					
+				public void onFileSelected(Dialog source, File file) {
 					String filenameArray[] = file.getName().split("\\.");
 					String extension = filenameArray[filenameArray.length - 1];
 					if (extension.equals("mp3")) {
@@ -166,8 +169,7 @@ public class FichaObjeto extends Dialog {
 						else if (tag.equals(descripcion))
 							fileName = "nombre" + oObjeto.getNombre() + ".mp3";
 
-						if (Ficheros.copiaFicheros(
-								file.getAbsolutePath(),
+						if (Ficheros.copiaFicheros(file.getAbsolutePath(),
 								context.getString(R.string.pathSounds) + "/"
 										+ fileName)) {
 							fileName = context.getString(R.string.pathSounds)
@@ -178,7 +180,7 @@ public class FichaObjeto extends Dialog {
 								oObjeto.setSonidoNombre(fileName);
 							else if (tag.equals(descripcion))
 								oObjeto.setSonidoDescripcion(fileName);
-							
+
 							bModificado = true;
 						}
 					} else
@@ -191,11 +193,11 @@ public class FichaObjeto extends Dialog {
 				public void onFileSelected(Dialog source, File folder,
 						String name) {
 				}
-				
+
 			});
 
 			dialog.show();
-			
+
 		}
 	};
 
@@ -207,12 +209,12 @@ public class FichaObjeto extends Dialog {
 				oObjeto.playSonidoNombre(context);
 			} else if (v.getTag().equals(descripcion)) {
 				oObjeto.playSonidoDescripcion(context);
-			}				
+			}
 		}
 	};
 
 	private void onRecord(boolean start, String fileName) {
-		if (start) {			
+		if (start) {
 			startRecording(fileName);
 		} else {
 			stopRecording();
@@ -250,7 +252,7 @@ public class FichaObjeto extends Dialog {
 			mRecorder = null;
 		}
 		oObjeto.stopSonido();
-		if (bModificado){
+		if (bModificado) {
 			ObjetoDataSource dsObjeto = new ObjetoDataSource(context);
 			dsObjeto.open();
 			dsObjeto.modificaObjeto(oObjeto);

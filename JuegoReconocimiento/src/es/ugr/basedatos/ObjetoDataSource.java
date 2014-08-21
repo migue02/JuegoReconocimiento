@@ -289,12 +289,6 @@ public class ObjetoDataSource {
 			cursor.moveToFirst();
 			objeto.setId(cursor.getLong(0));
 			objeto.setNombre(cursor.getString(1));
-			/*try{
-				objeto.setImagenAsByteArray(cursor.getBlob(2));
-			}catch (Exception ex){
-				Log.e("ERROR_IMAGEN_OBJETO", "Error al obtener la imagen del objeto");
-				ex.printStackTrace();
-			}*/
 			objeto.setPathImagen(cursor.getString(2));
 			objeto.setImagenFromPath();
 			cursor.close();

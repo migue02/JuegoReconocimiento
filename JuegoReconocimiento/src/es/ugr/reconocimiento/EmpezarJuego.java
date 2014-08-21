@@ -1,6 +1,9 @@
 package es.ugr.reconocimiento;
 
 import java.util.List;
+
+import com.squareup.picasso.Picasso;
+
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.juegoreconocimiento.R;
@@ -68,10 +71,10 @@ public class EmpezarJuego extends Activity {
 		TextView textoCiclico = (TextView) findViewById(R.id.textoCiclico);
 		ciclico = !ciclico;
 		if (ciclico) {
-			btnCiclico.setImageResource(R.drawable.ciclico_pulsado);
+			Picasso.with(v.getContext()).load(R.drawable.ciclico_pulsado).into(btnCiclico);
 			textoCiclico.setText("Modo Cíclico: ON");
 		} else {
-			btnCiclico.setImageResource(R.drawable.ciclico);
+			Picasso.with(v.getContext()).load(R.drawable.ciclico).into(btnCiclico);
 			textoCiclico.setText("Modo Cíclico: OFF");
 		}
 	}

@@ -2,6 +2,8 @@ package es.ugr.adaptadores;
 
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -47,7 +49,7 @@ public class AdapterObjeto extends ArrayAdapter<Objeto> {
 		if (rowItem.getImagen() != null)
 			holder.img.setImageBitmap(rowItem.getImagen());
 		else
-			holder.img.setImageResource(R.drawable.objeto);
+			Picasso.with(convertView.getContext()).load(R.drawable.objetos_64).into(holder.img);
 
 		holder.nombre.setText(rowItem.getNombre());
 

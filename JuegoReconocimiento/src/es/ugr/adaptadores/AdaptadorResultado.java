@@ -1,5 +1,7 @@
 package es.ugr.adaptadores;
 
+import com.squareup.picasso.Picasso;
+
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.objetos.*;
@@ -190,9 +192,9 @@ public class AdaptadorResultado extends BaseExpandableListAdapter {
 			ads.close();
 
 			if (alum.getSexo() == Sexo.Mujer)
-				imgSexo.setImageResource(R.drawable.girl);
+				Picasso.with(convertView.getContext()).load(R.drawable.girl).into(imgSexo);
 			else
-				imgSexo.setImageResource(R.drawable.boy);
+				Picasso.with(convertView.getContext()).load(R.drawable.boy).into(imgSexo);
 
 			idAl.setText(alum.getNombre() + " " + alum.getApellidos());
 
@@ -204,7 +206,7 @@ public class AdaptadorResultado extends BaseExpandableListAdapter {
 					.getIdEjercicio());
 			seds.close();
 
-			imgSexo.setImageResource(R.drawable.resultados);
+			Picasso.with(convertView.getContext()).load(R.drawable.resultados_64).into(imgSexo);
 			idAl.setText(ser.getNombre());
 		}
 		totales.setText(String.valueOf(children.getAciertos()

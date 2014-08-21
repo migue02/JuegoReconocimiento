@@ -42,7 +42,7 @@
                     android:id="@+id/buttonAlum"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/alumnos"
+                    android:src="@drawable/alumnos_180"
                     android:onClick="onAlumnosClick" />
 
                 <ImageView
@@ -50,7 +50,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="30dp"
-                    android:src="@drawable/ejercicios"
+                    android:src="@drawable/ejercicios_180"
                     android:onClick="onEjerciciosClick" />
             </LinearLayout>
 
@@ -64,7 +64,7 @@
                     android:id="@+id/buttonEsta"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/resultados"
+                    android:src="@drawable/resultados_180"
                     android:onClick="onResultadosClick" />
 
                 <ImageView
@@ -72,7 +72,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="30dp"
-                    android:src="@drawable/series"
+                    android:src="@drawable/series_180"
                     android:onClick="onSeriesClick" />
             </LinearLayout>
 
@@ -86,7 +86,7 @@
                     android:id="@+id/buttonObjetos"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/objeto"
+                    android:src="@drawable/objetos_180"
                     android:onClick="onObjetosClick" />
             </LinearLayout>
         </LinearLayout>
@@ -99,12 +99,12 @@
 
             <ImageView
                 android:id="@+id/Empezar"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/empezar"
+                android:src="@drawable/empezar_130"
                 android:onClick="onClickEmpezar"
                 android:textAlignment="gravity" />
 
@@ -114,7 +114,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:onClick="onClickEmpezar"
-                android:src="@drawable/empezar_texto" />
+                android:src="@drawable/empezar_texto_130_40" />
 
             <LinearLayout
                 android:layout_width="match_parent"

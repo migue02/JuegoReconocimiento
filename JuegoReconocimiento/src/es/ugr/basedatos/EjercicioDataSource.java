@@ -69,34 +69,7 @@ public class EjercicioDataSource {
 		ejercicio.setIdEjercicio((int) database.insert(MySQLiteHelper.TABLE_EJERCICIO, null, values));
 		return ejercicio;
 	}
-/*
-	public Ejercicio createEjercicio(String nombre, ArrayList<String> objetos, String descripcion, int duracion, 
-			ArrayList<String> objetosReconocer) {
 
-		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_EJERCICIO_NOMBRE, nombre);
-		values.put(MySQLiteHelper.COLUMN_EJERCICIO_OBJETOS,
-				es.ugr.utilidades.Utilidades.ArrayListToJson(objetos));
-		values.put(MySQLiteHelper.COLUMN_EJERCICIO_DESCRIPCION, descripcion);
-		values.put(MySQLiteHelper.COLUMN_EJERCICIO_DURACION, duracion);
-		values.put(MySQLiteHelper.COLUMN_EJERCICIO_OBJETOS_REC,
-				es.ugr.utilidades.Utilidades.ArrayListToJson(objetosReconocer));
-		
-		long insertId = database.insert(MySQLiteHelper.TABLE_EJERCICIO, null,
-				values); // Se inserta un ejercicio y se deuelve su id
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
-
-		allColumns, MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + insertId,
-				null, null, null, null);// devuelve el ejercicio que se acaba de
-										// insertar
-
-		cursor.moveToFirst();
-		Ejercicio newEjercicio = cursorToEjercicio(cursor);
-		cursor.close();
-		return newEjercicio;
-	}
-	
-*/	
 	
 	public Ejercicio createEjercicio(String nombre, Date fecha, ArrayList<String> objetos,
 			String descripcion, int duracion,

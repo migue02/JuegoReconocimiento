@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import com.squareup.picasso.Picasso;
+
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Alumno;
@@ -14,15 +16,11 @@ import android.os.Bundle;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +40,7 @@ public class FichaAlumno extends Dialog {
 	private EditText edtApellidos;
 	private EditText edtObservaciones;
 	private Button Chico, Chica;
-	private ImageView imgPincipal;
+	private ImageView imgSexo;
 	private TextView tvFecha;
 	private DatePickerDialog dtpFecha;
 	private Button btnFecha;
@@ -77,7 +75,7 @@ public class FichaAlumno extends Dialog {
 		
 		GuardarDia = (Button) findViewById(R.id.gAlumnos);
 		CancelarDialog = (Button) findViewById(R.id.cAlumnos);
-		imgPincipal = (ImageView) findViewById(R.id.AlumPrin);
+		imgSexo = (ImageView) findViewById(R.id.AlumPrin);
 
 		// Asignacion de los valores del tipo alumno
 		edtNombre.setText(alumno.getNombre());
@@ -89,10 +87,10 @@ public class FichaAlumno extends Dialog {
 		Chico.setSelected(alumno.getSexo()==Sexo.Hombre);
 		Chica.setSelected(alumno.getSexo()==Sexo.Mujer);
 		if (alumno.getSexo() == Sexo.Hombre){
-			imgPincipal.setImageResource(R.drawable.boy_amp);
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boy_amp));
 			sexo = Sexo.Hombre;
 		}else{
-			imgPincipal.setImageResource(R.drawable.girl_amp);
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.girl_amp));
 			sexo = Sexo.Mujer;
 		}
 			
@@ -125,7 +123,7 @@ public class FichaAlumno extends Dialog {
 		public void onClick(View v) {
 			Chico.setSelected(true);
 			Chica.setSelected(false);
-			imgPincipal.setImageResource(R.drawable.boy_amp);
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boy_amp));
 			sexo = Sexo.Hombre;
 		}
 	};
@@ -134,7 +132,8 @@ public class FichaAlumno extends Dialog {
 		public void onClick(View v) {
 			Chica.setSelected(true);
 			Chico.setSelected(false);
-			imgPincipal.setImageResource(R.drawable.girl_amp);
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
+					R.drawable.girl_amp));
 			sexo = Sexo.Mujer;
 		}
 	};
@@ -196,48 +195,6 @@ public class FichaAlumno extends Dialog {
 			dtpFecha.hide();
 		}
 
-	}
-
-	public static int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight) {
-		// Raw height and width of image
-		final int height = options.outHeight;
-		final int width = options.outWidth;
-		int inSampleSize = 1;
-
-		if (height > reqHeight || width > reqWidth) {
-
-			// Calculate ratios of height and width to requested height and
-			// width
-			final int heightRatio = Math.round((float) height
-					/ (float) reqHeight);
-			final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-			// Choose the smallest ratio as inSampleSize value, this will
-			// guarantee
-			// a final image with both dimensions larger than or equal to the
-			// requested height and width.
-			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-		}
-
-		return inSampleSize;
-	}
-
-	public static Bitmap decodeSampledBitmapFromResource(Resources res,
-			int resId, int reqWidth, int reqHeight) {
-
-		// First decode with inJustDecodeBounds=true to check dimensions
-		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(res, resId, options);
-
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, reqWidth,
-				reqHeight);
-
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeResource(res, resId, options);
 	}
 
 	View.OnClickListener onFechaClick = new View.OnClickListener() {

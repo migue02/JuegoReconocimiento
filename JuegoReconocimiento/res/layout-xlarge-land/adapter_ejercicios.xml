@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="67dp"
     android:background="@drawable/tablerowsel"
-    android:orientation="horizontal"
-    android:weightSum="1" >
+    android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/NombSelEj"
         style="@style/TextoTabla"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/DurSelEj"
         android:drawableLeft="@drawable/ejercicios_64"
-        android:gravity="center_vertical"
+        android:drawablePadding="5dp"
+        android:gravity="center|left"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -25,10 +26,10 @@
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/midrag"
-        android:gravity="center_vertical|right"
-        android:paddingLeft="8dp"
+        android:gravity="center|left"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
@@ -36,7 +37,6 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:background="@drawable/drag"
-        android:scaleType="fitXY" />
+        android:background="@drawable/drag" />
 
 </RelativeLayout>

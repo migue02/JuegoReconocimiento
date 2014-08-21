@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.format.Alignment;
@@ -247,9 +249,9 @@ public class ResultadosLibrary {
 		tit1 = new TextView(context);
 		tit3 = new TextView(context);
 
-		imgtit1.setImageResource(R.drawable.alumnos);
-		imgtit2.setImageResource(R.drawable.series);
-
+		Picasso.with(context).load(R.drawable.alumnos_64).into(imgtit1);
+		Picasso.with(context).load(R.drawable.series_64).into(imgtit2);
+		
 		imgtit1.setLayoutParams(imageParams);
 		imgtit2.setLayoutParams(imageParams);
 

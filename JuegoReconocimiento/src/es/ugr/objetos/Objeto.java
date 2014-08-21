@@ -106,7 +106,8 @@ public class Objeto {
 		this.descriptores = pObjeto.descriptores;
 		this.cols = pObjeto.cols;
 		this.rows = pObjeto.rows;
-		this.imagen.createBitmap(pObjeto.imagen);
+		if (pObjeto.imagen != null)
+			this.imagen.createBitmap(pObjeto.imagen);
 		this.pathImagen = pObjeto.pathImagen;
 		this.pathSonidoDescripcion = pObjeto.pathSonidoDescripcion;
 		this.pathSonidoAyuda = pObjeto.pathSonidoAyuda;

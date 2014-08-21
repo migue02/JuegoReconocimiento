@@ -9,43 +9,34 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="46dp"
         android:background="@color/tituloTabla"
         android:orientation="horizontal" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/NombSelSer"
+            style="@style/TituloTabla"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="79dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/DurSelSer"
+            android:gravity="center|left"
+            android:text="Nombre"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/DurSelSer"
+            style="@style/TituloTabla"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/ModiSelSer"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-
-            <TextView
-                android:id="@+id/NombSelSer"
-                style="@style/TituloTabla"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.2"
-                android:gravity="center_vertical|left"
-                android:text="Nombre"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/DurSelSer"
-                style="@style/TituloTabla"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:text="Duración"
-                android:layout_weight="0.8"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+            android:gravity="center|left"
+            android:text="Duración"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/ModiSelSer"
@@ -54,21 +45,21 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@id/MovSelSer"
-            android:gravity="center_vertical|right"
-            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/MovSelSer"
+            android:gravity="center|right"
             android:text="Modificado"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/MovSelSer"
             style="@style/TituloTabla"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:gravity="center_vertical|right"
+            android:gravity="center|right"
+            android:paddingRight="10dp"
             android:text="Mover"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>

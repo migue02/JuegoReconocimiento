@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imgObjeto"
                 android:layout_gravity="center"
-                android:src="@drawable/objeto" 
+                android:src="@drawable/objetos_180" 
                 android:contentDescription="Imagen original del objeto"/>
             
             <Button 

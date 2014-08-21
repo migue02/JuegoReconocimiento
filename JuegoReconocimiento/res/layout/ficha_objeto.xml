@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         android:layout_weight="0.7"
-        android:scaleType="fitXY"
-        android:src="@drawable/objeto" />
+        android:src="@drawable/objetos_64" />
 
     <ScrollView
         android:layout_width="match_parent"

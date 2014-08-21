@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.2" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal" >
 
             <LinearLayout
+                android:id="@+id/layoutSexo"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
+                android:gravity="top"
                 android:orientation="vertical" >
 
                 <ImageView
@@ -50,37 +52,37 @@
                     android:baselineAligned="false"
                     android:orientation="horizontal" >
 
-
                     <Button
                         android:id="@+id/pulsaChico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:padding="5dp"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
                         android:drawableTop="@drawable/boy"
+                        android:padding="5dp"
                         android:text="Chico" />
-                    
+
                     <Button
                         android:id="@+id/pulsaChica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
                         android:drawableTop="@drawable/girl"
+                        android:padding="5dp"
                         android:text="Chica" />
-
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/layoutSexo"
                 android:orientation="vertical"
                 android:weightSum="1" >
 
@@ -162,11 +164,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
                         android:background="@drawable/seliconodialogo"
-                        android:textColor="#ffffff"
                         android:drawableRight="@drawable/fecha"
-                        android:text="Cambiar Fecha" />
+                        android:gravity="center_vertical"
+                        android:text="Cambiar Fecha"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
                 <TextView
@@ -184,45 +186,22 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/texto_tabla" />
 
-                <ScrollView
-                    android:id="@+id/scrollView1"
+                <EditText
+                    android:id="@+id/daObserva"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical" >
-
-                        <EditText
-                            android:id="@+id/daObserva"
-                            android:layout_width="match_parent"
-                            android:layout_height="220dp"
-                            android:ems="10"
-                            android:gravity="top"
-                            android:hint="Observaciones"
-                            android:inputType="textMultiLine|textCapSentences"
-                            android:singleLine="false" >
-
-                            <requestFocus />
-                        </EditText>
-
-                    </LinearLayout>
-                </ScrollView>
+                    android:layout_height="250dp"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Observaciones"
+                    android:inputType="textMultiLine" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_weight="0.05"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:visibility="visible" >
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/cAlumnos"
@@ -231,8 +210,8 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/seliconodialogo"
-            android:textColor="#ffffff"
-            android:text="Cancelar" />
+            android:text="@string/cancelar"
+            android:textColor="#ffffff" />
 
         <Button
             android:id="@+id/gAlumnos"
@@ -241,9 +220,8 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/seliconodialogo"
-            android:textColor="#ffffff"
-            android:text="Guardar Cambios" />
-
+            android:text="@string/guardarCambios"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 </LinearLayout>

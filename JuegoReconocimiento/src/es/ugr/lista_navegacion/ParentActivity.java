@@ -1,5 +1,7 @@
 package es.ugr.lista_navegacion;
 
+import com.squareup.picasso.Picasso;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -76,8 +78,9 @@ public class ParentActivity extends FragmentActivity {
 					ImageView imagen_entrada = (ImageView) view
 							.findViewById(R.id.imageNavegacion);
 					if (imagen_entrada != null)
-						imagen_entrada
-								.setImageResource(((ContenidoBarraPrincipal.Item) entrada).idImagen);
+						Picasso.with(ParentActivity.this)
+								.load(((ContenidoBarraPrincipal.Item) entrada).idImagen)
+								.into(imagen_entrada);
 				}
 			}
 		});
@@ -113,14 +116,14 @@ public class ParentActivity extends FragmentActivity {
 		if (savedInstanceState == null) {
 			String id;
 			if (savedInstanceState == null) {
-			    Bundle extras = getIntent().getExtras();
-			    if(extras == null) {
-			        id= null;
-			    } else {
-			        id= extras.getString("ID");
-			    }
+				Bundle extras = getIntent().getExtras();
+				if (extras == null) {
+					id = null;
+				} else {
+					id = extras.getString("ID");
+				}
 			} else {
-			    id= (String) savedInstanceState.getSerializable("ID");
+				id = (String) savedInstanceState.getSerializable("ID");
 			}
 			selectItem(Integer.valueOf(id));
 		}
@@ -130,7 +133,7 @@ public class ParentActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.parent_activity, menu);
+		inflater.inflate(R.menu.parent_activity, menu);
 		return true;
 	}
 
@@ -149,7 +152,7 @@ public class ParentActivity extends FragmentActivity {
 			finish();
 			return true;
 		case R.id.itemAyuda:
-			
+
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -197,29 +200,29 @@ public class ParentActivity extends FragmentActivity {
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			NavUtils.navigateUpTo(this, new Intent(this,
-					MainActivity.class));
+			NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
 			finish();
 			break;
 		case 1:
 			fragment = new GestionAlumnosFragment();
-			((GestionAlumnosFragment)fragment).setDrawerToggle(mDrawerToggle);
+			((GestionAlumnosFragment) fragment).setDrawerToggle(mDrawerToggle);
 			break;
 		case 2:
 			fragment = new ResultadosFragment();
-			((ResultadosFragment)fragment).setDrawerToggle(mDrawerToggle);
+			((ResultadosFragment) fragment).setDrawerToggle(mDrawerToggle);
 			break;
 		case 3:
 			fragment = new EjerciciosFragment();
-			((EjerciciosFragment)fragment).setDrawerToggle(mDrawerToggle);
+			((EjerciciosFragment) fragment).setDrawerToggle(mDrawerToggle);
 			break;
 		case 4:
 			fragment = new SeriesEjerciciosFragment();
-			((SeriesEjerciciosFragment)fragment).setDrawerToggle(mDrawerToggle);
+			((SeriesEjerciciosFragment) fragment)
+					.setDrawerToggle(mDrawerToggle);
 			break;
 		case 5:
 			fragment = new ObjetosFragment();
-			((ObjetosFragment)fragment).setDrawerToggle(mDrawerToggle);
+			((ObjetosFragment) fragment).setDrawerToggle(mDrawerToggle);
 			break;
 		default:
 			break;

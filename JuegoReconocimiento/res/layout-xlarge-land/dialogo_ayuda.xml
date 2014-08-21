@@ -11,13 +11,13 @@
 
         <ImageView
             android:id="@+id/imagenAyuda"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/alumnos" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alumnos_64" />
         
         <TextView
             android:id="@+id/tituloAyuda"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical"
@@ -26,8 +26,8 @@
     
     <TextView 
         android:id="@+id/textoAyuda"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"

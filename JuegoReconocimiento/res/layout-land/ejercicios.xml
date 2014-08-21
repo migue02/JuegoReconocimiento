@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="79dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/DurSelEj"
             android:gravity="left|center"
@@ -35,11 +35,9 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/MovSelEj"
-            android:gravity="right|center"
-            android:paddingLeft="8dp"
+            android:gravity="left|center"
             android:text="Duración"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -50,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="right|center"
+            android:paddingRight="10dp"
             android:text="Mover"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>

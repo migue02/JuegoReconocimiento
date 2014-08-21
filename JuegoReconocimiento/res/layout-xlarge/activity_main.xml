@@ -13,9 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="¡Bienvenido!"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffff2c08"
-        android:visibility="invisible" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffff2c08" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,8 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.57"
+            android:layout_marginTop="80dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -40,18 +40,18 @@
 
                 <ImageView
                     android:id="@+id/buttonAlum"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/alumnos"
-                    android:onClick="onAlumnosClick" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onAlumnosClick"
+                    android:src="@drawable/alumnos_180" />
 
                 <ImageView
                     android:id="@+id/buttonEj"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/ejercicios"
-                    android:onClick="onEjerciciosClick" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:onClick="onEjerciciosClick"
+                    android:src="@drawable/ejercicios_180" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,18 +62,18 @@
 
                 <ImageView
                     android:id="@+id/buttonEsta"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/resultados"
-                    android:onClick="onResultadosClick" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onResultadosClick"
+                    android:src="@drawable/resultados_180" />
 
                 <ImageView
                     android:id="@+id/ButtonSerie"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/series"
-                    android:onClick="onSeriesClick" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:onClick="onSeriesClick"
+                    android:src="@drawable/series_180" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,43 +84,43 @@
 
                 <ImageView
                     android:id="@+id/buttonObjetos"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/objeto"
-                    android:onClick="onObjetosClick" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onObjetosClick"
+                    android:src="@drawable/objetos_180" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.43"
+            android:layout_weight="0.6"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/Empezar"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/empezar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:onClick="onClickEmpezar"
+                android:src="@drawable/empezar_350"
                 android:textAlignment="gravity" />
 
             <ImageView
                 android:id="@+id/textView4"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="onClickEmpezar"
-                android:src="@drawable/empezar_texto" />
+                android:src="@drawable/empezar_texto_350_80" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/degradado_main"
-                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
@@ -128,15 +128,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:onClick="onReiniciaClick"
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="ReiniciaBD"
                         android:textColor="@color/about_naranja"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -144,15 +145,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:onClick="onClickLogin"
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="Admin"
                         android:textColor="@color/about_naranja"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>

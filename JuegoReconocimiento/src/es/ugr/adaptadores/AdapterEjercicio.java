@@ -2,6 +2,8 @@ package es.ugr.adaptadores;
 
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -53,7 +55,7 @@ public class AdapterEjercicio extends ArrayAdapter<Ejercicio> {
 		holder.nombre.setText(rowItem.getNombre());
 		holder.duracion.setText(String.valueOf(rowItem.getDuracion())
 				+ " minuto(s)");
-		holder.drag.setImageResource(R.id.drag_handle);
+		Picasso.with(convertView.getContext()).load(R.id.drag_handle).into(holder.drag);
 
 		return convertView;
 	}

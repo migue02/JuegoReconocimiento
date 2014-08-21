@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/layoutTitulo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
@@ -24,7 +24,7 @@
             style="@style/TituloTabla"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingLeft="2dp"
             android:paddingRight="10dp"
             android:text="Sexo"
@@ -35,7 +35,7 @@
             style="@style/TituloTabla"
             android:layout_width="130dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingRight="10dp"
             android:text="Nombre"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -45,7 +45,7 @@
             style="@style/TituloTabla"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingRight="10dp"
             android:text="Apellidos"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -54,19 +54,19 @@
     <LinearLayout
         android:id="@+id/layoutTitulo2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:padding="2dp"
-        android:background="@color/tituloTabla">
+        android:background="@color/tituloTabla"
+        android:padding="2dp" >
 
         <TextView
             android:id="@+id/edadAl"
             style="@style/TituloTabla"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingRight="10dp"
             android:text="Edad"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -74,9 +74,9 @@
         <TextView
             android:id="@+id/movAl"
             style="@style/TituloTabla"
-            android:layout_width="70dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
+            android:gravity="center|right"
             android:paddingRight="10dp"
             android:text="Mover"
             android:textAppearance="?android:attr/textAppearanceMedium" />

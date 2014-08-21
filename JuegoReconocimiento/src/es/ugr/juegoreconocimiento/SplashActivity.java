@@ -19,7 +19,7 @@ import android.view.Window;
  */
 public class SplashActivity extends Activity {
 	//Tiempo de splash en milisegundos
-	private int splashTime = 200;
+	private int splashTime = 100;
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub

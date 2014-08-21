@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="bottom"
         android:layout_below="@+id/scrollView"
@@ -17,7 +17,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="40dp">
 
@@ -101,14 +101,14 @@
                 android:layout_width="250dp"
                 android:layout_height="300dp"
                 android:id="@+id/imageView"
-                android:src="@drawable/series"
+                android:src="@drawable/series_180"
                 android:layout_gravity="top"
                 android:padding="5dp" />
 
             <RelativeLayout
                 android:orientation="horizontal"
                 android:background="@drawable/seliconodialogo"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
                 android:layout_marginBottom="20dp"
@@ -146,7 +146,7 @@
 
             <RelativeLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/seliconodialogo"
                 android:layout_marginLeft="100dp"
@@ -185,8 +185,8 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="40dp">
 
@@ -263,8 +263,8 @@
                 xmlns:dslv="http://schemas.android.com/apk/res/es.ugr.juegoreconocimiento"
                 android:background="@drawable/tablatrasn"
                 android:id="@+id/ListaSelEj"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingTop="3dp"
                 android:paddingRight="3dp"
                 android:paddingLeft="3dp"

@@ -20,6 +20,8 @@ import org.opencv.core.Size;
 import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
+import com.squareup.picasso.Picasso;
+
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
@@ -487,10 +489,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					btn.setImageResource(R.drawable.acierto_pulsado);
+					Picasso.with(v.getContext())
+							.load(R.drawable.acierto_pulsado).into(btn);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					btn.setImageResource(R.drawable.acierto);
+					Picasso.with(v.getContext()).load(R.drawable.acierto)
+							.into(btn);
 					if (bEsperandoRespuesta) {
 						oResultadoActual.incrementaAcierto();
 						if (actualizaJuego()) {
@@ -522,10 +526,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					btn.setImageResource(R.drawable.error_pulsado);
+					Picasso.with(v.getContext()).load(R.drawable.error_pulsado)
+							.into(btn);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					btn.setImageResource(R.drawable.error);
+					Picasso.with(v.getContext()).load(R.drawable.error)
+							.into(btn);
 					if (bEsperandoRespuesta) {
 						oResultadoActual.incrementaFallo();
 						bEsperandoRespuesta = false;

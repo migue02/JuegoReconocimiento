@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -57,14 +59,14 @@ public class AdapterAlumno extends ArrayAdapter<Alumno> {
 		} else
 			holder = (ViewHolder) convertView.getTag();
 		if (rowItem.getSexo() == Sexo.Hombre)
-			holder.sexo.setImageResource(R.drawable.boy);
+			Picasso.with(convertView.getContext()).load(R.drawable.boy).into(holder.sexo);
 		else
-			holder.sexo.setImageResource(R.drawable.girl);
+			Picasso.with(convertView.getContext()).load(R.drawable.girl).into(holder.sexo);
 
 		holder.nombre.setText(rowItem.getNombre());
 		holder.apellidos.setText(rowItem.getApellidos());
 		holder.edad.setText(anios(rowItem.getFecha_nac_AsDate()) + " Años");
-		holder.drag.setImageResource(R.id.drag_handle);
+		Picasso.with(convertView.getContext()).load(R.id.drag_handle).into(holder.drag);
 
 		return convertView;
 	}
