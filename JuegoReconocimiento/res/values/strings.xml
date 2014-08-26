@@ -57,7 +57,9 @@
     <string name="descripcion">Descripción</string>
     <string name="aceptar">Aceptar</string>
     <string name="elegir">Elegir</string>
+    <string name="volver">Volver</string>
 
+    
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
     <string name="appsUgr">Visitar Catálogo AppsUGR</string>

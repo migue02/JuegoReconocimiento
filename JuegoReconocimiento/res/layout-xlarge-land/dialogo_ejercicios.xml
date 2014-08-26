@@ -2,166 +2,183 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ejercicios_180" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/textView2"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="5dp"
-                android:text="Descripción:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ejercicios_180" />
 
-            <View
+            <ScrollView
+                android:id="@+id/scrollView2"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/texto_tabla" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/textDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="5dp"
-                android:text="En este ejercicio el alumno deberá escoger entre una serie de objetos y de forma ordenada, una lista de pelotas definida previamente"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/LabelDuracionEj"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:singleLine="false"
-                android:text="Duración Estimada:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/texto_tabla" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/scrollView"
-                android:layout_marginTop="10dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:visibility="visible" >
-
-                <EditText
-                    android:id="@+id/DuracionEj"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:hint="Minutos"
-                    android:inputType="number"
-                    android:paddingRight="5dp"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/textMin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    android:text="Minuto(s)"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <ImageButton
-                    android:id="@+id/guardarDiaEj"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:background="@android:color/transparent"
-                    android:clickable="true"
-                    android:src="@drawable/guardar" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="5dp"
-                android:text="Escenario:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/texto_tabla" />
-
-            <TextView
-                android:id="@+id/textEscenario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pelotas, Bolígrafos y Teléfono"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="5dp"
-                android:text="Objetos:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/texto_tabla" />
-
-            <TableLayout
-                android:id="@+id/tablaDiaEjercicios"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="false" >
-
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </TableRow>
-            </TableLayout>
-        </LinearLayout>
-    </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="40dp"
+                    android:orientation="vertical" >
 
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:text="Descripción:"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/texto_tabla" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/texto_tabla" />
+
+                    <TextView
+                        android:id="@+id/textDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:text="En este ejercicio el alumno deberá escoger entre una serie de objetos y de forma ordenada, una lista de pelotas definida previamente"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/LabelDuracionEj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        android:singleLine="false"
+                        android:text="Duración Estimada:"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/texto_tabla" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/texto_tabla" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/scrollView"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:visibility="visible" >
+
+                        <EditText
+                            android:id="@+id/DuracionEj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Minutos"
+                            android:inputType="number"
+                            android:paddingRight="5dp"
+                            android:textSize="20dp" >
+
+                            <requestFocus />
+                        </EditText>
+
+                        <TextView
+                            android:id="@+id/textMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="5dp"
+                            android:paddingTop="5dp"
+                            android:text="Minuto(s)"
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                        <Button
+                            android:id="@+id/guardarDiaEj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/seliconodialogo"
+                            android:drawableRight="@drawable/guardar"
+                            android:gravity="center_vertical"
+                            android:text="Guardar Duración"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                    
+                    
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Escenario:"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/texto_tabla" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/texto_tabla" />
+
+                    <TextView
+                        android:id="@+id/textEscenario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Pelotas, Bolígrafos y Teléfono"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Objetos:"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/texto_tabla" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/texto_tabla" />
+
+                    <TableLayout
+                        android:id="@+id/tablaDiaEjercicios"
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:layout_marginBottom="20dp"
+                        android:focusable="false" >
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+            <Button
+		        android:id="@+id/vEjercicios"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="40dp"
+		        android:layout_marginRight="40dp"
+		        android:background="@drawable/seliconodialogo"
+		        android:text="@string/volver"
+		        android:textColor="#ffffff" />
 </LinearLayout>

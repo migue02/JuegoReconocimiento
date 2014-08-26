@@ -193,6 +193,7 @@
                     android:ems="10"
                     android:gravity="top"
                     android:hint="Observaciones"
+                    android:layout_marginBottom="20dp"
                     android:inputType="textMultiLine" />
             </LinearLayout>
         </RelativeLayout>

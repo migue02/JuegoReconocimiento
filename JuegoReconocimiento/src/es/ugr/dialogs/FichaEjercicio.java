@@ -10,8 +10,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -92,9 +92,11 @@ public class FichaEjercicio extends Dialog {
 
 		ods.close();
 
-		ImageButton guardarSerie = (ImageButton) findViewById(R.id.guardarDiaEj);
-		guardarSerie.setBackgroundResource(R.drawable.sel_icono);
+		Button guardarSerie = (Button) findViewById(R.id.guardarDiaEj);
 		guardarSerie.setOnClickListener(onGuardarClick);
+		
+		Button volverEjercicio= (Button) findViewById(R.id.vEjercicios);
+		volverEjercicio.setOnClickListener(onVolverClick);
 
 	}
 
@@ -114,6 +116,12 @@ public class FichaEjercicio extends Dialog {
 					.toString()));
 			dsEjercicio.modificaEjercicio(oEjercicio);
 			function.run();
+		}
+	};
+	
+	View.OnClickListener onVolverClick = new View.OnClickListener() {
+		public void onClick(View v) {
+			dismiss();
 		}
 	};
 
