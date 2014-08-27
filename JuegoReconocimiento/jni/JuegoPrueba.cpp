@@ -23,42 +23,38 @@ vector<Mat> vectorDescriptores;
 vector<vector<KeyPoint> > vectorKeyPoints;
 vector<int> listaCols;
 vector<int> listaRows;
-int numMatches=10;
+int numMatches = 10;
 
-double hessianThreshold=1300.0;
-int nOctaves=4;
-int nOctaveLayers=2;
-bool extended=true;
-bool upright=false;
+double hessianThreshold = 600.0;
+int nOctaves = 4;
+int nOctaveLayers = 2;
+bool extended = true;
+bool upright = false;
 
-int nMatches = 4;
+double nPorcentaje = 0.2;
 
-
-void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp)
-{
-    v_kp.clear();
-    if (mat.type()==CV_32FC(7) && mat.cols==1)
-		for(int i=0; i<mat.rows; i++)
-		{
-			Vec<float, 7> v = mat.at< Vec<float, 7> >(i, 0);
-			KeyPoint kp(v[0], v[1], v[2], v[3], v[4], (int)v[5], (int)v[6]);
+void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp) {
+	v_kp.clear();
+	if (mat.type() == CV_32FC(7) && mat.cols == 1)
+		for (int i = 0; i < mat.rows; i++) {
+			Vec<float, 7> v = mat.at < Vec<float, 7> > (i, 0);
+			KeyPoint kp(v[0], v[1], v[2], v[3], v[4], (int) v[5], (int) v[6]);
 			v_kp.push_back(kp);
 		}
-    return;
+	return;
 }
-void vector_KeyPoint_to_Mat(vector<KeyPoint>& v_kp, Mat& mat)
-{
-    int count = (int)v_kp.size();
-    mat.create(count, 1, CV_32FC(7));
-    for(int i=0; i<count; i++)
-    {
-        KeyPoint kp = v_kp[i];
-        mat.at< Vec<float, 7> >(i, 0) = Vec<float, 7>(kp.pt.x, kp.pt.y, kp.size, kp.angle, kp.response, (float)kp.octave, (float)kp.class_id);
-    }
+void vector_KeyPoint_to_Mat(vector<KeyPoint>& v_kp, Mat& mat) {
+	int count = (int) v_kp.size();
+	mat.create(count, 1, CV_32FC(7));
+	for (int i = 0; i < count; i++) {
+		KeyPoint kp = v_kp[i];
+		mat.at < Vec<float, 7> > (i, 0) = Vec<float, 7>(kp.pt.x, kp.pt.y,
+				kp.size, kp.angle, kp.response, (float) kp.octave,
+				(float) kp.class_id);
+	}
 }
-
-void freeObjects(){
-	for (int i=0;i<listaCols.size();i++){
+void freeObjects() {
+	for (int i = 0; i < listaCols.size(); i++) {
 		vectorDescriptores.at(i).release();
 		vectorKeyPoints.at(i).clear();
 	}
@@ -68,33 +64,33 @@ void freeObjects(){
 	listaRows.clear();
 }
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_RellenarObjetos(JNIEnv * env, jobject, jlongArray descriptors, jlongArray keyPoints, jintArray colsArray, jintArray rowsArray)
-{
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_RellenarObjetos(
+		JNIEnv * env, jobject, jlongArray descriptors, jlongArray keyPoints,
+		jintArray colsArray, jintArray rowsArray) {
 	freeObjects();
 	jsize length = env->GetArrayLength(descriptors);
-	if (length > 0){
+	if (length > 0) {
 		// ----------------------------
 		// Inicialización de los arrays
 		// ----------------------------
-		jlong *descriptorsData = env->GetLongArrayElements(descriptors,0);
-		jlong *keyPointsData = env->GetLongArrayElements(keyPoints,0);
-		jint *colsData = env->GetIntArrayElements(colsArray,0);
-		jint *rowsData = env->GetIntArrayElements(rowsArray,0);
+		jlong *descriptorsData = env->GetLongArrayElements(descriptors, 0);
+		jlong *keyPointsData = env->GetLongArrayElements(keyPoints, 0);
+		jint *colsData = env->GetIntArrayElements(colsArray, 0);
+		jint *rowsData = env->GetIntArrayElements(rowsArray, 0);
 
-		for(int k=0;k<length;k++)
-		{
+		for (int k = 0; k < length; k++) {
 			// -------------------------------------------
 			// Relleno del vector de vectores de KeyPoints
 			// -------------------------------------------
-			Mat & tempMatKeyPoint=*(Mat*)keyPointsData[k];
+			Mat & tempMatKeyPoint = *(Mat*) keyPointsData[k];
 			vector<KeyPoint> tempVectorKeyPoint;
-			Mat_to_vector_KeyPoint(tempMatKeyPoint,tempVectorKeyPoint);
+			Mat_to_vector_KeyPoint(tempMatKeyPoint, tempVectorKeyPoint);
 			vectorKeyPoints.push_back(tempVectorKeyPoint);
 
 			// ----------------------------------------------
 			// Relleno del vector de matrices de descriptores
 			// ----------------------------------------------
-			Mat & tempDesctiptor=*(Mat*)descriptorsData[k];
+			Mat & tempDesctiptor = *(Mat*) descriptorsData[k];
 			vectorDescriptores.push_back(tempDesctiptor);
 
 			// ------------------------------------------------------------------------
@@ -108,16 +104,17 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_RellenarObjetos(JNIEnv *
 		// --------------------------------------------
 		// Liberación de los arrays antes inicializados
 		// --------------------------------------------
-		env->ReleaseLongArrayElements(descriptors,descriptorsData,0);
-		env->ReleaseLongArrayElements(keyPoints,keyPointsData,0);
-		env->ReleaseIntArrayElements(colsArray,colsData,0);
-		env->ReleaseIntArrayElements(colsArray,rowsData,0);
+		env->ReleaseLongArrayElements(descriptors, descriptorsData, 0);
+		env->ReleaseLongArrayElements(keyPoints, keyPointsData, 0);
+		env->ReleaseIntArrayElements(colsArray, colsData, 0);
+		env->ReleaseIntArrayElements(colsArray, rowsData, 0);
 	}
 	return length;
 }
 
 JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
-		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jlong addrDescriptores, jlong addrKeyPoints) {
+		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba,
+		jlong addrDescriptores, jlong addrKeyPoints) {
 
 	clock_t t;
 	t = clock();
@@ -133,22 +130,23 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 	// -------------------
 	// Inicializacion SURF
 	// -------------------
-	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
+	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers,
+			extended, upright);
 	SurfDescriptorExtractor extractor_Surf;
 
 	// -----------------------------------------------------------------
 	// Deteccion de keypoints y extraccion de caracteristicas del objeto
 	// -----------------------------------------------------------------
 	detector_Surf.detect(mGr, keyPoints);
-	if (keyPoints.size() > 0){
-		vector_KeyPoint_to_Mat(keyPoints,key);
+	if (keyPoints.size() > 0) {
+		vector_KeyPoint_to_Mat(keyPoints, key);
 		extractor_Surf.compute(mGr, keyPoints, descriptores);
-		putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN, 2,
-				Scalar(0, 0, 255, 150), 2);
+		putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN,
+				2, Scalar(0, 0, 255, 150), 2);
 	}
 
 	t = clock() - t;
-	float elapsedTime = ((float)t/CLOCKS_PER_SEC);
+	float elapsedTime = ((float) t / CLOCKS_PER_SEC);
 	// ------------------------------------
 	// Se pintan los keyPoints en la imagen
 	// ------------------------------------
@@ -169,7 +167,8 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
  * @param nObjeto índice del objeto que se está buscando en el escenario
  * @return Devuelve si el objeto nObjeto se han encontrado en el escenario
  */
-int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descriptores_esc, int nObjeto) {
+int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
+		Mat descriptores_esc, int nObjeto) {
 	// ---------------------------------------------------------------------------
 	// Inicializar vector de KeyPoints y matriz de Descriptores del objeto nObjeto
 	// ---------------------------------------------------------------------------
@@ -178,17 +177,21 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat desc
 	int cols = listaCols.at(nObjeto);
 	int rows = listaRows.at(nObjeto);
 
-	if(keyPoints_obj.size() == 0 || descriptores_obj.rows == 0)
-		return false;
-
+	if (keyPoints_obj.size() == 0 || descriptores_obj.rows == 0)
+		return -1;
 
 	// ----------------------------------------------------------------------
 	// Obtencion de los matches entre el objeto y el escenario mediante FLANN
 	// ----------------------------------------------------------------------
-	FlannBasedMatcher matcher;
+
+
+	//FlannBasedMatcher matcher;
+	BFMatcher matcher;
 	vector<vector<DMatch> > matches;
+
+
 	try {
-		matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);
+		/*matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);
 
 		// ----------------------------------------------------------------------
 		// Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
@@ -198,29 +201,61 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat desc
 		// ----------------------------------------------------------------------
 		vector<DMatch> good_matches;
 
-		for (int i = 0; i < min(descriptores_obj.rows - 1, (int) matches.size());
-				i++) //THIS LOOP IS SENSITIVE TO SEGFAULTS
+		for (int i = 0;
+				i < min(descriptores_obj.rows - 1, (int) matches.size()); i++) //THIS LOOP IS SENSITIVE TO SEGFAULTS
 				{
 			if ((matches[i][0].distance < 0.6 * (matches[i][1].distance))
 					&& ((int) matches[i].size() <= 2
 							&& (int) matches[i].size() > 0)) {
 				good_matches.push_back(matches[i][0]);
 			}
+		}*/
+
+		matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);  // Find two nearest matches
+		vector<DMatch> good_matches;
+		for (int i = 0; i < matches.size(); ++i)
+		{
+		    const float ratio = 0.8; // As in Lowe's paper; can be tuned
+		    if (matches[i][0].distance < ratio * matches[i][1].distance)
+		    {
+		        good_matches.push_back(matches[i][0]);
+		    }
 		}
 
-		// -----------------------------------------------------------------------------------
-		// Si se han encontrado más de cuatro coincidencias se ha encontrado el objeto nObjeto
-		// -----------------------------------------------------------------------------------
-		if (good_matches.size() >= nMatches) {
+		// ---------------------------------------------------------------------------------
+		// Si los goodPoints coinciden con el 60% o más, entonces se ha encontrado el objeto
+		// ---------------------------------------------------------------------------------
+		float lfPorcentaje = matches.size() * nPorcentaje;
+		int lnPorcentaje = lfPorcentaje;
+		char au[150], ptn[100];
+		strcpy(au, "\nHay = ");
+		sprintf(ptn, "%i", good_matches.size());
+		strcat(au, ptn);
+		strcpy(ptn, " good matches, y el 20% de los matches del objeto es ");
+		strcat(au, ptn);
+		sprintf(ptn, "%i", lnPorcentaje);
+		strcat(au, ptn);
+		__android_log_write(ANDROID_LOG_ERROR, "GoodPoints", au);
+		if (good_matches.size() >= lnPorcentaje) {
 
-			vector < Point2f > obj;
-			vector < Point2f > scene;
+			__android_log_write(ANDROID_LOG_ERROR, "GoodPoints",
+					"Se ha encontrado el objeto");
+			vector<Point2f> obj;
+			vector<Point2f> scene;
 
 			for (int i = 0; i < good_matches.size(); i++) {
 				//-- Get the keypoints from the good matches
 				obj.push_back(keyPoints_obj[good_matches[i].queryIdx].pt);
 				scene.push_back(keyPoints_esc[good_matches[i].trainIdx].pt);
 			}
+
+			// ----------------------------------------------------------------------------
+			// Skip doing homography if the object and scene contains less than four points
+			// (cant draw a rectangle if less than 4 points, hence your program will crash
+			// here if you do not handle the exception)
+			// ----------------------------------------------------------------------------
+			if (obj.size() < 4 || scene.size() < 4)
+				return -1;
 
 			// -------------------------------------------------------------------------------------------------------
 			// Encontrar la homografía, para poder dibujar un rectángulo que englobe al objeto nObjeto en el escenario
@@ -264,16 +299,17 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat desc
 vector<KeyPoint> keyPoints_esc;
 Mat descriptores_esc;
 
-void LiberaEscenario(){
+void LiberaEscenario() {
 	keyPoints_esc.clear();
 	descriptores_esc.release();
 }
 
-bool InicializaEscenario(Mat mGr, Mat mRgb){
+bool InicializaEscenario(Mat mGr, Mat mRgb) {
 	// -------------------
 	// Inicializacion SURF
 	// -------------------
-	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
+	SurfFeatureDetector detector_Surf(hessianThreshold, nOctaves, nOctaveLayers,
+			extended, upright);
 	SurfDescriptorExtractor extractor_Surf;
 
 	// --------------------------------------------------------------------
@@ -281,12 +317,12 @@ bool InicializaEscenario(Mat mGr, Mat mRgb){
 	// --------------------------------------------------------------------
 
 	detector_Surf.detect(mGr, keyPoints_esc);
-	if (keyPoints_esc.size() == 0){
+	if (keyPoints_esc.size() == 0) {
 		keyPoints_esc.clear();
 		return false;
 	}
 	extractor_Surf.compute(mGr, keyPoints_esc, descriptores_esc);
-	if (descriptores_esc.rows == 0){
+	if (descriptores_esc.rows == 0) {
 		keyPoints_esc.clear();
 		descriptores_esc.release();
 		return false;
@@ -294,11 +330,10 @@ bool InicializaEscenario(Mat mGr, Mat mRgb){
 	return true;
 }
 
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(JNIEnv* env,
+		jobject, jlong addrGray, jlong addrRgba) {
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(
-		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba) {
-
-	jint nObjeto=-1;
+	jint nObjeto = -1;
 
 	// ----------------------------
 	// Inicializar variables a usar
@@ -306,18 +341,24 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(
 	Mat& mGr = *(Mat*) addrGray;
 	Mat& mRgb = *(Mat*) addrRgba;
 
-	int match, matchMaximo = -2;
+	int match, matchMaximo = -1;
 
-	if (InicializaEscenario(mGr, mRgb)){
+	if (InicializaEscenario(mGr, mRgb)) {
 
 		// -----------------------------------------------------------------------------------------------
 		// Bucle que terminar si se encuentra el objeto en el escenario o si no hay más objetos que buscar
 		// -----------------------------------------------------------------------------------------------
-		for(int i=0;i<listaCols.size();i++){
-			match = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc, i);
-			if (matchMaximo < match || matchMaximo == -2){
+		for (int i = 0; i < listaCols.size(); i++) {
+			match = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc,
+					i);
+			clock_t time_end;
+			time_end = clock() + 0 * CLOCKS_PER_SEC/1000;
+			while (clock() < time_end)
+			{
+			}
+			if (matchMaximo < match && match != -1) {
 				matchMaximo = match;
-				nObjeto=i;
+				nObjeto = i;
 			}
 		}
 
@@ -325,185 +366,24 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(
 
 	}
 
-	if ((matchMaximo < nMatches) && (nObjeto != -1))
-		nObjeto = -1;
-
 	return nObjeto;
 }
 
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_LiberaObjetos(){
+JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_LiberaObjetos() {
 	freeObjects();
 }
 
-JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_InicializaSurf(JNIEnv* env, jobject, jdouble phessian,
-		jint pnOctaves, jint pnOctaveLayers, jboolean pExtended, jboolean pUpright){
-	if (phessian > 0) hessianThreshold=phessian;
-	if (pnOctaves > 0) nOctaves=pnOctaves;
-	if (pnOctaveLayers > 0) nOctaveLayers=pnOctaveLayers;
-	extended=pExtended;
-	upright=pUpright;
-
-	char au[80], ptn[40];
-	strcpy(au, "hessianThreshold = ");
-	sprintf(ptn, "%f", phessian);
-	strcat(au, ptn);
-	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
-
-	strcpy(au, "nOctaves = ");
-	sprintf(ptn, "%i", pnOctaves);
-	strcat(au, ptn);
-	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
-
-	strcpy(au, "nOctaveLayers = ");
-	sprintf(ptn, "%i", pnOctaveLayers);
-	strcat(au, ptn);
-	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
-
-	strcpy(au, "extended = ");
-	if (pExtended)
-		sprintf(ptn, "%i", 1);
-	else
-		sprintf(ptn, "%i", 0);
-	strcat(au, ptn);
-	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
-
-	strcpy(au, "upright = ");
-	if (pUpright)
-		sprintf(ptn, "%i", 1);
-	else
-		sprintf(ptn, "%i", 0);
-	strcat(au, ptn);
-	__android_log_write(ANDROID_LOG_ERROR, "Tag", au);
-}
-
-
-/**
- * @param mrGr imagen gris del frame actual (escenario)
- * @param mRgb imagen color del frame actual (escenario)
- * @param keyPoints_esc keyPoints obtenidos al procesar el escenario
- * @param descriptores_esc Descriptores obtenidos al procesar el escenario
- * @param nObjeto índice del objeto que se está buscando en el escenario
- * @return Devuelve si el objeto nObjeto se han encontrado en el escenario
- */
-int getNumMatches(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc, Mat descriptores_esc, int nObjeto) {
-	// ---------------------------------------------------------------------------
-	// Inicializar vector de KeyPoints y matriz de Descriptores del objeto nObjeto
-	// ---------------------------------------------------------------------------
-	Mat descriptores_obj = vectorDescriptores.at(nObjeto);
-	vector<KeyPoint> keyPoints_obj = vectorKeyPoints.at(nObjeto);
-	int cols = listaCols.at(nObjeto);
-	int rows = listaRows.at(nObjeto);
-
-	if(keyPoints_obj.size() == 0 || descriptores_obj.rows == 0)
-		return -1;
-
-
-	// ----------------------------------------------------------------------
-	// Obtencion de los matches entre el objeto y el escenario mediante FLANN
-	// ----------------------------------------------------------------------
-	FlannBasedMatcher matcher;
-	vector<vector<DMatch> > matches;
-	try {
-		matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);
-
-		// ----------------------------------------------------------------------
-		// Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
-		// or a small arbitary value ( 0.02 ) in the event that min_dist is very
-		// small)
-		// PS.- radiusMatch can also be used here.
-		// ----------------------------------------------------------------------
-		vector<DMatch> good_matches;
-
-		for (int i = 0; i < min(descriptores_obj.rows - 1, (int) matches.size());
-				i++) //THIS LOOP IS SENSITIVE TO SEGFAULTS
-				{
-			if ((matches[i][0].distance < 0.6 * (matches[i][1].distance))
-					&& ((int) matches[i].size() <= 2
-							&& (int) matches[i].size() > 0)) {
-				good_matches.push_back(matches[i][0]);
-			}
-		}
-
-		// -----------------------------------------------------------------------------------
-		// Si se han encontrado más de cuatro coincidencias se ha encontrado el objeto nObjeto
-		// -----------------------------------------------------------------------------------
-		nMatches = keyPoints_obj.size()/2;
-		if (good_matches.size() >= numMatches) {
-
-			vector < Point2f > obj;
-			vector < Point2f > scene;
-
-			for (int i = 0; i < good_matches.size(); i++) {
-				//-- Get the keypoints from the good matches
-				obj.push_back(keyPoints_obj[good_matches[i].queryIdx].pt);
-				scene.push_back(keyPoints_esc[good_matches[i].trainIdx].pt);
-			}
-
-			// -------------------------------------------------------------------------------------------------------
-			// Encontrar la homografía, para poder dibujar un rectángulo que englobe al objeto nObjeto en el escenario
-			// -------------------------------------------------------------------------------------------------------
-			Mat H = findHomography(obj, scene, CV_RANSAC);
-
-			vector<Point2f> obj_corners(4);
-			obj_corners[0] = cvPoint(0, 0);
-			obj_corners[1] = cvPoint(cols, 0);
-			obj_corners[2] = cvPoint(cols, rows);
-			obj_corners[3] = cvPoint(0, rows);
-			vector<Point2f> scene_corners(4);
-
-			perspectiveTransform(obj_corners, scene_corners, H);
-
-			line(mRgb, scene_corners[0], scene_corners[1], Scalar(0, 255, 0),
-					4);
-			line(mRgb, scene_corners[1], scene_corners[2], Scalar(255, 0, 0),
-					4);
-			line(mRgb, scene_corners[2], scene_corners[3], Scalar(0, 0, 255),
-					4);
-			line(mRgb, scene_corners[3], scene_corners[0],
-					Scalar(255, 255, 255), 4);
-
-			for (unsigned int i = 0; i < scene.size(); i++) {
-				const Point2f& kp = scene[i];
-				circle(mRgb, Point(kp.x, kp.y), 10, Scalar(255, 0, 0, 255));
-			}
-
-			putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
-					2, Scalar(0, 0, 255, 150), 2);
-
-			return good_matches.size();
-
-		}
-	} catch (Exception e) {
-	}
-	return -1;
-}
-
-JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_ObtieneCoincidencias(
-		JNIEnv* env, jobject, jlong addrGray, jlong addrRgba, jint i) {
-
-	// ----------------------------
-	// Inicializar variables a usar
-	// ----------------------------
-	jint nCoincidencias=-1;
-	bool encontrado=false;
-	Mat& mGr = *(Mat*) addrGray;
-	Mat& mRgb = *(Mat*) addrRgba;
-
-	if (keyPoints_esc.size() == 0 || descriptores_esc.rows == 0){
-		keyPoints_esc.clear();
-		descriptores_esc.release();
-		return nCoincidencias;
-	}
-
-	// -----------------------------------------------------------------------------------------------
-	// Bucle que terminar si se encuentra el objeto en el escenario o si no hay más objetos que buscar
-	// -----------------------------------------------------------------------------------------------
-	//for(int i=0;i<listaCols.size() && !encontrado;i++){
-		nCoincidencias = getNumMatches(mGr, mRgb, keyPoints_esc, descriptores_esc, i);
-
-	//}
-
-	return nCoincidencias;
+JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_InicializaSurf(
+		JNIEnv* env, jobject, jdouble phessian, jint pnOctaves,
+		jint pnOctaveLayers, jboolean pExtended, jboolean pUpright) {
+	if (phessian > 0)
+		hessianThreshold = phessian;
+	if (pnOctaves > 0)
+		nOctaves = pnOctaves;
+	if (pnOctaveLayers > 0)
+		nOctaveLayers = pnOctaveLayers;
+	extended = pExtended;
+	upright = pUpright;
 }
 
 }
