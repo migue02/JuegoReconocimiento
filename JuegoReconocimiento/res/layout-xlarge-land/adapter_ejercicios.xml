@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/NombSelEj"
-        style="@style/TextoTabla"
+        style="@style/TextoTablaEjercicios"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="5dp"
@@ -22,7 +22,8 @@
 
     <TextView
         android:id="@+id/DurSelEj"
-        style="@style/TextoTabla"
+        style="@style/TextoTablaEjercicios"
+        android:text=""
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:layout_marginBottom="5dp"

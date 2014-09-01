@@ -29,8 +29,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -119,60 +121,71 @@ public class ResultadosLibrary {
 	}
 
 	private void inicializacionListenerBotonesUp() {
-		btnRanking.setOnClickListener(new OnClickListener() {
-
+		btnRanking.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				btnRanking.setSelected(true);
 				btnAlumno.setSelected(false);
 				radioSelec = 0;
+				return false;
 			}
 		});
-
-		btnAlumno.setOnClickListener(new OnClickListener() {
-
+		
+		btnAlumno.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				btnRanking.setSelected(false);
 				btnAlumno.setSelected(true);
 				radioSelec = 1;
+				return false;
 			}
 		});
+		
 
-		btnSemana.setOnClickListener(new OnClickListener() {
-
+		
+		btnSemana.setOnTouchListener(new OnTouchListener() {
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				v.playSoundEffect(android.view.SoundEffectConstants.CLICK);
 				fecha = Periodo.Semana;
 				btnSemana.setSelected(true);
 				btnMes.setSelected(false);
 				btnAnio.setSelected(false);
-
+				return false;
 			}
 		});
-
-		btnMes.setOnClickListener(new OnClickListener() {
-
+		
+		btnMes.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				fecha = Periodo.Mes;
 				btnSemana.setSelected(false);
 				btnMes.setSelected(true);
 				btnAnio.setSelected(false);
+				return false;
 			}
 		});
-
-		btnAnio.setOnClickListener(new OnClickListener() {
-
+		
+		btnAnio.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				fecha = Periodo.SeisMeses;
 				btnSemana.setSelected(false);
 				btnMes.setSelected(false);
 				btnAnio.setSelected(true);
+				return false;
 			}
 		});
+
 	}
 
 	private void inicializaLayouts(View view) {
@@ -217,8 +230,10 @@ public class ResultadosLibrary {
 		TableRow rowAl = new TableRow(context);
 		TableRow rowSer = new TableRow(context);
 
-		rowAl.setBackgroundResource(R.drawable.tablarestit);
-		rowSer.setBackgroundResource(R.drawable.tablarestit);
+		//rowAl.setBackgroundResource(R.drawable.tablarestit);
+		rowAl.setBackgroundResource(R.drawable.tablarestitredon);
+		rowSer.setBackgroundResource(R.drawable.tablarestitredon);
+		
 
 		TableRow.LayoutParams tableRowParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.WRAP_CONTENT,
@@ -258,13 +273,16 @@ public class ResultadosLibrary {
 		tit1.setText("Alumno");
 		tit1.setLayoutParams(tableRowParams);
 		tit1.setTextAppearance(activity, R.style.TituloTabla);
+		tit1.setTextColor(context.getResources().getColor(R.color.verde_ic));
 
 		tit3.setText("Serie");
 		tit3.setLayoutParams(tableRowParams);
 		tit3.setTextAppearance(activity, R.style.TituloTabla);
+		tit3.setTextColor(context.getResources().getColor(R.color.azul_ic));
 
 		rowAl.addView(imgtit1);
 		rowAl.addView(tit1);
+		//rowAl.setPadding(3, 3, 3, 3);
 		rowSer.addView(imgtit2);
 		rowSer.addView(tit3);
 
@@ -308,10 +326,12 @@ public class ResultadosLibrary {
 		tvTodasSeries.setTextAppearance(context, R.style.TituloTabla);
 		rowSer.addView(tvTodasSeries);
 
-		rowAl.setOnClickListener(new OnClickListener() {
-
+		
+		rowAl.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				sonidos.playResultados();
 				TableRow tr = (TableRow) v;
 				boolean nv;
@@ -328,23 +348,26 @@ public class ResultadosLibrary {
 					cb.setChecked(nv);
 					cb.setEnabled(tr.isSelected());
 					if (nv == true)
-						traux.setBackgroundResource(R.color.bloqueado);
+						//traux.setBackgroundResource(R.color.bloqueado);
+						traux.setBackgroundResource(R.drawable.resulbloq);
 					else
 						traux.setBackgroundResource(R.drawable.seliconoresultados);
 					traux.setEnabled(tr.isSelected());
 					alSelec.set(i, nv);
 				}
 				tr.setSelected(nv);
+				return false;
 			}
 		});
 
 		cbtAl.setClickable(false);
 		cbtSer.setClickable(false);
 
-		rowSer.setOnClickListener(new OnClickListener() {
-
+		rowSer.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
 				sonidos.playResultados();
 				TableRow tr = (TableRow) v;
 				boolean nv;
@@ -361,16 +384,17 @@ public class ResultadosLibrary {
 					cb.setChecked(nv);
 					cb.setEnabled(tr.isSelected());
 					if (nv == true)
-						traux.setBackgroundResource(R.color.bloqueado);
+						traux.setBackgroundResource((R.drawable.resulbloq));
 					else
 						traux.setBackgroundResource(R.drawable.seliconoresultados);
 					traux.setEnabled(tr.isSelected());
 					serSelec.set(i, nv);
 				}
 				tr.setSelected(nv);
+				return false;
 			}
 		});
-
+	
 		tlAlumnos.addView(rowAl);
 		tlSeries.addView(rowSer);
 
@@ -395,11 +419,12 @@ public class ResultadosLibrary {
 			rowAl.addView(alum);
 			alSelec.add(false);
 			final int pos = i;
-
-			rowAl.setOnClickListener(new OnClickListener() {
-
+			
+			rowAl.setOnTouchListener(new OnTouchListener() {
+				
 				@Override
-				public void onClick(View v) {
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
 					sonidos.playResultados();
 					TableRow tr = (TableRow) v;
 					if (tr.isSelected())
@@ -409,6 +434,7 @@ public class ResultadosLibrary {
 
 					cb.setChecked(tr.isSelected());
 					alSelec.set(pos, tr.isSelected());
+					return false;
 				}
 			});
 			tlAlumnos.addView(rowAl);
@@ -435,11 +461,12 @@ public class ResultadosLibrary {
 			rowSer.addView(serie);
 			serSelec.add(false);
 			final int pos2 = i;
-
-			rowSer.setOnClickListener(new OnClickListener() {
-
+			
+			rowSer.setOnTouchListener(new OnTouchListener() {
+				
 				@Override
-				public void onClick(View v) {
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
 					sonidos.playResultados();
 					TableRow tr = (TableRow) v;
 					if (tr.isSelected())
@@ -449,9 +476,10 @@ public class ResultadosLibrary {
 
 					cb.setChecked(tr.isSelected());
 					serSelec.set(pos2, tr.isSelected());
+					return false;
 				}
 			});
-
+			
 			tlSeries.addView(rowSer);
 		}
 
@@ -852,6 +880,7 @@ public class ResultadosLibrary {
 	public void setView(View rootView) {
 		view = rootView;
 	}
+	
 
 
 }

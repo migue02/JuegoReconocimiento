@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,8 +36,8 @@ public class FichaSerieEjercicios extends Dialog {
 
 	private EditText duracion;
 	private Runnable function;
-	private View aniadirEjSer;
-	private View guardarSerie;
+	private Button aniadirEjSer;
+	private Button guardarSerie;
 	private EditText nomSerie;
 	private DragSortListView lvEj;
 
@@ -87,8 +88,8 @@ public class FichaSerieEjercicios extends Dialog {
 
 		lvEj.setAdapter(adapterEjercicio);
 
-		aniadirEjSer = findViewById(R.id.laniadir_ser);
-		guardarSerie = findViewById(R.id.lguardar_cam);
+		aniadirEjSer = (Button)findViewById(R.id.laniadir_ser);
+		guardarSerie = (Button)findViewById(R.id.lguardar_cam);
 
 		guardarSerie.setOnClickListener(onGuardarClick);
 		aniadirEjSer.setOnClickListener(onAniadirClick);

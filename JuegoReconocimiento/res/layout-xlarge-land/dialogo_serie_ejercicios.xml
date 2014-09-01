@@ -92,77 +92,32 @@
             android:padding="5dp"
             android:src="@drawable/series_180" />
 
-        <RelativeLayout
-            android:id="@+id/laniadir_ser"
+        
+          <Button
+        	android:id="@+id/laniadir_ser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/seliconodialogo"
-            android:orientation="horizontal"
-            android:padding="3dp" >
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/aniadirEjer"
-                android:gravity="center_vertical|right"
-                android:text="Añadir Ejercicios"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/texto_tabla" />
-
-            <ImageButton
-                android:id="@+id/aniadirEjer"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center|right"
-                android:layout_margin="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/aniadir2" />
-        </RelativeLayout>
-
-        <RelativeLayout
+            android:drawableRight="@drawable/aniadir2"
+            android:text="Añadir Ejercicios"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="30dp"
+            android:textColor="#ffffff" />
+            
+        <Button
             android:id="@+id/lguardar_cam"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/seliconodialogo"
-            android:orientation="horizontal"
-            android:padding="3dp" >
+            android:drawableRight="@drawable/guardar"
+            android:text="@string/guardarCambios"
+            android:textColor="#ffffff" />
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/guardarSerie"
-                android:gravity="center_vertical|right"
-                android:text="Guardar Cambios"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/texto_tabla" />
-
-            <ImageButton
-                android:id="@+id/guardarSerie"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/guardar" />
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -190,49 +145,42 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="40dp" >
+            android:layout_height="30dp" >
 
             <TextView
                 android:id="@+id/NombSelEj"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
+                android:gravity="bottom|left"
+                android:paddingLeft="5dp"
                 android:text="Nombre"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/texto_tabla" />
 
             <TextView
                 android:id="@+id/DurSelEj"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/NombSelEj"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
+                android:layout_toLeftOf="@+id/textView2"
+        		android:gravity="bottom|left"
                 android:text="Duración"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/texto_tabla" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="false"
-                android:layout_gravity="right"
+                android:layout_gravity="bottom|right"
                 android:gravity="center_vertical"
-                android:paddingLeft="8dp"
                 android:text="Mover"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/texto_tabla" />

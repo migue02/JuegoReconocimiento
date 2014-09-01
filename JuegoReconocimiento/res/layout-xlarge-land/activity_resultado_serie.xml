@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" 
+    android:background="@drawable/background">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="¡Fin de la partida!"
+        android:id="@+id/textView"
+        android:textSize="50dp"
+        android:textStyle="bold"
+       />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/tablaresalumred"
+        android:id="@+id/linearLayout"
+        android:paddingBottom="20dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/alumnos_64"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/lblAlumno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Alumno"
+                android:textAppearance="@style/TituloTabla"
+                android:textColor="@color/verde_ic"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/series_64"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/lblSerie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Serie de Ejercicios"
+                android:textAppearance="@style/TituloTabla"
+                android:textColor="@color/azul_ic"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/viewFlipper" >
+
+
+    </ViewFlipper>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="onAceptarClick"
+        android:text="@string/aceptar"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/seliconoactivity"
+        android:layout_marginRight="20dp" />
+
+</LinearLayout>

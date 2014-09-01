@@ -6,7 +6,7 @@
     <!-- Inactive state -->
     <item android:drawable="@android:color/transparent" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
     <!-- Pressed state -->
-    <item android:drawable="@color/about_naranja" android:state_pressed="true"/>
+    <item android:drawable="@drawable/botonredondeado" android:state_pressed="true"/>
     <!-- Selected state (using d-pad) -->
     <item android:drawable="@drawable/listaredondeada" android:state_focused="true" android:state_pressed="false" android:state_selected="true"/>
 
