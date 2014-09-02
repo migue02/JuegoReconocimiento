@@ -33,6 +33,8 @@ bool upright = false;
 
 double nPorcentaje = 0.2;
 
+int nMatcher = 0;
+
 void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp) {
 	v_kp.clear();
 	if (mat.type() == CV_32FC(7) && mat.cols == 1)
@@ -159,6 +161,58 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 
 }
 
+JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_CambiarMatcher(JNIEnv* env, jobject, jint pMatcher){
+	nMatcher = pMatcher;
+}
+
+vector<DMatch> FlannMatch(Mat descriptores_obj, Mat descriptores_esc, int &nMatches){
+	FlannBasedMatcher matcher;
+	vector<DMatch> good_matches;
+	vector<vector<DMatch> > matches;
+
+	try {
+		matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);
+
+		nMatches = matches.size();
+
+		// ----------------------------------------------------------------------
+		// Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
+		// or a small arbitary value ( 0.02 ) in the event that min_dist is very
+		// small)
+		// PS.- radiusMatch can also be used here.
+		// ----------------------------------------------------------------------
+
+		for (int i = 0;
+				i < min(descriptores_obj.rows - 1, (int) matches.size()); i++) //THIS LOOP IS SENSITIVE TO SEGFAULTS
+				{
+			if ((matches[i][0].distance < 0.6 * (matches[i][1].distance))
+					&& ((int) matches[i].size() <= 2
+							&& (int) matches[i].size() > 0)) {
+				good_matches.push_back(matches[i][0]);
+			}
+		}
+	}catch (Exception e) {
+	}
+	return good_matches;
+}
+
+vector <DMatch> BruteForceMatch(Mat descriptores_obj, Mat descriptores_esc, int &nMatches){
+	BFMatcher matcher;
+	vector<vector<DMatch> > matches;
+	matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);  // Find two nearest matches
+	nMatches = matches.size();
+	vector<DMatch> good_matches;
+	for (int i = 0; i < matches.size(); ++i)
+	{
+	    const float ratio = 0.8; // As in Lowe's paper; can be tuned
+	    if (matches[i][0].distance < ratio * matches[i][1].distance)
+	    {
+	        good_matches.push_back(matches[i][0]);
+	    }
+	}
+	return good_matches;
+}
+
 /**
  * @param mrGr imagen gris del frame actual (escenario)
  * @param mRgb imagen color del frame actual (escenario)
@@ -184,48 +238,28 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 	// Obtencion de los matches entre el objeto y el escenario mediante FLANN
 	// ----------------------------------------------------------------------
 
-
-	//FlannBasedMatcher matcher;
-	BFMatcher matcher;
-	vector<vector<DMatch> > matches;
-
-
+	int nMatches = 0;
 	try {
-		/*matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);
 
-		// ----------------------------------------------------------------------
-		// Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
-		// or a small arbitary value ( 0.02 ) in the event that min_dist is very
-		// small)
-		// PS.- radiusMatch can also be used here.
-		// ----------------------------------------------------------------------
 		vector<DMatch> good_matches;
-
-		for (int i = 0;
-				i < min(descriptores_obj.rows - 1, (int) matches.size()); i++) //THIS LOOP IS SENSITIVE TO SEGFAULTS
-				{
-			if ((matches[i][0].distance < 0.6 * (matches[i][1].distance))
-					&& ((int) matches[i].size() <= 2
-							&& (int) matches[i].size() > 0)) {
-				good_matches.push_back(matches[i][0]);
-			}
-		}*/
-
-		matcher.knnMatch(descriptores_obj, descriptores_esc, matches, 2);  // Find two nearest matches
-		vector<DMatch> good_matches;
-		for (int i = 0; i < matches.size(); ++i)
-		{
-		    const float ratio = 0.8; // As in Lowe's paper; can be tuned
-		    if (matches[i][0].distance < ratio * matches[i][1].distance)
-		    {
-		        good_matches.push_back(matches[i][0]);
-		    }
+		switch (nMatcher) {
+			case 0:
+				__android_log_write(ANDROID_LOG_ERROR, "Match", "FLANN MATCHER");
+				good_matches = FlannMatch(descriptores_obj, descriptores_esc, nMatches);
+				break;
+			case 1:
+				__android_log_write(ANDROID_LOG_ERROR, "Match", "BRUTE FORCE MATCHER");
+				good_matches = BruteForceMatch(descriptores_obj, descriptores_esc, nMatches);
+				break;
+			default:
+				break;
 		}
+
 
 		// ---------------------------------------------------------------------------------
 		// Si los goodPoints coinciden con el 60% o más, entonces se ha encontrado el objeto
 		// ---------------------------------------------------------------------------------
-		float lfPorcentaje = matches.size() * nPorcentaje;
+		float lfPorcentaje = nMatches * nPorcentaje;
 		int lnPorcentaje = lfPorcentaje;
 		char au[150], ptn[100];
 		strcpy(au, "\nHay = ");
@@ -235,10 +269,10 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		strcat(au, ptn);
 		sprintf(ptn, "%i", lnPorcentaje);
 		strcat(au, ptn);
-		__android_log_write(ANDROID_LOG_ERROR, "GoodPoints", au);
+		__android_log_write(ANDROID_LOG_ERROR, "Match", au);
 		if (good_matches.size() >= lnPorcentaje) {
 
-			__android_log_write(ANDROID_LOG_ERROR, "GoodPoints",
+			__android_log_write(ANDROID_LOG_ERROR, "Match",
 					"Se ha encontrado el objeto");
 			vector<Point2f> obj;
 			vector<Point2f> scene;

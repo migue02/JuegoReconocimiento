@@ -20,8 +20,6 @@ import org.opencv.core.Size;
 import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
-import com.squareup.picasso.Picasso;
-
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
@@ -58,6 +56,12 @@ import es.ugr.reconocimiento.JuegoLibreria;
 
 public class Juego extends Activity implements CvCameraViewListener2 {
 
+	////////////////////////////
+	// PRUEBAS /////////////////
+	////////////////////////////
+	int matcher = 0; 
+	
+	
 	private static final String TAG = "Juego::Activity";
 
 	private CameraBridgeViewBase mOpenCvCameraView;
@@ -459,6 +463,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				Integer.parseInt(edtnOctaves.getText().toString()),
 				Integer.parseInt(edtnOctaveLayers.getText().toString()),
 				chkExtended.isChecked(), chkUpright.isChecked());
+		matcher++;
+		CambiarMatcher(matcher%2);
 	}
 
 	// //////////////////////////////////////////////////////////////////////
@@ -489,12 +495,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					Picasso.with(v.getContext())
-							.load(R.drawable.acierto_pulsado).into(btn);
+					btn.setImageResource(R.drawable.acierto_pulsado);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					Picasso.with(v.getContext()).load(R.drawable.acierto)
-							.into(btn);
+					btn.setImageResource(R.drawable.acierto);
 					if (bEsperandoRespuesta) {
 						oResultadoActual.incrementaAcierto();
 						if (actualizaJuego()) {
@@ -526,12 +530,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					Picasso.with(v.getContext()).load(R.drawable.error_pulsado)
-							.into(btn);
+					btn.setImageResource(R.drawable.error_pulsado);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					Picasso.with(v.getContext()).load(R.drawable.error)
-							.into(btn);
+					btn.setImageResource(R.drawable.error);
 					if (bEsperandoRespuesta) {
 						oResultadoActual.incrementaFallo();
 						bEsperandoRespuesta = false;
@@ -841,5 +843,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Inicializa los valores que usa el algoritmo SURF
 	public native void InicializaSurf(double phessian, int pnOctaves,
 			int pnOctaveLayers, boolean pExtended, boolean pUpright);
+	
+	////////////////////////////
+	// PRUEBAS /////////////////
+	////////////////////////////
+	public native void CambiarMatcher(int pMatcher);
 
 }
