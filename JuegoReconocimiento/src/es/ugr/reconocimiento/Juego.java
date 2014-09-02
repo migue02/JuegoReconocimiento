@@ -425,10 +425,16 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			dsResultado.createResultado(a);
 			lResultados.add(a);
 		}
-		int[] ids = new int[lResultados.size()];
+/*		int[] ids = new int[lResultados.size()];
+
+		for (int i = 0; i < lResultados.size(); i++)
+			ids[i] = lResultados.get(i).getIdEjercicio();*/
+		int[] ids = new int[lResultados.size()+1];
 
 		for (int i = 0; i < lResultados.size(); i++)
 			ids[i] = lResultados.get(i).getIdEjercicio();
+		ids[lResultados.size()]=2;
+
 
 		intent.putExtra("Resultados", ids);
 		intent.putExtra("Alumno", oAlumno.getNombre());

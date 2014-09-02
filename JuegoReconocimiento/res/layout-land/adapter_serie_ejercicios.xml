@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/NombSelSer"
-        style="@style/TextoTabla"
+        style="@style/TextoTablaEjercicios"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="5dp"
@@ -22,9 +22,9 @@
 
     <TextView
         android:id="@+id/DurSelSer"
-        style="@style/TextoTabla"
+        style="@style/TextoTablaEjercicios"
         android:layout_width="160dp"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_toLeftOf="@+id/ModiSelSer"
         android:gravity="center|left"
         android:paddingBottom="2dp"
@@ -33,9 +33,9 @@
 
     <TextView
         android:id="@+id/ModiSelSer"
-        style="@style/TextoTabla"
+        style="@style/TextoTablaEjercicios"
         android:layout_width="160dp"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_toLeftOf="@id/midrag"
         android:gravity="center|right"
         android:paddingBottom="2dp"
