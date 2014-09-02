@@ -19,6 +19,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,62 +102,168 @@ public class MainActivity extends Activity {
 	}
 
 	public void onClickAcercaDe(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent acercaDeIntent = new Intent(this, AboutActivity.class);
-		startActivity(acercaDeIntent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						AboutActivity.class);
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onClickEmpezar(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent empiezaJuego = new Intent(this, EmpezarJuego.class);
-		startActivity(empiezaJuego);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						EmpezarJuego.class);
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onClickLogin(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(this, LoginAdministrador.class);
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						LoginAdministrador.class);
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onAlumnosClick(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(getApplicationContext(),
-				ListaNavegacionActivity.class);
-		intent.putExtra("ID", "1");
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "1");
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onResultadosClick(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(getApplicationContext(),
-				ListaNavegacionActivity.class);
-		intent.putExtra("ID", "2");
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "2");
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onEjerciciosClick(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(getApplicationContext(),
-				ListaNavegacionActivity.class);
-		intent.putExtra("ID", "3");
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "3");
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onSeriesClick(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(getApplicationContext(),
-				ListaNavegacionActivity.class);
-		intent.putExtra("ID", "4");
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "4");
+				startActivity(intent);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onObjetosClick(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-		Intent intent = new Intent(getApplicationContext(),
-				ListaNavegacionActivity.class);
-		intent.putExtra("ID", "5");
-		startActivity(intent);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(getApplicationContext(),
+						ListaNavegacionActivity.class);
+				intent.putExtra("ID", "5");
+				startActivity(intent);
+			}
 
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	public void onBorrarEjerciciosObjetos(View v) {
@@ -190,10 +297,7 @@ public class MainActivity extends Activity {
 		Ficheros.copyAssets(MainActivity.this);
 	}
 
-	public void onReiniciaClick(View v) {
-
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-
+	private void ReiniciaBD(){
 		AlumnoDataSource ads = new AlumnoDataSource(this);
 		ObjetoDataSource ods = new ObjetoDataSource(this);
 		EjercicioDataSource eds = new EjercicioDataSource(this);
@@ -234,16 +338,17 @@ public class MainActivity extends Activity {
 				Sexo.Hombre, "");
 
 		// Crear Ejercicios
-		/*ArrayList<String> lista = new ArrayList<String>();
-		Ejercicio p1 = eds.createEjercicio("Ejercicio 1", new Date(), lista,
-				"Descripcion 2", 5, lista, "");
-		Ejercicio p2 = eds.createEjercicio("Ejercicio 2", new Date(), lista,
-				"Descripcion 2", 5, lista, "");
+		/*
+		 * ArrayList<String> lista = new ArrayList<String>(); Ejercicio p1 =
+		 * eds.createEjercicio("Ejercicio 1", new Date(), lista,
+		 * "Descripcion 2", 5, lista, ""); Ejercicio p2 =
+		 * eds.createEjercicio("Ejercicio 2", new Date(), lista,
+		 * "Descripcion 2", 5, lista, "");
 		 */
 		// Crear Serie
 		ArrayList<Integer> miarray = new ArrayList<Integer>();
-		//miarray.add(p1.getIdEjercicio());
-		//miarray.add(p2.getIdEjercicio());
+		// miarray.add(p1.getIdEjercicio());
+		// miarray.add(p2.getIdEjercicio());
 		SerieEjercicios serie1 = seds.createSerieEjercicios("Serie", miarray,
 				0, new Date());
 		seds.actualizaDuracion(serie1);
@@ -301,6 +406,26 @@ public class MainActivity extends Activity {
 													// sounds
 		Ficheros.copyAssets(MainActivity.this);// Inicializa la carpeta sonidos
 												// desde el assets
+
+	}
+	
+	public void onReiniciaClick(View v) {
+		
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				ReiniciaBD();
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	@Override
