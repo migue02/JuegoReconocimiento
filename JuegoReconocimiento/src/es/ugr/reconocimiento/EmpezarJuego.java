@@ -2,8 +2,6 @@ package es.ugr.reconocimiento;
 
 import java.util.List;
 
-import com.squareup.picasso.Picasso;
-
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.juegoreconocimiento.R;
@@ -13,6 +11,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -63,18 +62,18 @@ public class EmpezarJuego extends Activity {
 		spinnerAl.setAdapter(spinner_adapter_al);
 		spinnerAl
 				.setOnItemSelectedListener(new MyOnItemSelectedListenerAlumno());
+		((ImageView) findViewById(R.id.btnCiclico)).setImageAlpha(80);
 	}
 
 	public void setCiclico(View v) {
-		v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
 		ImageView btnCiclico = (ImageView) findViewById(R.id.btnCiclico);
 		TextView textoCiclico = (TextView) findViewById(R.id.textoCiclico);
 		ciclico = !ciclico;
 		if (ciclico) {
-			Picasso.with(v.getContext()).load(R.drawable.ciclico_pulsado).into(btnCiclico);
+			btnCiclico.setImageAlpha(255);
 			textoCiclico.setText("Modo Cíclico: ON");
 		} else {
-			Picasso.with(v.getContext()).load(R.drawable.ciclico).into(btnCiclico);
+			btnCiclico.setImageAlpha(80);
 			textoCiclico.setText("Modo Cíclico: OFF");
 		}
 	}
@@ -82,13 +81,25 @@ public class EmpezarJuego extends Activity {
 	public void empezarJuego(View v) {
 		if (alumnoSeleccionado.getIdAlumno() != -1
 				&& serieSeleccionada.getIdSerie() != -1) {
-			v.setAnimation(AnimationUtils.loadAnimation(this, R.anim.alpha));
-			Intent myIntent = new Intent(EmpezarJuego.this, Juego.class);
-			myIntent.putExtra("Alumno", alumnoSeleccionado);
-			myIntent.putExtra("Serie", serieSeleccionada);
-			myIntent.putExtra("Ciclico", ciclico);
-			finish();
-			startActivity(myIntent);
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.alpha);
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				public void onAnimationEnd(Animation animation) {
+					Intent myIntent = new Intent(EmpezarJuego.this, Juego.class);
+					myIntent.putExtra("Alumno", alumnoSeleccionado);
+					myIntent.putExtra("Serie", serieSeleccionada);
+					myIntent.putExtra("Ciclico", ciclico);
+					finish();
+					startActivity(myIntent);
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationStart(Animation animation) {
+				}
+			});
+			v.startAnimation(animation);
 		} else {
 			Toast.makeText(getApplicationContext(),
 					"Debe elegir un alumno y una serie para poder jugar",
@@ -123,7 +134,7 @@ public class EmpezarJuego extends Activity {
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
@@ -140,7 +151,7 @@ public class EmpezarJuego extends Activity {
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 

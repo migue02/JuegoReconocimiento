@@ -27,7 +27,7 @@ public class LoginAdministrador extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"admin:admin" };
+			"a:a" };
 
 	/**
 	 * The default email to populate the email field with.

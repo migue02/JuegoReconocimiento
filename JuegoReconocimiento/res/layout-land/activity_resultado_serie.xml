@@ -2,110 +2,104 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <ScrollView
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" >
+        android:layout_height="wrap_content"
+        android:text="¡Fin de la partida!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12dp"
+        android:textStyle="bold" />
 
-        <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tablaresalumred"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            <FrameLayout
-                android:id="@+id/layoutGrafica"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp" >
-            </FrameLayout>
+                android:layout_gravity="center"
+                android:src="@drawable/alumnos_64" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/lblAlumno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/layoutGrafica"
-                android:orientation="vertical" >
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="Alumno"
+                android:textAppearance="@style/TituloTablaMovil"
+                android:textColor="@color/verde_ic" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Alumno y serie"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/texto_tabla" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/series_64" />
 
-                <TextView
-                    android:id="@+id/edtAlumnoSerie"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Alumno y serie" />
+            <TextView
+                android:id="@+id/lblSerie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="Serie de Ejercicios"
+                android:textAppearance="@style/TituloTablaMovil"
+                android:textColor="@color/azul_ic" />
+        </LinearLayout>
+    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Tiempo total"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/texto_tabla" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
-
-                <TextView
-                    android:id="@+id/edtTiempoTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Tiempo Total" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Puntuación"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/texto_tabla" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
-
-                <TextView
-                    android:id="@+id/edtPuntuacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Puntuación" />
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+    </ViewFlipper>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/seliconoactivity"
         android:onClick="onAceptarClick"
-        android:text="@string/aceptar" />
+        android:text="@string/aceptar"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white" />
 
 </LinearLayout>

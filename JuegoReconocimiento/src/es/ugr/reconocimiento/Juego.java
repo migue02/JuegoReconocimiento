@@ -45,6 +45,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,12 +58,11 @@ import es.ugr.reconocimiento.JuegoLibreria;
 
 public class Juego extends Activity implements CvCameraViewListener2 {
 
-	////////////////////////////
+	// //////////////////////////
 	// PRUEBAS /////////////////
-	////////////////////////////
-	int matcher = 0; 
-	
-	
+	// //////////////////////////
+	int matcher = 0;
+
 	private static final String TAG = "Juego::Activity";
 
 	private CameraBridgeViewBase mOpenCvCameraView;
@@ -112,6 +113,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private MediaPlayer player;
 
 	private boolean bVistaCapturar;
+
+	private Toast mToast = null;
 
 	// //////////////
 	// Iniciar cámara
@@ -253,6 +256,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			((LinearLayout) findViewById(R.id.layoutCrono))
 					.setVisibility(View.GONE);
 		}
+		mToast = Toast
+				.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+		((LinearLayout) findViewById(R.id.layoutJugar))
+				.setVisibility(View.GONE);
 	}
 
 	// ///////////////////
@@ -266,6 +273,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 		lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
 		lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
+
 		if (lObjetos.size() > 0) {
 			oObjetoActual = lObjetos.get(0);
 			rellenar(false);
@@ -278,9 +286,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 		oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
 
-		if (oObjetoActual != null)
-			Toast.makeText(Juego.this, "Buscando " + oObjetoActual.getNombre(),
-					Toast.LENGTH_SHORT).show();
+		if (oObjetoActual != null) {
+			mToast.setText("Buscando " + oObjetoActual.getNombre());
+			mToast.show();
+		}
 
 	}
 
@@ -347,13 +356,14 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		}
 
 		if (lbJuegoTerminado) {
-			oResultadoActual.setDuracion(JuegoLibreria.getDuracionActual(this)); // en
-																					// minutos
+			oResultadoActual.setDuracion(JuegoLibreria.getDuracionActual(this));
 			lResultados.add(oResultadoActual);
 			// Mostrar todos los resultados en una actividad nueva o dialog
-		} else
-			Toast.makeText(Juego.this, "Buscando " + oObjetoActual.getNombre(),
-					Toast.LENGTH_SHORT).show();
+			onClickSalir(null);
+		} else {
+			mToast.setText("Buscando " + oObjetoActual.getNombre());
+			mToast.show();
+		}
 		return lbJuegoTerminado;
 
 	}
@@ -374,14 +384,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		for (int i = 0; i < lObjetosEscenario.size(); i++) {
 			colsArray[i] = lObjetosEscenario.get(i).getCols();
 			rowsArray[i] = lObjetosEscenario.get(i).getRows();
-
-			Mat tempMat = Utilidades.matFromJson(lObjetosEscenario.get(i)
-					.getDescriptores());
-			matsDescriptores.add(tempMat);
-
-			MatOfKeyPoint tempMatKeyPoint = Utilidades
-					.keypointsFromJson(lObjetosEscenario.get(i).getKeypoints());
-			matsKeyPoints.add(tempMatKeyPoint);
+			matsDescriptores.add(lObjetosEscenario.get(i).matDescriptores);
+			matsKeyPoints.add(lObjetosEscenario.get(i).matKeyPoints);
 		}
 
 		long[] tempAddrDesc = new long[matsDescriptores.size()];
@@ -409,37 +413,51 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Se ha hecho click en terminar juego y se muestra actividad resumen
 	// //////////////////////////////////////////////////////////////////
 	public void onClickSalir(View v) {
-		Intent intent = new Intent(this, ResultadoSerie.class);
-		if (lResultados == null)
-			lResultados = new ArrayList<Resultado>();
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.quick_alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				Intent intent = new Intent(Juego.this, ResultadoSerie.class);
+				if (lResultados == null)
+					lResultados = new ArrayList<Resultado>();
 
-		if (lResultados.isEmpty()) {
-			Resultado a = new Resultado();
-			a.setAciertos(15);
-			a.setDuracion(20);
-			a.setFallos(6);
-			a.setFechaRealizacion(new Date());
-			a.setIdAlumno(oAlumno.getIdAlumno());
-			a.setIdEjercicio(oSerie.getIdSerie());
-			a.calculaPuntuacion();
-			dsResultado.createResultado(a);
-			lResultados.add(a);
-		}
-/*		int[] ids = new int[lResultados.size()];
+				if (lResultados.isEmpty()) {
+					Resultado a = new Resultado();
+					a.setAciertos(15);
+					a.setDuracion(20);
+					a.setFallos(6);
+					a.setFechaRealizacion(new Date());
+					a.setIdAlumno(oAlumno.getIdAlumno());
+					a.setIdEjercicio(oSerie.getIdSerie());
+					a.calculaPuntuacion();
+					dsResultado.createResultado(a);
+					lResultados.add(a);
+				}
+				/*
+				 * int[] ids = new int[lResultados.size()];
+				 * 
+				 * for (int i = 0; i < lResultados.size(); i++) ids[i] =
+				 * lResultados.get(i).getIdEjercicio();
+				 */
+				int[] ids = new int[lResultados.size() + 1];
 
-		for (int i = 0; i < lResultados.size(); i++)
-			ids[i] = lResultados.get(i).getIdEjercicio();*/
-		int[] ids = new int[lResultados.size()+1];
+				for (int i = 0; i < lResultados.size(); i++)
+					ids[i] = lResultados.get(i).getIdEjercicio();
+				ids[lResultados.size()] = 2;
 
-		for (int i = 0; i < lResultados.size(); i++)
-			ids[i] = lResultados.get(i).getIdEjercicio();
-		ids[lResultados.size()]=2;
+				intent.putExtra("Resultados", ids);
+				intent.putExtra("Alumno", oAlumno.getNombre());
+				intent.putExtra("Serie", oSerie.getNombre());
+				startActivity(intent);
+			}
 
+			public void onAnimationRepeat(Animation animation) {
+			}
 
-		intent.putExtra("Resultados", ids);
-		intent.putExtra("Alumno", oAlumno.getNombre());
-		intent.putExtra("Serie", oSerie.getNombre());
-		startActivity(intent);
+			public void onAnimationStart(Animation animation) {
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	// /////////////////////////////////////////////////////////////////////
@@ -447,8 +465,21 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// reconocer actualmente
 	// /////////////////////////////////////////////////////////////////////
 	public void onAyudaClick(View v) {
-		if (oObjetoActual != null)
-			oObjetoActual.playSonidoAyuda(this);
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.quick_alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				if (oObjetoActual != null)
+					oObjetoActual.playSonidoAyuda(Juego.this);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			public void onAnimationStart(Animation animation) {
+			}
+		});
+		v.startAnimation(animation);
 	}
 
 	// /////////////////////////////////////////////////////////////////////
@@ -456,21 +487,41 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// al objeto a reconocer actualmente
 	// /////////////////////////////////////////////////////////////////////
 	public void onDescripcionClick(View v) {
-		if (oObjetoActual != null)
-			oObjetoActual.playSonidoDescripcion(this);
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.quick_alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				if (oObjetoActual != null)
+					oObjetoActual.playSonidoDescripcion(Juego.this);
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			public void onAnimationStart(Animation animation) {
+			}
+		});
+		v.startAnimation(animation);
+
 	}
 
 	// ////////////////////////////////////////////////////////////////////
 	// Se ha hecho click en SURF y se inicializan los valores del algoritmo
 	// ////////////////////////////////////////////////////////////////////
 	public void onInicializaSurf(View v) {
-		InicializaSurf(
-				Double.parseDouble(edthessianThreshold.getText().toString()),
-				Integer.parseInt(edtnOctaves.getText().toString()),
-				Integer.parseInt(edtnOctaveLayers.getText().toString()),
-				chkExtended.isChecked(), chkUpright.isChecked());
+		/*
+		 * InicializaSurf(
+		 * Double.parseDouble(edthessianThreshold.getText().toString()),
+		 * Integer.parseInt(edtnOctaves.getText().toString()),
+		 * Integer.parseInt(edtnOctaveLayers.getText().toString()),
+		 * chkExtended.isChecked(), chkUpright.isChecked());
+		 */
 		matcher++;
-		CambiarMatcher(matcher%2);
+		CambiarMatcher(matcher % 3);
+
+		mToast.setText("Cambiado al matcher " + matcher % 3);
+		mToast.show();
+
 	}
 
 	// //////////////////////////////////////////////////////////////////////
@@ -495,60 +546,55 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Se ha hecho click en acierto y se suma un acierto al resultado actual
 	// /////////////////////////////////////////////////////////////////////
 	public void onAciertoClick(View v) {
-		final ImageView btn = (ImageView) findViewById(R.id.btnMatch);
-		btn.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					btn.setImageResource(R.drawable.acierto_pulsado);
-				}
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					btn.setImageResource(R.drawable.acierto);
-					if (bEsperandoRespuesta) {
-						oResultadoActual.incrementaAcierto();
-						if (actualizaJuego()) {
-							Toast.makeText(
-									Juego.this,
-									"El juego ha acabado con un resultado de "
-											+ lResultados.get(
-													lResultados.size() - 1)
-													.getPuntuacion(),
-									Toast.LENGTH_LONG).show();
-							bJuegoIniciado = false;
-						}
-						bEsperandoRespuesta = false;
+		if (bEsperandoRespuesta) {
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.quick_alpha);
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				public void onAnimationEnd(Animation animation) {
+					JuegoLibreria.renaudaCrono(Juego.this);
+					oResultadoActual.incrementaAcierto();
+					if (actualizaJuego()) {
+						mToast.setText("El juego ha acabado con un resultado de "
+								+ lResultados.get(lResultados.size() - 1)
+										.getPuntuacion());
+						mToast.show();
+						bJuegoIniciado = false;
 					}
+					bEsperandoRespuesta = false;
 				}
-				return true;
-			}
-		});
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationStart(Animation animation) {
+				}
+			});
+			v.startAnimation(animation);
+		}
 	}
 
 	// /////////////////////////////////////////////////////////////////
 	// Se ha hecho click en fallo y se suma un fallo al resultado actual
 	// /////////////////////////////////////////////////////////////////
 	public void onErrorClick(View v) {
-
-		final ImageView btn = (ImageView) findViewById(R.id.btnError);
-		btn.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					btn.setImageResource(R.drawable.error_pulsado);
+		if (bEsperandoRespuesta) {
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.quick_alpha);
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				public void onAnimationEnd(Animation animation) {
+					JuegoLibreria.renaudaCrono(Juego.this);
+					oResultadoActual.incrementaFallo();
+					bEsperandoRespuesta = false;
 				}
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					btn.setImageResource(R.drawable.error);
-					if (bEsperandoRespuesta) {
-						oResultadoActual.incrementaFallo();
-						bEsperandoRespuesta = false;
-					}
-				}
-				return true;
-			}
-		});
 
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationStart(Animation animation) {
+				}
+			});
+			v.startAnimation(animation);
+		}
 	}
 
 	// ////////////////////////////////////////////////////////////////////
@@ -588,10 +634,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					descriptores_obj.getNativeObjAddr(),
 					keypoints_obj.getNativeObjAddr());
 
-			Toast.makeText(
-					this,
-					"Tiempo = " + elapsedTime + "\n" + "KeyPoints = "
-							+ keypoints_obj.size(), Toast.LENGTH_SHORT).show();
+			mToast.setText("Tiempo = " + elapsedTime + "\n" + "KeyPoints = "
+					+ keypoints_obj.size());
+			mToast.show();
 			if (!keypoints_obj.empty() || !descriptores_obj.empty()) {
 
 				final Dialog dialog = new Dialog(this);
@@ -658,10 +703,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					}
 				});
 				dialog.show();
-			} else
-				Toast.makeText(this,
-						"Es necesario capturar de nuevo el objeto",
-						Toast.LENGTH_SHORT).show();
+			} else {
+				mToast.setText("Es necesario capturar de nuevo el objeto");
+				mToast.show();
+			}
 		}
 
 	}
@@ -700,23 +745,20 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				if (nObjeto != -1) {
 					int id = (int) lObjetosEscenario.get(nObjeto).getId();
 					bEsperandoRespuesta = true;
+					JuegoLibreria.pausaCrono(this);
 
-					oObjetoReconocido = dsObjetos.getObjetoSimple(id); // Solo
-																		// id,
-																		// nombre
-																		// e
-																		// imagen
-					String respuestaAux = "";
+					oObjetoReconocido = dsObjetos.getObjetoSimple(id);
+					String sRespuesta = "";
 
 					if (oObjetoReconocido.getId() == oObjetoActual.getId()) {
-						respuestaAux = acierto;
+						sRespuesta = acierto;
 						try {
 							afd = getAssets().openFd("acierto.mp3");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					} else {
-						respuestaAux = error;
+						sRespuesta = error;
 						try {
 							afd = getAssets().openFd("fallo.mp3");
 						} catch (IOException e) {
@@ -724,7 +766,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						}
 					}
 
-					final String respuesta = respuestaAux;
+					final String respuesta = sRespuesta;
 					this.runOnUiThread(new Runnable() {
 						public void run() {
 							try {
@@ -738,11 +780,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 							}
 							ttobj.speak(respuesta, TextToSpeech.QUEUE_FLUSH,
 									null);
-							Toast.makeText(
-									getApplicationContext(),
-									respuesta + " - encontrado el objeto "
-											+ oObjetoReconocido.getNombre(),
-									Toast.LENGTH_SHORT).show();
+							mToast.setText(respuesta
+									+ " - encontrado el objeto "
+									+ oObjetoReconocido.getNombre());
+							mToast.show();
 						}
 					});
 					nObjeto = -1;
@@ -849,10 +890,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Inicializa los valores que usa el algoritmo SURF
 	public native void InicializaSurf(double phessian, int pnOctaves,
 			int pnOctaveLayers, boolean pExtended, boolean pUpright);
-	
-	////////////////////////////
+
+	// //////////////////////////
 	// PRUEBAS /////////////////
-	////////////////////////////
+	// //////////////////////////
 	public native void CambiarMatcher(int pMatcher);
 
 }

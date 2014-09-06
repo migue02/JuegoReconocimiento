@@ -69,6 +69,14 @@ public class JuegoLibreria {
 				.setBase(SystemClock.elapsedRealtime());
 		((Chronometer) activity.findViewById(R.id.cronometro)).start();
 	}
+	
+	public static void pausaCrono(Activity activity) {
+		((Chronometer) activity.findViewById(R.id.cronometro)).stop();
+	}
+	
+	public static void renaudaCrono(Activity activity) {
+		((Chronometer) activity.findViewById(R.id.cronometro)).start();
+	}
 
 	public static void onVerObjetos(Activity activity,
 			final ObjetoDataSource dsObjetos, final Ejercicio pEjercicio,
