@@ -33,7 +33,7 @@ bool upright = false;
 
 double nPorcentaje = 0.3;
 
-int nMatcher = 0;
+int nMatcher = 1;
 
 void Mat_to_vector_KeyPoint(Mat& mat, vector<KeyPoint>& v_kp) {
 	v_kp.clear();

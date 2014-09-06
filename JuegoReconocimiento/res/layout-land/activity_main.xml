@@ -17,6 +17,15 @@
         android:textColor="#ffff2c08"
         android:visibility="invisible" />
 
+    <ImageView
+        android:id="@+id/buttonObjetos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onSalirClick"
+        android:src="@drawable/exit_48" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -152,9 +161,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/degradado_main"
                     android:gravity="center"
                     android:onClick="onClickLogin"
-                    android:background="@drawable/degradado_main"
                     android:orientation="horizontal" >
 
                     <TextView

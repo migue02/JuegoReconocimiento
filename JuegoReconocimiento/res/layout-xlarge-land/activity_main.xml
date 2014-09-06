@@ -16,6 +16,15 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffff2c08" />
 
+    <ImageView
+        android:id="@+id/buttonObjetos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onSalirClick"
+        android:src="@drawable/exit_72" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -126,6 +126,16 @@
         <item name="android:paddingTop">5sp</item>
     </style>
 
+    <style name="EtiquetasJuegoLarge" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/azul_oscuro</item>
+    </style>
+
+    <style name="EtiquetasJuegoSmall" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/azul_oscuro</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:typeface">monospace</item>

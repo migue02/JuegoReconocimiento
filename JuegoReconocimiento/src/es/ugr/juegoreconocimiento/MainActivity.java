@@ -13,16 +13,20 @@ import org.opencv.core.MatOfKeyPoint;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
@@ -295,9 +299,14 @@ public class MainActivity extends Activity {
 		Ficheros.eliminaSonidos(MainActivity.this);
 		Ficheros.creaCarpetas(MainActivity.this);
 		Ficheros.copyAssets(MainActivity.this);
+		
+		Toast.makeText(MainActivity.this, "Borrado alumnos, series y resultados", Toast.LENGTH_LONG).show();
 	}
 
-	private void ReiniciaBD(){
+	private void ReiniciaBD() {
+		boolean bDesdeCero = false;
+		
+		
 		AlumnoDataSource ads = new AlumnoDataSource(this);
 		ObjetoDataSource ods = new ObjetoDataSource(this);
 		EjercicioDataSource eds = new EjercicioDataSource(this);
@@ -310,11 +319,17 @@ public class MainActivity extends Activity {
 		eds.open();
 		seds.open();
 		rds.open();
+		
+		bDesdeCero = ods.getAllObjetos().size() == 0;
+		if (bDesdeCero)
+			bDesdeCero = eds.getAllEjercicios().size() == 0;
 
 		rds.borraTodosResultados();
 		seds.eliminarTodasSeriesEjercicios();
-		eds.eliminaTodosEjercicios();
-		ods.eliminaTodosObjetos();
+		if (bDesdeCero){
+			eds.eliminaTodosEjercicios();
+			ods.eliminaTodosObjetos();
+		}
 		ads.borraTodosAlumno();
 
 		// Alumnos
@@ -338,16 +353,17 @@ public class MainActivity extends Activity {
 				Sexo.Hombre, "");
 
 		// Crear Ejercicios
-		/*
-		 * ArrayList<String> lista = new ArrayList<String>(); Ejercicio p1 =
-		 * eds.createEjercicio("Ejercicio 1", new Date(), lista,
-		 * "Descripcion 2", 5, lista, ""); Ejercicio p2 =
-		 * eds.createEjercicio("Ejercicio 2", new Date(), lista,
-		 * "Descripcion 2", 5, lista, "");
-		 */
+		Ejercicio p1 = null;
+		if (bDesdeCero){
+			ArrayList<String> lista = new ArrayList<String>();
+			p1 = eds.createEjercicio("Ejercicio 1", new Date(), lista,
+					"Descripcion 2", 5, lista, "");
+		}
+
 		// Crear Serie
 		ArrayList<Integer> miarray = new ArrayList<Integer>();
-		// miarray.add(p1.getIdEjercicio());
+		if (bDesdeCero)
+			miarray.add(p1.getIdEjercicio());
 		// miarray.add(p2.getIdEjercicio());
 		SerieEjercicios serie1 = seds.createSerieEjercicios("Serie", miarray,
 				0, new Date());
@@ -406,11 +422,14 @@ public class MainActivity extends Activity {
 													// sounds
 		Ficheros.copyAssets(MainActivity.this);// Inicializa la carpeta sonidos
 												// desde el assets
+		
+		if (!bDesdeCero) 
+			Toast.makeText(MainActivity.this, "Borrado y creado alumnos, series y resultados, para borrar todo pulsar papelera azul", Toast.LENGTH_LONG).show();
 
 	}
-	
+
 	public void onReiniciaClick(View v) {
-		
+
 		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
@@ -428,6 +447,41 @@ public class MainActivity extends Activity {
 		v.startAnimation(animation);
 	}
 
+	public void onSalirClick(View v) {
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+		animation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationEnd(Animation animation) {
+				salir();
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+				// Do nothing!
+			}
+
+			public void onAnimationStart(Animation animation) {
+				// Do nothing!
+			}
+		});
+		v.startAnimation(animation);
+	}
+
+	public void salir() {
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					MainActivity.this.finish();
+					break;
+				}
+			}
+		};
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setMessage("¿Está seguro que desea salir del juego?")
+				.setPositiveButton("Sí", dialogClickListener)
+				.setNegativeButton("No", dialogClickListener).show();
+	}
+
 	@Override
 	protected void onPause() {
 		player.pause();
@@ -438,6 +492,13 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		player.start();
 		super.onResume();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+			salir();
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

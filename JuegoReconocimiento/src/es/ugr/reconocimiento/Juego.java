@@ -305,7 +305,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 		if (lnObjetoActual >= 0) {
 
-			lnObjetoActual = (lnObjetoActual + 1) % lObjetos.size();
+			lnObjetoActual++;
 
 			if (lnObjetoActual < lObjetos.size()) {
 
@@ -315,22 +315,25 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			} else { // Era último objeto del ejercicio lnObjetoActual ==
 						// lObjetos.size()
 
+				if (lResultados == null)
+					lResultados = new ArrayList<Resultado>();
+
+				oResultadoActual.setDuracion(JuegoLibreria
+						.getDuracionActual(this));
+				oResultadoActual.calculaPuntuacion();
+				lResultados.add(oResultadoActual);
+
 				int lnEjercicioActual = JuegoLibreria.getEjercicioActual(
 						lEjercicios, oEjercicioActual);
 
-				if ((lnEjercicioActual >= 0)
-						&& (lnEjercicioActual < lEjercicios.size()) || bCiclico) {
+				if (lnEjercicioActual >= 0) {
 
-					lnEjercicioActual = (lnEjercicioActual + 1)
-							% lEjercicios.size();
+					lnEjercicioActual++;
 
-					if (lnEjercicioActual == 0) {
-						oResultadoActual.setDuracion(JuegoLibreria
-								.getDuracionActual(this)); // en
-						// minutos
-						oResultadoActual.calculaPuntuacion();
-						lResultados.add(oResultadoActual);
+					if (lnEjercicioActual == lEjercicios.size() && bCiclico)
+						lnEjercicioActual = 0;
 
+					if (lnEjercicioActual < lEjercicios.size()) {
 						oResultadoActual = new Resultado();
 						oResultadoActual
 								.setFechaRealizacion(new GregorianCalendar()
@@ -338,19 +341,19 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 						oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
 						JuegoLibreria.iniciarCrono(this);
+
+						oEjercicioActual = lEjercicios.get(lnEjercicioActual);
+
+						lnObjetoActual = 0;
+
+						lObjetosEscenario = dsObjetos
+								.getAllObjetosEscenario(oEjercicioActual);
+						lObjetos = dsObjetos
+								.getAllObjetosReconocer(oEjercicioActual);
+						oObjetoActual = lObjetos.get(lnObjetoActual);
+
+						lbJuegoTerminado = false;
 					}
-
-					oEjercicioActual = lEjercicios.get(lnEjercicioActual);
-
-					lnObjetoActual = 0;
-
-					lObjetosEscenario = dsObjetos
-							.getAllObjetosEscenario(oEjercicioActual);
-					lObjetos = dsObjetos
-							.getAllObjetosReconocer(oEjercicioActual);
-					oObjetoActual = lObjetos.get(lnObjetoActual);
-
-					lbJuegoTerminado = false;
 				}
 			}
 		}
@@ -359,7 +362,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			oResultadoActual.setDuracion(JuegoLibreria.getDuracionActual(this));
 			lResultados.add(oResultadoActual);
 			// Mostrar todos los resultados en una actividad nueva o dialog
-			onClickSalir(null);
+			mToast.setText("Juego terminado!");
+			mToast.show();
+			terminarJuego();
 		} else {
 			mToast.setText("Buscando " + oObjetoActual.getNombre());
 			mToast.show();
@@ -408,6 +413,44 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		tempRows = null;
 
 	}
+	
+	// //////////////////////////////////////////
+	// Función llamada cuando se termina un juego
+	// //////////////////////////////////////////	
+	private void terminarJuego(){
+		Intent intent = new Intent(Juego.this, ResultadoSerie.class);
+		if (lResultados == null)
+			lResultados = new ArrayList<Resultado>();
+
+		if (lResultados.isEmpty()) {
+			Resultado a = new Resultado();
+			a.setAciertos(15);
+			a.setDuracion(20);
+			a.setFallos(6);
+			a.setFechaRealizacion(new Date());
+			a.setIdAlumno(oAlumno.getIdAlumno());
+			a.setIdEjercicio(oSerie.getIdSerie());
+			a.calculaPuntuacion();
+			dsResultado.createResultado(a);
+			lResultados.add(a);
+		}
+		/*
+		 * int[] ids = new int[lResultados.size()];
+		 * 
+		 * for (int i = 0; i < lResultados.size(); i++) ids[i] =
+		 * lResultados.get(i).getIdEjercicio();
+		 */
+		int[] ids = new int[lResultados.size() + 1];
+
+		for (int i = 0; i < lResultados.size(); i++)
+			ids[i] = lResultados.get(i).getIdEjercicio();
+		ids[lResultados.size()] = 2;
+
+		intent.putExtra("Resultados", ids);
+		intent.putExtra("Alumno", oAlumno.getNombre());
+		intent.putExtra("Serie", oSerie.getNombre());
+		startActivity(intent);
+	}
 
 	// //////////////////////////////////////////////////////////////////
 	// Se ha hecho click en terminar juego y se muestra actividad resumen
@@ -417,38 +460,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				R.anim.quick_alpha);
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
-				Intent intent = new Intent(Juego.this, ResultadoSerie.class);
-				if (lResultados == null)
-					lResultados = new ArrayList<Resultado>();
-
-				if (lResultados.isEmpty()) {
-					Resultado a = new Resultado();
-					a.setAciertos(15);
-					a.setDuracion(20);
-					a.setFallos(6);
-					a.setFechaRealizacion(new Date());
-					a.setIdAlumno(oAlumno.getIdAlumno());
-					a.setIdEjercicio(oSerie.getIdSerie());
-					a.calculaPuntuacion();
-					dsResultado.createResultado(a);
-					lResultados.add(a);
-				}
-				/*
-				 * int[] ids = new int[lResultados.size()];
-				 * 
-				 * for (int i = 0; i < lResultados.size(); i++) ids[i] =
-				 * lResultados.get(i).getIdEjercicio();
-				 */
-				int[] ids = new int[lResultados.size() + 1];
-
-				for (int i = 0; i < lResultados.size(); i++)
-					ids[i] = lResultados.get(i).getIdEjercicio();
-				ids[lResultados.size()] = 2;
-
-				intent.putExtra("Resultados", ids);
-				intent.putExtra("Alumno", oAlumno.getNombre());
-				intent.putExtra("Serie", oSerie.getNombre());
-				startActivity(intent);
+				terminarJuego();
 			}
 
 			public void onAnimationRepeat(Animation animation) {
@@ -573,6 +585,29 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		}
 	}
 
+	// //////////////////////////////////////////////////////////////////
+	// Se ha hecho click en fallo del programa y se no se suma ni acierto
+	// ni fallo al resultado actual, y se sigue buscando
+	// //////////////////////////////////////////////////////////////////
+	public void onErrorProgramaClick(View v) {
+		if (bEsperandoRespuesta) {
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.quick_alpha);
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				public void onAnimationEnd(Animation animation) {
+					bEsperandoRespuesta = false;
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationStart(Animation animation) {
+				}
+			});
+			v.startAnimation(animation);
+		}
+	}
+
 	// /////////////////////////////////////////////////////////////////
 	// Se ha hecho click en fallo y se suma un fallo al resultado actual
 	// /////////////////////////////////////////////////////////////////
@@ -585,6 +620,31 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					JuegoLibreria.renaudaCrono(Juego.this);
 					oResultadoActual.incrementaFallo();
 					bEsperandoRespuesta = false;
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationStart(Animation animation) {
+				}
+			});
+			v.startAnimation(animation);
+		}
+	}
+
+	// ////////////////////////////////////////////////////////////////////////////
+	// Se ha hecho click en siguiente objeto y se suma un fallo al resultado
+	// actual
+	// ////////////////////////////////////////////////////////////////////////////
+	public void onSiguienteClick(View v) {
+		if (bJuegoIniciado) {
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.quick_alpha);
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				public void onAnimationEnd(Animation animation) {
+					JuegoLibreria.renaudaCrono(Juego.this);
+					oResultadoActual.incrementaFallo();
+					actualizaJuego();
 				}
 
 				public void onAnimationRepeat(Animation animation) {
@@ -716,11 +776,14 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// capturará un objeto depediendo de como se ha iniciado la actividad
 	// /////////////////////////////////////////////////////////////////////
 	public void onFrameClick(View v) {
-		if (!bVistaCapturar) {
-			if (!bJuegoIniciado)
-				onReconocerClick(v);
-		} else
-			onCapturarClick(v);
+		try{
+			if (!bVistaCapturar) {
+				if (!bJuegoIniciado)
+					onReconocerClick(v);
+			} else
+				onCapturarClick(v);
+		}catch(Exception e){
+		}
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
