@@ -62,7 +62,9 @@ public class EmpezarJuego extends Activity {
 		spinnerAl.setAdapter(spinner_adapter_al);
 		spinnerAl
 				.setOnItemSelectedListener(new MyOnItemSelectedListenerAlumno());
-		((ImageView) findViewById(R.id.btnCiclico)).setImageAlpha(80);
+		((ImageView) findViewById(R.id.btnCiclico)).setAlpha(80);
+		//((ImageView) findViewById(R.id.btnCiclico)).setImageAlpha(80);
+		
 	}
 
 	public void setCiclico(View v) {
@@ -70,10 +72,10 @@ public class EmpezarJuego extends Activity {
 		TextView textoCiclico = (TextView) findViewById(R.id.textoCiclico);
 		ciclico = !ciclico;
 		if (ciclico) {
-			btnCiclico.setImageAlpha(255);
+			btnCiclico.setAlpha(255);
 			textoCiclico.setText("Modo Cíclico: ON");
 		} else {
-			btnCiclico.setImageAlpha(80);
+			btnCiclico.setAlpha(80);
 			textoCiclico.setText("Modo Cíclico: OFF");
 		}
 	}

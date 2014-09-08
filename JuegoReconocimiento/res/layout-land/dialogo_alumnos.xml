@@ -88,8 +88,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/layoutSexo"
+                android:layout_marginBottom="20dp"
                 android:orientation="vertical"
-                android:weightSum="1" >
+                android:weightSum="1"
+                android:id="@+id/linearLayout1">
 
                 <TextView
                     android:id="@+id/textView"
@@ -110,6 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
+                    android:maxLength="30"
                     android:ems="10"
                     android:hint="Nombre"
                     android:inputType="textCapSentences" />
@@ -135,6 +138,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="Apellidos"
+                    android:maxLength="50"
                     android:inputType="textCapSentences" />
 
                 <TextView
@@ -194,39 +198,43 @@
                 <EditText
                     android:id="@+id/daObserva"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:minHeight="100dp"
                     android:gravity="top"
                     android:hint="Observaciones"
                     android:inputType="textMultiLine|textCapSentences"
                     android:singleLine="false" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout1"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/cAlumnos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/seliconodialogo"
+                    android:text="@string/cancelar"
+                    android:textColor="#ffffff" />
+
+                <Button
+                    android:id="@+id/gAlumnos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/seliconodialogo"
+                    android:text="@string/guardarCambios"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/cAlumnos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:background="@drawable/seliconodialogo"
-            android:text="@string/cancelar"
-            android:textColor="#ffffff" />
-
-        <Button
-            android:id="@+id/gAlumnos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:background="@drawable/seliconodialogo"
-            android:text="@string/guardarCambios"
-            android:textColor="#ffffff" />
-    </LinearLayout>
 
 </LinearLayout>

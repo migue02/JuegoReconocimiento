@@ -80,6 +80,7 @@
     <string name="pathJuego">/mnt/sdcard/JuegoReconocimiento</string>
     <string name="title_lista_navegacion">Menu principal</string>
     <string name="title_activity_resultado_serie">ResultadoSerie</string>
+    <string name="title_activity_comenzar_ejercicio">Comenzar Ejercicio</string>
 
 
 </resources>

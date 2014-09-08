@@ -26,7 +26,7 @@ public class Alumno implements Serializable{
 		apellidos = "";
 		fecha_nac = new Date();//asigna la fecha actual
 		observaciones = "";
-		sexo = Sexo.NoDef;
+		sexo = Sexo.Hombre;
 	}
 	
 	public int getIdAlumno() {

@@ -41,6 +41,15 @@
         <item name="android:paddingBottom">5sp</item>
         <item name="android:paddingTop">5sp</item>
     </style>
+    
+    <style name="TextoTablaAzul" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/azul_ic</item>
+        <item name="android:paddingLeft">2sp</item>
+        <item name="android:paddingRight">5sp</item>
+        <item name="android:paddingBottom">5sp</item>
+        <item name="android:paddingTop">5sp</item>
+    </style>
 
     <style name="TextoTablaEjercicios" parent="@android:style/Widget.TextView">
         <item name="android:textSize">20sp</item>

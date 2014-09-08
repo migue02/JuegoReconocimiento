@@ -220,7 +220,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				bVistaCapturar = false;
 			}
 		}
-
+		
 		dsObjetos = new ObjetoDataSource(this);
 		dsObjetos.open();
 
@@ -247,6 +247,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					.setVisibility(View.GONE);
 			((LinearLayout) findViewById(R.id.layoutEdits))
 					.setVisibility(View.GONE);
+			
+			Intent descEjer=new Intent(this,ComenzarEjercicio.class);
+			descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
+			startActivity(descEjer);			
 		} else { // Modo añadir objeto
 
 			setTitle("Añadir objeto");
