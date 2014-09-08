@@ -1,4 +1,4 @@
-package es.ugr.lista_navegacion;
+package es.ugr.lista_principal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import es.ugr.activities.MainActivity;
 import es.ugr.dialogs.Ayuda;
 import es.ugr.dialogs.FichaAlumno;
 import es.ugr.fragments.EjerciciosFragment;
@@ -15,7 +16,6 @@ import es.ugr.fragments.GestionAlumnosFragment;
 import es.ugr.fragments.ObjetosFragment;
 import es.ugr.fragments.ResultadosFragment;
 import es.ugr.fragments.SeriesEjerciciosFragment;
-import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.Globals;
 
@@ -28,15 +28,15 @@ import es.ugr.utilidades.Globals;
  * vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link ListaNavegacionFragment} and the item details (if present) is a
+ * {@link ListaPrincipalFragment} and the item details (if present) is a
  * {@link DetalleItemFragment}.
  * <p>
  * This activity also implements the required
- * {@link ListaNavegacionFragment.Callbacks} interface to listen for item
+ * {@link ListaPrincipalFragment.Callbacks} interface to listen for item
  * selections.
  */
-public class ListaNavegacionActivity extends FragmentActivity implements
-		ListaNavegacionFragment.Callbacks {
+public class ListaPrincipalActivity extends FragmentActivity implements
+		ListaPrincipalFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -47,7 +47,7 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_ventana_list);
+		setContentView(R.layout.activity_lista_principal);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setTitle(
 				getResources().getStringArray(R.array.menu_principal)[0]);
@@ -61,7 +61,7 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((ListaNavegacionFragment) getSupportFragmentManager()
+			((ListaPrincipalFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.ventana_list))
 					.setActivateOnItemClick(true);
 		}
@@ -75,9 +75,8 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 				} else {
 					id = extras.getString("ID");
 				}
-			} else {
-				id = (String) savedInstanceState.getSerializable("ID");
-			}
+			} else 
+				id = (String) savedInstanceState.getString("ID");
 			onItemSelected(id);
 		}
 	}
@@ -108,11 +107,8 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	// NavUtils.navigateUpTo(this, new Intent(ListaNavegacionActivity.this,
-	// MainActivity.class));
-
 	/**
-	 * Callback method from {@link ListaNavegacionFragment.Callbacks} indicating
+	 * Callback method from {@link ListaPrincipalFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
 	@Override
@@ -153,7 +149,7 @@ public class ListaNavegacionActivity extends FragmentActivity implements
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this, ParentActivity.class);
+			Intent detailIntent = new Intent(this, ParentFragmentActivity.class);
 			detailIntent.putExtra("ID", id);
 			startActivity(detailIntent);
 		}

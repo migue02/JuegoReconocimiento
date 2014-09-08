@@ -6,8 +6,8 @@ import java.util.List;
 
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.juegoreconocimiento.R;
-import es.ugr.parserXML.EjercicioParser;
-import es.ugr.parserXML.EjerciciosMarker;
+import es.ugr.parseadorXML.EjercicioParser;
+import es.ugr.parseadorXML.EjerciciosMarker;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;

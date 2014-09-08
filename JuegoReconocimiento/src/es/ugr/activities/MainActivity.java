@@ -1,4 +1,4 @@
-package es.ugr.juegoreconocimiento;
+package es.ugr.activities;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,8 @@ import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.basedatos.SerieEjerciciosDataSource;
-import es.ugr.lista_navegacion.ListaNavegacionActivity;
+import es.ugr.juegoreconocimiento.R;
+import es.ugr.lista_principal.ListaPrincipalActivity;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
@@ -170,7 +171,7 @@ public class MainActivity extends Activity {
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
 				Intent intent = new Intent(getApplicationContext(),
-						ListaNavegacionActivity.class);
+						ListaPrincipalActivity.class);
 				intent.putExtra("ID", "1");
 				startActivity(intent);
 			}
@@ -191,7 +192,7 @@ public class MainActivity extends Activity {
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
 				Intent intent = new Intent(getApplicationContext(),
-						ListaNavegacionActivity.class);
+						ListaPrincipalActivity.class);
 				intent.putExtra("ID", "2");
 				startActivity(intent);
 			}
@@ -212,7 +213,7 @@ public class MainActivity extends Activity {
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
 				Intent intent = new Intent(getApplicationContext(),
-						ListaNavegacionActivity.class);
+						ListaPrincipalActivity.class);
 				intent.putExtra("ID", "3");
 				startActivity(intent);
 			}
@@ -233,7 +234,7 @@ public class MainActivity extends Activity {
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
 				Intent intent = new Intent(getApplicationContext(),
-						ListaNavegacionActivity.class);
+						ListaPrincipalActivity.class);
 				intent.putExtra("ID", "4");
 				startActivity(intent);
 			}
@@ -254,7 +255,7 @@ public class MainActivity extends Activity {
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationEnd(Animation animation) {
 				Intent intent = new Intent(getApplicationContext(),
-						ListaNavegacionActivity.class);
+						ListaPrincipalActivity.class);
 				intent.putExtra("ID", "5");
 				startActivity(intent);
 			}

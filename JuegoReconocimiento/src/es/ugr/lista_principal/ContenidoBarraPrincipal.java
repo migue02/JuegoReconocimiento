@@ -1,4 +1,4 @@
-package es.ugr.lista_navegacion;
+package es.ugr.lista_principal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

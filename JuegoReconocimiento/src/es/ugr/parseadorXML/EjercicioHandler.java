@@ -1,4 +1,4 @@
-package es.ugr.parserXML;
+package es.ugr.parseadorXML;
 
 import java.io.File;
 import java.io.FileInputStream;

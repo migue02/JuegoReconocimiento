@@ -1,4 +1,4 @@
-package es.ugr.reconocimiento;
+package es.ugr.activities;
 
 import java.util.ArrayList;
 import java.util.List;

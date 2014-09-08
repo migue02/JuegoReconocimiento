@@ -1,4 +1,4 @@
-package es.ugr.lista_navegacion;
+package es.ugr.lista_principal;
 
 import com.squareup.picasso.Picasso;
 
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import es.ugr.adaptadores.Lista_generica_adaptador;
+import es.ugr.adaptadores.AdaptadorListaPrincipal;
 import es.ugr.juegoreconocimiento.R;
 
 /**
@@ -21,7 +21,7 @@ import es.ugr.juegoreconocimiento.R;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class ListaNavegacionFragment extends ListFragment {
+public class ListaPrincipalFragment extends ListFragment {
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -66,14 +66,14 @@ public class ListaNavegacionFragment extends ListFragment {
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
-	public ListaNavegacionFragment() {
+	public ListaPrincipalFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setListAdapter(new Lista_generica_adaptador(getActivity(),
+		setListAdapter(new AdaptadorListaPrincipal(getActivity(),
 				R.layout.item_navegacion, ContenidoBarraPrincipal.ITEMS) {
 
 			@Override

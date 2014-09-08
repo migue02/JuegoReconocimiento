@@ -1,4 +1,4 @@
-package es.ugr.juegoreconocimiento;
+package es.ugr.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;

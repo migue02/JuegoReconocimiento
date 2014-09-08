@@ -1,4 +1,4 @@
-package es.ugr.lista_navegacion;
+package es.ugr.lista_principal;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,14 +20,13 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import es.ugr.lista_navegacion.ContenidoBarraPrincipal;
-import es.ugr.adaptadores.Lista_generica_adaptador;
+import es.ugr.activities.MainActivity;
+import es.ugr.adaptadores.AdaptadorListaPrincipal;
 import es.ugr.fragments.EjerciciosFragment;
 import es.ugr.fragments.GestionAlumnosFragment;
 import es.ugr.fragments.ObjetosFragment;
 import es.ugr.fragments.ResultadosFragment;
 import es.ugr.fragments.SeriesEjerciciosFragment;
-import es.ugr.juegoreconocimiento.MainActivity;
 import es.ugr.juegoreconocimiento.R;
 
 /**
@@ -37,7 +36,7 @@ import es.ugr.juegoreconocimiento.R;
  * @mail miguee02@gmail.com
  * 
  */
-public class ParentActivity extends FragmentActivity {
+public class ParentFragmentActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -63,7 +62,7 @@ public class ParentActivity extends FragmentActivity {
 				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setBackgroundResource(R.drawable.listaredondeada);
-		mDrawerList.setAdapter(new Lista_generica_adaptador(this,
+		mDrawerList.setAdapter(new AdaptadorListaPrincipal(this,
 				R.layout.item_navegacion, ContenidoBarraPrincipal.ITEMS) {
 
 			@Override
@@ -78,7 +77,7 @@ public class ParentActivity extends FragmentActivity {
 					ImageView imagen_entrada = (ImageView) view
 							.findViewById(R.id.imageNavegacion);
 					if (imagen_entrada != null)
-						Picasso.with(ParentActivity.this)
+						Picasso.with(ParentFragmentActivity.this)
 								.load(((ContenidoBarraPrincipal.Item) entrada).idImagen)
 								.into(imagen_entrada);
 				}
@@ -148,7 +147,7 @@ public class ParentActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.navigateUpTo(this, new Intent(this,
-					ListaNavegacionActivity.class));
+					ListaPrincipalActivity.class));
 			finish();
 			return true;
 		case R.id.itemAyuda:

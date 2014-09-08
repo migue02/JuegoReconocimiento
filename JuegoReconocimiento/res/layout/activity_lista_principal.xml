@@ -1,7 +1,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ventana_list"
-    android:name="es.ugr.lista_navegacion.ListaNavegacionFragment"
+    android:name="es.ugr.lista_principal.ListaPrincipalFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"

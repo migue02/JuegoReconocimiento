@@ -1,4 +1,4 @@
-package es.ugr.parserXML;
+package es.ugr.parseadorXML;
 
 import java.util.ArrayList;
 

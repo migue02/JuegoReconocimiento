@@ -1,5 +1,6 @@
-package es.ugr.juegoreconocimiento;
+package es.ugr.activities;
 
+import es.ugr.juegoreconocimiento.R;
 import es.ugr.reconocimiento.Juego;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <supports-screens
@@ -40,11 +40,12 @@
     <application
         android:name="es.ugr.utilidades.Globals"
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:debuggable="true">
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="es.ugr.juegoreconocimiento.MainActivity"
+            android:name="es.ugr.activities.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape" >
@@ -60,48 +61,48 @@
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.AboutActivity"
+            android:name="es.ugr.activities.AboutActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.GestionAlumnos"
+            android:name="es.ugr.activities.GestionAlumnos"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.lista_navegacion.ParentActivity"
+            android:name="es.ugr.lista_principal.ParentFragmentActivity"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.Resultados"
+            android:name="es.ugr.activities.Resultados"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.SeriesEjercicios"
+            android:name="es.ugr.activities.SeriesEjercicios"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.Graficas"
+            android:name="es.ugr.activities.Graficas"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.Tablas"
+            android:name="es.ugr.activities.Tablas"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.Ejercicios"
+            android:name="es.ugr.activities.Ejercicios"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.SplashActivity"
+            android:name="es.ugr.activities.SplashActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -126,27 +127,26 @@
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.Objetos"
+            android:name="es.ugr.activities.Objetos"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="es.ugr.juegoreconocimiento.LoginAdministrador"
+            android:name="es.ugr.activities.LoginAdministrador"
             android:label="@string/title_activity_login_administrador"
             android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="es.ugr.lista_navegacion.ListaNavegacionActivity"
+            android:name="es.ugr.lista_principal.ListaPrincipalActivity"
             android:label="@string/title_lista_navegacion"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name="es.ugr.reconocimiento.ResultadoSerie"
-            android:label="@string/title_activity_resultado_serie" >
+            android:name="es.ugr.activities.ResultadoSerie"
+            android:label="@string/title_activity_resultado_serie"
+            android:screenOrientation="sensorLandscape" >
         </activity>
-       
-        
     </application>
 
 </manifest>

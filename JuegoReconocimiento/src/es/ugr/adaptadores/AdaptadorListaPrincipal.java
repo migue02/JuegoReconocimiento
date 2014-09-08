@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
  * @author Ramon Invarato Menéndez
  * @see {@link www.jarroba.es}
  */
-public abstract class Lista_generica_adaptador extends BaseAdapter {
+public abstract class AdaptadorListaPrincipal extends BaseAdapter {
 	
     private ArrayList<?> entradas; 
     private int R_layout_IdView; 
@@ -23,7 +23,7 @@ public abstract class Lista_generica_adaptador extends BaseAdapter {
      * @param R_layout_IdView Layout con las views que formará un elemento de la lista
      * @param entradas ArrayList con los handlers de las entradas
      */
-    public Lista_generica_adaptador(Context contexto, int R_layout_IdView, ArrayList<?> entradas) {
+    public AdaptadorListaPrincipal(Context contexto, int R_layout_IdView, ArrayList<?> entradas) {
         super();
         this.contexto = contexto;
         this.entradas = entradas; 

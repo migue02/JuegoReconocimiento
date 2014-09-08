@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/ventana_list"
-        android:name="es.ugr.lista_navegacion.ListaNavegacionFragment"
+        android:name="es.ugr.lista_principal.ListaPrincipalFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

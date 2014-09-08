@@ -17,13 +17,13 @@
         android:textColor="#ffff2c08" />
 
     <ImageView
-        android:id="@+id/buttonObjetos"
+        android:id="@+id/btnSalir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:onClick="onSalirClick"
-        android:src="@drawable/exit_72" />
+        android:src="@drawable/exit_128" />
 
     <LinearLayout
         android:layout_width="match_parent"

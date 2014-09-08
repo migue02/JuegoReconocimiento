@@ -1,8 +1,13 @@
 package es.ugr.objetos;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import es.ugr.juegoreconocimiento.R;
+import android.content.Context;
+import android.media.MediaPlayer;
 
 public class Ejercicio {
 	
@@ -15,6 +20,8 @@ public class Ejercicio {
 	private ArrayList<String> objetosReconocer;
 	private int orden;
 	private String sonido_descripcion;
+	
+	private MediaPlayer player = new MediaPlayer();
 	
 	public Ejercicio() {
 		this.idEjercicio=-1;
@@ -53,6 +60,36 @@ public class Ejercicio {
 		this.objetosReconocer = objetosReconocer;
 		this.orden = 0;
 		this.sonido_descripcion = sonido_descripcion;
+	}
+	
+	private void playSonido(String path, String pathError) {
+		if (player != null) {
+			player.release();
+			player = null;
+		}
+		player = new MediaPlayer();
+		try {
+			if (path.length() > 0)
+				player.setDataSource(path);
+			else
+				player.setDataSource(pathError);
+			player.prepare();
+			player.start();
+		} catch (IOException e) {
+			try {
+				player.setDataSource(pathError);
+				player.prepare();
+				player.start();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+
+	public void playSonidoDescripcion(Context context) {
+		playSonido(sonido_descripcion,
+				context.getString(R.string.pathSounds) + "/descripcion.mp3");
 	}
 
 	public Date getFecha() {

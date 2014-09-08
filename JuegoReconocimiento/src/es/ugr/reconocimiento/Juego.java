@@ -21,6 +21,7 @@ import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.activities.ResultadoSerie;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
@@ -143,7 +144,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.activity_juego);
-
+		
 		ttobj = new TextToSpeech(getApplicationContext(),
 				new TextToSpeech.OnInitListener() {
 					@Override
@@ -450,6 +451,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		intent.putExtra("Alumno", oAlumno.getNombre());
 		intent.putExtra("Serie", oSerie.getNombre());
 		startActivity(intent);
+		finish();
 	}
 
 	// //////////////////////////////////////////////////////////////////
@@ -662,7 +664,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// objetos
 	// ////////////////////////////////////////////////////////////////////
 	public void onReconocerClick(View v) {
-		if (!bJuegoIniciado) {
+		if (!bJuegoIniciado && mOpenCvCameraView.isEnabled()) {
 			iniciarJuego();
 			JuegoLibreria.iniciarCrono(this);
 		}
@@ -675,7 +677,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// ////////////////////////////////////////////////////////////////////////
 	public void onCapturarClick(View v) {
 
-		if (!bJuegoIniciado) {
+		
+		if (!bJuegoIniciado && mOpenCvCameraView.isEnabled()) {
 
 			auxGray = mGray.clone();
 			aux = mRgba.clone();
