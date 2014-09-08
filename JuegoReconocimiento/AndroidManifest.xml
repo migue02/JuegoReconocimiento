@@ -147,6 +147,11 @@
             android:label="@string/title_activity_resultado_serie"
             android:screenOrientation="sensorLandscape" >
         </activity>
+        
+        <activity
+            android:name="es.ugr.reconocimiento.ComenzarEjercicio"
+            android:label="@string/title_activity_comenzar_ejercicio" >
+        </activity>
     </application>
 
 </manifest>
