@@ -35,6 +35,8 @@ public class CountDownAnimation {
 	private Animation mAnimation;
 	private int mStartCount;
 	private int mCurrentCount;
+	private int nDuracion = 1000;
+	private String sTexto;
 	private CountDownListener mListener;
 	private Context context;
 	private Sonidos sonidos;
@@ -44,11 +46,13 @@ public class CountDownAnimation {
 	private final Runnable mCountDown = new Runnable() {
 		public void run() {
 			if (mCurrentCount > 0) {
-				mTextView.setText(mCurrentCount + "");
+				if (!sTexto.isEmpty())
+					mTextView.setText(sTexto);
+				else
+					mTextView.setText(mCurrentCount + "");
 				mTextView.startAnimation(mAnimation);
 				mCurrentCount--;
 				sonidos.playContador();
-				
 			} else {
 				mTextView.setVisibility(View.GONE);
 				if (mListener != null)
@@ -72,14 +76,19 @@ public class CountDownAnimation {
 	 * @param startCount
 	 *            The starting count number
 	 */
-	public CountDownAnimation(Context contexto,TextView textView, int startCount) {
-		context=contexto;
-		sonidos=new Sonidos(context);
+	public CountDownAnimation(Context contexto, TextView textView,
+			int startCount, String psTexto, int duracion) {
+		context = contexto;
+		sTexto = psTexto;
+		sonidos = new Sonidos(context);
 		this.mTextView = textView;
 		this.mStartCount = startCount;
 
 		mAnimation = new AlphaAnimation(1.0f, 0.0f);
-		mAnimation.setDuration(1000);
+		if (duracion != -1)
+			nDuracion = duracion;
+		
+		mAnimation.setDuration(nDuracion);
 	}
 
 	/**
@@ -88,14 +97,15 @@ public class CountDownAnimation {
 	public void start() {
 		mHandler.removeCallbacks(mCountDown);
 
-		mTextView.setText(mStartCount + "");
+		if (sTexto.isEmpty()) 
+			mTextView.setText(mStartCount + "");
 		mTextView.setVisibility(View.VISIBLE);
 
 		mCurrentCount = mStartCount;
 
 		mHandler.post(mCountDown);
 		for (int i = 1; i <= mStartCount; i++) {
-			mHandler.postDelayed(mCountDown, i * 1000);
+			mHandler.postDelayed(mCountDown, i * nDuracion);
 		}
 	}
 
@@ -116,7 +126,7 @@ public class CountDownAnimation {
 	public void setAnimation(Animation animation) {
 		this.mAnimation = animation;
 		if (mAnimation.getDuration() == 0)
-			mAnimation.setDuration(1000);
+			mAnimation.setDuration(nDuracion);
 	}
 
 	/**

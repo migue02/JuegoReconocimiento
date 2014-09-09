@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/edtThreeshold"
-        android:text="Porcentaje (20)" />
+        android:text="Porcentaje (0.20)" />
 
     <EditText
         android:id="@+id/edtPorcentaje"
@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/TextView01"
-        android:ems="10" />
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView1"
@@ -55,7 +55,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
-        android:ems="10" >
+        android:ems="10"
+        android:inputType="number" >
+
     </EditText>
 
     <Button

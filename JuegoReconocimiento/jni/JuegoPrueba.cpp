@@ -455,10 +455,11 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		else{
 			char au[150], ptn[100];
 			nGoodMatches = good_matches.size();
+			strcpy(au, "\nHay = ");
 			sprintf(ptn, "%i", nGoodMatches);
 			strcat(au, ptn);
-			strcat(au, ptn);
 			strcpy(ptn, " good matches, y el ");
+			strcat(au, ptn);
 			sprintf(ptn, "%f", nPorcentaje*100);
 			strcat(au, ptn);
 			strcpy(ptn, " de los matches del objeto es ");

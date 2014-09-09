@@ -6,13 +6,17 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -23,9 +27,29 @@ import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import es.ugr.objetos.SerieEjercicios;
+import es.ugr.utilidades.CountDownAnimation;
 import es.ugr.utilidades.Utilidades;
+import es.ugr.utilidades.CountDownAnimation.CountDownListener;
 
 public class JuegoLibreria {
+
+	private static long timeWhenStopped = 0;
+
+	public static void MostrarAnimacion(Context pContext, TextView ptvTexto,
+			String psTexto) {
+		CountDownAnimation countDownAnimation = new CountDownAnimation(
+				pContext, ptvTexto, 1, psTexto, 1500);
+		countDownAnimation.start();
+		Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		countDownAnimation.setAnimation(scaleAnimation);
+		countDownAnimation.setCountDownListener(new CountDownListener() {
+			@Override
+			public void onCountDownEnd(CountDownAnimation animation) {
+			}
+		});
+	}
 
 	public static int getEjercicioActual(List<Ejercicio> pLEjercicio,
 			Ejercicio pEjercicio) {
@@ -68,13 +92,18 @@ public class JuegoLibreria {
 		((Chronometer) activity.findViewById(R.id.cronometro))
 				.setBase(SystemClock.elapsedRealtime());
 		((Chronometer) activity.findViewById(R.id.cronometro)).start();
+		timeWhenStopped = 0;
 	}
-	
+
 	public static void pausaCrono(Activity activity) {
+		timeWhenStopped = ((Chronometer) activity.findViewById(R.id.cronometro))
+				.getBase() - SystemClock.elapsedRealtime();
 		((Chronometer) activity.findViewById(R.id.cronometro)).stop();
 	}
-	
+
 	public static void renaudaCrono(Activity activity) {
+		((Chronometer) activity.findViewById(R.id.cronometro))
+				.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
 		((Chronometer) activity.findViewById(R.id.cronometro)).start();
 	}
 
@@ -178,7 +207,7 @@ public class JuegoLibreria {
 
 		dialog.show();
 	}
-	
+
 	static int nLocation = -1;
 
 	public static void insertaEnEjercicio(final Activity activity,

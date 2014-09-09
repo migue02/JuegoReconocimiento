@@ -36,20 +36,16 @@ import es.ugr.utilidades.Utilidades;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.WindowManager;
@@ -58,6 +54,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import es.ugr.reconocimiento.JuegoLibreria;
 
@@ -104,7 +101,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	private ObjetoDataSource dsObjetos;
 
-	private List<Resultado> lResultados;
+	private List<Resultado> lResultados = new ArrayList<Resultado>();
 	private Resultado oResultadoActual;
 	private ResultadoDataSource dsResultado;
 
@@ -249,8 +246,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			}
 			((ImageView) findViewById(R.id.btnCapturar))
 					.setVisibility(View.GONE);
-			/*((LinearLayout) findViewById(R.id.layoutEdits))
-					.setVisibility(View.GONE);*/
+
+			((LinearLayout) findViewById(R.id.layoutEdits))
+					.setVisibility(View.GONE);
 
 			// Intent descEjer=new Intent(this,ComenzarEjercicio.class);
 			// descEjer.putExtra("idEjercicio",
@@ -276,6 +274,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Empezar a reconocer
 	// ///////////////////
 	private void iniciarJuego() {
+
+		JuegoLibreria
+				.MostrarAnimacion(Juego.this,
+						((TextView) findViewById(R.id.tvAnimacion)),
+						"EMPIEZA EL JUEGO");
 
 		bEsperandoRespuesta = false;
 		nObjeto = -1;
@@ -368,17 +371,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			}
 		}
 
-		if (lbJuegoTerminado) {
-			oResultadoActual.setDuracion(JuegoLibreria.getDuracionActual(this));
-			lResultados.add(oResultadoActual);
-			// Mostrar todos los resultados en una actividad nueva o dialog
-			mToast.setText("Juego terminado!");
-			mToast.show();
+		if (lbJuegoTerminado)
 			terminarJuego();
-		} else {
-			mToast.setText("Buscando " + oObjetoActual.getNombre());
-			mToast.show();
-		}
+		else
+			JuegoLibreria.MostrarAnimacion(Juego.this,
+					((TextView) findViewById(R.id.tvAnimacion)), "Buscando "
+							+ oObjetoActual.getNombre());
 		return lbJuegoTerminado;
 
 	}
@@ -428,35 +426,26 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Función llamada cuando se termina un juego
 	// //////////////////////////////////////////
 	private void terminarJuego() {
-		Intent intent = new Intent(Juego.this, ResultadoSerie.class);
-		if (lResultados == null || lResultados.isEmpty()){
-			lResultados = new ArrayList<Resultado>();
-			Resultado a = new Resultado();
-			a.setAciertos(15);
-			a.setDuracion(20);
-			a.setFallos(6);
-			a.setFechaRealizacion(new Date());
-			a.setIdAlumno(oAlumno.getIdAlumno());
-			a.setIdEjercicio(oSerie.getIdSerie());
-			a.calculaPuntuacion();
-			dsResultado.createResultado(a);
-			lResultados.add(a);
-			a.setAciertos(10);
-			a.setDuracion(16);
-			a.setFallos(15);
-			Resultado b = dsResultado.createResultado(a);
-			lResultados.add(b);
+		if (lResultados == null || lResultados.isEmpty())
+			JuegoLibreria.MostrarAnimacion(Juego.this,
+					((TextView) findViewById(R.id.tvAnimacion)),
+					"¡Aún no has realizado ningún ejercicio!");
+		else {
+			JuegoLibreria.MostrarAnimacion(Juego.this,
+					((TextView) findViewById(R.id.tvAnimacion)),
+					"¡Juego terminado!");
+			Intent intent = new Intent(Juego.this, ResultadoSerie.class);
+			int[] ids = new int[lResultados.size()];
+			for (int i = 0; i < lResultados.size(); i++) {
+				dsResultado.createResultado(lResultados.get(i));
+				ids[i] = lResultados.get(i).getIdResultado();
+			}
+			intent.putExtra("Resultados", ids);
+			intent.putExtra("Alumno", oAlumno.getNombre());
+			intent.putExtra("Serie", oSerie.getNombre());
+			startActivity(intent);
+			finish();
 		}
-
-		int[] ids = new int[lResultados.size()];
-		for (int i = 0; i < lResultados.size(); i++)
-			ids[i] = lResultados.get(i).getIdEjercicio();
-
-		intent.putExtra("Resultados", ids);
-		intent.putExtra("Alumno", oAlumno.getNombre());
-		intent.putExtra("Serie", oSerie.getNombre());
-		startActivity(intent);
-		finish();
 	}
 
 	// //////////////////////////////////////////////////////////////////
@@ -535,33 +524,33 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		 * Integer.parseInt(edtnOctaveLayers.getText().toString()),
 		 * chkExtended.isChecked(), chkUpright.isChecked());
 		 */
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.valores_reconocimiento);
-        dialog.setTitle("Valores del algoritmo");
-        final EditText edtThreeshold = (EditText) dialog.findViewById(R.id.edtThreeshold);
-        final EditText edtPorcentaje = (EditText) dialog.findViewById(R.id.edtPorcentaje);
-        final EditText edtMatcher = (EditText) dialog.findViewById(R.id.edtMatcher);
-        edtThreeshold.setText("800");
-        edtPorcentaje.setText("20");
-        edtMatcher.setText("1");
-        dialog.show();         
-        Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptar);
-        btnAceptar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	int lMatcher = Integer.parseInt(edtMatcher.getText().toString());
-            	double lPorcentaje = Double.parseDouble(edtPorcentaje.getText().toString());
-            	double lThreeshold = Double.parseDouble(edtThreeshold.getText().toString());
-            	CambiarValoresAlgoritmo(lMatcher, lPorcentaje, lThreeshold);
-                dialog.dismiss();
-            }
-        });
-
-		
-		
-		mToast.setText("Cambiado al matcher " + matcher % 3);
-		mToast.show();
-
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.valores_reconocimiento);
+		dialog.setTitle("Valores del algoritmo");
+		final EditText edtThreeshold = (EditText) dialog
+				.findViewById(R.id.edtThreeshold);
+		final EditText edtPorcentaje = (EditText) dialog
+				.findViewById(R.id.edtPorcentaje);
+		final EditText edtMatcher = (EditText) dialog
+				.findViewById(R.id.edtMatcher);
+		edtThreeshold.setText("800");
+		edtPorcentaje.setText("0.2");
+		edtMatcher.setText("1");
+		dialog.show();
+		Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptar);
+		btnAceptar.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int lMatcher = Integer
+						.parseInt(edtMatcher.getText().toString());
+				double lPorcentaje = Double.parseDouble(edtPorcentaje.getText()
+						.toString());
+				double lThreeshold = Double.parseDouble(edtThreeshold.getText()
+						.toString());
+				CambiarValoresAlgoritmo(lMatcher, lPorcentaje, lThreeshold);
+				dialog.dismiss();
+			}
+		});
 	}
 
 	// //////////////////////////////////////////////////////////////////////
@@ -624,6 +613,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			animation.setAnimationListener(new Animation.AnimationListener() {
 				public void onAnimationEnd(Animation animation) {
 					bEsperandoRespuesta = false;
+					JuegoLibreria.renaudaCrono(Juego.this);
 				}
 
 				public void onAnimationRepeat(Animation animation) {
@@ -985,6 +975,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// //////////////////////////
 	// PRUEBAS /////////////////
 	// //////////////////////////
-	public native void CambiarValoresAlgoritmo(int pMatcher, double pPorcenaje, double pThreesHold);
+	public native void CambiarValoresAlgoritmo(int pMatcher, double pPorcenaje,
+			double pThreesHold);
 
 }
