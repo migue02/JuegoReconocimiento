@@ -156,8 +156,10 @@ public class Objeto {
 	}
 
 	public void stopSonido() {
-		player.release();
-		player = null;
+		if(player != null){
+			player.release();
+			player = null;
+		}
 	}
 
 	public void setImagenFromPath() {

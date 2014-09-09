@@ -25,13 +25,13 @@ vector<int> listaCols;
 vector<int> listaRows;
 int numMatches = 10;
 
-double hessianThreshold = 600.0;
+double hessianThreshold = 800.0;
 int nOctaves = 4;
 int nOctaveLayers = 2;
 bool extended = true;
 bool upright = false;
 
-double nPorcentaje = 0.3;
+double nPorcentaje = 0.2;
 
 int nMatcher = 1;
 
@@ -161,9 +161,11 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 
 }
 
-JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_CambiarMatcher(
-		JNIEnv* env, jobject, jint pMatcher) {
+JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_CambiarValoresAlgoritmo(
+		JNIEnv* env, jobject, jint pMatcher, jdouble pdPorcentaje, jdouble pdhessianThreshold) {
 	nMatcher = pMatcher;
+	nPorcentaje = pdPorcentaje;
+	hessianThreshold = pdhessianThreshold;
 }
 
 /**************/
@@ -385,8 +387,8 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 					nMatches);
 			break;
 		case 1:
-			__android_log_write(ANDROID_LOG_ERROR, "match",
-					"BRUTE FORCE MATCHER");
+			//__android_log_write(ANDROID_LOG_ERROR, "match",
+			//		"BRUTE FORCE MATCHER");
 			good_matches = BruteForceMatch(descriptores_obj, descriptores_esc,
 					nMatches);
 			break;
@@ -448,15 +450,18 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		// ---------------------------------------------------------------------------------
 		float lfPorcentaje = nMatches * nPorcentaje;
 		int lnPorcentaje = lfPorcentaje;
-		if (nMatcher = 0)
+		if (nMatcher == 0)
 			lnPorcentaje = 8;
 		else{
 			char au[150], ptn[100];
 			nGoodMatches = good_matches.size();
-			strcpy(au, "\nHay = ");
 			sprintf(ptn, "%i", nGoodMatches);
 			strcat(au, ptn);
-			strcpy(ptn, " good matches, y el 20% de los matches del objeto es ");
+			strcat(au, ptn);
+			strcpy(ptn, " good matches, y el ");
+			sprintf(ptn, "%f", nPorcentaje*100);
+			strcat(au, ptn);
+			strcpy(ptn, " de los matches del objeto es ");
 			strcat(au, ptn);
 			sprintf(ptn, "%i", lnPorcentaje);
 			strcat(au, ptn);
@@ -577,9 +582,9 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(JNIEnv* env,
 		for (int i = 0; i < listaCols.size(); i++) {
 			match = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc,
 					i);
-			char buffer[10];
-			sprintf(buffer, "%i", match);
-			__android_log_write(ANDROID_LOG_ERROR, "match", buffer);
+			//char buffer[10];
+			//sprintf(buffer, "%i", match);
+			//__android_log_write(ANDROID_LOG_ERROR, "match", buffer);
 			clock_t time_end;
 			time_end = clock() + 0 * CLOCKS_PER_SEC / 1000;
 			while (clock() < time_end) {

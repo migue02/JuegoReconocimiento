@@ -178,10 +178,13 @@ public class JuegoLibreria {
 
 		dialog.show();
 	}
+	
+	static int nLocation = -1;
 
 	public static void insertaEnEjercicio(final Activity activity,
 			SerieEjercicios serieEjercicios, final Objeto objeto,
-			final Ejercicio pEjercicio, final int nLocation) {
+			final Ejercicio pEjercicio, final int pnLocation) {
+		nLocation = pnLocation;
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		builder.setTitle("Ejercicios - " + serieEjercicios.getNombre() + " - "
 				+ objeto.getNombre());

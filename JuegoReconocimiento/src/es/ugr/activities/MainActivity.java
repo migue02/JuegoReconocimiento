@@ -305,7 +305,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void ReiniciaBD() {
-		boolean bDesdeCero = false;
 		
 		
 		AlumnoDataSource ads = new AlumnoDataSource(this);
@@ -320,17 +319,12 @@ public class MainActivity extends Activity {
 		eds.open();
 		seds.open();
 		rds.open();
-		
-		bDesdeCero = ods.getAllObjetos().size() == 0;
-		if (bDesdeCero)
-			bDesdeCero = eds.getAllEjercicios().size() == 0;
+
 
 		rds.borraTodosResultados();
 		seds.eliminarTodasSeriesEjercicios();
-		if (bDesdeCero){
-			eds.eliminaTodosEjercicios();
-			ods.eliminaTodosObjetos();
-		}
+		eds.eliminaTodosEjercicios();
+		ods.eliminaTodosObjetos();
 		ads.borraTodosAlumno();
 
 		// Alumnos
@@ -354,17 +348,17 @@ public class MainActivity extends Activity {
 				Sexo.Hombre, "");
 
 		// Crear Ejercicios
-		Ejercicio p1 = null;
+		/*Ejercicio p1 = null;
 		if (bDesdeCero){
 			ArrayList<String> lista = new ArrayList<String>();
 			p1 = eds.createEjercicio("Ejercicio 1", new Date(), lista,
 					"Descripcion 2", 5, lista, "");
-		}
+		}*/
 
 		// Crear Serie
 		ArrayList<Integer> miarray = new ArrayList<Integer>();
-		if (bDesdeCero)
-			miarray.add(p1.getIdEjercicio());
+		/*if (bDesdeCero)
+			miarray.add(p1.getIdEjercicio());*/
 		// miarray.add(p2.getIdEjercicio());
 		SerieEjercicios serie1 = seds.createSerieEjercicios("Serie", miarray,
 				0, new Date());
@@ -424,9 +418,6 @@ public class MainActivity extends Activity {
 		Ficheros.copyAssets(MainActivity.this);// Inicializa la carpeta sonidos
 												// desde el assets
 		
-		if (!bDesdeCero) 
-			Toast.makeText(MainActivity.this, "Borrado y creado alumnos, series y resultados, para borrar todo pulsar papelera azul", Toast.LENGTH_LONG).show();
-
 	}
 
 	public void onReiniciaClick(View v) {

@@ -1,5 +1,6 @@
 package es.ugr.activities;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import es.ugr.basedatos.ResultadoDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Resultado;
 import es.ugr.utilidades.Sonidos;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -86,54 +88,59 @@ public class ResultadoSerie extends Activity {
 		// item.addView(child);
 
 		oResultado = lResultados.get(i);
+		if (oResultado != null) {
 
-		((TextView) child.findViewById(R.id.tPosicion)).setText("Resultado("
-				+ String.valueOf(i + 1) + "/" + lResultados.size() + ")");
+			((TextView) child.findViewById(R.id.tPosicion))
+					.setText("Resultado(" + String.valueOf(i + 1) + "/"
+							+ lResultados.size() + ")");
 
-		TextView puntuacion = ((TextView) child.findViewById(R.id.tPuntuacion));
-		puntuacion.setText("PUNTUACION: "
-				+ String.valueOf(oResultado.getPuntuacion()));
+			TextView puntuacion = ((TextView) child
+					.findViewById(R.id.tPuntuacion));
+			puntuacion.setText("PUNTUACION: "
+					+ String.valueOf(oResultado.getPuntuacion()));
 
-		TextView totales = ((TextView) child.findViewById(R.id.tTotales));
-		totales.setTextColor(Color.BLUE);
-		totales.setText("Total: "
-				+ String.valueOf(oResultado.getAciertos()
-						+ oResultado.getFallos()));
+			TextView totales = ((TextView) child.findViewById(R.id.tTotales));
+			totales.setTextColor(Color.BLUE);
+			totales.setText("Total: "
+					+ String.valueOf(oResultado.getAciertos()
+							+ oResultado.getFallos()));
 
-		TextView aciertos = ((TextView) child.findViewById(R.id.tAciertos));
-		aciertos.setTextColor(Color.GREEN);
-		aciertos.setText("Aciertos: "
-				+ String.valueOf(oResultado.getAciertos()));
-		;
+			TextView aciertos = ((TextView) child.findViewById(R.id.tAciertos));
+			aciertos.setTextColor(Color.GREEN);
+			aciertos.setText("Aciertos: "
+					+ String.valueOf(oResultado.getAciertos()));
 
-		TextView fallos = ((TextView) child.findViewById(R.id.tFallos));
-		fallos.setTextColor(Color.RED);
-		fallos.setText("Fallos: " + String.valueOf(oResultado.getFallos()));
+			TextView fallos = ((TextView) child.findViewById(R.id.tFallos));
+			fallos.setTextColor(Color.RED);
+			fallos.setText("Fallos: " + String.valueOf(oResultado.getFallos()));
 
-		TextView duracion = ((TextView) child.findViewById(R.id.tDuracion));
-		duracion.setText("Duración: "
-				+ String.valueOf(oResultado.getDuracion()) + " minuto(s)");
+			TextView duracion = ((TextView) child.findViewById(R.id.tDuracion));
+			duracion.setText("Duración: "
+					+ String.valueOf(oResultado.getDuracion()) + " minuto(s)");
 
-		double[] values = new double[] { lResultados.get(i).getAciertos(),
-				lResultados.get(i).getFallos() };
-		int[] colors = new int[] { Color.GREEN, Color.RED };
-		DefaultRenderer renderer = buildCategoryRenderer(colors);
-		renderer.setChartTitleTextSize(20);
-		renderer.setDisplayValues(true);
-		renderer.setShowLabels(true);
-		renderer.setLabelsColor(Color.GRAY);
-		renderer.setPanEnabled(false);
-		renderer.setZoomEnabled(false);
-		SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
-		r.setHighlighted(true);
+			double[] values = new double[] { lResultados.get(i).getAciertos(),
+					lResultados.get(i).getFallos() };
+			int[] colors = new int[] { Color.GREEN, Color.RED };
+			DefaultRenderer renderer = buildCategoryRenderer(colors);
+			renderer.setChartTitleTextSize(20);
+			renderer.setDisplayValues(true);
+			renderer.setShowLabels(true);
+			renderer.setLabelsColor(Color.GRAY);
+			renderer.setPanEnabled(false);
+			renderer.setZoomEnabled(false);
+			SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
+			r.setHighlighted(true);
 
-		mChart = (GraphicalView) ChartFactory.getPieChartView(this,
-				buildCategoryDataset("Project budget", values), renderer);
+			mChart = (GraphicalView) ChartFactory.getPieChartView(this,
+					buildCategoryDataset("Project budget", values), renderer);
 
-		FrameLayout fl = (FrameLayout) child.findViewById(R.id.layoutGrafica);
+			FrameLayout fl = (FrameLayout) child
+					.findViewById(R.id.layoutGrafica);
 
-		fl.addView(mChart);
-		vf.addView(child);
+			fl.addView(mChart);
+			vf.addView(child);
+
+		}
 
 	}
 

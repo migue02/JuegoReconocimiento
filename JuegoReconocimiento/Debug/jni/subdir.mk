@@ -5,19 +5,16 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../jni/JuegoPrueba.cpp \
-../jni/Libreria.cpp \
 ../jni/PatRecModificado.cpp \
 ../jni/ReconocimientoPrueba.cpp 
 
 OBJS += \
 ./jni/JuegoPrueba.o \
-./jni/Libreria.o \
 ./jni/PatRecModificado.o \
 ./jni/ReconocimientoPrueba.o 
 
 CPP_DEPS += \
 ./jni/JuegoPrueba.d \
-./jni/Libreria.d \
 ./jni/PatRecModificado.d \
 ./jni/ReconocimientoPrueba.d 
 
