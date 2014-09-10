@@ -699,10 +699,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			aux = mRgba.clone();
 
 			Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
-			Imgproc.Canny(auxGray, auxGray, 40, 120);
 
 			Imgproc.GaussianBlur(aux, aux, new Size(3, 3), 2);
-			Imgproc.Canny(aux, aux, 40, 120);
 
 			Imgproc.resize(auxGray, auxGray, new Size(320, 240));
 			Imgproc.resize(aux, aux, new Size(320, 240));
@@ -814,7 +812,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				auxGray = mGray.clone();
 
 				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
-				Imgproc.Canny(auxGray, auxGray, 40, 120);
 				Imgproc.resize(auxGray, auxGray, new Size(320, 240));
 
 				nObjeto = FindObjects(auxGray.getNativeObjAddr(),

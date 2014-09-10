@@ -31,7 +31,7 @@ int nOctaveLayers = 2;
 bool extended = true;
 bool upright = false;
 
-double nPorcentaje = 0.2;
+double nPorcentaje = 0.5;
 
 int nMatcher = 1;
 
@@ -522,7 +522,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 
 		}
 	} catch (Exception e) {
-		__android_log_write(ANDROID_LOG_ERROR, "match", "NO");
+		__android_log_write(ANDROID_LOG_ERROR, "match", "ERROR_MATCH");
 	}
 	return -1;
 }
