@@ -21,199 +21,210 @@ import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.utilidades.JSONParser;
 
-public class DescargarEjercicios extends AsyncTask<List<String>, String, String> {
-	 
-    /**
-     * Before starting background thread Show Progress Dialog
-     * */
-	
+public class DescargarEjercicios extends
+		AsyncTask<List<String>, String, String> {
+
+	/**
+	 * Before starting background thread Show Progress Dialog
+	 * */
+
 	private Context context;
 	private ProgressDialog pDialog;
 	private JSONParser jParser;
 	private String url_get_ejercicio = "";
-	
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_EJERCICIOS = "ejercicio";
-    private static final String TAG_NOMBRE = "nombre";
-    private static final String TAG_OBJETOS = "objetos";
-    private static final String TAG_FECHA = "fecha";
-    private static final String TAG_DESCRIPCION = "descripcion";
-    private static final String TAG_DURACION = "duracion";
-    private static final String TAG_OBJETOS_RECONOCER = "objetosReconocer";
-    private static final String TAG_SONIDO_DESCRIPCION = "sonido_descripcion";
-    
-    private JSONArray ejercicios = null;
-	
-    private EjercicioDataSource eds;
-    private Runnable creaTabla;
-    
-    public DescargarEjercicios(Context context, Runnable creaTabla){
-    	this.context=context;
-    	this.creaTabla = creaTabla;
-    	url_get_ejercicio=context.getString(R.string.servidor_remoto)+"get_ejercicio.php";
-    	eds=new EjercicioDataSource(context);
-    	eds.open();
-    	jParser=new JSONParser();
-    }
-    
-    
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Sincronizando ejercicios, por favor espere...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
 
-    
+	private static final String TAG_SUCCESS = "success";
+	private static final String TAG_EJERCICIOS = "ejercicio";
+	private static final String TAG_NOMBRE = "nombre";
+	private static final String TAG_OBJETOS = "objetos";
+	private static final String TAG_FECHA = "fecha";
+	private static final String TAG_DESCRIPCION = "descripcion";
+	private static final String TAG_DURACION = "duracion";
+	private static final String TAG_OBJETOS_RECONOCER = "objetosReconocer";
+	private static final String TAG_SONIDO_DESCRIPCION = "sonido_descripcion";
 
-    /**
-     * getting All products from url
-     * */
-@Override
-protected String doInBackground(List<String>... params) {
-        // Building Parameters
-		for(int i=0;i<params[0].size();i++){
+	private JSONArray ejercicios = null;
+
+	private EjercicioDataSource eds;
+	private Runnable creaTabla;
+
+	public DescargarEjercicios(Context context, Runnable creaTabla) {
+		this.context = context;
+		this.creaTabla = creaTabla;
+		url_get_ejercicio = context.getString(R.string.servidor_remoto)
+				+ "get_ejercicio.php";
+		eds = new EjercicioDataSource(context);
+		eds.open();
+		jParser = new JSONParser();
+	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		pDialog = new ProgressDialog(context);
+		pDialog.setMessage("Sincronizando ejercicios, por favor espere...");
+		pDialog.setIndeterminate(false);
+		pDialog.setCancelable(false);
+		pDialog.show();
+	}
+
+	/**
+	 * getting All products from url
+	 * */
+	@Override
+	protected String doInBackground(List<String>... params) {
+		// Building Parameters
+		for (int i = 0; i < params[0].size(); i++) {
 			Insertar(params[0].get(i));
 		}
-		
-		for(int i=0;i<params[1].size();i++)
+
+		for (int i = 0; i < params[1].size(); i++)
 			Modificar(params[1].get(i));
-        return "Añadidos: "+params[0].size()+" nuevos ejercicios; Actualizados: "+params[1].size()+" ejercicios.";
-    }
+		return "Añadidos: " + params[0].size()
+				+ " nuevos ejercicios; Actualizados: " + params[1].size()
+				+ " ejercicios.";
+	}
 
-    /**
-     * After completing background task Dismiss the progress dialog
-     * **/
-      
+	/**
+	 * After completing background task Dismiss the progress dialog
+	 * **/
 
-    protected void onPostExecute(String msg) {
-        pDialog.dismiss();
-        eds.close();
-        creaTabla.run();
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-        toast.show();
+	protected void onPostExecute(String msg) {
+		pDialog.dismiss();
+		eds.close();
+		creaTabla.run();
+		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+		toast.show();
 
-    }
-    
-    
-    private void Insertar(String nombreFila){
-        List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-        parametros.add(new BasicNameValuePair("nombre",nombreFila));
-        
-        // getting JSON string from URL
-        
-        JSONObject json = jParser.makeHttpRequest(url_get_ejercicio, "GET", parametros);
+	}
 
-        // Check your log cat for JSON reponse
-        Log.d("Crear ejercicio Local: ", json.toString());
+	private void Insertar(String nombreFila) {
+		List<NameValuePair> parametros = new ArrayList<NameValuePair>();
+		parametros.add(new BasicNameValuePair("nombre", nombreFila));
 
-        try {
-            // Checking for SUCCESS TAG
-            int success = json.getInt(TAG_SUCCESS);
+		// getting JSON string from URL
 
-            if (success == 1) {
-                // products found
-                // Getting Array of Products
-                ejercicios = json.getJSONArray(TAG_EJERCICIOS);
+		JSONObject json = jParser.makeHttpRequest(url_get_ejercicio, "GET",
+				parametros);
 
-                // looping through All Products
-                for (int j = 0; j < ejercicios.length(); j++) {
-                    JSONObject c = ejercicios.getJSONObject(j);
+		// Check your log cat for JSON reponse
+		Log.d("Crear ejercicio Local: ", json.toString());
 
-                    // Storing each json item in variable
-                   // String id = c.getString(TAG_ID);
-                    String nombre = c.getString(TAG_NOMBRE);
-                    Date fecha=new Date();
-                    try {
-					    fecha=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(c.getString(TAG_FECHA));
+		try {
+			// Checking for SUCCESS TAG
+			int success = json.getInt(TAG_SUCCESS);
+
+			if (success == 1) {
+				// products found
+				// Getting Array of Products
+				ejercicios = json.getJSONArray(TAG_EJERCICIOS);
+
+				// looping through All Products
+				for (int j = 0; j < ejercicios.length(); j++) {
+					JSONObject c = ejercicios.getJSONObject(j);
+
+					// Storing each json item in variable
+					// String id = c.getString(TAG_ID);
+					String nombre = c.getString(TAG_NOMBRE);
+					Date fecha = new Date();
+					try {
+						fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+								.parse(c.getString(TAG_FECHA));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    ArrayList<String> objetos=es.ugr.utilidades.Utilidades.ArrayListFromJson(c.getString(TAG_OBJETOS));
-                    String descripcion = c.getString(TAG_DESCRIPCION);
-                    Integer duracion = Integer.parseInt(c.getString(TAG_DURACION));
-                    ArrayList<String> objetosReconocer=es.ugr.utilidades.Utilidades.ArrayListFromJson(c.getString(TAG_OBJETOS_RECONOCER));
-                    String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
-                    String sonido_descripcion_local="";
-                    if (!sonido_descripcion.equals("")){
-                    	String ruta=context.getString(R.string.pathSounds);
-                    	sonido_descripcion_local=ruta+"/"+nombre+".mp3";
-                    	//sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sonidos/"+nombre+".mp3";
-                    	new DescargarFicheros().execute(sonido_descripcion,sonido_descripcion_local);
-                    	
-                    }
-                    eds.createEjercicio(nombre, fecha, objetos, descripcion, duracion, objetosReconocer, sonido_descripcion_local);
-                }
-            } 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    private void Modificar(String nombreFila){
-        List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-        parametros.add(new BasicNameValuePair("nombre",nombreFila));
-        
-        // getting JSON string from URL
-        
-        JSONObject json = jParser.makeHttpRequest(url_get_ejercicio, "GET", parametros);
-        //json2.
+					ArrayList<String> objetos = JSONParser.ArrayListFromJson(c
+							.getString(TAG_OBJETOS));
+					String descripcion = c.getString(TAG_DESCRIPCION);
+					Integer duracion = Integer.parseInt(c
+							.getString(TAG_DURACION));
+					ArrayList<String> objetosReconocer = JSONParser
+							.ArrayListFromJson(c
+									.getString(TAG_OBJETOS_RECONOCER));
+					String sonido_descripcion = c
+							.getString(TAG_SONIDO_DESCRIPCION);
+					String sonido_descripcion_local = "";
+					if (!sonido_descripcion.equals("")) {
+						String ruta = context.getString(R.string.pathSounds);
+						sonido_descripcion_local = ruta + "/" + nombre + ".mp3";
+						// sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sonidos/"+nombre+".mp3";
+						new DescargarFicheros().execute(sonido_descripcion,
+								sonido_descripcion_local);
 
-        // Check your log cat for JSON reponse
-        Log.d("Crear ejercicio Local: ", json.toString());
+					}
+					eds.createEjercicio(nombre, fecha, objetos, descripcion,
+							duracion, objetosReconocer,
+							sonido_descripcion_local);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 
-        try {
-            // Checking for SUCCESS TAG
-            int success = json.getInt(TAG_SUCCESS);
+	private void Modificar(String nombreFila) {
+		List<NameValuePair> parametros = new ArrayList<NameValuePair>();
+		parametros.add(new BasicNameValuePair("nombre", nombreFila));
 
-            if (success == 1) {
-                // products found
-                // Getting Array of Products
-                ejercicios = json.getJSONArray(TAG_EJERCICIOS);
+		// getting JSON string from URL
 
-                // looping through All Products
-                for (int j = 0; j < ejercicios.length(); j++) {
-                    JSONObject c = ejercicios.getJSONObject(j);
+		JSONObject json = jParser.makeHttpRequest(url_get_ejercicio, "GET",
+				parametros);
+		// json2.
 
-                    // Storing each json item in variable
-                   // String id = c.getString(TAG_ID);
-                    String nombre = c.getString(TAG_NOMBRE);
-                    Date fecha=new Date();
-                    try {
-					    fecha=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(c.getString(TAG_FECHA));
+		// Check your log cat for JSON reponse
+		Log.d("Crear ejercicio Local: ", json.toString());
+
+		try {
+			// Checking for SUCCESS TAG
+			int success = json.getInt(TAG_SUCCESS);
+
+			if (success == 1) {
+				// products found
+				// Getting Array of Products
+				ejercicios = json.getJSONArray(TAG_EJERCICIOS);
+
+				// looping through All Products
+				for (int j = 0; j < ejercicios.length(); j++) {
+					JSONObject c = ejercicios.getJSONObject(j);
+
+					// Storing each json item in variable
+					// String id = c.getString(TAG_ID);
+					String nombre = c.getString(TAG_NOMBRE);
+					Date fecha = new Date();
+					try {
+						fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+								.parse(c.getString(TAG_FECHA));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    ArrayList<String> objetos=es.ugr.utilidades.Utilidades.ArrayListFromJson(c.getString(TAG_OBJETOS));
-                    String descripcion = c.getString(TAG_DESCRIPCION);
-                    Integer duracion = Integer.parseInt(c.getString(TAG_DURACION));
-                    ArrayList<String> objetosReconocer=es.ugr.utilidades.Utilidades.ArrayListFromJson(c.getString(TAG_OBJETOS_RECONOCER));
-                    String sonido_descripcion=c.getString(TAG_SONIDO_DESCRIPCION);
-                    String sonido_descripcion_local="";
-                    if (!sonido_descripcion.equals("")){
-                    	sonido_descripcion_local="/mnt/sdcard/JuegoReconocimiento/sonidos/"+nombre+".mp3";
-                    	new DescargarFicheros().execute(sonido_descripcion,sonido_descripcion_local);
-                    	
-                    }
-                    eds.modificaEjercicio(nombre, fecha, objetos, descripcion, duracion, objetosReconocer, sonido_descripcion_local);
-                   
-                }
-            } 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+					ArrayList<String> objetos = JSONParser.ArrayListFromJson(c
+							.getString(TAG_OBJETOS));
+					String descripcion = c.getString(TAG_DESCRIPCION);
+					Integer duracion = Integer.parseInt(c
+							.getString(TAG_DURACION));
+					ArrayList<String> objetosReconocer = JSONParser
+							.ArrayListFromJson(c
+									.getString(TAG_OBJETOS_RECONOCER));
+					String sonido_descripcion = c
+							.getString(TAG_SONIDO_DESCRIPCION);
+					String sonido_descripcion_local = "";
+					if (!sonido_descripcion.equals("")) {
+						sonido_descripcion_local = "/mnt/sdcard/JuegoReconocimiento/sonidos/"
+								+ nombre + ".mp3";
+						new DescargarFicheros().execute(sonido_descripcion,
+								sonido_descripcion_local);
+
+					}
+					eds.modificaEjercicio(nombre, fecha, objetos, descripcion,
+							duracion, objetosReconocer,
+							sonido_descripcion_local);
+
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -45,7 +45,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 	private List<String> addToRemote;
 	private List<String> updateToLocal;
 	private List<String> updateToRemote;
-	
+
 	private Runnable rCreaTabla;
 
 	public SincronizarObjetos(Context context, Runnable creaTabla) {
@@ -64,7 +64,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 		updateToRemote = new ArrayList<String>();
 
 		rCreaTabla = creaTabla;
-		
+
 	}
 
 	@Override
@@ -99,7 +99,6 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 
 					String nombre = c.getString(TAG_NOMBRE);
 					String fecha = c.getString(TAG_FECHA);
-
 
 					NombObjetosListRem.add(nombre);
 					try {
@@ -154,7 +153,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 			if (!found)
 				addToLocal.add(NombObjetosListRem.get(i));
 		}
-		
+
 		Utilidades.LiberaImagenes(objs);
 
 		if (addToRemote.size() > 0 || updateToRemote.size() > 0
@@ -177,8 +176,8 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 										int which) {
 									new SubirObjetos(context).execute(
 											addToRemote, updateToRemote);
-									new DescargarObjetos(context, rCreaTabla).execute(
-											addToLocal, updateToLocal);
+									new DescargarObjetos(context, rCreaTabla)
+											.execute(addToLocal, updateToLocal);
 								}
 							})
 					.setNegativeButton("No",
@@ -187,8 +186,6 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// TODO Auto-generated method stub
-
 								}
 							});
 

@@ -20,6 +20,8 @@ import org.opencv.core.Size;
 import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
+import com.google.gson.JsonParser;
+
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.activities.ResultadoSerie;
 import es.ugr.basedatos.AlumnoDataSource;
@@ -32,6 +34,7 @@ import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
+import es.ugr.utilidades.JSONParser;
 import es.ugr.utilidades.Utilidades;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -741,8 +744,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					@Override
 					public void onClick(View v) {
 						String keyString, desString;
-						keyString = Utilidades.keypointsToJson(keypoints_obj);
-						desString = Utilidades.matToJson(descriptores_obj);
+						keyString = JSONParser.keypointsToJson(keypoints_obj);
+						desString = JSONParser.matToJson(descriptores_obj);
 						String nombreObjeto = ((EditText) dialog
 								.findViewById(R.id.edtNombre)).getText()
 								.toString();

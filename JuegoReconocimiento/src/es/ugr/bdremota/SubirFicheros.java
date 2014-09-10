@@ -19,72 +19,66 @@ import es.ugr.juegoreconocimiento.R;
 import android.content.Context;
 import android.os.AsyncTask;
 
+public class SubirFicheros extends AsyncTask<String, Void, String> {
+	// ProgressDialog upDialog;
 
-public class SubirFicheros extends AsyncTask<String,Void,String>{
-	//ProgressDialog upDialog;
-	
 	private Context context;
 
-	
-	public SubirFicheros(Context context){
-		this.context=context;
+	public SubirFicheros(Context context) {
+		this.context = context;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
-		// TODO Auto-generated method stub
 		super.onPreExecute();
 	}
 
 	@Override
 	protected String doInBackground(String... params) {
-		// TODO Auto-generated method stub
-		String st=new String();
+		String st = new String();
 		InputStream inputStream;
-	      try {
-	    
-	        inputStream = new FileInputStream(new File(params[0]));
-	        byte[] data;
-	        try {
-	          data = IOUtils.toByteArray(inputStream);
+		try {
 
-	          HttpClient httpClient = new DefaultHttpClient();
-	          HttpPost httpPost = new HttpPost(context.getString(R.string.servidor_remoto)+"up.php");
-	     
-	          InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(data), params[1]);
-	          
-	          MultipartEntityBuilder builder= MultipartEntityBuilder.create();
-	          builder.addPart("file", inputStreamBody);
-	          builder.addTextBody("tipo", context.getString(R.string.servidor_remoto)+"/"+params[2]+"/");
-	          httpPost.setEntity(builder.build());
-	          
-	     
-	          HttpResponse httpResponse = httpClient.execute(httpPost);
-	     
-	          // Handle response back from script.
-//	          if(httpResponse != null) {
-//	     
-//	          } else { // Error, no response.
-//	     
-//	          }
-	        } catch (IOException e) {
-	          e.printStackTrace();
-	        }
-	      } catch (FileNotFoundException e1) {
-	        e1.printStackTrace();
-	      }
-	    	return st;
-	    }
+			inputStream = new FileInputStream(new File(params[0]));
+			byte[] data;
+			try {
+				data = IOUtils.toByteArray(inputStream);
 
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost httpPost = new HttpPost(
+						context.getString(R.string.servidor_remoto) + "up.php");
+
+				InputStreamBody inputStreamBody = new InputStreamBody(
+						new ByteArrayInputStream(data), params[1]);
+
+				MultipartEntityBuilder builder = MultipartEntityBuilder
+						.create();
+				builder.addPart("file", inputStreamBody);
+				builder.addTextBody("tipo",
+						context.getString(R.string.servidor_remoto) + "/"
+								+ params[2] + "/");
+				httpPost.setEntity(builder.build());
+
+				HttpResponse httpResponse = httpClient.execute(httpPost);
+
+				// Handle response back from script.
+				// if(httpResponse != null) {
+				//
+				// } else { // Error, no response.
+				//
+				// }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		return st;
+	}
 
 	@Override
 	protected void onPostExecute(String result) {
-		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		// upDialog.dismiss();
 	}
-	
-	}
-	
 
-
+}

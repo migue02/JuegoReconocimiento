@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import es.ugr.utilidades.Utilidades;
+import es.ugr.utilidades.JSONParser;
 
 public class SerieEjercicios implements Serializable {
 	
@@ -48,7 +48,7 @@ public class SerieEjercicios implements Serializable {
 		try {
 			this.idSerie = idSerie;
 			this.nombre = nombre;
-			this.ejercicios = Utilidades.ArrayListFromJsonInt(ejercicios);	
+			this.ejercicios = JSONParser.ArrayListFromJsonInt(ejercicios);	
 			this.duracion=duracion;
 			this.fecha_modificacion= fecha_modificacion; 
 		}catch (Exception e){
