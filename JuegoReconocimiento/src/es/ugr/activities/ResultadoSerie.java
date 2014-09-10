@@ -85,8 +85,6 @@ public class ResultadoSerie extends Activity {
 
 		View child = getLayoutInflater().inflate(
 				R.layout.layout_resultado_serie, null);
-		// item.addView(child);
-
 		oResultado = lResultados.get(i);
 		if (oResultado != null) {
 

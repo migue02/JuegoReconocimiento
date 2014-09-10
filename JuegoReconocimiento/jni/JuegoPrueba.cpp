@@ -31,7 +31,7 @@ int nOctaveLayers = 2;
 bool extended = true;
 bool upright = false;
 
-double nPorcentaje = 0.2;
+double nPorcentaje = 0.5;
 
 int nMatcher = 1;
 
@@ -455,10 +455,11 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		else{
 			char au[150], ptn[100];
 			nGoodMatches = good_matches.size();
+			strcpy(au, "\nHay = ");
 			sprintf(ptn, "%i", nGoodMatches);
 			strcat(au, ptn);
-			strcat(au, ptn);
 			strcpy(ptn, " good matches, y el ");
+			strcat(au, ptn);
 			sprintf(ptn, "%f", nPorcentaje*100);
 			strcat(au, ptn);
 			strcpy(ptn, " de los matches del objeto es ");
@@ -521,7 +522,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 
 		}
 	} catch (Exception e) {
-		__android_log_write(ANDROID_LOG_ERROR, "match", "NO");
+		__android_log_write(ANDROID_LOG_ERROR, "match", "ERROR_MATCH");
 	}
 	return -1;
 }
