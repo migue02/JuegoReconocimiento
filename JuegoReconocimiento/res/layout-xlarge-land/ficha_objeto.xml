@@ -10,7 +10,7 @@
         android:id="@+id/imgObjeto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
+        android:layout_gravity="center"
         android:layout_weight="0.7"
         android:scaleType="fitXY"
         android:src="@drawable/objetos_180" />

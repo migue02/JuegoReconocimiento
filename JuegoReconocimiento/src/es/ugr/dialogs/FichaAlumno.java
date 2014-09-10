@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import com.squareup.picasso.Picasso;
-
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Alumno;
@@ -61,7 +59,7 @@ public class FichaAlumno extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//this.getWindow().setBackgroundDrawableResource(R.drawable.background);
+		// this.getWindow().setBackgroundDrawableResource(R.drawable.background);
 		setContentView(R.layout.dialogo_alumnos);
 
 		if (!insertar)
@@ -73,10 +71,9 @@ public class FichaAlumno extends Dialog {
 		edtApellidos = (EditText) findViewById(R.id.daApellidos);
 		tvFecha = (TextView) findViewById(R.id.MuestraFecha);
 		edtObservaciones = (EditText) findViewById(R.id.daObserva);
-		Chico = (Button)findViewById(R.id.pulsaChico);
-		Chica = (Button)findViewById(R.id.pulsaChica);
-		
-		
+		Chico = (Button) findViewById(R.id.pulsaChico);
+		Chica = (Button) findViewById(R.id.pulsaChica);
+
 		GuardarDia = (Button) findViewById(R.id.gAlumnos);
 		CancelarDialog = (Button) findViewById(R.id.cAlumnos);
 		imgSexo = (ImageView) findViewById(R.id.AlumPrin);
@@ -87,19 +84,18 @@ public class FichaAlumno extends Dialog {
 		tvFecha.setText(alumno.getFecha_nac_AsStrign());
 		edtObservaciones.setText(alumno.getObservaciones());
 
-		
-		Chico.setSelected(alumno.getSexo()==Sexo.Hombre);
-		Chica.setSelected(alumno.getSexo()==Sexo.Mujer);
-		if (alumno.getSexo() == Sexo.Hombre){
-			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boy_amp));
+		Chico.setSelected(alumno.getSexo() == Sexo.Hombre);
+		Chica.setSelected(alumno.getSexo() == Sexo.Mujer);
+		if (alumno.getSexo() == Sexo.Hombre) {
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
+					R.drawable.boy_amp));
 			sexo = Sexo.Hombre;
-		}else{
-			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.girl_amp));
+		} else {
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
+					R.drawable.girl_amp));
 			sexo = Sexo.Mujer;
 		}
-			
-		
-		
+
 		// Controlador Fecha
 		btnFecha = (Button) findViewById(R.id.CambiarFecha);
 		dtpFecha = null;
@@ -108,7 +104,7 @@ public class FichaAlumno extends Dialog {
 		CancelarDialog.setOnClickListener(onCancelarClick);
 		Chica.setOnTouchListener(onChicaTouch);
 		Chico.setOnTouchListener(onChicoTouch);
-		
+
 		btnFecha.setOnClickListener(onFechaClick);
 
 	}
@@ -123,30 +119,27 @@ public class FichaAlumno extends Dialog {
 		getWindow().setAttributes(lp);
 	}
 
-	
 	View.OnTouchListener onChicoTouch = new View.OnTouchListener() {
-		
+
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			// TODO Auto-generated method stub
 			Chico.setSelected(true);
 			Chica.setSelected(false);
-			((BitmapDrawable)imgSexo.getDrawable()).getBitmap().recycle();  //liberar espacio(Sin esto no funciona en movil)
+			((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle(); 
 			imgSexo = (ImageView) findViewById(R.id.AlumPrin);
-			imgSexo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boy_amp));
+			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
+					R.drawable.boy_amp));
 			sexo = Sexo.Hombre;
 			return false;
 		}
 	};
-	
-	
-	View.OnTouchListener onChicaTouch = new View.OnTouchListener() {	
+
+	View.OnTouchListener onChicaTouch = new View.OnTouchListener() {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			// TODO Auto-generated method stub
 			Chica.setSelected(true);
 			Chico.setSelected(false);
-			((BitmapDrawable)imgSexo.getDrawable()).getBitmap().recycle();  //liberar espacio(Sin esto no funciona en movil)
+			((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle();
 			imgSexo = (ImageView) findViewById(R.id.AlumPrin);
 			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
 					R.drawable.girl_amp));
@@ -163,7 +156,7 @@ public class FichaAlumno extends Dialog {
 
 	View.OnClickListener onGuardarClick = new View.OnClickListener() {
 		public void onClick(View v) {
-			
+
 			SimpleDateFormat formatoDelTexto = new SimpleDateFormat(
 					"dd/MM/yyyy");
 			Date fecha = null;
@@ -176,43 +169,41 @@ public class FichaAlumno extends Dialog {
 				ex.printStackTrace();
 
 			}
-			
-			if(edtNombre.getText().toString().equals(""))
-				DialogoCamposNecesarios(1);
-			else if(edtApellidos.getText().toString().equals(""))
-				DialogoCamposNecesarios(2);
-			else if(fecha.compareTo(new Date())>0)
-				DialogoCamposNecesarios(3);
-			else{
-				
-			
-			alumno.setNombre(edtNombre.getText().toString());
-			alumno.setApellidos(edtApellidos.getText().toString());
-			alumno.setObservaciones(edtObservaciones.getText().toString());
-			alumno.setSexo(sexo);
-			alumno.setFecha_nac(fecha);
 
-			// Si es modificar
-			boolean correcto = false;
-			if (insertar == false) {
-				correcto = dsAlumno.modificaAlumno(alumno);
-				if (correcto == true)
-					Toast.makeText(context, "Alumno modificado",
-							Toast.LENGTH_SHORT).show();
-			} else {
-				// Si es insertar
-				correcto = dsAlumno.createAlumno(alumno) != null;
-				if (correcto == true)
-					Toast.makeText(context, "Alumno creado", Toast.LENGTH_SHORT)
-							.show();
-			}
-			dismiss();
-			function.run();
-			
+			if (edtNombre.getText().toString().equals(""))
+				DialogoCamposNecesarios(1);
+			else if (edtApellidos.getText().toString().equals(""))
+				DialogoCamposNecesarios(2);
+			else if (fecha.compareTo(new Date()) > 0)
+				DialogoCamposNecesarios(3);
+			else {
+
+				alumno.setNombre(edtNombre.getText().toString());
+				alumno.setApellidos(edtApellidos.getText().toString());
+				alumno.setObservaciones(edtObservaciones.getText().toString());
+				alumno.setSexo(sexo);
+				alumno.setFecha_nac(fecha);
+
+				// Si es modificar
+				boolean correcto = false;
+				if (insertar == false) {
+					correcto = dsAlumno.modificaAlumno(alumno);
+					if (correcto == true)
+						Toast.makeText(context, "Alumno modificado",
+								Toast.LENGTH_SHORT).show();
+				} else {
+					// Si es insertar
+					correcto = dsAlumno.createAlumno(alumno) != null;
+					if (correcto == true)
+						Toast.makeText(context, "Alumno creado",
+								Toast.LENGTH_SHORT).show();
+				}
+				dismiss();
+				function.run();
+
 			}
 		}
 	};
-	
 
 	private class PickDate implements DatePickerDialog.OnDateSetListener {
 
@@ -258,19 +249,19 @@ public class FichaAlumno extends Dialog {
 			dtpFecha.show();
 		}
 	};
-	
-	private void DialogoCamposNecesarios(int coderr){
+
+	private void DialogoCamposNecesarios(int coderr) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Atención");
-		if(coderr==1)
+		if (coderr == 1)
 			builder.setMessage("Debe rellenar el campo Nombre");
-		if(coderr==2)
+		if (coderr == 2)
 			builder.setMessage("Debe rellenar el campo Apellidos");
-		if(coderr==3)
+		if (coderr == 3)
 			builder.setMessage("Debe introducir una Fecha de Nacimiento correcta");
-		builder.setPositiveButton("Aceptar",null);
-        builder.create();
-        builder.show();     
-		
+		builder.setPositiveButton("Aceptar", null);
+		builder.create();
+		builder.show();
+
 	}
 }

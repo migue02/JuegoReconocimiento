@@ -1,6 +1,6 @@
 package es.ugr.librerias;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import es.ugr.adaptadores.AdapterObjeto;
 import es.ugr.objetos.*;
@@ -27,7 +27,7 @@ import android.widget.Toast;
  */
 
 public class ObjetosLibrary {
-	private List<Objeto> lo;
+	private ArrayList<Objeto> lo;
 	private ObjetoDataSource ods;
 	private AdapterObjeto adaptador;
 	private ListView lv;
@@ -61,6 +61,7 @@ public class ObjetosLibrary {
 
 	public void onDestroy() {
 		ods.close();
+		Utilidades.LiberaImagenes(lo);
 	}
 
 	public void CreaTablaObj() {
