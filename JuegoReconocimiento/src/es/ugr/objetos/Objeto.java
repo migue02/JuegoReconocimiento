@@ -1,10 +1,10 @@
 package es.ugr.objetos;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.opencv.core.Mat;
@@ -35,6 +35,8 @@ public class Objeto {
 	private String pathSonidoAyuda;
 	private String pathSonidoNombre;
 
+	private final BitmapFactory.Options options = new BitmapFactory.Options();
+
 	private MediaPlayer player = new MediaPlayer();
 
 	public Objeto() {
@@ -52,7 +54,7 @@ public class Objeto {
 		pathSonidoDescripcion = "";
 		pathSonidoNombre = "";
 	}
-	
+
 	public Objeto(long id, String nombre, String descripcion, Date fecha,
 			String keypoints, String descriptores, int cols, int rows,
 			String pathImagen, String sonidoDescripcion, String sonidoAyuda,
@@ -78,7 +80,7 @@ public class Objeto {
 	}
 
 	public Objeto(long id, String nombre, String keypoints,
-			String descriptores, int cols, int rows, Bitmap imagen) {
+			String descriptores, int cols, int rows) {
 		this.id = id;
 		this.nombre = nombre;
 		this.keypoints = keypoints;
@@ -89,13 +91,12 @@ public class Objeto {
 		matDescriptores = Utilidades.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
-		this.imagen = imagen;
 		this.fecha = new Date();
 		pathSonidoAyuda = "";
 		pathSonidoDescripcion = "";
 		pathSonidoNombre = "";
 	}
-	
+
 	public Objeto(Objeto pObjeto) {
 		super();
 		this.id = pObjeto.id;
@@ -106,8 +107,6 @@ public class Objeto {
 		this.descriptores = pObjeto.descriptores;
 		this.cols = pObjeto.cols;
 		this.rows = pObjeto.rows;
-		if (pObjeto.imagen != null)
-			this.imagen.createBitmap(pObjeto.imagen);
 		this.pathImagen = pObjeto.pathImagen;
 		this.pathSonidoDescripcion = pObjeto.pathSonidoDescripcion;
 		this.pathSonidoAyuda = pObjeto.pathSonidoAyuda;
@@ -156,13 +155,13 @@ public class Objeto {
 	}
 
 	public void stopSonido() {
-		if(player != null){
+		if (player != null) {
 			player.release();
 			player = null;
 		}
 	}
 
-	public void setImagenFromPath() {
+	private void setImagenFromPath() {
 		try {
 			File imageFile = new File(pathImagen);
 			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
@@ -245,6 +244,8 @@ public class Objeto {
 	}
 
 	public Bitmap getImagen() {
+		if (imagen == null)
+			setImagenFromPath();
 		return imagen;
 	}
 
@@ -312,31 +313,28 @@ public class Objeto {
 		matDescriptores = Utilidades.matFromJson(this.descriptores);
 	}
 
-	public byte[] getImagenAsByteArray() {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		imagen.compress(Bitmap.CompressFormat.PNG, 100, bos);
-		return bos.toByteArray();
-	}
-
-	public void setImagenAsByteArray(byte[] blob) {
-		imagen = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-	}
-
 	public String creaFicherosSonidoAyuda(Context context) {
-		pathSonidoAyuda = context.getString(R.string.pathSounds) + "/"
-				+ nombre + "Ayuda.mp3";
+		pathSonidoAyuda = context.getString(R.string.pathSounds) + "/" + nombre
+				+ "Ayuda.mp3";
 		return pathSonidoAyuda;
 	}
-	
+
 	public String creaFicherosSonidoDescripcion(Context context) {
 		pathSonidoDescripcion = context.getString(R.string.pathSounds) + "/"
 				+ nombre + "Descripcion.mp3";
 		return pathSonidoDescripcion;
 	}
-	
+
 	public String creaFicherosSonidoNombre(Context context) {
 		pathSonidoNombre = context.getString(R.string.pathSounds) + "/"
 				+ nombre + "Nombre.mp3";
 		return pathSonidoNombre;
+	}
+
+	public void liberaImagen() {
+		if (imagen != null) {
+			imagen.recycle();
+			imagen = null;
+		}
 	}
 }

@@ -132,6 +132,7 @@ public class JuegoLibreria {
 
 		final ArrayList<Objeto> llObjetos = Utilidades
 				.copiaObjetos(llAuxObjetos);
+		Utilidades.LiberaImagenes(llAuxObjetos);
 		llAuxObjetos.clear();
 		llAuxObjetos = null;
 		modeAdapter = new ArrayAdapter<Objeto>(activity,

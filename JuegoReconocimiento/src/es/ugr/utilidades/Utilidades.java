@@ -1,11 +1,7 @@
 package es.ugr.utilidades;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,7 +24,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Utilidades {
 
@@ -302,21 +297,31 @@ public class Utilidades {
 		}
 		return false;
 	}
-	
+
 	public static ArrayList<Objeto> copiaObjetos(ArrayList<Objeto> plObjeto) {
 		ArrayList<Objeto> clonedList = new ArrayList<Objeto>(plObjeto.size());
-	    for (Objeto objeto : plObjeto) {
-	        clonedList.add(new Objeto(objeto));
-	    }
-	    return clonedList;
+		for (Objeto objeto : plObjeto) {
+			clonedList.add(new Objeto(objeto));
+		}
+		return clonedList;
 	}
-	
-	public static ArrayList<Ejercicio> copiaEjercicios(ArrayList<Ejercicio> plEjercicio) {
-		ArrayList<Ejercicio> clonedList = new ArrayList<Ejercicio>(plEjercicio.size());
-	    for (Ejercicio ejercicio : plEjercicio) {
-	        clonedList.add(new Ejercicio(ejercicio));
-	    }
-	    return clonedList;
+
+	public static ArrayList<Ejercicio> copiaEjercicios(
+			ArrayList<Ejercicio> plEjercicio) {
+		ArrayList<Ejercicio> clonedList = new ArrayList<Ejercicio>(
+				plEjercicio.size());
+		for (Ejercicio ejercicio : plEjercicio) {
+			clonedList.add(new Ejercicio(ejercicio));
+		}
+		return clonedList;
+	}
+
+	public static void LiberaImagenes(List<Objeto> plObjetos) {
+		try {
+			for (Objeto objeto : plObjetos)
+				objeto.liberaImagen();
+		} catch (Exception e) {
+		}
 	}
 
 }

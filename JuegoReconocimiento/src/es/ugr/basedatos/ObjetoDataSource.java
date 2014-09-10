@@ -271,7 +271,6 @@ public class ObjetoDataSource {
 		objeto.setCols(cursor.getInt(6));
 		objeto.setRows(cursor.getInt(7));
 		objeto.setPathImagen(cursor.getString(8));
-		objeto.setImagenFromPath();
 		objeto.setSonidoDescripcion(cursor.getString(9));
 		objeto.setSonidoAyuda(cursor.getString(10));
 		objeto.setSonidoNombre(cursor.getString(11));
@@ -290,7 +289,6 @@ public class ObjetoDataSource {
 			objeto.setId(cursor.getLong(0));
 			objeto.setNombre(cursor.getString(1));
 			objeto.setPathImagen(cursor.getString(2));
-			objeto.setImagenFromPath();
 			cursor.close();
 			return objeto;
 		} else

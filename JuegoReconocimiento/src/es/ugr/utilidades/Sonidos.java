@@ -14,7 +14,6 @@ public class Sonidos {
 	private MediaPlayer playerNavegacion, playerDrop, playerRow, playerRemove,
 			playerResultados, playerContador;
 
-
 	public Sonidos(Context contexto) {
 		this.contexto = contexto;
 
@@ -52,14 +51,12 @@ public class Sonidos {
 			playerResultados.setDataSource(afdResultados.getFileDescriptor(),
 					afdResultados.getStartOffset(), afdResultados.getLength());
 			playerResultados.prepare();
-			
+
 			afdContador = contexto.getAssets().openFd("contador.mp3");
 			playerContador = new MediaPlayer();
 			playerContador.setDataSource(afdContador.getFileDescriptor(),
 					afdContador.getStartOffset(), afdContador.getLength());
 			playerContador.prepare();
-			
-			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -68,27 +65,45 @@ public class Sonidos {
 	}
 
 	public void playNavegacion() {
-		playerNavegacion.start();
+		try {
+			playerNavegacion.start();
+		} catch (Exception e) {
+		}
 	}
 
 	public void playDrop() {
-		playerDrop.start();
+		try {
+			playerDrop.start();
+		} catch (Exception e) {
+		}
 	}
 
 	public void playClickRow() {
-		playerRow.start();
+		try {
+			playerRow.start();
+		} catch (Exception e) {
+		}
 	}
 
 	public void playRemove() {
-		playerRemove.start();
+		try {
+			playerRemove.start();
+		} catch (Exception e) {
+		}
 	}
 
 	public void playResultados() {
-		playerResultados.start();
+		try {
+			playerResultados.start();
+		} catch (Exception e) {
+		}
 	}
-	
+
 	public void playContador() {
-		playerContador.start();
+		try {
+			playerContador.start();
+		} catch (Exception e) {
+		}
 	}
 
 }

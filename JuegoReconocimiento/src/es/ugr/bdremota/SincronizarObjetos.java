@@ -20,6 +20,7 @@ import es.ugr.basedatos.ObjetoDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Objeto;
 import es.ugr.utilidades.JSONParser;
+import es.ugr.utilidades.Utilidades;
 
 public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 
@@ -123,7 +124,7 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 		pDialog.dismiss();
 		ObjetoDataSource ods = new ObjetoDataSource(context);
 		ods.open();
-		List<Objeto> objs = ods.getAllObjetos();
+		ArrayList<Objeto> objs = ods.getAllObjetos();
 		ods.close();
 
 		// Para cada Objeto que hay en local,
@@ -153,6 +154,8 @@ public class SincronizarObjetos extends AsyncTask<Void, String, String> {
 			if (!found)
 				addToLocal.add(NombObjetosListRem.get(i));
 		}
+		
+		Utilidades.LiberaImagenes(objs);
 
 		if (addToRemote.size() > 0 || updateToRemote.size() > 0
 				|| addToLocal.size() > 0 || updateToLocal.size() > 0) {

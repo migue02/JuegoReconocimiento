@@ -909,6 +909,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		rowsArray = null;
 		matsDescriptores = null;
 		matsKeyPoints = null;
+		Utilidades.LiberaImagenes(lObjetos);
+		Utilidades.LiberaImagenes(lObjetosEscenario);
 		lObjetos = null;
 		lObjetosEscenario = null;
 		LiberaObjetos();
