@@ -146,6 +146,7 @@ public class FichaSerieEjercicios extends Dialog {
 						public void onClick(DialogInterface dialog, int which) {
 							leaux.add(lEjercicios.get(which));
 							recargaDuracion();
+							
 							adapterEjercicio = new AdapterEjercicio(context,
 									R.layout.adapter_ejercicios, leaux);
 							lvEj.setAdapter(adapterEjercicio);
