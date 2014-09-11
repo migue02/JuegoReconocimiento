@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.opencv.core.Mat;
@@ -17,7 +16,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
 import es.ugr.utilidades.JSONParser;
-import es.ugr.utilidades.Utilidades;
 
 public class Objeto {
 	private long id;
@@ -35,6 +33,7 @@ public class Objeto {
 	private String pathSonidoDescripcion;
 	private String pathSonidoAyuda;
 	private String pathSonidoNombre;
+	private boolean bExtendida = false;
 
 	private MediaPlayer player = new MediaPlayer();
 
@@ -160,13 +159,19 @@ public class Objeto {
 		}
 	}
 
-	private void setImagenFromPath() {
+	private void setImagenFromPath(boolean extendida) {
 		try {
+			BitmapFactory.Options targetOptions = new BitmapFactory.Options();
+			targetOptions.inSampleSize = 16;
 			File imageFile = new File(pathImagen);
-			imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-			Log.e("IMAGEN_CREADA", "Imagen creada en " + pathImagen);
+			if (extendida)
+				imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+			else
+				imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+						targetOptions);
+			Log.e("IMAGEN_OBTENIDA", "Imagen obtenida desde " + pathImagen);
 		} catch (Exception e) {
-			Log.e("ERROR_CREAR_IMAGEN", "Error al crear la imagen en "
+			Log.e("ERROR_OBTENER_IMAGEN", "Error al obtener la imagen en "
 					+ pathImagen);
 		}
 	}
@@ -182,6 +187,7 @@ public class Objeto {
 			e.printStackTrace();
 		} finally {
 			try {
+				Log.e("IMAGEN_CREADA", "Imagen creada en " + pathImagen);
 				out.close();
 			} catch (Throwable ignore) {
 			}
@@ -242,9 +248,14 @@ public class Objeto {
 		this.pathSonidoNombre = sonidoNombre;
 	}
 
-	public Bitmap getImagen() {
+	public Bitmap getImagen(boolean pExtendida) {
+		if (bExtendida != pExtendida && imagen != null) {
+			imagen.recycle();
+			imagen = null;
+			bExtendida = pExtendida;
+		}
 		if (imagen == null)
-			setImagenFromPath();
+			setImagenFromPath(pExtendida);
 		return imagen;
 	}
 

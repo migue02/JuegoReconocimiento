@@ -51,9 +51,9 @@ public class FichaObjeto extends Dialog {
 		((TextView) findViewById(R.id.edtDescripcion)).setText(oObjeto
 				.getDescripcion());
 
-		if (oObjeto.getImagen() != null) {
+		if (oObjeto.getImagen(true) != null) {
 			((ImageView) findViewById(R.id.imgObjeto)).setImageBitmap(oObjeto
-					.getImagen());
+					.getImagen(true));
 		}
 
 		btnAyuda = (ImageButton) findViewById(R.id.btnAyuda);

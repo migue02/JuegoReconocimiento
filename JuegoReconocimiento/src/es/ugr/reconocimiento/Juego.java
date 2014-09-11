@@ -34,6 +34,7 @@ import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import es.ugr.objetos.Resultado;
 import es.ugr.objetos.SerieEjercicios;
+import es.ugr.utilidades.Globals;
 import es.ugr.utilidades.JSONParser;
 import es.ugr.utilidades.Utilidades;
 import android.media.MediaPlayer;
@@ -118,7 +119,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private MediaPlayer player;
 
 	private boolean bVistaCapturar;
-
+	
+	private int nWidth = -1;
+	private int nHeight = -1;
+	
+	
 	private Toast mToast = null;
 
 	// //////////////
@@ -702,12 +707,11 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			aux = mRgba.clone();
 
 			Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
-
 			Imgproc.GaussianBlur(aux, aux, new Size(3, 3), 2);
-
-			Imgproc.resize(auxGray, auxGray, new Size(320, 240));
-			Imgproc.resize(aux, aux, new Size(320, 240));
-
+			if (nWidth != -1 && nHeight != -1){
+				Imgproc.resize(auxGray, auxGray, new Size(nWidth, nHeight));
+				Imgproc.resize(aux, aux, new Size(nHeight, nHeight));
+			}
 			float elapsedTime = FindFeatures(auxGray.getNativeObjAddr(),
 					aux.getNativeObjAddr(),
 					descriptores_obj.getNativeObjAddr(),
@@ -815,7 +819,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				auxGray = mGray.clone();
 
 				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
-				Imgproc.resize(auxGray, auxGray, new Size(320, 240));
+				if (nWidth != -1 && nHeight != -1)
+					Imgproc.resize(auxGray, auxGray, new Size(nWidth, nHeight));
 
 				nObjeto = FindObjects(auxGray.getNativeObjAddr(),
 						mRgba.getNativeObjAddr());
@@ -927,6 +932,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		aux = new Mat(height, width, CvType.CV_8UC4);
 		mGray = new Mat(height, width, CvType.CV_8UC1);
 		auxGray = new Mat(height, width, CvType.CV_8UC1);
+		if (width > ((Globals)getApplication()).width)
+			nWidth = ((Globals)getApplication()).width;
+		if (height > ((Globals)getApplication()).height)
+			nHeight = ((Globals)getApplication()).height;
 	}
 
 	@Override

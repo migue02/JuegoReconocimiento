@@ -51,8 +51,8 @@ public class AdapterEmpezarEjercicioObjeto extends ArrayAdapter<Objeto> {
 			convertView.setTag(holder);
 		} else
 			holder = (ViewHolder) convertView.getTag();
-		if (rowItem.getImagen() != null)
-			holder.img.setImageBitmap(rowItem.getImagen());
+		if (rowItem.getImagen(false) != null)
+			holder.img.setImageBitmap(rowItem.getImagen(false));
 		else
 			Picasso.with(convertView.getContext()).load(R.drawable.objetos_64).into(holder.img);
 
