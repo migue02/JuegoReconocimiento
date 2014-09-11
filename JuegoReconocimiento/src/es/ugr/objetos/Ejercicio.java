@@ -6,34 +6,35 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.utilidades.JSONParser;
 import android.content.Context;
 import android.media.MediaPlayer;
 
 public class Ejercicio {
-	
+
 	private int idEjercicio;
 	private String nombre;
 	private Date fecha;
-	private ArrayList<String> objetos;//escenario
+	private ArrayList<String> objetos;// escenario
 	private String descripcion;
 	private int duracion;
 	private ArrayList<String> objetosReconocer;
 	private int orden;
 	private String sonido_descripcion;
-	
+
 	private MediaPlayer player = new MediaPlayer();
-	
+
 	public Ejercicio() {
-		this.idEjercicio=-1;
-		this.nombre="";
+		this.idEjercicio = -1;
+		this.nombre = "";
 		this.fecha = new Date();
-		this.objetos=new ArrayList<String>();
-		this.duracion=0;
+		this.objetos = new ArrayList<String>();
+		this.duracion = 0;
 		this.descripcion = "";
-		this.objetosReconocer=new ArrayList<String>();
-		this.sonido_descripcion="";
+		this.objetosReconocer = new ArrayList<String>();
+		this.sonido_descripcion = "";
 	}
-	
+
 	public Ejercicio(Ejercicio pEjercicio) {
 		super();
 		this.idEjercicio = pEjercicio.idEjercicio;
@@ -42,15 +43,15 @@ public class Ejercicio {
 		this.objetos = new ArrayList<String>(pEjercicio.objetos);
 		this.descripcion = pEjercicio.descripcion;
 		this.duracion = pEjercicio.duracion;
-		this.objetosReconocer = new ArrayList<String>(pEjercicio.objetosReconocer);
+		this.objetosReconocer = new ArrayList<String>(
+				pEjercicio.objetosReconocer);
 		this.orden = pEjercicio.orden;
 		this.sonido_descripcion = pEjercicio.sonido_descripcion;
 	}
-	
+
 	public Ejercicio(String nombre, Date fecha, ArrayList<String> objetos,
 			String descripcion, int duracion,
-			ArrayList<String> objetosReconocer,
-			String sonido_descripcion) {
+			ArrayList<String> objetosReconocer, String sonido_descripcion) {
 		super();
 		this.nombre = nombre;
 		this.fecha = fecha;
@@ -61,7 +62,7 @@ public class Ejercicio {
 		this.orden = 0;
 		this.sonido_descripcion = sonido_descripcion;
 	}
-	
+
 	private void playSonido(String path, String pathError) {
 		if (player != null) {
 			player.release();
@@ -88,8 +89,8 @@ public class Ejercicio {
 	}
 
 	public void playSonidoDescripcion(Context context) {
-		playSonido(sonido_descripcion,
-				context.getString(R.string.pathSounds) + "/descripcion.mp3");
+		playSonido(sonido_descripcion, context.getString(R.string.pathSounds)
+				+ "/descripcion.mp3");
 	}
 
 	public Date getFecha() {
@@ -99,7 +100,7 @@ public class Ejercicio {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
+
 	public String getFechaAsString() {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return date.format(fecha);
@@ -113,17 +114,19 @@ public class Ejercicio {
 		this.sonido_descripcion = sonido_descripcion;
 	}
 
-	public Ejercicio(int idEjercicio, String nombre, String objetos, String descripcion, int duracion, String objetosReconocer) {
+	public Ejercicio(int idEjercicio, String nombre, String objetos,
+			String descripcion, int duracion, String objetosReconocer) {
 		try {
 			this.idEjercicio = idEjercicio;
 			this.nombre = nombre;
 			this.fecha = new Date();
-			this.sonido_descripcion="";
-			this.objetos = es.ugr.utilidades.Utilidades.ArrayListFromJson(objetos);	
+			this.sonido_descripcion = "";
+			this.objetos = JSONParser.ArrayListFromJson(objetos);
 			this.descripcion = descripcion;
-			this.duracion=duracion;
-			this.objetosReconocer=es.ugr.utilidades.Utilidades.ArrayListFromJson(objetosReconocer);
-		}catch (Exception e){
+			this.duracion = duracion;
+			this.objetosReconocer = JSONParser
+					.ArrayListFromJson(objetosReconocer);
+		} catch (Exception e) {
 			new Ejercicio();
 		}
 	}
@@ -138,9 +141,10 @@ public class Ejercicio {
 
 	@Override
 	public String toString() {
-		return nombre + " .Objetos["+objetosReconocer.toString()+"] .Escenario["+objetos.toString()+"]";
-		//return "Ejercicio [idEjercicio=" + idEjercicio + ", nombre=" + nombre
-			//	+ ", objetos=" + objetos + descripcion + duracion + "]";
+		return nombre + " .Objetos[" + objetosReconocer.toString()
+				+ "] .Escenario[" + objetos.toString() + "]";
+		// return "Ejercicio [idEjercicio=" + idEjercicio + ", nombre=" + nombre
+		// + ", objetos=" + objetos + descripcion + duracion + "]";
 	}
 
 	public Integer getIdEjercicio() {
@@ -165,8 +169,8 @@ public class Ejercicio {
 
 	public void setObjetos(ArrayList<String> objetos) {
 		this.objetos = objetos;
-	}	
-	
+	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -174,7 +178,7 @@ public class Ejercicio {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
 	public int getDuracion() {
 		return duracion;
 	}
@@ -192,23 +196,23 @@ public class Ejercicio {
 	}
 
 	public void eliminaObjetoReconocer(String nombre) {
-		for (int i=0;i<objetosReconocer.size();i++)
-			if(objetosReconocer.get(i).equals(nombre)){
+		for (int i = 0; i < objetosReconocer.size(); i++)
+			if (objetosReconocer.get(i).equals(nombre)) {
 				objetosReconocer.remove(i);
 				eliminaObjetoEscenario(nombre);
 			}
 	}
 
 	public void eliminaObjetoEscenario(String nombre) {
-		for (int i=0;i<objetos.size();i++)
-			if(objetos.get(i).equals(nombre)){
+		for (int i = 0; i < objetos.size(); i++)
+			if (objetos.get(i).equals(nombre)) {
 				objetos.remove(i);
 				eliminaObjetoReconocer(nombre);
 			}
 	}
 
 	public void setIdEjercicio(long idEjercicio) {
-		this.idEjercicio = (int)idEjercicio;
+		this.idEjercicio = (int) idEjercicio;
 	}
 
 	public void insertaObjetoEscenario(Objeto objeto) {
@@ -217,7 +221,7 @@ public class Ejercicio {
 	}
 
 	public void insertaObjetoReconocer(Objeto objeto) {
-		if (!objetosReconocer.contains(objeto.getNombre())){
+		if (!objetosReconocer.contains(objeto.getNombre())) {
 			objetosReconocer.add(objeto.getNombre());
 			insertaObjetoEscenario(objeto);
 		}

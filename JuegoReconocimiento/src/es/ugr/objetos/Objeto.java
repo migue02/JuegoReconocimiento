@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
+import es.ugr.utilidades.JSONParser;
 import es.ugr.utilidades.Utilidades;
 
 public class Objeto {
@@ -34,8 +35,6 @@ public class Objeto {
 	private String pathSonidoDescripcion;
 	private String pathSonidoAyuda;
 	private String pathSonidoNombre;
-
-	private final BitmapFactory.Options options = new BitmapFactory.Options();
 
 	private MediaPlayer player = new MediaPlayer();
 
@@ -68,8 +67,8 @@ public class Objeto {
 		this.descriptores = descriptores;
 		matDescriptores = new Mat();
 		matKeyPoints = new MatOfKeyPoint();
-		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
-		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		matKeyPoints = JSONParser.keypointsFromJson(this.keypoints);
+		matDescriptores = JSONParser.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
 		this.pathImagen = pathImagen;
@@ -87,8 +86,8 @@ public class Objeto {
 		this.descriptores = descriptores;
 		matDescriptores = new Mat();
 		matKeyPoints = new MatOfKeyPoint();
-		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
-		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		matKeyPoints = JSONParser.keypointsFromJson(this.keypoints);
+		matDescriptores = JSONParser.matFromJson(this.descriptores);
 		this.cols = cols;
 		this.rows = rows;
 		this.fecha = new Date();
@@ -309,8 +308,8 @@ public class Objeto {
 	public void setMats() {
 		matDescriptores = new Mat();
 		matKeyPoints = new MatOfKeyPoint();
-		matKeyPoints = Utilidades.keypointsFromJson(this.keypoints);
-		matDescriptores = Utilidades.matFromJson(this.descriptores);
+		matKeyPoints = JSONParser.keypointsFromJson(this.keypoints);
+		matDescriptores = JSONParser.matFromJson(this.descriptores);
 	}
 
 	public String creaFicherosSonidoAyuda(Context context) {

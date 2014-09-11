@@ -10,67 +10,55 @@ import com.jcraft.jsch.SftpException;
 import android.content.Context;
 import android.os.AsyncTask;
 
-
-public class SubirFicherosSFTP extends AsyncTask<String,Void,String>{
-	//ProgressDialog upDialog;
-	
+public class SubirFicherosSFTP extends AsyncTask<String, Void, String> {
 	private Context context;
 
-	
-	public SubirFicherosSFTP(Context context){
-		this.context=context;
+	public SubirFicherosSFTP(Context context) {
+		this.context = context;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
-		// TODO Auto-generated method stub
 		super.onPreExecute();
 	}
 
 	@Override
 	protected String doInBackground(String... params) {
-		 Session session = null;
-		 Channel channel = null;
-		    try {
-		        JSch ssh = new JSch();
-		      //  ssh.setKnownHosts("/path/of/known_hosts/file");
-		     
-		        session = ssh.getSession("diversidad", "tamen.ugr.es", 22);
-		        session.setPassword("PFC_android_14");
-		        java.util.Properties config = new java.util.Properties(); 
-		        config.put("StrictHostKeyChecking", "no");
-		        session.setConfig(config);
-		        session.connect();
-		        channel = session.openChannel("sftp");
-		        channel.connect();
-		        ChannelSftp sftp = (ChannelSftp) channel;
-		        sftp.put(params[0], "public_html/"+params[2]+"/"+params[1]);
-		    } catch (JSchException e) {
-		        e.printStackTrace();
-		    } catch (SftpException e) {
-		        e.printStackTrace();
-		    } finally {
-		        if (channel != null) {
-		            channel.disconnect();
-		        }
-		        if (session != null) {
-		            session.disconnect();
-		        }
-		    }
-		
-		
-    return "";
-	    }
+		Session session = null;
+		Channel channel = null;
+		try {
+			JSch ssh = new JSch();
+			// ssh.setKnownHosts("/path/of/known_hosts/file");
 
+			session = ssh.getSession("diversidad", "tamen.ugr.es", 22);
+			session.setPassword("PFC_android_14");
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+			session.connect();
+			channel = session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp sftp = (ChannelSftp) channel;
+			sftp.put(params[0], "public_html/" + params[2] + "/" + params[1]);
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} catch (SftpException e) {
+			e.printStackTrace();
+		} finally {
+			if (channel != null) {
+				channel.disconnect();
+			}
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+
+		return "";
+	}
 
 	@Override
 	protected void onPostExecute(String result) {
-		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		// upDialog.dismiss();
 	}
-	
-	}
-	
 
-
+}

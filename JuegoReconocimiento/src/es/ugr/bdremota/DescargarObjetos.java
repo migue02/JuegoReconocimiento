@@ -63,7 +63,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();		
+		super.onPreExecute();
 		pDialog = new ProgressDialog(context);
 		pDialog.setMessage("Sincronizando objetos, por favor espere...");
 		pDialog.setIndeterminate(false);
@@ -99,7 +99,7 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 		// obj.CreaTablaEjer();
 		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 		toast.show();
-		
+
 		rCreaTabla.run();
 
 	}
@@ -137,7 +137,6 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 						fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 								.parse(c.getString(TAG_FECHA));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
