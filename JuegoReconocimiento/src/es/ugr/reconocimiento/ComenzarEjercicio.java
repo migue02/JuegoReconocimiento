@@ -91,6 +91,7 @@ public class ComenzarEjercicio extends Activity {
 
 				@Override
 				public void onCountDownEnd(CountDownAnimation animation) {
+					finish();
 				}
 			});
 

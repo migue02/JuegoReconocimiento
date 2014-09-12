@@ -119,11 +119,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private MediaPlayer player;
 
 	private boolean bVistaCapturar;
-	
+
 	private int nWidth = -1;
 	private int nHeight = -1;
-	
-	
+
 	private Toast mToast = null;
 
 	// //////////////
@@ -258,10 +257,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			((LinearLayout) findViewById(R.id.layoutEdits))
 					.setVisibility(View.GONE);
 
-			// Intent descEjer=new Intent(this,ComenzarEjercicio.class);
-			// descEjer.putExtra("idEjercicio",
-			// oEjercicioActual.getIdEjercicio());
-			// startActivity(descEjer);
+			Intent descEjer = new Intent(this, ComenzarEjercicio.class);
+			descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
+			startActivity(descEjer);
 		} else { // Modo añadir objeto
 
 			setTitle("Añadir objeto");
@@ -708,9 +706,9 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 			Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
 			Imgproc.GaussianBlur(aux, aux, new Size(3, 3), 2);
-			if (nWidth != -1 && nHeight != -1){
+			if (nWidth != -1 && nHeight != -1) {
 				Imgproc.resize(auxGray, auxGray, new Size(nWidth, nHeight));
-				Imgproc.resize(aux, aux, new Size(nHeight, nHeight));
+				Imgproc.resize(aux, aux, new Size(nWidth, nHeight));
 			}
 			float elapsedTime = FindFeatures(auxGray.getNativeObjAddr(),
 					aux.getNativeObjAddr(),
@@ -932,10 +930,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		aux = new Mat(height, width, CvType.CV_8UC4);
 		mGray = new Mat(height, width, CvType.CV_8UC1);
 		auxGray = new Mat(height, width, CvType.CV_8UC1);
-		if (width > ((Globals)getApplication()).width)
-			nWidth = ((Globals)getApplication()).width;
-		if (height > ((Globals)getApplication()).height)
-			nHeight = ((Globals)getApplication()).height;
+		if (width > ((Globals) getApplication()).width)
+			nWidth = ((Globals) getApplication()).width;
+		if (height > ((Globals) getApplication()).height)
+			nHeight = ((Globals) getApplication()).height;
 	}
 
 	@Override

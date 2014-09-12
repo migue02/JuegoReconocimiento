@@ -416,7 +416,7 @@
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="8"
-        android:textColor="#ffcc0000"
+        android:textColor="@color/azul_pastel"
         android:textSize="30sp"
         android:textStyle="bold"
         android:visibility="gone" />

@@ -501,6 +501,13 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 
 			perspectiveTransform(obj_corners, scene_corners, H);
 
+			int scaledFactorCols = mRgb.cols / cols;
+			int scaledFactorRows =mRgb.rows / rows;
+			for (int i = 0; i < 4; i++){
+				scene_corners[i].x = scene_corners[i].x * scaledFactorRows;
+				scene_corners[i].y = scene_corners[i].y * scaledFactorCols;
+			}
+
 			line(mRgb, scene_corners[0], scene_corners[1], Scalar(0, 255, 0),
 					4);
 			line(mRgb, scene_corners[1], scene_corners[2], Scalar(255, 0, 0),
@@ -512,7 +519,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 
 			for (unsigned int i = 0; i < scene.size(); i++) {
 				const Point2f& kp = scene[i];
-				circle(mRgb, Point(kp.x, kp.y), 10, Scalar(255, 0, 0, 255));
+				circle(mRgb, Point(kp.x * scaledFactorRows, kp.y *scaledFactorCols), 10, Scalar(255, 0, 0, 255));
 			}
 
 			putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
