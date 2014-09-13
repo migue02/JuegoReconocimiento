@@ -10,93 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Juego" >
 
-    <LinearLayout
-        android:id="@+id/layoutEdits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/TextView03"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Thresh"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/edtHessian"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="nOct"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/edtnOctaves"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:id="@+id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="nOctLaye"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/edtnOctaveLayers"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="numberDecimal" />
-
-        <CheckBox
-            android:id="@+id/edtExtended"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="Ext" />
-
-        <CheckBox
-            android:id="@+id/edtUpRight"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:checked="false"
-            android:text="UpRi" />
-
-        <ImageView
-            android:id="@+id/ImageView01"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:onClick="onInicializaSurf"
-            android:src="@drawable/surf"
-            android:text="Reinicia\nSURF" />
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/layoutCamera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/layoutEdits"
         android:layout_toLeftOf="@+id/layoutBotones"
         android:orientation="horizontal" >
 
@@ -174,11 +93,11 @@
 
     <LinearLayout
         android:id="@+id/layoutBotones"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/layoutEdits"
+        android:background="@drawable/layoutredondeado"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -190,51 +109,76 @@
             android:orientation="horizontal" >
 
             <FrameLayout
+                android:id="@+id/flVerObjetosReconocer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onSiguienteClick" >
+                android:onClick="onVerObjetosReconocer" >
 
                 <ImageView
-                    android:id="@+id/button1"
+                    android:id="@+id/btnObjetosReconocer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="Pasar al siguiente objeto"
-                    android:padding="3dp"
-                    android:src="@drawable/siguiente_objeto_128"
-                    android:text="Descripcion" />
+                    android:contentDescription="Objetos a reconocer"
+                    android:padding="5dp"
+                    android:src="@drawable/objetos_reconocer_128" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
-                    android:text="Siguiente"
+                    android:text="Objetos"
                     android:textAppearance="@style/EtiquetasJuegoSmall" />
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/flVerObjetosEscenario"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="onVerObjetosEscenario" >
+
+                <ImageView
+                    android:id="@+id/btnObjetosEscenario"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Objetos del escenario"
+                    android:padding="5dp"
+                    android:src="@drawable/objetos_escenario_128" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Escenario"
+                    android:textAppearance="@style/EtiquetasJuegoSmall" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/flDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="onDescripcionClick" >
 
                 <ImageView
-                    android:id="@+id/button1"
+                    android:id="@+id/btnDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Escuchar la descripción del objeto a reconocer"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:src="@drawable/descripcion_128" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
-                    android:text="Descrip."
+                    android:text="Descripción"
                     android:textAppearance="@style/EtiquetasJuegoSmall" />
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/flAyuda"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -245,7 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Escuchar la ayuda asociada al objeto a reconocer"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:src="@drawable/ayuda_juego_128" />
 
                 <TextView
@@ -265,17 +209,18 @@
             android:orientation="horizontal" >
 
             <FrameLayout
+                android:id="@+id/flAcierto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="onAciertoClick" >
 
                 <ImageView
-                    android:id="@+id/btnMatch"
+                    android:id="@+id/btnAcierto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Acierto"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:src="@drawable/acierto_128" />
 
                 <TextView
@@ -287,28 +232,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="onErrorProgramaClick" >
-
-                <ImageView
-                    android:id="@+id/btnError"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="Fallo del programa"
-                    android:padding="3dp"
-                    android:src="@drawable/error_programa_128" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:text="Inválida"
-                    android:textAppearance="@style/EtiquetasJuegoSmall" />
-            </FrameLayout>
-
-            <FrameLayout
+                android:id="@+id/flError"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -319,7 +243,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Error"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:src="@drawable/error_128" />
 
                 <TextView
@@ -338,50 +262,54 @@
             android:layout_weight="1" >
 
             <FrameLayout
+                android:id="@+id/flSiguiente"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onVerObjetosReconocer" >
+                android:onClick="onSiguienteClick" >
 
                 <ImageView
-                    android:id="@+id/btnObjetosReconocer"
+                    android:id="@+id/btnSiguiente"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="Objetos a reconocer"
-                    android:padding="3dp"
-                    android:src="@drawable/objetos_reconocer_128" />
+                    android:contentDescription="Pasar al siguiente objeto"
+                    android:padding="5dp"
+                    android:src="@drawable/siguiente_objeto_128"
+                    android:text="Descripcion" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
-                    android:text="Objetos"
+                    android:text="Siguiente"
                     android:textAppearance="@style/EtiquetasJuegoSmall" />
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/flInvalido"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onVerObjetosEscenario" >
+                android:onClick="onErrorProgramaClick" >
 
                 <ImageView
-                    android:id="@+id/btnObjetosEscenario"
+                    android:id="@+id/btnInvalido"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="Objetos del escenario"
-                    android:padding="3dp"
-                    android:src="@drawable/objetos_escenario_128" />
+                    android:contentDescription="Fallo del programa"
+                    android:padding="5dp"
+                    android:src="@drawable/error_programa_128" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
-                    android:text="Escenario"
+                    android:text="Inválida"
                     android:textAppearance="@style/EtiquetasJuegoSmall" />
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/flSalir"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -392,7 +320,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Terminar juego"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:src="@drawable/salir_128" />
 
                 <TextView

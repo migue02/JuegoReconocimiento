@@ -162,7 +162,8 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 }
 
 JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_CambiarValoresAlgoritmo(
-		JNIEnv* env, jobject, jint pMatcher, jdouble pdPorcentaje, jdouble pdhessianThreshold) {
+		JNIEnv* env, jobject, jint pMatcher, jdouble pdPorcentaje,
+		jdouble pdhessianThreshold) {
 	nMatcher = pMatcher;
 	nPorcentaje = pdPorcentaje;
 	hessianThreshold = pdhessianThreshold;
@@ -401,13 +402,14 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			// clean image 1 -> image 2 matches
 			removed = 0;
 			// for all matches
-			for (vector<vector<DMatch> >::iterator matchIterator = matches1.begin();
-					matchIterator != matches1.end(); ++matchIterator) {
+			for (vector<vector<DMatch> >::iterator matchIterator =
+					matches1.begin(); matchIterator != matches1.end();
+					++matchIterator) {
 				// if 2 NN has been identified
 				if (matchIterator->size() > 1) {
 					// check distance radio
-					if ((*matchIterator)[0].distance / (*matchIterator)[1].distance
-							> radio) {
+					if ((*matchIterator)[0].distance
+							/ (*matchIterator)[1].distance > radio) {
 						matchIterator->clear(); // remove match
 						removed++;
 					}
@@ -418,11 +420,12 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			}
 			// clean image 2 -> image 1 matches
 			removed = 0;
-			for (vector<vector<DMatch> >::iterator matchIterator = matches2.begin();
-					matchIterator != matches2.end(); ++matchIterator) {
+			for (vector<vector<DMatch> >::iterator matchIterator =
+					matches2.begin(); matchIterator != matches2.end();
+					++matchIterator) {
 				if (matchIterator->size() > 1) {
-					if ((*matchIterator)[0].distance / (*matchIterator)[1].distance
-							> radio) {
+					if ((*matchIterator)[0].distance
+							/ (*matchIterator)[1].distance > radio) {
 						matchIterator->clear();
 						removed++;
 					}
@@ -434,7 +437,8 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			// 4. Remove non-symmetrical matches
 			symmetryTest(matches1, matches2, symMatches);
 			// 5. Validate matches using RANSAC
-			mRgb = ransacTest(symMatches, keyPoints_obj, keyPoints_esc, good_matches);
+			mRgb = ransacTest(symMatches, keyPoints_obj, keyPoints_esc,
+					good_matches);
 			nGoodMatches = good_matches.size();
 			char buffer[10];
 			sprintf(buffer, "%i", nGoodMatches);
@@ -452,7 +456,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		int lnPorcentaje = lfPorcentaje;
 		if (nMatcher == 0)
 			lnPorcentaje = 8;
-		else{
+		else {
 			char au[150], ptn[100];
 			nGoodMatches = good_matches.size();
 			strcpy(au, "\nHay = ");
@@ -460,7 +464,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			strcat(au, ptn);
 			strcpy(ptn, " good matches, y el ");
 			strcat(au, ptn);
-			sprintf(ptn, "%f", nPorcentaje*100);
+			sprintf(ptn, "%f", nPorcentaje * 100);
 			strcat(au, ptn);
 			strcpy(ptn, " de los matches del objeto es ");
 			strcat(au, ptn);
@@ -502,24 +506,26 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			perspectiveTransform(obj_corners, scene_corners, H);
 
 			int scaledFactorCols = mRgb.cols / cols;
-			int scaledFactorRows =mRgb.rows / rows;
-			for (int i = 0; i < 4; i++){
+			int scaledFactorRows = mRgb.rows / rows;
+			for (int i = 0; i < 4; i++) {
 				scene_corners[i].x = scene_corners[i].x * scaledFactorRows;
 				scene_corners[i].y = scene_corners[i].y * scaledFactorCols;
 			}
 
-			line(mRgb, scene_corners[0], scene_corners[1], Scalar(0, 255, 0),
-					4);
-			line(mRgb, scene_corners[1], scene_corners[2], Scalar(255, 0, 0),
-					4);
-			line(mRgb, scene_corners[2], scene_corners[3], Scalar(0, 0, 255),
-					4);
+			line(mRgb, scene_corners[0], scene_corners[1],
+					Scalar(255, 112, 112), 4);
+			line(mRgb, scene_corners[1], scene_corners[2],
+					Scalar(255, 112, 112), 4);
+			line(mRgb, scene_corners[2], scene_corners[3],
+					Scalar(255, 112, 112), 4);
 			line(mRgb, scene_corners[3], scene_corners[0],
-					Scalar(255, 255, 255), 4);
+					Scalar(255, 112, 112), 4);
 
 			for (unsigned int i = 0; i < scene.size(); i++) {
 				const Point2f& kp = scene[i];
-				circle(mRgb, Point(kp.x * scaledFactorRows, kp.y *scaledFactorCols), 10, Scalar(255, 0, 0, 255));
+				circle(mRgb,
+						Point(kp.x * scaledFactorRows, kp.y * scaledFactorCols),
+						10, Scalar(255, 0, 0, 255));
 			}
 
 			putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,

@@ -15,6 +15,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +37,8 @@ public class JuegoLibreria {
 
 	private static long timeWhenStopped = 0;
 
-	public static void MostrarAnimacion(Context pContext, final TextView ptvTexto,
-			String psTexto) {
+	public static void MostrarAnimacion(Context pContext,
+			final TextView ptvTexto, String psTexto) {
 		CountDownAnimation countDownAnimation = new CountDownAnimation(
 				pContext, ptvTexto, 1, psTexto, 1500);
 		countDownAnimation.start();
@@ -106,6 +108,42 @@ public class JuegoLibreria {
 		((Chronometer) activity.findViewById(R.id.cronometro))
 				.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
 		((Chronometer) activity.findViewById(R.id.cronometro)).start();
+	}
+
+	public static void RefrescarBotones(Activity activity,
+			boolean pbEsperandoRespuesta) {
+		ImageView ivDescripcion, ivAyuda, ivAcierto, ivError, ivEscenario, ivTerminar;
+		FrameLayout flInvalida, flSiguiente, flObjetos, flEscenario;
+		flSiguiente = (FrameLayout) activity.findViewById(R.id.flSiguiente);
+		flObjetos = (FrameLayout) activity.findViewById(R.id.flVerObjetosReconocer);
+		flEscenario = (FrameLayout) activity.findViewById(R.id.flVerObjetosEscenario);
+		flInvalida = (FrameLayout) activity.findViewById(R.id.flInvalido);
+		ivAcierto = (ImageView) activity.findViewById(R.id.btnAcierto);
+		ivDescripcion = (ImageView) activity.findViewById(R.id.btnDescripcion);
+		ivAyuda = (ImageView) activity.findViewById(R.id.btnAyuda);
+		ivError = (ImageView) activity.findViewById(R.id.btnError);
+		ivTerminar = (ImageView) activity.findViewById(R.id.btnSalir);
+		if (!pbEsperandoRespuesta){
+			ivAcierto.setAlpha(80);
+			ivError.setAlpha(80);
+			ivDescripcion.setAlpha(255);
+			ivAyuda.setAlpha(255);	
+			flSiguiente.setVisibility(View.VISIBLE);			
+			flInvalida.setVisibility(View.GONE);
+			flObjetos.setVisibility(View.GONE);
+			flEscenario.setVisibility(View.GONE);
+			ivTerminar.setAlpha(255);
+		}else{
+			ivAcierto.setAlpha(255);
+			ivError.setAlpha(255);
+			ivDescripcion.setAlpha(80);
+			ivAyuda.setAlpha(80);	
+			flSiguiente.setVisibility(View.GONE);
+			flInvalida.setVisibility(View.VISIBLE);
+			flObjetos.setVisibility(View.GONE);
+			flEscenario.setVisibility(View.GONE);
+			ivTerminar.setAlpha(255);
+		}
 	}
 
 	public static void onVerObjetos(Activity activity,

@@ -20,8 +20,6 @@ import org.opencv.core.Size;
 import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
-import com.google.gson.JsonParser;
-
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.activities.ResultadoSerie;
 import es.ugr.basedatos.AlumnoDataSource;
@@ -41,7 +39,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -54,7 +51,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,9 +78,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private ArrayList<MatOfKeyPoint> matsKeyPoints = new ArrayList<MatOfKeyPoint>();
 	private int[] colsArray, rowsArray;
 	private TextToSpeech ttobj;
-
-	private EditText edthessianThreshold, edtnOctaves, edtnOctaveLayers;
-	private CheckBox chkExtended, chkUpright;
 
 	private double hessianThreshold = 1300;
 	private int nOctaves = 4, nOctaveLayers = 2;
@@ -167,15 +160,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
 
-		chkExtended = (CheckBox) findViewById(R.id.edtExtended);
-		edthessianThreshold = (EditText) findViewById(R.id.edtHessian);
-		edtnOctaveLayers = (EditText) findViewById(R.id.edtnOctaveLayers);
-		edtnOctaves = (EditText) findViewById(R.id.edtnOctaves);
-		chkUpright = (CheckBox) findViewById(R.id.edtUpRight);
-		edthessianThreshold.setText("1500");
-		edtnOctaveLayers.setText("2");
-		edtnOctaves.setText("4");
-
 		Bundle extras;
 		if (savedInstanceState == null) {
 			extras = getIntent().getExtras();
@@ -254,12 +238,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			((ImageView) findViewById(R.id.btnCapturar))
 					.setVisibility(View.GONE);
 
-			((LinearLayout) findViewById(R.id.layoutEdits))
-					.setVisibility(View.GONE);
-
 			Intent descEjer = new Intent(this, ComenzarEjercicio.class);
 			descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
 			startActivity(descEjer);
+			JuegoLibreria.RefrescarBotones(Juego.this, bEsperandoRespuesta);
 		} else { // Modo añadir objeto
 
 			setTitle("Añadir objeto");
@@ -596,6 +578,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						bJuegoIniciado = false;
 					}
 					bEsperandoRespuesta = false;
+					JuegoLibreria.RefrescarBotones(Juego.this,
+							bEsperandoRespuesta);
 				}
 
 				public void onAnimationRepeat(Animation animation) {
@@ -620,6 +604,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				public void onAnimationEnd(Animation animation) {
 					bEsperandoRespuesta = false;
 					JuegoLibreria.renaudaCrono(Juego.this);
+					JuegoLibreria.RefrescarBotones(Juego.this,
+							bEsperandoRespuesta);
 				}
 
 				public void onAnimationRepeat(Animation animation) {
@@ -644,6 +630,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					JuegoLibreria.renaudaCrono(Juego.this);
 					oResultadoActual.incrementaFallo();
 					bEsperandoRespuesta = false;
+					JuegoLibreria.RefrescarBotones(Juego.this,
+							bEsperandoRespuesta);
 				}
 
 				public void onAnimationRepeat(Animation animation) {
@@ -853,12 +841,15 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					final String respuesta = sRespuesta;
 					this.runOnUiThread(new Runnable() {
 						public void run() {
+							JuegoLibreria.RefrescarBotones(Juego.this,
+									bEsperandoRespuesta);
 							try {
 								player = new MediaPlayer();
 								player.setDataSource(afd.getFileDescriptor(),
 										afd.getStartOffset(), afd.getLength());
 								player.prepare();
 								player.start();
+								
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
