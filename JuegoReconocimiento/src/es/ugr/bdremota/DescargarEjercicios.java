@@ -62,7 +62,7 @@ public class DescargarEjercicios extends
 	protected void onPreExecute() {
 		super.onPreExecute();
 		pDialog = new ProgressDialog(context);
-		pDialog.setMessage("Sincronizando ejercicios, por favor espere...");
+		pDialog.setMessage("Sincronizando...");
 		pDialog.setIndeterminate(false);
 		pDialog.setCancelable(false);
 		pDialog.show();

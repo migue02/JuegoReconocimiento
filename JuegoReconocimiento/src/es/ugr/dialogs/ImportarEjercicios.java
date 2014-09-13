@@ -42,7 +42,7 @@ public class ImportarEjercicios extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialogo_importar_ej);
-		setTitle("Importar Ejercicio");
+		setTitle("Importar Ejercicio desde...");
 
 		edtURL = ((EditText) findViewById(R.id.editTextURL));
 		edtFichero = ((EditText) findViewById(R.id.editTextFich));
@@ -62,8 +62,8 @@ public class ImportarEjercicios extends Dialog {
 		super.show();
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 		lp.copyFrom(getWindow().getAttributes());
-		lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-		lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		getWindow().setAttributes(lp);
 	}
 	

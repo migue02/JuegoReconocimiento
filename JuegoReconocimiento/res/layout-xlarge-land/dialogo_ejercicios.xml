@@ -56,7 +56,7 @@
                         android:layout_marginTop="10dp"
                         android:paddingRight="5dp"
                         android:paddingTop="5dp"
-                        android:text="En este ejercicio el alumno deberá escoger entre una serie de objetos y de forma ordenada, una lista de pelotas definida previamente"
+                        android:text=""
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
                     <TextView
@@ -91,6 +91,7 @@
                             android:hint="Minutos"
                             android:inputType="number"
                             android:paddingRight="5dp"
+                            android:maxLength="3"
                             android:textSize="20dp" >
 
                             <requestFocus />
@@ -115,7 +116,8 @@
                             android:drawableRight="@drawable/guardar"
                             android:gravity="center_vertical"
                             android:text="Guardar Duración"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     
                     
@@ -180,5 +182,6 @@
 		        android:layout_marginRight="40dp"
 		        android:background="@drawable/seliconodialogo"
 		        android:text="@string/volver"
+		        android:textStyle="bold"
 		        android:textColor="#ffffff" />
 </LinearLayout>

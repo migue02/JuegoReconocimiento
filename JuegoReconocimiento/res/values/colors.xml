@@ -15,7 +15,8 @@
     <color name="about_borde">#bebec4</color>
     <color name="about_naranja">#da3b15</color>
     <color name="texto_tabla">#ff24b2ff</color>
-    <color name="tabla1">#aaaaffff</color>
+      <!-- <color name="tabla1">#aaaaffff</color> -->
+    <color name="tabla1">#eeffffff</color>  
     <color name="tabla2">#aaeeffff</color>
     <color name="tabla_resaltado">#dd11ffff</color>
     

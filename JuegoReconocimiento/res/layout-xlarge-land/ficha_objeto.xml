@@ -2,412 +2,452 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    android:orientation="horizontal"
-    android:weightSum="1" >
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/imgObjeto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="0.7"
-        android:scaleType="fitXY"
-        android:src="@drawable/objetos_180" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_weight="0.3"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nombre"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
+            <ScrollView
+                android:id="@+id/scrollView1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/texto_tabla" />
-
-            <TextView
-                android:id="@+id/edtNombreObjeto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/nombre" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/descripcion"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/texto_tabla" />
-
-            <TextView
-                android:id="@+id/edtDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:ems="10"
-                android:hint="@string/descripcion"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/sonidos"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/texto_tabla" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/texto_tabla" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:baselineAligned="false"
-                android:orientation="vertical"
-                android:weightSum="1" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/nombre"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/texto_tabla" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
+                android:layout_height="match_parent" >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnNombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/escuchar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnNombreArchivo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/elegir"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnNombreGrabar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/grabar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:baselineAligned="false"
-                android:orientation="vertical"
-                android:weightSum="1" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/descripcion"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/texto_tabla" />
-
-                <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal" >
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
+                        android:layout_margin="20dp"
+                        android:weightSum="1"
+                        android:layout_marginBottom="40dp"
+                        android:orientation="horizontal" >
 
-                        <ImageButton
-                            android:id="@+id/btnDescripcion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
+                        <LinearLayout
+                            android:layout_weight="0.4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical" >
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                            <ImageView
+                                android:id="@+id/imgObjeto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:scaleType="fitXY"
+                                android:layout_marginBottom="20dp"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:src="@drawable/objetos_180" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nombre"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="@color/texto_tabla" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@color/texto_tabla" />
+
+                            <TextView
+                                android:id="@+id/edtNombreObjeto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:hint="@string/nombre"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="@string/descripcion"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="@color/texto_tabla" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@color/texto_tabla" />
+
+                            <TextView
+                                android:id="@+id/edtDescripcion"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:hint="@string/descripcion"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/escuchar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:layout_weight="0.6"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sonidos"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="@color/texto_tabla" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@color/texto_tabla" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:baselineAligned="false"
+                                android:orientation="vertical" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:text="@string/nombre"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/texto_tabla" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@color/texto_tabla" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="horizontal" >
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnNombre"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:padding="2dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:src="@drawable/altavoz" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/escuchar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnNombreArchivo"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/archivo_sonido" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/elegir"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnNombreGrabar"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/microfono" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/grabar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:baselineAligned="false"
+                                android:orientation="vertical" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:text="@string/descripcion"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/texto_tabla" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@color/texto_tabla" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="horizontal" >
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnDescripcion"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/altavoz" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/escuchar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnDescripcionArchivo"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/archivo_sonido" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/elegir"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnDescripcionGrabar"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/microfono" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/grabar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:baselineAligned="false"
+                                android:orientation="vertical" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:text="@string/ayuda"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/texto_tabla" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@color/texto_tabla" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="horizontal" >
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnAyuda"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/altavoz" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/escuchar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnAyudaArchivo"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/archivo_sonido" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/elegir"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical" >
+
+                                        <ImageButton
+                                            android:id="@+id/btnAyudaGrabar"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="5dp"
+                                            android:background="@drawable/seliconodialogo"
+                                            android:scaleType="fitXY"
+                                            android:padding="2dp"
+                                            android:src="@drawable/microfono" />
+
+                                        <TextView
+                                            style="@style/TextoBoton"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="10dp"
+                                            android:text="@string/grabar"
+                                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/vObjetos"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/seliconodialogo"
+                        android:text="@string/volver"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold" />
 
-                        <ImageButton
-                            android:id="@+id/btnDescripcionArchivo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/elegir"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnDescripcionGrabar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/grabar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:baselineAligned="false"
-                android:orientation="vertical"
-                android:weightSum="1" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/ayuda"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/texto_tabla" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/texto_tabla" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnAyuda"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/escuchar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnAyudaArchivo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/elegir"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/btnAyudaGrabar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dip"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/grabar"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+            </ScrollView>
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class FichaObjeto extends Dialog {
 	private ImageButton btnNombre, btnNombreArchivo, btnNombreGrabar;
 	private ImageButton btnDescripcion, btnDescripcionArchivo,
 			btnDescripcionGrabar;
+	private Button btnVolver;
 
 	private boolean mStartRecording = true;
 	private MediaRecorder mRecorder = null;
@@ -88,9 +90,13 @@ public class FichaObjeto extends Dialog {
 		btnNombreArchivo.setOnClickListener(onArchivoClick);
 		btnDescripcionArchivo.setOnClickListener(onArchivoClick);
 
+		btnVolver = (Button) findViewById(R.id.vObjetos);
+		
 		btnAyuda.setOnClickListener(onEscucharClick);
 		btnNombre.setOnClickListener(onEscucharClick);
 		btnDescripcion.setOnClickListener(onEscucharClick);
+		
+		btnVolver.setOnClickListener(onVolverClick);
 
 	}
 
@@ -210,6 +216,15 @@ public class FichaObjeto extends Dialog {
 			} else if (v.getTag().equals(descripcion)) {
 				oObjeto.playSonidoDescripcion(context);
 			}
+		}
+	};
+	
+	View.OnClickListener onVolverClick = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			dismiss();
 		}
 	};
 

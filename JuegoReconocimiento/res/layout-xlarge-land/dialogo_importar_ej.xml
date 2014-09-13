@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="260dp"
     android:orientation="vertical" >
 
     <ScrollView
@@ -15,15 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:text="@string/importarDesde"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
+            
             <RadioGroup
                 android:id="@+id/RGImportar"
                 android:layout_width="wrap_content"
@@ -37,12 +29,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/texto_tabla"
+                    android:layout_marginBottom="10dp"
                     android:text="@string/fichero" />
 
                 <RadioButton
                     android:id="@+id/radioButtonExp2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/texto_tabla"
                     android:text="@string/url" />
             </RadioGroup>
 
@@ -60,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal" >
 
                     <EditText
@@ -74,7 +72,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/elegir"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/seliconodialogo" 
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        />
                 </LinearLayout>
 
                 <EditText
@@ -103,16 +106,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/seliconodialogo"
+            android:textStyle="bold"
+			android:textColor="#ffffff"
             android:text="@string/importarEjercicios"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+             />
 
         <Button
             android:id="@+id/cImportar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+			android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/seliconodialogo"
+            android:textStyle="bold"
+			android:textColor="#ffffff"
             android:text="@string/cancelar"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            />
     </LinearLayout>
 
 </RelativeLayout>

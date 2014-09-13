@@ -273,12 +273,12 @@ public class ResultadosLibrary {
 		tit1.setText("Alumno");
 		tit1.setLayoutParams(tableRowParams);
 		tit1.setTextAppearance(activity, R.style.TituloTabla);
-		tit1.setTextColor(context.getResources().getColor(R.color.verde_ic));
+		//tit1.setTextColor(context.getResources().getColor(R.color.verde_));
 
 		tit3.setText("Serie");
 		tit3.setLayoutParams(tableRowParams);
 		tit3.setTextAppearance(activity, R.style.TituloTabla);
-		tit3.setTextColor(context.getResources().getColor(R.color.azul_ic));
+		//tit3.setTextColor(context.getResources().getColor(R.color.azul_ic));
 
 		rowAl.addView(imgtit1);
 		rowAl.addView(tit1);

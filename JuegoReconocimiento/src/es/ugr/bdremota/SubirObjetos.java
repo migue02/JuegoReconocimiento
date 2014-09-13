@@ -57,7 +57,7 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
 	protected void onPreExecute() {
 		super.onPreExecute();
 		pDialog = new ProgressDialog(context);
-		pDialog.setMessage("Sincronizando objetos, por favor espere...");
+		pDialog.setMessage("Sincronizando...");
 		pDialog.setIndeterminate(false);
 		pDialog.setCancelable(true);
 		pDialog.show();

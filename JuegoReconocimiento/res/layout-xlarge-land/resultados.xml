@@ -178,7 +178,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Borrar"
-        android:textColor="@color/white"
+        style="@style/TextoBotonResultadosInf"
         android:layout_margin="20dp"
         android:background="@drawable/seliconoactivity"
         android:drawableLeft="@drawable/del" />
@@ -191,7 +191,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text=".XLS"
-        android:textColor="@color/white"
+        style="@style/TextoBotonResultadosInf"
         android:layout_margin="20dp"
         android:background="@drawable/seliconoactivity"
         android:drawableLeft="@drawable/xls" />       
@@ -202,7 +202,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Gráfica"
-        android:textColor="@color/white"
+        style="@style/TextoBotonResultadosInf"
         android:layout_margin="20dp"
         android:background="@drawable/seliconoactivity"
         android:drawableLeft="@drawable/graph" />        
@@ -213,7 +213,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Tabla"
-        android:textColor="@color/white"
+        style="@style/TextoBotonResultadosInf"
         android:layout_margin="20dp"
         android:background="@drawable/seliconoactivity"
         android:drawableLeft="@drawable/table" />           

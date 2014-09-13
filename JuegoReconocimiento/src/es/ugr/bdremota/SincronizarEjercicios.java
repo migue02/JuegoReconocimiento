@@ -12,11 +12,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
@@ -70,7 +75,7 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 	protected void onPreExecute() {
 		super.onPreExecute();
 		pDialog = new ProgressDialog(context);
-		pDialog.setMessage("Cargando ejercicios, por favor espere...");
+		pDialog.setMessage("Cargando...");
 		pDialog.setIndeterminate(false);
 		pDialog.setCancelable(false);
 		pDialog.show();
@@ -116,12 +121,7 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					// adding each child node to HashMap key => value
-					// map.put(TAG_NOMBRE, nombre);
-					// map.put(TAG_FECHA, fecha);
 
-					// adding HashList to ArrayList
-					// EjerciciosListRem.add(map);
 				}
 			}
 		} catch (JSONException e) {
@@ -171,41 +171,46 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 		}
 		if (addToRemote.size() > 0 || updateToRemote.size() > 0
 				|| addToLocal.size() > 0 || updateToLocal.size() > 0) {
-			AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-			alertDialog.setTitle("Sincronizar Ejercicios");
-			String mensaje = String.valueOf(addToRemote.size()) + " nuevo(s), "
-					+ String.valueOf(updateToRemote.size())
-					+ " a actualizar en remoto. \n"
-					+ String.valueOf(addToLocal.size()) + " nuevo(s), "
-					+ String.valueOf(updateToLocal.size())
-					+ " a actualizar en local. \n \n¿Desea sincronizar?";
-			alertDialog
-					.setMessage(mensaje)
-					.setPositiveButton("Si",
-							new DialogInterface.OnClickListener() {
+			
+			
+			final Dialog dialogo=new Dialog(context);
+			dialogo.getWindow().setBackgroundDrawableResource(R.color.white);
+			dialogo.setTitle("¿Desea sincronizar los ejercicios?");
+			dialogo.setContentView(R.layout.dialogo_sincronizar);
+			((TextView)dialogo.findViewById(R.id.toServer)).setText(String.valueOf(addToRemote.size()+updateToRemote.size()));
+			((TextView)dialogo.findViewById(R.id.toTablet)).setText(String.valueOf(addToLocal.size()+updateToLocal.size()));
+			((Button)dialogo.findViewById(R.id.aSincronizar)).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					new SubirEjercicios(context).execute(
+							addToRemote, updateToRemote);
+					new DescargarEjercicios(context, creaTabla)
+							.execute(addToLocal, updateToLocal);
+					dialogo.dismiss();
+				}
+			});
+			
+			((Button)dialogo.findViewById(R.id.cSincronizar)).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialogo.dismiss();
+				}
+			});
+			
+			dialogo.show();
+		} else{
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			builder.setTitle("Sincronizar ejercicios");
+			builder.setMessage("Los ejercicios están sincronizados.");
+			builder.setPositiveButton("Aceptar", null);
+			builder.create();
+			builder.show();
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									new SubirEjercicios(context).execute(
-											addToRemote, updateToRemote);
-									new DescargarEjercicios(context, creaTabla)
-											.execute(addToLocal, updateToLocal);
-								}
-							})
-					.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-
-								}
-							});
-
-			AlertDialog alert = alertDialog.create();
-			alert.show();
 		}
 	}
 

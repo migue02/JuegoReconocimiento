@@ -21,42 +21,67 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="Nombre"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/texto_tabla" 
+            />
+	    
+	        <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginBottom="10dp"
+             android:background="@color/texto_tabla" />
+	    
 	
 	    <EditText
 	        android:id="@+id/edtNombre"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="Nombre del objeto"
-	        android:ems="10" >
+            android:layout_marginBottom="20dp"
+            android:maxLength="30"
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="textCapSentences" />
 
-	        <requestFocus
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent" />
-
-	     </EditText>
 	        
 	     <TextView
 	        android:id="@+id/textView2"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Descripcion"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:text="Descripción"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="@color/texto_tabla" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/texto_tabla" />
+
 
 	     <EditText
 	         android:id="@+id/edtDescripcion"
 	         android:layout_width="match_parent"
 	         android:layout_height="match_parent"
 	         android:ems="10"
+             android:layout_marginBottom="20dp"
+             android:maxLength="50"	         
 	         android:hint="Descripcion"
-	         android:inputType="textMultiLine" />
+	         android:inputType="textMultiLine|textCapSentences" />
 	
 	    <TextView
 	        android:id="@+id/textView3"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="Objeto"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:textAppearance="?android:attr/textAppearanceLarge" 
+	        android:textColor="@color/texto_tabla"/>
+	    
+	    <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginBottom="10dp"
+             android:background="@color/texto_tabla" />
+	    
 	
 	    <LinearLayout
 	        android:layout_width="match_parent"
@@ -92,14 +117,22 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
-	            android:text="Aceptar" />
+	            android:background="@drawable/seliconodialogo"
+	            android:text="Aceptar" 
+	            android:textStyle="bold"
+                android:textColor="#ffffff"
+	            />
 	
 	        <Button
 	            android:id="@+id/btnCancelar"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
-	            android:text="Cancelar" />
+	            android:background="@drawable/seliconodialogo"
+	            android:text="Cancelar" 
+	            android:textStyle="bold"
+                android:textColor="#ffffff"
+	            />
 	    </LinearLayout>
 	
 	</LinearLayout>
