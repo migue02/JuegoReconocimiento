@@ -143,8 +143,8 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 	if (keyPoints.size() > 0) {
 		vector_KeyPoint_to_Mat(keyPoints, key);
 		extractor_Surf.compute(mGr, keyPoints, descriptores);
-		putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN,
-				2, Scalar(0, 0, 255, 150), 2);
+		/*putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN,
+				2, Scalar(0, 0, 255, 150), 2);*/
 	}
 
 	t = clock() - t;
@@ -528,8 +528,8 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 						10, Scalar(255, 0, 0, 255));
 			}
 
-			putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
-					2, Scalar(0, 0, 255, 150), 2);
+			/*putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
+					2, Scalar(0, 0, 255, 150), 2);*/
 
 			return nGoodMatches;
 

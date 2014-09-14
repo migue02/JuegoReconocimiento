@@ -159,6 +159,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
 		mOpenCvCameraView.setCvCameraViewListener(this);
+		mOpenCvCameraView.enableFpsMeter();
 
 		Bundle extras;
 		if (savedInstanceState == null) {
@@ -262,35 +263,40 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Empezar a reconocer
 	// ///////////////////
 	private void iniciarJuego() {
+		
+		Runnable runIniciaJuego = new Runnable() {
+		    public void run() {
+				bEsperandoRespuesta = false;
+				nObjeto = -1;
+				bJuegoIniciado = true;
+
+				lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
+				lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
+
+				if (lObjetos.size() > 0) {
+					oObjetoActual = lObjetos.get(0);
+					rellenar(false);
+				} else {
+					oObjetoActual = new Objeto();
+				}
+
+				oResultadoActual = new Resultado();
+				oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
+				oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
+				oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
+
+				if (oObjetoActual != null) {
+					mToast.setText("Buscando " + oObjetoActual.getNombre());
+					oObjetoActual.playSonidoDescripcion(getApplicationContext());
+					mToast.show();
+				}
+		    }
+		};
 
 		JuegoLibreria
 				.MostrarAnimacion(Juego.this,
 						((TextView) findViewById(R.id.tvAnimacion)),
-						"EMPIEZA EL JUEGO");
-
-		bEsperandoRespuesta = false;
-		nObjeto = -1;
-		bJuegoIniciado = true;
-
-		lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
-		lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
-
-		if (lObjetos.size() > 0) {
-			oObjetoActual = lObjetos.get(0);
-			rellenar(false);
-		} else {
-			oObjetoActual = new Objeto();
-		}
-
-		oResultadoActual = new Resultado();
-		oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
-		oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
-		oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
-
-		if (oObjetoActual != null) {
-			mToast.setText("Buscando " + oObjetoActual.getNombre());
-			mToast.show();
-		}
+						"EMPIEZA EL JUEGO", runIniciaJuego);
 
 	}
 
@@ -352,8 +358,14 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						lObjetos = dsObjetos
 								.getAllObjetosReconocer(oEjercicioActual);
 						oObjetoActual = lObjetos.get(lnObjetoActual);
+						rellenar(false);
 
 						lbJuegoTerminado = false;
+						
+						Intent descEjer = new Intent(this, ComenzarEjercicio.class);
+						descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
+						startActivity(descEjer);
+						//((Globals) getApplication()).JuegoParado = false;
 					}
 				}
 			}
@@ -361,10 +373,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 		if (lbJuegoTerminado)
 			terminarJuego();
-		else
+		else{
 			JuegoLibreria.MostrarAnimacion(Juego.this,
 					((TextView) findViewById(R.id.tvAnimacion)), "Buscando "
-							+ oObjetoActual.getNombre());
+							+ oObjetoActual.getNombre(), null);
+			oObjetoActual.playSonidoDescripcion(getApplicationContext());
+		}
 		return lbJuegoTerminado;
 
 	}
@@ -414,25 +428,29 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Función llamada cuando se termina un juego
 	// //////////////////////////////////////////
 	private void terminarJuego() {
+		Runnable runTerminaJuego = new Runnable() {
+		    public void run() {
+				Intent intent = new Intent(Juego.this, ResultadoSerie.class);
+				int[] ids = new int[lResultados.size()];
+				for (int i = 0; i < lResultados.size(); i++) {
+					dsResultado.createResultado(lResultados.get(i));
+					ids[i] = lResultados.get(i).getIdResultado();
+				}
+				intent.putExtra("Resultados", ids);
+				intent.putExtra("Alumno", oAlumno.getNombre());
+				intent.putExtra("Serie", oSerie.getNombre());
+				startActivity(intent);
+				Juego.this.finish();
+		    }
+		};
 		if (lResultados == null || lResultados.isEmpty())
 			JuegoLibreria.MostrarAnimacion(Juego.this,
 					((TextView) findViewById(R.id.tvAnimacion)),
-					"¡Aún no has realizado ningún ejercicio!");
+					"¡Aún no has realizado ningún ejercicio!", null);
 		else {
 			JuegoLibreria.MostrarAnimacion(Juego.this,
-					((TextView) findViewById(R.id.tvAnimacion)),
-					"¡Juego terminado!");
-			Intent intent = new Intent(Juego.this, ResultadoSerie.class);
-			int[] ids = new int[lResultados.size()];
-			for (int i = 0; i < lResultados.size(); i++) {
-				dsResultado.createResultado(lResultados.get(i));
-				ids[i] = lResultados.get(i).getIdResultado();
-			}
-			intent.putExtra("Resultados", ids);
-			intent.putExtra("Alumno", oAlumno.getNombre());
-			intent.putExtra("Serie", oSerie.getNombre());
-			startActivity(intent);
-			finish();
+					((TextView) Juego.this.findViewById(R.id.tvAnimacion)),
+					"¡Juego terminado!", runTerminaJuego);
 		}
 	}
 
@@ -801,7 +819,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			mRgba = inputFrame.rgba();
 			mGray = inputFrame.gray();
 
-			if ((bJuegoIniciado && lObjetos.size() > 0)) {
+			if ((bJuegoIniciado && lObjetos.size() > 0) /*&& !((Globals) getApplication()).JuegoParado*/) {
 				auxGray = mGray.clone();
 
 				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
@@ -843,6 +861,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						public void run() {
 							JuegoLibreria.RefrescarBotones(Juego.this,
 									bEsperandoRespuesta);
+							oObjetoReconocido.playSonidoNombre(getApplicationContext());
+							while (oObjetoReconocido.playerSonando());
 							try {
 								player = new MediaPlayer();
 								player.setDataSource(afd.getFileDescriptor(),

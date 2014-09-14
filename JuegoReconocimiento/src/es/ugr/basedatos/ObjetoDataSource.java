@@ -38,7 +38,10 @@ public class ObjetoDataSource {
 	
 	private String[] simpleColumns = { MySQLiteHelper.COLUMN_OBJETO_ID,
 			MySQLiteHelper.COLUMN_OBJETO_NOMBRE,
-			MySQLiteHelper.COLUMN_OBJETO_IMAGEN};
+			MySQLiteHelper.COLUMN_OBJETO_IMAGEN,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_DESCRIPCION,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_AYUDA,
+			MySQLiteHelper.COLUMN_OBJETO_SONIDO_NOMBRE};
 
 	public ObjetoDataSource(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -289,6 +292,9 @@ public class ObjetoDataSource {
 			objeto.setId(cursor.getLong(0));
 			objeto.setNombre(cursor.getString(1));
 			objeto.setPathImagen(cursor.getString(2));
+			objeto.setSonidoDescripcion(cursor.getString(3));
+			objeto.setSonidoAyuda(cursor.getString(4));
+			objeto.setSonidoNombre(cursor.getString(5));
 			cursor.close();
 			return objeto;
 		} else

@@ -10,21 +10,26 @@
         android:id="@+id/textoBienv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="#00679A"
+        android:gravity="center"
         android:text="¡Bienvenido!"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffff2c08"
-        android:visibility="invisible" />
+        android:textColor="#FFF57A"
+        android:textSize="8sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/btnSalir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
         android:onClick="onSalirClick"
-        android:layout_margin="10dp"
         android:src="@drawable/exit_72" />
 
     <LinearLayout

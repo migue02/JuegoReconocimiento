@@ -38,7 +38,7 @@ public class JuegoLibreria {
 	private static long timeWhenStopped = 0;
 
 	public static void MostrarAnimacion(Context pContext,
-			final TextView ptvTexto, String psTexto) {
+			final TextView ptvTexto, String psTexto, final Runnable task) {
 		CountDownAnimation countDownAnimation = new CountDownAnimation(
 				pContext, ptvTexto, 1, psTexto, 1500);
 		countDownAnimation.start();
@@ -50,6 +50,8 @@ public class JuegoLibreria {
 			@Override
 			public void onCountDownEnd(CountDownAnimation animation) {
 				ptvTexto.setText("");
+				if (task != null)
+					task.run();
 			}
 		});
 	}

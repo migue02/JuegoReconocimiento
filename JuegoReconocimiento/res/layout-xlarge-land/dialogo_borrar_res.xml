@@ -2,57 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="¿Qué resultados desea eliminar?"
-            android:gravity="top"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp" />
+            android:gravity="top"
+            android:text="¿Qué resultados desea eliminar?"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp" >
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Todos los resultados"
                 android:id="@+id/radioButtonExp1"
-                android:checked="true" />
-
-            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Resultados filtados"
-                android:id="@+id/radioButtonExp2" />
+                android:checked="true"
+                android:text="Todos los resultados" />
+
+            <RadioButton
+                android:id="@+id/radioButtonExp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resultados filtados" />
         </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/scrollView"
-            android:orientation="horizontal"
-            android:visibility="visible"
             android:layout_gravity="bottom"
+            android:layout_marginTop="20dp"
             android:gravity="bottom"
-            android:layout_marginTop="20dp">
+            android:orientation="horizontal"
+            android:visibility="visible" >
 
             <Button
                 android:id="@+id/cBorrar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/seliconodialogo"
                 android:text="Cancelar" />
 
             <Button
@@ -60,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/seliconodialogo"
                 android:text="Borrar" />
         </LinearLayout>
     </LinearLayout>

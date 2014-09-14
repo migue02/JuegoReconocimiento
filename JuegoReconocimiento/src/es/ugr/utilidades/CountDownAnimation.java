@@ -40,12 +40,13 @@ public class CountDownAnimation {
 	private CountDownListener mListener;
 	private Context context;
 	private Sonidos sonidos;
+	private boolean bFinalizado = false;
 
 	private Handler mHandler = new Handler();
 
 	private final Runnable mCountDown = new Runnable() {
 		public void run() {
-			if (mCurrentCount > 0) {
+			if (mCurrentCount > 0 && !bFinalizado) {
 				if (!sTexto.isEmpty())
 					mTextView.setText(sTexto);
 				else
@@ -114,8 +115,8 @@ public class CountDownAnimation {
 	 */
 	public void cancel() {
 		mHandler.removeCallbacks(mCountDown);
-
 		mTextView.setText("");
+		bFinalizado = true;
 		mTextView.setVisibility(View.GONE);
 	}
 

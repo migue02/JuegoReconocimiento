@@ -158,6 +158,13 @@ public class Objeto {
 			player = null;
 		}
 	}
+	
+	public boolean playerSonando(){
+		if (player != null) {
+			return player.isPlaying();
+		}
+		return false;
+	}
 
 	private void setImagenFromPath(boolean extendida) {
 		try {

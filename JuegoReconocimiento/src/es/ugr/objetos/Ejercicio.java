@@ -92,6 +92,13 @@ public class Ejercicio {
 		playSonido(sonido_descripcion, context.getString(R.string.pathSounds)
 				+ "/descripcion.mp3");
 	}
+	
+	public void stopSonido() {
+		if (player != null) {
+			player.release();
+			player = null;
+		}
+	}
 
 	public Date getFecha() {
 		return fecha;

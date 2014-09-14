@@ -11,10 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:background="#00679A"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:text="¡Bienvenido!"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffff2c08" />
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#FFF57A" />
 
     <ImageView
         android:id="@+id/btnSalir"
@@ -22,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="40sp"
+        android:layout_marginRight="10sp"
         android:onClick="onSalirClick"
-        android:layout_margin="10dp"
         android:src="@drawable/exit_128" />
 
     <LinearLayout
@@ -171,7 +177,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Admin"
+                        android:text="Administrador"
                         android:textColor="@color/about_naranja"
                         android:textSize="30sp"
                         android:textStyle="bold" />

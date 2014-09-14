@@ -10,11 +10,16 @@ import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import es.ugr.utilidades.CountDownAnimation;
+import es.ugr.utilidades.Globals;
+import es.ugr.utilidades.Utilidades;
 import es.ugr.utilidades.CountDownAnimation.CountDownListener;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ListView;
@@ -39,6 +44,16 @@ public class ComenzarEjercicio extends Activity {
 		context = this;
 
 		listViewObjetos = (ListView) findViewById(R.id.listViewObjetos);
+		
+		listViewObjetos.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				finish();
+				
+				return false;
+			}
+		});
 
 		eds = new EjercicioDataSource(this);
 		ods = new ObjetoDataSource(this);
@@ -71,32 +86,39 @@ public class ComenzarEjercicio extends Activity {
 
 			((TextView) findViewById(R.id.Escenario)).setText(escenario);
 
-			for (int i = 0; i < ejercicio.getObjetosReconocer().size(); i++) {
+			for (int i = 0; i < ejercicio.getObjetosReconocer().size(); i++)
 				lo.add(ods.getObjeto(ejercicio.getObjetosReconocer().get(i)));
-			}
-
 			adapter = new AdapterEmpezarEjercicioObjeto(this,
 					R.layout.adapter_comienzo_ejercicio_objeto, lo);
 			listViewObjetos.setAdapter(adapter);
-
-			countdown = (TextView) findViewById(R.id.Countdown);
-			countDownAnimation = new CountDownAnimation(context, countdown, 4, "", -1);
-			countDownAnimation.start();
-
-			Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
-					0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-					Animation.RELATIVE_TO_SELF, 0.5f);
-			countDownAnimation.setAnimation(scaleAnimation);
-			countDownAnimation.setCountDownListener(new CountDownListener() {
-
-				@Override
-				public void onCountDownEnd(CountDownAnimation animation) {
-					finish();
-				}
-			});
-
+			ods.close();
+			eds.close();
+			ejercicio.playSonidoDescripcion(getApplicationContext());
 		}
 
+	}
+	
+	public void onIniciaJuego(View v){
+		countdown = (TextView) findViewById(R.id.Countdown);
+		countDownAnimation = new CountDownAnimation(context, countdown, 4,
+				"", -1);
+		countDownAnimation.start();
+		Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
+				0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
+		countDownAnimation.setAnimation(scaleAnimation);
+		
+		countDownAnimation.setCountDownListener(new CountDownListener() {
+			@Override
+			public void onCountDownEnd(CountDownAnimation animation) {
+				finish();
+			}
+		});		
+		((Globals) getApplication()).JuegoParado = true;
+		if (lo != null)
+			Utilidades.LiberaImagenes(lo);
+		if (ejercicio != null)
+			ejercicio.stopSonido();
 	}
 
 }
