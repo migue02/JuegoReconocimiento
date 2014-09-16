@@ -325,11 +325,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				if (lResultados == null)
 					lResultados = new ArrayList<Resultado>();
 
-				oResultadoActual.setDuracion(JuegoLibreria
-						.getDuracionActual(this));
-				oResultadoActual.calculaPuntuacion();
-				lResultados.add(oResultadoActual);
-
 				int lnEjercicioActual = JuegoLibreria.getEjercicioActual(
 						lEjercicios, oEjercicioActual);
 
@@ -337,8 +332,13 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 					lnEjercicioActual++;
 
-					if (lnEjercicioActual == lEjercicios.size() && bCiclico)
+					if (lnEjercicioActual == lEjercicios.size() && bCiclico){
 						lnEjercicioActual = 0;
+						oResultadoActual.setDuracion(JuegoLibreria
+								.getDuracionActual(this));
+						oResultadoActual.calculaPuntuacion();
+						lResultados.add(oResultadoActual);
+					}
 
 					if (lnEjercicioActual < lEjercicios.size()) {
 						oResultadoActual = new Resultado();
@@ -430,6 +430,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	private void terminarJuego() {
 		Runnable runTerminaJuego = new Runnable() {
 		    public void run() {
+				oResultadoActual.setDuracion(JuegoLibreria
+						.getDuracionActual(Juego.this));
+				oResultadoActual.calculaPuntuacion();
+				lResultados.add(oResultadoActual);
 				Intent intent = new Intent(Juego.this, ResultadoSerie.class);
 				int[] ids = new int[lResultados.size()];
 				for (int i = 0; i < lResultados.size(); i++) {
