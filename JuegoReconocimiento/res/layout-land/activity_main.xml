@@ -110,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onClick="onBorrarEjerciciosObjetos"
+                    android:visibility="gone"
                     android:src="@drawable/borrar" />
             </LinearLayout>
         </LinearLayout>
@@ -122,8 +123,8 @@
 
             <ImageView
                 android:id="@+id/Empezar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_alignParentStart="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
@@ -153,7 +154,9 @@
                     android:background="@drawable/degradado_main"
                     android:gravity="center"
                     android:onClick="onReiniciaClick"
+                    android:visibility="gone"
                     android:orientation="horizontal" >
+                    
 
                     <TextView
                         android:layout_width="wrap_content"

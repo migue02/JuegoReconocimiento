@@ -125,8 +125,8 @@ public class FichaAlumno extends Dialog {
 		public boolean onTouch(View v, MotionEvent event) {
 			Chico.setSelected(true);
 			Chica.setSelected(false);
-			((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle(); 
-			imgSexo = (ImageView) findViewById(R.id.AlumPrin);
+	//		((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle(); 
+	//		imgSexo = (ImageView) findViewById(R.id.AlumPrin);
 			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
 					R.drawable.boy_amp));
 			sexo = Sexo.Hombre;
@@ -139,8 +139,8 @@ public class FichaAlumno extends Dialog {
 		public boolean onTouch(View v, MotionEvent event) {
 			Chica.setSelected(true);
 			Chico.setSelected(false);
-			((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle();
-			imgSexo = (ImageView) findViewById(R.id.AlumPrin);
+		//	((BitmapDrawable) imgSexo.getDrawable()).getBitmap().recycle();
+		//	imgSexo = (ImageView) findViewById(R.id.AlumPrin);
 			imgSexo.setImageDrawable(getContext().getResources().getDrawable(
 					R.drawable.girl_amp));
 			sexo = Sexo.Mujer;
