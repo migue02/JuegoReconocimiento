@@ -21,6 +21,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -104,24 +106,22 @@ public class MainActivity extends Activity {
 
 	}
 
-	public void onClickAcercaDe(View v) {
-		Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
-		animation.setAnimationListener(new Animation.AnimationListener() {
-			public void onAnimationEnd(Animation animation) {
-				Intent intent = new Intent(getApplicationContext(),
-						AboutActivity.class);
-				startActivity(intent);
-			}
-
-			public void onAnimationRepeat(Animation animation) {
-				// Do nothing!
-			}
-
-			public void onAnimationStart(Animation animation) {
-				// Do nothing!
-			}
-		});
-		v.startAnimation(animation);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+	    case R.id.itemAbout:
+	    	Intent intent = new Intent(getApplicationContext(),
+					AboutActivity.class);
+			startActivity(intent);
+	        break;
+	    }
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onClickEmpezar(View v) {
