@@ -154,7 +154,7 @@
                     android:background="@drawable/degradado_main"
                     android:gravity="center"
                     android:onClick="onReiniciaClick"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:orientation="horizontal" >
                     
 

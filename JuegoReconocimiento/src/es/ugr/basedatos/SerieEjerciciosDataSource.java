@@ -204,8 +204,8 @@ public class SerieEjerciciosDataSource {
 	
 	public boolean existeSerie(String nombre) {
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_SERIE_EJERCICIOS,
-				allColumns, MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE + " = "
-						+ nombre, null, null, null, null);
+				allColumns, MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE + " = '"
+						+ nombre+"'", null, null, null, null);
 		if (cursor != null && cursor.getCount() > 0) 
 			return true;
 		return false;

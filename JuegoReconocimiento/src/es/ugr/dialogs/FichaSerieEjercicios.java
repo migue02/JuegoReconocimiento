@@ -64,6 +64,7 @@ public class FichaSerieEjercicios extends Dialog {
 
 		// Modificar elementos dentro del dialogo
 		nomSerie = (EditText) findViewById(R.id.NomSerie);
+		// nomSerie.set
 		nomSerie.setText(oSerieEjercicios.getNombre());
 		duracion = (EditText) findViewById(R.id.Duracion);
 		duracion.setText(String.valueOf(oSerieEjercicios.getDuracion()));
@@ -88,8 +89,8 @@ public class FichaSerieEjercicios extends Dialog {
 
 		lvEj.setAdapter(adapterEjercicio);
 
-		aniadirEjSer = (Button)findViewById(R.id.laniadir_ser);
-		guardarSerie = (Button)findViewById(R.id.lguardar_cam);
+		aniadirEjSer = (Button) findViewById(R.id.laniadir_ser);
+		guardarSerie = (Button) findViewById(R.id.lguardar_cam);
 
 		guardarSerie.setOnClickListener(onGuardarClick);
 		aniadirEjSer.setOnClickListener(onAniadirClick);
@@ -108,27 +109,45 @@ public class FichaSerieEjercicios extends Dialog {
 
 	View.OnClickListener onGuardarClick = new View.OnClickListener() {
 		public void onClick(View v) {
-			oSerieEjercicios.setNombre(nomSerie.getText().toString());
-			oSerieEjercicios.setDuracion(Integer.parseInt(duracion.getText()
-					.toString()));
-			oSerieEjercicios.setFecha_modificacion(new Date());
+			if ((insertar == false && !oSerieEjercicios.getNombre().equals(
+					nomSerie.getText().toString().trim()))
+					|| insertar == true)
+				if (dsSerieEjercicios.existeSerie(nomSerie.getText().toString()
+						.trim()))
+					DialogoCamposNecesarios(3);
+				else {
+					if (nomSerie.getText().toString().trim().equals("")) {
+						DialogoCamposNecesarios(1);
+					} else if (duracion.getText().toString().trim().equals("")) {
+						DialogoCamposNecesarios(2);
+					} else {
+						oSerieEjercicios.setNombre(nomSerie.getText()
+								.toString());
+						oSerieEjercicios.setDuracion(Integer.parseInt(duracion
+								.getText().toString()));
+						oSerieEjercicios.setFecha_modificacion(new Date());
 
-			ArrayList<Integer> listaId = new ArrayList<Integer>();
-			for (int i = 0; i < leaux.size(); i++)
-				listaId.add(leaux.get(i).getIdEjercicio());
+						ArrayList<Integer> listaId = new ArrayList<Integer>();
+						for (int i = 0; i < leaux.size(); i++)
+							listaId.add(leaux.get(i).getIdEjercicio());
 
-			oSerieEjercicios.setEjercicios(listaId);
-			boolean mo = false;
-			if (insertar == false)
-				mo = dsSerieEjercicios
-						.modificaSerieEjercicios(oSerieEjercicios);
-			else
-				mo = dsSerieEjercicios.createSerieEjercicios(oSerieEjercicios) != null;
-			if (mo) {
-				dismiss();
-				function.run();
-				Toast.makeText(context, "Modificado", Toast.LENGTH_LONG).show();
-			}
+						oSerieEjercicios.setEjercicios(listaId);
+						boolean mo = false;
+						if (insertar == false)
+							mo = dsSerieEjercicios
+									.modificaSerieEjercicios(oSerieEjercicios);
+						else
+							mo = dsSerieEjercicios
+									.createSerieEjercicios(oSerieEjercicios) != null;
+						if (mo) {
+							dismiss();
+							function.run();
+							// Toast.makeText(context, "Modificado",
+							// Toast.LENGTH_LONG).show();
+						}
+					}
+
+				}
 		}
 	};
 
@@ -146,7 +165,7 @@ public class FichaSerieEjercicios extends Dialog {
 						public void onClick(DialogInterface dialog, int which) {
 							leaux.add(lEjercicios.get(which));
 							recargaDuracion();
-							
+
 							adapterEjercicio = new AdapterEjercicio(context,
 									R.layout.adapter_ejercicios, leaux);
 							lvEj.setAdapter(adapterEjercicio);
@@ -199,6 +218,21 @@ public class FichaSerieEjercicios extends Dialog {
 			dura += leaux.get(i).getDuracion();
 		}
 		duracion.setText(String.valueOf(dura));
+	}
+
+	private void DialogoCamposNecesarios(int coderr) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("Atención");
+		if (coderr == 1)
+			builder.setMessage("Debe rellenar el campo Nombre");
+		if (coderr == 2)
+			builder.setMessage("Debe rellenar el campo duración");
+		if (coderr == 3)
+			builder.setMessage("Ya existe ese nombre, por favor introduzca otro diferente");
+		builder.setPositiveButton("Aceptar", null);
+		builder.create();
+		builder.show();
+
 	}
 
 }

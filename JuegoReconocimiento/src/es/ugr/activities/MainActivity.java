@@ -380,7 +380,7 @@ public class MainActivity extends Activity {
 		Date fecha4 = cal.getTime();
 
 		Resultado r = new Resultado(1, alumno1.getIdAlumno(),
-				serie1.getIdSerie(), fecha1, 0, 48, 39, 9, 8.1);
+				serie1.getIdSerie(), fecha1, 0, 48, 39, 9, 6.0);
 		Resultado r2 = new Resultado(2, alumno1.getIdAlumno(),
 				serie1.getIdSerie(), fecha2, 0, 30, 18, 12, 6.0);
 
@@ -393,6 +393,9 @@ public class MainActivity extends Activity {
 				serie1.getIdSerie(), fecha4, 0, 35, 28, 7, 8);
 		Resultado r6 = new Resultado(6, alumno2.getIdAlumno(),
 				serie1.getIdSerie(), fecha4, 0, 24, 14, 10, 5.8);
+		
+		Resultado r7 = new Resultado(7, alumno1.getIdAlumno(),
+				serie1.getIdSerie(), fecha1, 0, 48, 39, 9, 8.1);
 
 		rds.createResultado(r);
 		rds.createResultado(r2);
@@ -400,6 +403,7 @@ public class MainActivity extends Activity {
 		rds.createResultado(r4);
 		rds.createResultado(r5);
 		rds.createResultado(r6);
+		rds.createResultado(r7);
 
 		ads.close();
 		ods.close();

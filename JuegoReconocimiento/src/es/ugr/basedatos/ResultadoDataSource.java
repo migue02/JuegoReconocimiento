@@ -200,7 +200,7 @@ public class ResultadoDataSource {
 		
 			query="SELECT R."+MySQLiteHelper.COLUMN_RESULTADO_ID+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+
 				", sum("+MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_FALLOS+"),"+
-				" "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+", sum("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
+				" "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+", avg("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
 				" sum("+MySQLiteHelper.COLUMN_RESULTADO_NUM_OBJETOS+")"+
 				
 				" FROM "+MySQLiteHelper.TABLE_RESULTADO+" R, "+MySQLiteHelper.TABLE_ALUMNO+" A"+
@@ -208,7 +208,7 @@ public class ResultadoDataSource {
 				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+
 				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
 				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
-				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" >'"+new SimpleDateFormat("yyyy-MM-dd").format(restaDias(new Date(), dias))+"' GROUP BY "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+ ", R."+MySQLiteHelper.COLUMN_ALUMNO_ID;				
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" >'"+new SimpleDateFormat("yyyy-MM-dd").format(restaDias(new Date(), dias))+"' GROUP BY "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+ ", R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO;				
 		}
 		
 		else if(dias==Periodo.SeisMeses){
@@ -294,5 +294,6 @@ public class ResultadoDataSource {
 	    d.setTime( c.getTime().getTime() );
 	    return d;
 	}
+	
 
 }

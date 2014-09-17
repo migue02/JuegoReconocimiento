@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import es.ugr.basedatos.AlumnoDataSource;
+import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Alumno;
 import es.ugr.objetos.TiposPropios.Sexo;
@@ -169,8 +170,8 @@ public class FichaAlumno extends Dialog {
 				ex.printStackTrace();
 
 			}
-
-			if (edtNombre.getText().toString().equals(""))
+		
+			if (edtNombre.getText().toString().trim().equals(""))
 				DialogoCamposNecesarios(1);
 			else if (edtApellidos.getText().toString().equals(""))
 				DialogoCamposNecesarios(2);
