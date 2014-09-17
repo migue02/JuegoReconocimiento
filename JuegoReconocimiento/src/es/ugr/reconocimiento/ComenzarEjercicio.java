@@ -42,6 +42,7 @@ public class ComenzarEjercicio extends Activity {
 		setContentView(R.layout.activity_comienzo_ejercicio);
 
 		context = this;
+		((Globals) getApplication()).JuegoParado = true;
 
 		listViewObjetos = (ListView) findViewById(R.id.listViewObjetos);
 		
@@ -112,9 +113,9 @@ public class ComenzarEjercicio extends Activity {
 			@Override
 			public void onCountDownEnd(CountDownAnimation animation) {
 				finish();
+				((Globals) getApplication()).JuegoParado = false;
 			}
 		});		
-		((Globals) getApplication()).JuegoParado = true;
 		if (lo != null)
 			Utilidades.LiberaImagenes(lo);
 		if (ejercicio != null)

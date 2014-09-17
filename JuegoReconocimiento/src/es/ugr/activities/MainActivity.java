@@ -67,12 +67,10 @@ public class MainActivity extends Activity {
 			switch (status) {
 			case LoaderCallbackInterface.SUCCESS: {
 				Log.i(TAG, "OpenCV loaded successfully");
-
 				// Load native library after(!) OpenCV initialization
 				System.loadLibrary("opencv_java");
 				System.loadLibrary("nonfree");
-				System.loadLibrary("juegoReconocimientoLib");
-				System.loadLibrary("juegoLib");
+				System.loadLibrary("reconocimientoLibreria");
 			}
 				break;
 			default: {

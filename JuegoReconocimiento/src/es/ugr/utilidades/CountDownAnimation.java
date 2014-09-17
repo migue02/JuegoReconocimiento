@@ -50,7 +50,7 @@ public class CountDownAnimation {
 				if (!sTexto.isEmpty())
 					mTextView.setText(sTexto);
 				else
-					mTextView.setText(mCurrentCount + "");
+					mTextView.setText(mCurrentCount-1 + "");
 				mTextView.startAnimation(mAnimation);
 				mCurrentCount--;
 				sonidos.playContador();

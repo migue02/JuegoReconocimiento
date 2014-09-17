@@ -98,14 +98,14 @@ public class ResultadosLibrary {
 			inicializacionBotonesBottom(view);
 			inicializaLayouts(view);
 		}
-		
+
 		if (view == null)
 			context = activity.findViewById(android.R.id.content).getContext();
 		else
 			context = view.getContext();
 
 		inicializacionListenerBotonesUp();
-		
+
 		dsAlumno = new AlumnoDataSource(context);
 		dsSerie = new SerieEjerciciosDataSource(context);
 		dsAlumno.open();
@@ -114,15 +114,17 @@ public class ResultadosLibrary {
 		InicioResultados();
 
 	}
-	
+
 	public void onDestroy() {
-		if (dsAlumno != null) dsAlumno.close();
-		if (dsSerie != null) dsSerie.close();
+		if (dsAlumno != null)
+			dsAlumno.close();
+		if (dsSerie != null)
+			dsSerie.close();
 	}
 
 	private void inicializacionListenerBotonesUp() {
 		btnRanking.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -132,9 +134,9 @@ public class ResultadosLibrary {
 				return false;
 			}
 		});
-		
+
 		btnAlumno.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -144,9 +146,7 @@ public class ResultadosLibrary {
 				return false;
 			}
 		});
-		
 
-		
 		btnSemana.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -159,9 +159,9 @@ public class ResultadosLibrary {
 				return false;
 			}
 		});
-		
+
 		btnMes.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -172,9 +172,9 @@ public class ResultadosLibrary {
 				return false;
 			}
 		});
-		
+
 		btnAnio.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -191,7 +191,7 @@ public class ResultadosLibrary {
 	private void inicializaLayouts(View view) {
 		((LinearLayout) view.findViewById(R.id.layoutResultados))
 				.setBackgroundResource(R.drawable.tabla);
-		
+
 		((LinearLayout) view.findViewById(R.id.resultadosButtonG1))
 				.setBackgroundResource(R.drawable.layoutredondeado);
 
@@ -230,10 +230,9 @@ public class ResultadosLibrary {
 		TableRow rowAl = new TableRow(context);
 		TableRow rowSer = new TableRow(context);
 
-		//rowAl.setBackgroundResource(R.drawable.tablarestit);
+		// rowAl.setBackgroundResource(R.drawable.tablarestit);
 		rowAl.setBackgroundResource(R.drawable.tablarestitredon);
 		rowSer.setBackgroundResource(R.drawable.tablarestitredon);
-		
 
 		TableRow.LayoutParams tableRowParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.WRAP_CONTENT,
@@ -266,23 +265,23 @@ public class ResultadosLibrary {
 
 		Picasso.with(context).load(R.drawable.alumnos_64).into(imgtit1);
 		Picasso.with(context).load(R.drawable.series_64).into(imgtit2);
-		
+
 		imgtit1.setLayoutParams(imageParams);
 		imgtit2.setLayoutParams(imageParams);
 
 		tit1.setText("Alumno");
 		tit1.setLayoutParams(tableRowParams);
 		tit1.setTextAppearance(activity, R.style.TituloTabla);
-		//tit1.setTextColor(context.getResources().getColor(R.color.verde_));
+		// tit1.setTextColor(context.getResources().getColor(R.color.verde_));
 
 		tit3.setText("Serie");
 		tit3.setLayoutParams(tableRowParams);
 		tit3.setTextAppearance(activity, R.style.TituloTabla);
-		//tit3.setTextColor(context.getResources().getColor(R.color.azul_ic));
+		// tit3.setTextColor(context.getResources().getColor(R.color.azul_ic));
 
 		rowAl.addView(imgtit1);
 		rowAl.addView(tit1);
-		//rowAl.setPadding(3, 3, 3, 3);
+		// rowAl.setPadding(3, 3, 3, 3);
 		rowSer.addView(imgtit2);
 		rowSer.addView(tit3);
 
@@ -291,7 +290,6 @@ public class ResultadosLibrary {
 
 		final List<Alumno> la = dsAlumno.getAllAlumnos();
 		final List<SerieEjercicios> lse = dsSerie.getAllSeriesEjercicios();
-		
 
 		// Añadir campo todos
 		rowAl = new TableRow(context);
@@ -326,9 +324,8 @@ public class ResultadosLibrary {
 		tvTodasSeries.setTextAppearance(context, R.style.TituloTabla);
 		rowSer.addView(tvTodasSeries);
 
-		
 		rowAl.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -348,7 +345,7 @@ public class ResultadosLibrary {
 					cb.setChecked(nv);
 					cb.setEnabled(tr.isSelected());
 					if (nv == true)
-						//traux.setBackgroundResource(R.color.bloqueado);
+						// traux.setBackgroundResource(R.color.bloqueado);
 						traux.setBackgroundResource(R.drawable.resulbloq);
 					else
 						traux.setBackgroundResource(R.drawable.seliconoresultados);
@@ -364,7 +361,7 @@ public class ResultadosLibrary {
 		cbtSer.setClickable(false);
 
 		rowSer.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -394,7 +391,7 @@ public class ResultadosLibrary {
 				return false;
 			}
 		});
-	
+
 		tlAlumnos.addView(rowAl);
 		tlSeries.addView(rowSer);
 
@@ -419,9 +416,9 @@ public class ResultadosLibrary {
 			rowAl.addView(alum);
 			alSelec.add(false);
 			final int pos = i;
-			
+
 			rowAl.setOnTouchListener(new OnTouchListener() {
-				
+
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
@@ -461,9 +458,9 @@ public class ResultadosLibrary {
 			rowSer.addView(serie);
 			serSelec.add(false);
 			final int pos2 = i;
-			
+
 			rowSer.setOnTouchListener(new OnTouchListener() {
-				
+
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
@@ -479,16 +476,16 @@ public class ResultadosLibrary {
 					return false;
 				}
 			});
-			
+
 			tlSeries.addView(rowSer);
 		}
 
 		// Fin series
 
-		viewGrafica.setOnClickListener(new OnClickListener() {
+		viewGrafica.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				Intent graficaIntent = new Intent(context, Graficas.class);
 				graficaIntent.putExtra("tipoFecha", fecha);
 				// Lista de alumnos seleccionados
@@ -516,13 +513,14 @@ public class ResultadosLibrary {
 							(ArrayList<Integer>) listaIdSeries);
 					context.startActivity(graficaIntent);
 				}
+				return false;
 			}
 		});
 
-		viewTabla.setOnClickListener(new OnClickListener() {
+		viewTabla.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				Intent tablaIntent = new Intent(context, Tablas.class);
 
 				tablaIntent.putExtra("tipoFecha", fecha);
@@ -551,14 +549,14 @@ public class ResultadosLibrary {
 							(ArrayList<Integer>) listaIdSeries);
 					context.startActivity(tablaIntent);
 				}
-
+				return false;
 			}
 		});
 
-		viewXLS.setOnClickListener(new OnClickListener() {
+		viewXLS.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				final Dialog dialog = new Dialog(v.getContext());
 				dialog.setContentView(R.layout.dialogo_exportar);
 				dialog.setTitle("Exportar...");
@@ -609,16 +607,15 @@ public class ResultadosLibrary {
 						dialog.dismiss();
 					}
 				});
+				return false;
 			}
 
 		});
 
-		viewBorrar.setOnClickListener(new OnClickListener() {
+		viewBorrar.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
+			public boolean onTouch(View v, MotionEvent event) {
 				final Dialog dialog = new Dialog(v.getContext());
 				dialog.setContentView(R.layout.dialogo_borrar_res);
 				dialog.setTitle("Borrar resultados...");
@@ -675,7 +672,7 @@ public class ResultadosLibrary {
 				});
 
 				dialog.show();
-
+				return false;
 			}
 		});
 	}
@@ -829,10 +826,12 @@ public class ResultadosLibrary {
 			writeCell(8, 0, "Puntuación", true, ws);
 
 			for (int i = 0; i < lr.size(); i++) {
-				writeCell(0, i + 1, dsAlumno.getAlumnos(lr.get(i).getIdAlumno())
-						.getNombre(), false, ws);
-				writeCell(1, i + 1, dsAlumno.getAlumnos(lr.get(i).getIdAlumno())
-						.getApellidos(), false, ws);
+				writeCell(0, i + 1, dsAlumno
+						.getAlumnos(lr.get(i).getIdAlumno()).getNombre(),
+						false, ws);
+				writeCell(1, i + 1, dsAlumno
+						.getAlumnos(lr.get(i).getIdAlumno()).getApellidos(),
+						false, ws);
 				writeCell(2, i + 1,
 						dsSerie.getSerieEjercicios(lr.get(i).getIdEjercicio())
 								.getNombre(), false, ws);
@@ -876,11 +875,9 @@ public class ResultadosLibrary {
 		rds.close();
 
 	}
-	
+
 	public void setView(View rootView) {
 		view = rootView;
 	}
-	
-
 
 }

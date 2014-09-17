@@ -38,7 +38,9 @@ import es.ugr.utilidades.Utilidades;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -115,6 +117,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	private int nWidth = -1;
 	private int nHeight = -1;
+	private boolean bPrimeraVez = false;
 
 	private Toast mToast = null;
 
@@ -157,9 +160,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 					}
 				});
 
-		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
-		mOpenCvCameraView.setCvCameraViewListener(this);
-		mOpenCvCameraView.enableFpsMeter();
+		mToast = Toast
+				.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 
 		Bundle extras;
 		if (savedInstanceState == null) {
@@ -238,13 +240,14 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			}
 			((ImageView) findViewById(R.id.btnCapturar))
 					.setVisibility(View.GONE);
-
+			((Globals) getApplication()).JuegoParado = true;
 			Intent descEjer = new Intent(this, ComenzarEjercicio.class);
 			descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
 			startActivity(descEjer);
 			JuegoLibreria.RefrescarBotones(Juego.this, bEsperandoRespuesta);
+			iniciarJuego();
 		} else { // Modo añadir objeto
-
+			((Globals) getApplication()).JuegoParado = false;
 			setTitle("Añadir objeto");
 			((LinearLayout) findViewById(R.id.layoutBotones))
 					.setVisibility(View.GONE);
@@ -253,50 +256,41 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			((LinearLayout) findViewById(R.id.layoutCrono))
 					.setVisibility(View.GONE);
 		}
-		mToast = Toast
-				.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		((LinearLayout) findViewById(R.id.layoutJugar))
 				.setVisibility(View.GONE);
+		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView2);
+		mOpenCvCameraView.setCvCameraViewListener(this);
 	}
 
 	// ///////////////////
 	// Empezar a reconocer
 	// ///////////////////
 	private void iniciarJuego() {
-		
-		Runnable runIniciaJuego = new Runnable() {
-		    public void run() {
-				bEsperandoRespuesta = false;
-				nObjeto = -1;
-				bJuegoIniciado = true;
 
-				lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
-				lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
+		bEsperandoRespuesta = false;
+		nObjeto = -1;
+		bJuegoIniciado = true;
 
-				if (lObjetos.size() > 0) {
-					oObjetoActual = lObjetos.get(0);
-					rellenar(false);
-				} else {
-					oObjetoActual = new Objeto();
-				}
+		lObjetosEscenario = dsObjetos.getAllObjetosEscenario(oEjercicioActual);
+		lObjetos = dsObjetos.getAllObjetosReconocer(oEjercicioActual);
 
-				oResultadoActual = new Resultado();
-				oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
-				oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
-				oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
+		if (lObjetos.size() > 0) {
+			oObjetoActual = lObjetos.get(0);
+			rellenar(false);
+		} else {
+			oObjetoActual = new Objeto();
+		}
 
-				if (oObjetoActual != null) {
-					mToast.setText("Buscando " + oObjetoActual.getNombre());
-					oObjetoActual.playSonidoDescripcion(getApplicationContext());
-					mToast.show();
-				}
-		    }
-		};
+		oResultadoActual = new Resultado();
+		oResultadoActual.setFechaRealizacion(new GregorianCalendar().getTime());
+		oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
+		oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
 
-		JuegoLibreria
-				.MostrarAnimacion(Juego.this,
-						((TextView) findViewById(R.id.tvAnimacion)),
-						"EMPIEZA EL JUEGO", runIniciaJuego);
+		if (oObjetoActual != null) {
+			mToast.setText("Buscando " + oObjetoActual.getNombre());
+			oObjetoActual.playSonidoDescripcion(getApplicationContext());
+			mToast.show();
+		}
 
 	}
 
@@ -332,7 +326,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 					lnEjercicioActual++;
 
-					if (lnEjercicioActual == lEjercicios.size() && bCiclico){
+					if (lnEjercicioActual == lEjercicios.size() && bCiclico) {
 						lnEjercicioActual = 0;
 						oResultadoActual.setDuracion(JuegoLibreria
 								.getDuracionActual(this));
@@ -347,7 +341,6 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 										.getTime());
 						oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 						oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
-						JuegoLibreria.iniciarCrono(this);
 
 						oEjercicioActual = lEjercicios.get(lnEjercicioActual);
 
@@ -361,11 +354,12 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						rellenar(false);
 
 						lbJuegoTerminado = false;
-						
-						Intent descEjer = new Intent(this, ComenzarEjercicio.class);
-						descEjer.putExtra("idEjercicio", oEjercicioActual.getIdEjercicio());
+
+						Intent descEjer = new Intent(this,
+								ComenzarEjercicio.class);
+						descEjer.putExtra("idEjercicio",
+								oEjercicioActual.getIdEjercicio());
 						startActivity(descEjer);
-						//((Globals) getApplication()).JuegoParado = false;
 					}
 				}
 			}
@@ -373,7 +367,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 		if (lbJuegoTerminado)
 			terminarJuego();
-		else{
+		else {
 			JuegoLibreria.MostrarAnimacion(Juego.this,
 					((TextView) findViewById(R.id.tvAnimacion)), "Buscando "
 							+ oObjetoActual.getNombre(), null);
@@ -428,12 +422,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	// Función llamada cuando se termina un juego
 	// //////////////////////////////////////////
 	private void terminarJuego() {
-		Runnable runTerminaJuego = new Runnable() {
-		    public void run() {
-				oResultadoActual.setDuracion(JuegoLibreria
-						.getDuracionActual(Juego.this));
-				oResultadoActual.calculaPuntuacion();
-				lResultados.add(oResultadoActual);
+		final Runnable runTerminaJuego = new Runnable() {
+			public void run() {
 				Intent intent = new Intent(Juego.this, ResultadoSerie.class);
 				int[] ids = new int[lResultados.size()];
 				for (int i = 0; i < lResultados.size(); i++) {
@@ -445,16 +435,33 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				intent.putExtra("Serie", oSerie.getNombre());
 				startActivity(intent);
 				Juego.this.finish();
-		    }
+			}
 		};
-		if (lResultados == null || lResultados.isEmpty())
-			JuegoLibreria.MostrarAnimacion(Juego.this,
-					((TextView) findViewById(R.id.tvAnimacion)),
-					"¡Aún no has realizado ningún ejercicio!", null);
-		else {
-			JuegoLibreria.MostrarAnimacion(Juego.this,
-					((TextView) Juego.this.findViewById(R.id.tvAnimacion)),
-					"¡Juego terminado!", runTerminaJuego);
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					oResultadoActual.setDuracion(JuegoLibreria
+							.getDuracionActual(Juego.this));
+					oResultadoActual.calculaPuntuacion();
+					lResultados.add(oResultadoActual);
+					break;
+				}
+				JuegoLibreria.MostrarAnimacion(Juego.this,
+						((TextView) Juego.this.findViewById(R.id.tvAnimacion)),
+						"¡Juego terminado!", runTerminaJuego);
+			}
+		};
+
+		if ((lResultados == null || lResultados.isEmpty())
+				|| (bCiclico && bJuegoIniciado)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(Juego.this);
+			builder.setMessage(
+					"¿Desea guardar el resultado actual, a pesar de no haber finalizado la serie "
+							+ oSerie.getNombre() + "?")
+					.setPositiveButton("Sí", dialogClickListener)
+					.setNegativeButton("No", dialogClickListener).show();
 		}
 	}
 
@@ -818,12 +825,16 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		if ((!bJuegoIniciado || (bJuegoIniciado && nObjeto == -1))
-				&& !bEsperandoRespuesta) {
+		if (((!bJuegoIniciado || (bJuegoIniciado && nObjeto == -1)) && !bEsperandoRespuesta)
+				&& !((Globals) getApplication()).JuegoParado) {
 			mRgba = inputFrame.rgba();
 			mGray = inputFrame.gray();
 
-			if ((bJuegoIniciado && lObjetos.size() > 0) /*&& !((Globals) getApplication()).JuegoParado*/) {
+			if ((bJuegoIniciado && lObjetos.size() > 0) /*
+														 * && !((Globals)
+														 * getApplication
+														 * ()).JuegoParado
+														 */) {
 				auxGray = mGray.clone();
 
 				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
@@ -865,15 +876,17 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 						public void run() {
 							JuegoLibreria.RefrescarBotones(Juego.this,
 									bEsperandoRespuesta);
-							oObjetoReconocido.playSonidoNombre(getApplicationContext());
-							while (oObjetoReconocido.playerSonando());
+							oObjetoReconocido
+									.playSonidoNombre(getApplicationContext());
+							while (oObjetoReconocido.playerSonando())
+								;
 							try {
 								player = new MediaPlayer();
 								player.setDataSource(afd.getFileDescriptor(),
 										afd.getStartOffset(), afd.getLength());
 								player.prepare();
 								player.start();
-								
+
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -920,6 +933,10 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		if (dsResultado != null)
 			dsResultado.open();
 		mOpenCvCameraView.enableView();
+		if (bJuegoIniciado && !bPrimeraVez){
+			JuegoLibreria.iniciarCrono(Juego.this);
+			bPrimeraVez = true;
+		}
 		super.onResume();
 	}
 
@@ -963,17 +980,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			if (bJuegoIniciado) {
-				bJuegoIniciado = false;
-				nObjeto = -1;
-				return false;
-			} else {
-				finish();
-				return super.onKeyDown(keyCode, event);
-			}
-
-		}
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+			terminarJuego();
 		return super.onKeyDown(keyCode, event);
 	}
 

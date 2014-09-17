@@ -144,7 +144,7 @@ JNIEXPORT float JNICALL Java_es_ugr_reconocimiento_Juego_FindFeatures(
 		vector_KeyPoint_to_Mat(keyPoints, key);
 		extractor_Surf.compute(mGr, keyPoints, descriptores);
 		/*putText(mRgb, "Patron adquirido", Point2f(100, 100), FONT_HERSHEY_PLAIN,
-				2, Scalar(0, 0, 255, 150), 2);*/
+		 2, Scalar(0, 0, 255, 150), 2);*/
 	}
 
 	t = clock() - t;
@@ -172,131 +172,6 @@ JNIEXPORT void JNICALL Java_es_ugr_reconocimiento_Juego_CambiarValoresAlgoritmo(
 /**************/
 /***MATCHING***/
 /**************/
-float radio = 0.65f; // max radio between 1st and 2nd NN
-bool refineF = true; // if true will refine the F matrix
-double distancia = 1.0; // min distance to epipolar
-double confidence = 0.98; // confidence level (probability)
-
-// Clear matches for which NN radio is > than threshold
-// return the number of removed points
-// (corresponding entries being cleared,
-// i.e. size will be 0)
-int radioTest(vector<vector<DMatch> > &matches) {
-	int removed = 0;
-	// for all matches
-	for (vector<vector<DMatch> >::iterator matchIterator = matches.begin();
-			matchIterator != matches.end(); ++matchIterator) {
-		// if 2 NN has been identified
-		if (matchIterator->size() > 1) {
-			// check distance radio
-			if ((*matchIterator)[0].distance / (*matchIterator)[1].distance
-					> radio) {
-				matchIterator->clear(); // remove match
-				removed++;
-			}
-		} else { // does not have 2 neighbours
-			matchIterator->clear(); // remove match
-			removed++;
-		}
-	}
-	return removed;
-}
-
-// Insert symmetrical matches in symMatches vector
-void symmetryTest(const vector<vector<DMatch> >& matches1,
-		const vector<vector<DMatch> >& matches2, vector<DMatch>& symMatches) {
-	// for all matches image 1 -> image 2
-	for (vector<vector<DMatch> >::const_iterator matchIterator1 =
-			matches1.begin(); matchIterator1 != matches1.end();
-			++matchIterator1) {
-		// ignore deleted matches
-		if (matchIterator1->size() < 2)
-			continue;
-		// for all matches image 2 -> image 1
-		for (vector<vector<DMatch> >::const_iterator matchIterator2 =
-				matches2.begin(); matchIterator2 != matches2.end();
-				++matchIterator2) {
-			// ignore deleted matches
-			if (matchIterator2->size() < 2)
-				continue;
-			// Match symmetry test
-			if ((*matchIterator1)[0].queryIdx == (*matchIterator2)[0].trainIdx
-					&& (*matchIterator2)[0].queryIdx
-							== (*matchIterator1)[0].trainIdx) {
-				// add symmetrical match
-				symMatches.push_back(
-						DMatch((*matchIterator1)[0].queryIdx,
-								(*matchIterator1)[0].trainIdx,
-								(*matchIterator1)[0].distance));
-				break; // next match in image 1 -> image 2
-			}
-		}
-	}
-}
-
-// Identify good matches using RANSAC
-// Return fundemental matrix
-Mat ransacTest(const vector<DMatch>& matches,
-		const vector<KeyPoint>& keypoints1, const vector<KeyPoint>& keypoints2,
-		vector<DMatch>& outMatches) {
-	// Convert keypoints into Point2f
-	vector<Point2f> points1, points2;
-	for (vector<DMatch>::const_iterator it = matches.begin();
-			it != matches.end(); ++it) {
-		// Get the position of left keypoints
-		float x = keypoints1[it->queryIdx].pt.x;
-		float y = keypoints1[it->queryIdx].pt.y;
-		points1.push_back(Point2f(x, y));
-		// Get the position of right keypoints
-		x = keypoints2[it->trainIdx].pt.x;
-		y = keypoints2[it->trainIdx].pt.y;
-		points2.push_back(Point2f(x, y));
-	}
-	// Compute F matrix using RANSAC
-	vector<uchar> inliers(points1.size(), 0);
-	__android_log_write(ANDROID_LOG_ERROR, "match", "fundemental in");
-	Mat fundemental = findFundamentalMat(Mat(points1), Mat(points2), // matching points
-	inliers, // match status (inlier or outlier)
-			CV_FM_RANSAC, // RANSAC method
-			distancia, // distance to epipolar line
-			confidence); // confidence probability
-	__android_log_write(ANDROID_LOG_ERROR, "match", "fundemental out");
-	// extract the surviving (inliers) matches
-	vector<uchar>::const_iterator itIn = inliers.begin();
-	vector<DMatch>::const_iterator itM = matches.begin();
-	// for all matches
-	for (; itIn != inliers.end(); ++itIn, ++itM) {
-		if (*itIn) { // it is a valid match
-			outMatches.push_back(*itM);
-		}
-	}
-
-	if (refineF) {
-		// The F matrix will be recomputed with
-		// all accepted matches
-		// Convert keypoints into Point2f
-		// for final F computation
-		points1.clear();
-		points2.clear();
-		for (vector<DMatch>::const_iterator it = outMatches.begin();
-				it != outMatches.end(); ++it) {
-			// Get the position of left keypoints
-			float x = keypoints1[it->queryIdx].pt.x;
-			float y = keypoints1[it->queryIdx].pt.y;
-			points1.push_back(Point2f(x, y));
-			// Get the position of right keypoints
-			x = keypoints2[it->trainIdx].pt.x;
-			y = keypoints2[it->trainIdx].pt.y;
-			points2.push_back(Point2f(x, y));
-		}
-		// Compute 8-point F from all accepted matches
-		fundemental = findFundamentalMat(Mat(points1), Mat(points2), // matches
-		CV_FM_8POINT); // 8-point method
-	}
-	return fundemental;
-
-}
-
 vector<DMatch> FlannMatch(Mat descriptores_obj, Mat descriptores_esc,
 		int &nMatches) {
 	FlannBasedMatcher matcher;
@@ -383,67 +258,12 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		vector<DMatch> symMatches;
 		switch (nMatcher) {
 		case 0:
-			__android_log_write(ANDROID_LOG_ERROR, "match", "FLANN MATCHER");
 			good_matches = FlannMatch(descriptores_obj, descriptores_esc,
 					nMatches);
 			break;
 		case 1:
-			//__android_log_write(ANDROID_LOG_ERROR, "match",
-			//		"BRUTE FORCE MATCHER");
 			good_matches = BruteForceMatch(descriptores_obj, descriptores_esc,
 					nMatches);
-			break;
-		case 2:
-			__android_log_write(ANDROID_LOG_ERROR, "match", "ROBUST MATCHER");
-			// 2. Match the two image descriptors
-			matcher1.knnMatch(descriptores_obj, descriptores_esc, matches1, 2); // Find two nearest matches
-			matcher1.knnMatch(descriptores_esc, descriptores_obj, matches2, 2); // return 2 nearest neighbours
-			// 3. Remove matches for which NN ratio is > than threshold
-			// clean image 1 -> image 2 matches
-			removed = 0;
-			// for all matches
-			for (vector<vector<DMatch> >::iterator matchIterator =
-					matches1.begin(); matchIterator != matches1.end();
-					++matchIterator) {
-				// if 2 NN has been identified
-				if (matchIterator->size() > 1) {
-					// check distance radio
-					if ((*matchIterator)[0].distance
-							/ (*matchIterator)[1].distance > radio) {
-						matchIterator->clear(); // remove match
-						removed++;
-					}
-				} else { // does not have 2 neighbours
-					matchIterator->clear(); // remove match
-					removed++;
-				}
-			}
-			// clean image 2 -> image 1 matches
-			removed = 0;
-			for (vector<vector<DMatch> >::iterator matchIterator =
-					matches2.begin(); matchIterator != matches2.end();
-					++matchIterator) {
-				if (matchIterator->size() > 1) {
-					if ((*matchIterator)[0].distance
-							/ (*matchIterator)[1].distance > radio) {
-						matchIterator->clear();
-						removed++;
-					}
-				} else {
-					matchIterator->clear();
-					removed++;
-				}
-			}
-			// 4. Remove non-symmetrical matches
-			symmetryTest(matches1, matches2, symMatches);
-			// 5. Validate matches using RANSAC
-			mRgb = ransacTest(symMatches, keyPoints_obj, keyPoints_esc,
-					good_matches);
-			nGoodMatches = good_matches.size();
-			char buffer[10];
-			sprintf(buffer, "%i", nGoodMatches);
-			__android_log_write(ANDROID_LOG_ERROR, "match", buffer);
-			return nGoodMatches;
 			break;
 		default:
 			break;
@@ -457,20 +277,20 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 		if (nMatcher == 0)
 			lnPorcentaje = 8;
 		else {
-			char au[150], ptn[100];
 			nGoodMatches = good_matches.size();
-			strcpy(au, "\nHay = ");
-			sprintf(ptn, "%i", nGoodMatches);
-			strcat(au, ptn);
-			strcpy(ptn, " good matches, y el ");
-			strcat(au, ptn);
-			sprintf(ptn, "%f", nPorcentaje * 100);
-			strcat(au, ptn);
-			strcpy(ptn, " de los matches del objeto es ");
-			strcat(au, ptn);
-			sprintf(ptn, "%i", lnPorcentaje);
-			strcat(au, ptn);
-			__android_log_write(ANDROID_LOG_ERROR, "match", au);
+			/*char au[150], ptn[100];
+			 strcpy(au, "\nHay = ");
+			 sprintf(ptn, "%i", nGoodMatches);
+			 strcat(au, ptn);
+			 strcpy(ptn, " good matches, y el ");
+			 strcat(au, ptn);
+			 sprintf(ptn, "%f", nPorcentaje * 100);
+			 strcat(au, ptn);
+			 strcpy(ptn, " de los matches del objeto es ");
+			 strcat(au, ptn);
+			 sprintf(ptn, "%i", lnPorcentaje);
+			 strcat(au, ptn);
+			 __android_log_write(ANDROID_LOG_INFO, "match", au);*/
 		}
 		if (nGoodMatches >= lnPorcentaje) {
 
@@ -529,7 +349,7 @@ int encuentraObjeto(Mat mrGr, Mat mRgb, vector<KeyPoint> keyPoints_esc,
 			}
 
 			/*putText(mRgb, "Encontrado", Point2f(100, 100), FONT_HERSHEY_PLAIN,
-					2, Scalar(0, 0, 255, 150), 2);*/
+			 2, Scalar(0, 0, 255, 150), 2);*/
 
 			return nGoodMatches;
 
@@ -592,17 +412,9 @@ JNIEXPORT jint JNICALL Java_es_ugr_reconocimiento_Juego_FindObjects(JNIEnv* env,
 		// -----------------------------------------------------------------------------------------------
 		// Bucle que terminar si se encuentra el objeto en el escenario o si no hay más objetos que buscar
 		// -----------------------------------------------------------------------------------------------
-		__android_log_write(ANDROID_LOG_ERROR, "match", "Empezamos el match");
 		for (int i = 0; i < listaCols.size(); i++) {
 			match = encuentraObjeto(mGr, mRgb, keyPoints_esc, descriptores_esc,
 					i);
-			//char buffer[10];
-			//sprintf(buffer, "%i", match);
-			//__android_log_write(ANDROID_LOG_ERROR, "match", buffer);
-			clock_t time_end;
-			time_end = clock() + 0 * CLOCKS_PER_SEC / 1000;
-			while (clock() < time_end) {
-			}
 			if (matchMaximo < match && match != -1) {
 				matchMaximo = match;
 				nObjeto = i;

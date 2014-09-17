@@ -6,12 +6,16 @@ import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
 import android.os.Bundle;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ public class FichaEjercicio extends Dialog {
 	private EditText duracion;
 	private TextView descripcion, escenario;
 	private Runnable function;
+	private ImageButton btnDescripcion;
 
 	public FichaEjercicio(Context context, EjercicioDataSource dsEjercicio,
 			Ejercicio ejercicio, Runnable function) {
@@ -47,6 +52,7 @@ public class FichaEjercicio extends Dialog {
 		descripcion.setText(oEjercicio.getDescripcion());
 		escenario = (TextView) findViewById(R.id.textEscenario);
 		escenario.setTextSize(20);
+		btnDescripcion = (ImageButton) findViewById(R.id.btnDescripcion);
 
 		// Table Layout dentro dialogo
 		TableLayout tablaObjetos = (TableLayout) findViewById(R.id.tablaDiaEjercicios);
@@ -94,9 +100,11 @@ public class FichaEjercicio extends Dialog {
 
 		Button guardarSerie = (Button) findViewById(R.id.guardarDiaEj);
 		guardarSerie.setOnClickListener(onGuardarClick);
-		
-		Button volverEjercicio= (Button) findViewById(R.id.vEjercicios);
+
+		Button volverEjercicio = (Button) findViewById(R.id.vEjercicios);
 		volverEjercicio.setOnClickListener(onVolverClick);
+
+		btnDescripcion.setOnClickListener(onDescripcionClick);
 
 	}
 
@@ -118,11 +126,23 @@ public class FichaEjercicio extends Dialog {
 			function.run();
 		}
 	};
-	
+
 	View.OnClickListener onVolverClick = new View.OnClickListener() {
 		public void onClick(View v) {
+			oEjercicio.stopSonido();
 			dismiss();
 		}
 	};
 
+	View.OnClickListener onDescripcionClick = new View.OnClickListener() {
+		public void onClick(View v) {
+			oEjercicio.playSonidoDescripcion(context);
+		}
+	};
+
+	@Override
+	public void dismiss() {
+		super.dismiss();
+		oEjercicio.stopSonido();
+	}
 }

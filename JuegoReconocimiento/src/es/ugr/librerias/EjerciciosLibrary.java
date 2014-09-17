@@ -12,6 +12,7 @@ import es.ugr.adaptadores.AdapterEjercicio;
 import es.ugr.basedatos.*;
 import es.ugr.juegoreconocimiento.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
@@ -62,7 +63,6 @@ public class EjerciciosLibrary {
 		lv.setDropListener(onDrop);
 		lv.setRemoveListener(onRemove);
 		lv.setDragScrollProfile(ssProfile);
-		
 
 		Ficheros.creaCarpetas(context);// por que?¿?¿?¿
 
@@ -82,17 +82,16 @@ public class EjerciciosLibrary {
 			Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG)
 					.show();
 	}
-	
 
 	private Runnable runCreaTabla = new Runnable() {
-	    public void run() {
-	    	CreaTablaEjer();
-	    }
+		public void run() {
+			CreaTablaEjer();
+		}
 	};
-	
 
 	public void importarEjercicios() {
-		ImportarEjercicios dialogo = new ImportarEjercicios(context, dsEjercicio, runCreaTabla);
+		ImportarEjercicios dialogo = new ImportarEjercicios(context,
+				dsEjercicio, runCreaTabla);
 		dialogo.show();
 	}
 
@@ -116,10 +115,17 @@ public class EjerciciosLibrary {
 	}
 
 	private void MostrarDescripcion(final int pos) {
-
-		FichaEjercicio ficha = new FichaEjercicio(context, dsEjercicio, lEjercicios.get(pos), runCreaTabla);
-		ficha.show();
-
+		try {
+			FichaEjercicio ficha = new FichaEjercicio(context, dsEjercicio,
+					lEjercicios.get(pos), runCreaTabla);
+			ficha.show();
+		} catch (Exception e) {
+			new AlertDialog.Builder(activity)
+					.setTitle("Sincronizar objetos")
+					.setMessage(
+							"Hay objetos en el ejercicio que no están sincronizados, por favor sincronice los objetos")
+					.show();
+		}
 	}
 
 	private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
