@@ -4,8 +4,10 @@ import com.squareup.picasso.Picasso;
 
 import es.ugr.juegoreconocimiento.R;
 import android.app.Dialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,6 +107,16 @@ public class Ayuda extends Dialog {
 			break;
 		}
 
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+		lp.copyFrom(getWindow().getAttributes());
+		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+		getWindow().setAttributes(lp);
 	}
 
 }

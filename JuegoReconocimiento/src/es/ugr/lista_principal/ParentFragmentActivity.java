@@ -22,12 +22,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import es.ugr.activities.MainActivity;
 import es.ugr.adaptadores.AdaptadorListaPrincipal;
+import es.ugr.dialogs.Ayuda;
 import es.ugr.fragments.EjerciciosFragment;
 import es.ugr.fragments.GestionAlumnosFragment;
 import es.ugr.fragments.ObjetosFragment;
 import es.ugr.fragments.ResultadosFragment;
 import es.ugr.fragments.SeriesEjerciciosFragment;
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.utilidades.Globals;
 
 /**
  * @author Juan Manuel Lucena Morales
@@ -151,7 +153,9 @@ public class ParentFragmentActivity extends FragmentActivity {
 			finish();
 			return true;
 		case R.id.itemAyuda:
-
+			Ayuda dialogo = new Ayuda(this,
+					((Globals) getApplication()).getNFragment());
+			dialogo.show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -228,6 +232,7 @@ public class ParentFragmentActivity extends FragmentActivity {
 
 		}
 		if (fragment != null) {
+			((Globals)getApplication()).setNFragment(Integer.valueOf(position));
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();

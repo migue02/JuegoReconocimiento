@@ -150,6 +150,7 @@ public class ListaPrincipalActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, ParentFragmentActivity.class);
+			((Globals)getApplication()).setNFragment(Integer.valueOf(id));
 			detailIntent.putExtra("ID", id);
 			startActivity(detailIntent);
 		}

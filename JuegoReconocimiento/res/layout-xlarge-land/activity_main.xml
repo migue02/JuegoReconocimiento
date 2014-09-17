@@ -10,16 +10,16 @@
         android:id="@+id/textoBienv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:background="#00679A"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:text="¡Bienvenido!"
+        android:textColor="#FFF57A"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="#FFF57A" />
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/btnSalir"
@@ -27,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="40sp"
         android:layout_marginRight="10sp"
+        android:layout_marginTop="40sp"
         android:onClick="onSalirClick"
         android:src="@drawable/exit_128" />
 
@@ -104,14 +104,6 @@
                     android:layout_height="wrap_content"
                     android:onClick="onObjetosClick"
                     android:src="@drawable/objetos_180" />
-
-                <ImageView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:onClick="onBorrarEjerciciosObjetos"
-                    android:src="@drawable/borrar" />
             </LinearLayout>
         </LinearLayout>
 
