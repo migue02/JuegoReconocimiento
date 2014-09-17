@@ -486,32 +486,34 @@ public class ResultadosLibrary {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Intent graficaIntent = new Intent(context, Graficas.class);
-				graficaIntent.putExtra("tipoFecha", fecha);
-				// Lista de alumnos seleccionados
-				listaIdAlumnos = new ArrayList<Integer>();
-				for (int i = 0; i < alSelec.size(); i++) {
-					if (alSelec.get(i) == true)
-						listaIdAlumnos.add(la.get(i).getIdAlumno());
-				}
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent graficaIntent = new Intent(context, Graficas.class);
+					graficaIntent.putExtra("tipoFecha", fecha);
+					// Lista de alumnos seleccionados
+					listaIdAlumnos = new ArrayList<Integer>();
+					for (int i = 0; i < alSelec.size(); i++) {
+						if (alSelec.get(i) == true)
+							listaIdAlumnos.add(la.get(i).getIdAlumno());
+					}
 
-				listaIdSeries = new ArrayList<Integer>();
-				for (int i = 0; i < serSelec.size(); i++) {
-					if (serSelec.get(i) == true)
-						listaIdSeries.add(lse.get(i).getIdSerie());
-				}
+					listaIdSeries = new ArrayList<Integer>();
+					for (int i = 0; i < serSelec.size(); i++) {
+						if (serSelec.get(i) == true)
+							listaIdSeries.add(lse.get(i).getIdSerie());
+					}
 
-				if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
-					Toast.makeText(v.getContext(),
-							"Seleccionar al menos un Alumno-Serie",
-							Toast.LENGTH_LONG).show();
-				} else {
-					graficaIntent.putExtra("tipoGrafica", radioSelec);
-					graficaIntent.putIntegerArrayListExtra("listaAlumnos",
-							(ArrayList<Integer>) listaIdAlumnos);
-					graficaIntent.putIntegerArrayListExtra("listaSeries",
-							(ArrayList<Integer>) listaIdSeries);
-					context.startActivity(graficaIntent);
+					if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
+						Toast.makeText(v.getContext(),
+								"Seleccionar al menos un Alumno-Serie",
+								Toast.LENGTH_LONG).show();
+					} else {
+						graficaIntent.putExtra("tipoGrafica", radioSelec);
+						graficaIntent.putIntegerArrayListExtra("listaAlumnos",
+								(ArrayList<Integer>) listaIdAlumnos);
+						graficaIntent.putIntegerArrayListExtra("listaSeries",
+								(ArrayList<Integer>) listaIdSeries);
+						context.startActivity(graficaIntent);
+					}
 				}
 				return false;
 			}
@@ -521,33 +523,35 @@ public class ResultadosLibrary {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Intent tablaIntent = new Intent(context, Tablas.class);
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent tablaIntent = new Intent(context, Tablas.class);
 
-				tablaIntent.putExtra("tipoFecha", fecha);
-				// Lista de alumnos seleccionados
-				listaIdAlumnos = new ArrayList<Integer>();
-				for (int i = 0; i < alSelec.size(); i++) {
-					if (alSelec.get(i) == true)
-						listaIdAlumnos.add(la.get(i).getIdAlumno());
-				}
+					tablaIntent.putExtra("tipoFecha", fecha);
+					// Lista de alumnos seleccionados
+					listaIdAlumnos = new ArrayList<Integer>();
+					for (int i = 0; i < alSelec.size(); i++) {
+						if (alSelec.get(i) == true)
+							listaIdAlumnos.add(la.get(i).getIdAlumno());
+					}
 
-				listaIdSeries = new ArrayList<Integer>();
-				for (int i = 0; i < serSelec.size(); i++) {
-					if (serSelec.get(i) == true)
-						listaIdSeries.add(lse.get(i).getIdSerie());
-				}
+					listaIdSeries = new ArrayList<Integer>();
+					for (int i = 0; i < serSelec.size(); i++) {
+						if (serSelec.get(i) == true)
+							listaIdSeries.add(lse.get(i).getIdSerie());
+					}
 
-				if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
-					Toast.makeText(v.getContext(),
-							"Seleccionar al menos un Alumno-Serie",
-							Toast.LENGTH_LONG).show();
-				} else {
-					tablaIntent.putExtra("tipoGrafica", radioSelec);
-					tablaIntent.putIntegerArrayListExtra("listaAlumnos",
-							(ArrayList<Integer>) listaIdAlumnos);
-					tablaIntent.putIntegerArrayListExtra("listaSeries",
-							(ArrayList<Integer>) listaIdSeries);
-					context.startActivity(tablaIntent);
+					if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
+						Toast.makeText(v.getContext(),
+								"Seleccionar al menos un Alumno-Serie",
+								Toast.LENGTH_LONG).show();
+					} else {
+						tablaIntent.putExtra("tipoGrafica", radioSelec);
+						tablaIntent.putIntegerArrayListExtra("listaAlumnos",
+								(ArrayList<Integer>) listaIdAlumnos);
+						tablaIntent.putIntegerArrayListExtra("listaSeries",
+								(ArrayList<Integer>) listaIdSeries);
+						context.startActivity(tablaIntent);
+					}
 				}
 				return false;
 			}
@@ -557,56 +561,61 @@ public class ResultadosLibrary {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				final Dialog dialog = new Dialog(v.getContext());
-				dialog.setContentView(R.layout.dialogo_exportar);
-				dialog.setTitle("Exportar...");
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					final Dialog dialog = new Dialog(v.getContext());
+					dialog.setContentView(R.layout.dialogo_exportar);
+					dialog.setTitle("Exportar...");
 
-				Button expor, cancelar;
-				final RadioButton rb1;
-				final RadioButton rb2;
-				rb1 = (RadioButton) dialog.findViewById(R.id.radioButtonExp1);
-				rb2 = (RadioButton) dialog.findViewById(R.id.radioButtonExp2);
+					Button expor, cancelar;
+					final RadioButton rb1;
+					final RadioButton rb2;
+					rb1 = (RadioButton) dialog
+							.findViewById(R.id.radioButtonExp1);
+					rb2 = (RadioButton) dialog
+							.findViewById(R.id.radioButtonExp2);
 
-				expor = (Button) dialog.findViewById(R.id.aExportar);
-				cancelar = (Button) dialog.findViewById(R.id.cExportar);
-				expor.setOnClickListener(new OnClickListener() {
+					expor = (Button) dialog.findViewById(R.id.aExportar);
+					cancelar = (Button) dialog.findViewById(R.id.cExportar);
+					expor.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						List<Alumno> listaAlumnos = new ArrayList<Alumno>();
-						List<SerieEjercicios> listaSeries = new ArrayList<SerieEjercicios>();
-						int tipoExport = 0;
-						if (rb1.isChecked())
-							tipoExport = 1;
-						else {
-							tipoExport = 2;
+						@Override
+						public void onClick(View v) {
+							List<Alumno> listaAlumnos = new ArrayList<Alumno>();
+							List<SerieEjercicios> listaSeries = new ArrayList<SerieEjercicios>();
+							int tipoExport = 0;
+							if (rb1.isChecked())
+								tipoExport = 1;
+							else {
+								tipoExport = 2;
 
-							// listaIdAlumnos=new ArrayList<Integer>();
-							for (int i = 0; i < alSelec.size(); i++) {
-								if (alSelec.get(i) == true)
-									listaAlumnos.add(la.get(i));
+								// listaIdAlumnos=new ArrayList<Integer>();
+								for (int i = 0; i < alSelec.size(); i++) {
+									if (alSelec.get(i) == true)
+										listaAlumnos.add(la.get(i));
+								}
+
+								// listaIdSeries=new ArrayList<Integer>();
+								for (int i = 0; i < serSelec.size(); i++) {
+									if (serSelec.get(i) == true)
+										listaSeries.add(lse.get(i));
+								}
+
 							}
-
-							// listaIdSeries=new ArrayList<Integer>();
-							for (int i = 0; i < serSelec.size(); i++) {
-								if (serSelec.get(i) == true)
-									listaSeries.add(lse.get(i));
-							}
-
+							ExportarXLS(tipoExport, listaAlumnos, listaSeries);
+							dialog.dismiss();
 						}
-						ExportarXLS(tipoExport, listaAlumnos, listaSeries);
-						dialog.dismiss();
-					}
-				});
-				dialog.show();
+					});
+					dialog.show();
 
-				cancelar.setOnClickListener(new OnClickListener() {
+					cancelar.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View arg0) {
-						dialog.dismiss();
-					}
-				});
+						@Override
+						public void onClick(View arg0) {
+							dialog.dismiss();
+						}
+					});
+
+				}
 				return false;
 			}
 
@@ -616,62 +625,67 @@ public class ResultadosLibrary {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				final Dialog dialog = new Dialog(v.getContext());
-				dialog.setContentView(R.layout.dialogo_borrar_res);
-				dialog.setTitle("Borrar resultados...");
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					final Dialog dialog = new Dialog(v.getContext());
+					dialog.setContentView(R.layout.dialogo_borrar_res);
+					dialog.setTitle("Borrar resultados...");
 
-				Button borrar, cancelar;
-				final RadioButton rb1;
-				final RadioButton rb2;
-				rb1 = (RadioButton) dialog.findViewById(R.id.radioButtonExp1);
-				rb2 = (RadioButton) dialog.findViewById(R.id.radioButtonExp2);
+					Button borrar, cancelar;
+					final RadioButton rb1;
+					final RadioButton rb2;
+					rb1 = (RadioButton) dialog
+							.findViewById(R.id.radioButtonExp1);
+					rb2 = (RadioButton) dialog
+							.findViewById(R.id.radioButtonExp2);
 
-				borrar = (Button) dialog.findViewById(R.id.aBorrar);
-				cancelar = (Button) dialog.findViewById(R.id.cBorrar);
-				borrar.setOnClickListener(new OnClickListener() {
+					borrar = (Button) dialog.findViewById(R.id.aBorrar);
+					cancelar = (Button) dialog.findViewById(R.id.cBorrar);
+					borrar.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						ResultadoDataSource rds = new ResultadoDataSource(
-								context);
-						rds.open();
-						int borrados = 0;
+						@Override
+						public void onClick(View v) {
+							ResultadoDataSource rds = new ResultadoDataSource(
+									context);
+							rds.open();
+							int borrados = 0;
 
-						if (rb2.isChecked()) {
-							for (int i = 0; i < alSelec.size(); i++) {
-								if (alSelec.get(i) == true)
-									for (int j = 0; j < serSelec.size(); j++) {
-										if (serSelec.get(j) == true) {
-											borrados = borrados
-													+ rds.borrarResultadosAlumno(
-															la.get(i),
-															lse.get(j), fecha);
+							if (rb2.isChecked()) {
+								for (int i = 0; i < alSelec.size(); i++) {
+									if (alSelec.get(i) == true)
+										for (int j = 0; j < serSelec.size(); j++) {
+											if (serSelec.get(j) == true) {
+												borrados = borrados
+														+ rds.borrarResultadosAlumno(
+																la.get(i),
+																lse.get(j),
+																fecha);
+											}
 										}
-									}
+								}
+							} else {
+								borrados = rds.borraTodosResultados();
 							}
-						} else {
-							borrados = rds.borraTodosResultados();
+							Toast.makeText(
+									context,
+									"Borrado(s) " + String.valueOf(borrados)
+											+ " resultados.", Toast.LENGTH_LONG)
+									.show();
+
+							rds.close();
+
 						}
-						Toast.makeText(
-								context,
-								"Borrado(s) " + String.valueOf(borrados)
-										+ " resultados.", Toast.LENGTH_LONG)
-								.show();
+					});
+					cancelar.setOnClickListener(new OnClickListener() {
 
-						rds.close();
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+						}
+					});
 
-					}
-				});
-				cancelar.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				});
-
-				dialog.show();
+					dialog.show();
+				}
 				return false;
 			}
 		});

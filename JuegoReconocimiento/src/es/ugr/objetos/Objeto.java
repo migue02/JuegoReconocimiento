@@ -169,7 +169,7 @@ public class Objeto {
 	private void setImagenFromPath(boolean extendida) {
 		try {
 			BitmapFactory.Options targetOptions = new BitmapFactory.Options();
-			targetOptions.inSampleSize = 16;
+			targetOptions.inSampleSize = 8;
 			File imageFile = new File(pathImagen);
 			if (extendida)
 				imagen = BitmapFactory.decodeFile(imageFile.getAbsolutePath());

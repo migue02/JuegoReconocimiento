@@ -63,7 +63,7 @@
     <!-- String Template -->
     <string name="boton_acerca_de">Acerca de</string>
     <string name="appsUgr">Visitar Catálogo AppsUGR</string>
-    <string name="disclaimer">Texto libre sobre el autor</string>
+    <string name="disclaimer">Aplicación implementada por Juan Manuel Lucena Morales y Miguel Morales Rodríguez</string>
     <string name="promotedBy">Promovido por:</string>
     <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>
     <string name="contact">Contacto</string>

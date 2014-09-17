@@ -201,6 +201,16 @@ public class SerieEjerciciosDataSource {
 		}
 		return null;
 	}
+	
+	public boolean existeSerie(String nombre) {
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_SERIE_EJERCICIOS,
+				allColumns, MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_NOMBRE + " = "
+						+ nombre, null, null, null, null);
+		if (cursor != null && cursor.getCount() > 0) 
+			return true;
+		return false;
+	}
+
 
 	public boolean actualizaOrden(SerieEjercicios serie, int posicion) {
 		ContentValues values = new ContentValues();

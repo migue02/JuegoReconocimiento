@@ -762,28 +762,46 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 					@Override
 					public void onClick(View v) {
-						String keyString, desString;
-						keyString = JSONParser.keypointsToJson(keypoints_obj);
-						desString = JSONParser.matToJson(descriptores_obj);
-						String nombreObjeto = ((EditText) dialog
-								.findViewById(R.id.edtNombre)).getText()
-								.toString();
-						Objeto objeto = new Objeto(-1, nombreObjeto,
-								"descripcion", new Date(), keyString,
-								desString, aux.cols(), aux.rows(), Juego.this
-										.getString(R.string.pathImages)
-										+ "/"
-										+ nombreObjeto + ".png", "", "", "");
-						objeto.setImagen(bmOrigen);
-						dsObjetos.createObjeto(objeto);
-						descriptores_obj.release();
-						keypoints_obj.release();
-						dialog.dismiss();
-						aux.release();
-						auxGray.release();
-						if (objeto.getId() != -1)
-							JuegoLibreria.insertaEnSerie(Juego.this, objeto,
-									oEjercicioActual);
+						if (!((EditText) dialog.findViewById(R.id.edtNombre))
+								.getText().toString().trim().equals("")) {
+							String keyString, desString;
+							keyString = JSONParser
+									.keypointsToJson(keypoints_obj);
+							desString = JSONParser.matToJson(descriptores_obj);
+							String nombreObjeto = ((EditText) dialog
+									.findViewById(R.id.edtNombre)).getText()
+									.toString();
+							Objeto objeto = new Objeto(-1, nombreObjeto,
+									"descripcion", new Date(), keyString,
+									desString, aux.cols(), aux.rows(),
+									Juego.this.getString(R.string.pathImages)
+											+ "/" + nombreObjeto + ".png", "",
+									"", "");
+							objeto.setImagen(bmOrigen);
+							descriptores_obj.release();
+							keypoints_obj.release();
+							aux.release();
+							auxGray.release();
+							if (dsObjetos.createObjeto(objeto) == null)
+								new AlertDialog.Builder(Juego.this)
+										.setTitle(
+												"No se ha podido insertar el objeto")
+										.setPositiveButton("Aceptar", null)
+										.setMessage(
+												"El objeto " + nombreObjeto
+														+ " ya existe").show();
+							else {
+								dialog.dismiss();
+								JuegoLibreria.insertaEnSerie(Juego.this,
+										objeto, oEjercicioActual);
+							}
+						} else
+							new AlertDialog.Builder(Juego.this)
+									.setTitle("Atención")
+									.setPositiveButton("Aceptar", null)
+									.setMessage(
+											"Debe rellenar el campo nombre")
+									.show();
 					}
 				});
 
@@ -830,11 +848,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 			mRgba = inputFrame.rgba();
 			mGray = inputFrame.gray();
 
-			if ((bJuegoIniciado && lObjetos.size() > 0) /*
-														 * && !((Globals)
-														 * getApplication
-														 * ()).JuegoParado
-														 */) {
+			if (bJuegoIniciado && lObjetos.size() > 0) {
 				auxGray = mGray.clone();
 
 				Imgproc.GaussianBlur(auxGray, auxGray, new Size(3, 3), 2);
@@ -933,7 +947,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 		if (dsResultado != null)
 			dsResultado.open();
 		mOpenCvCameraView.enableView();
-		if (bJuegoIniciado && !bPrimeraVez){
+		if (bJuegoIniciado && !bPrimeraVez) {
 			JuegoLibreria.iniciarCrono(Juego.this);
 			bPrimeraVez = true;
 		}
@@ -980,7 +994,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK)
+		if (keyCode == KeyEvent.KEYCODE_BACK && !bVistaCapturar)
 			terminarJuego();
 		return super.onKeyDown(keyCode, event);
 	}

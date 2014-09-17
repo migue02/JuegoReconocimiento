@@ -163,7 +163,7 @@ public class FichaObjeto extends Dialog {
 				public void onFileSelected(Dialog source, File file) {
 					String filenameArray[] = file.getName().split("\\.");
 					String extension = filenameArray[filenameArray.length - 1];
-					if (extension.equals("mp3")) {
+					if (extension.toUpperCase().equals("MP3")) {
 						source.hide();
 
 						String fileName = "";

@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -193,15 +194,21 @@ public class DescargarObjetos extends AsyncTask<List<String>, String, String> {
 								ruta_nombre_local);
 					}
 					if (insertar == true)
-						ods.createObjeto(nombre, descripcion, fecha, keypoints,
-								descriptores, cols, rows, ruta_imagen_local,
-								ruta_descripcion_local, ruta_ayuda_local,
-								ruta_nombre_local);
-					else
-						ods.modificaObjeto(nombre, descripcion, fecha,
+						if (ods.createObjeto(nombre, descripcion, fecha,
 								keypoints, descriptores, cols, rows,
 								ruta_imagen_local, ruta_descripcion_local,
-								ruta_ayuda_local, ruta_nombre_local);
+								ruta_ayuda_local, ruta_nombre_local) == null)
+							new AlertDialog.Builder(context)
+									.setTitle("Importar fichero XML")
+									.setPositiveButton("Aceptar", null)
+									.setMessage(
+											"El objeto " + nombre + "ya existe")
+									.show();
+						else
+							ods.modificaObjeto(nombre, descripcion, fecha,
+									keypoints, descriptores, cols, rows,
+									ruta_imagen_local, ruta_descripcion_local,
+									ruta_ayuda_local, ruta_nombre_local);
 				}
 			}
 		} catch (JSONException e) {

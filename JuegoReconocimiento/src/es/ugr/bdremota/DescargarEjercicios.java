@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -93,9 +94,6 @@ public class DescargarEjercicios extends
 		pDialog.dismiss();
 		eds.close();
 		creaTabla.run();
-		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-		toast.show();
-
 	}
 
 	private void Insertar(String nombreFila) {
@@ -152,9 +150,15 @@ public class DescargarEjercicios extends
 								sonido_descripcion_local);
 
 					}
-					eds.createEjercicio(nombre, fecha, objetos, descripcion,
-							duracion, objetosReconocer,
-							sonido_descripcion_local);
+					if (eds.createEjercicio(nombre, fecha, objetos,
+							descripcion, duracion, objetosReconocer,
+							sonido_descripcion_local) == null)
+						new AlertDialog.Builder(context)
+								.setTitle("Importar fichero XML")
+								.setMessage(
+										"Ha ocurrido un problema al importar el fichero elegido"
+												+ "\nPor favor compruebe que cumple la estructura requerida")
+								.setPositiveButton("Aceptar", null).show();
 				}
 			}
 		} catch (JSONException e) {

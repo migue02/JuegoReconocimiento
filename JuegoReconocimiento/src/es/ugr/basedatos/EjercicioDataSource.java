@@ -72,8 +72,13 @@ public class EjercicioDataSource {
 	public Ejercicio createEjercicio(Ejercicio ejercicio) {
 		ContentValues values = new ContentValues();
 		values = createValues(ejercicio);
-		ejercicio.setIdEjercicio((int) database.insert(
-				MySQLiteHelper.TABLE_EJERCICIO, null, values));
+		try {
+			ejercicio.setIdEjercicio((int) database.insertOrThrow(
+					MySQLiteHelper.TABLE_EJERCICIO, null, values));
+		} catch (SQLException e) {
+			Log.e(MySQLiteHelper.TABLE_EJERCICIO, e.toString());
+			return null;
+		}
 		return ejercicio;
 	}
 
@@ -85,18 +90,23 @@ public class EjercicioDataSource {
 		Ejercicio ejercicio = new Ejercicio(nombre, fecha, objetos,
 				descripcion, duracion, objetosReconocer, sonido_descripcion);
 		values = createValues(ejercicio);
+		Ejercicio newEjercicio = null;
+		try {
+			long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_EJERCICIO,
+					null, values); // Se inserta un ejercicio y se deuelve su id
+			Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
 
-		long insertId = database.insert(MySQLiteHelper.TABLE_EJERCICIO, null,
-				values); // Se inserta un ejercicio y se deuelve su id
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_EJERCICIO,
+			allColumns, MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + insertId,
+					null, null, null, null);// devuelve el ejercicio que se
+											// acaba de
+											// insertar
 
-		allColumns, MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + insertId,
-				null, null, null, null);// devuelve el ejercicio que se acaba de
-										// insertar
-
-		cursor.moveToFirst();
-		Ejercicio newEjercicio = cursorToEjercicio(cursor);
-		cursor.close();
+			cursor.moveToFirst();
+			newEjercicio = cursorToEjercicio(cursor);
+			cursor.close();
+		} catch (SQLException e) {
+			Log.e(MySQLiteHelper.TABLE_EJERCICIO, e.toString());
+		}
 		return newEjercicio;
 	}
 

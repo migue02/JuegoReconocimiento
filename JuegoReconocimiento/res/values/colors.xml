@@ -15,19 +15,18 @@
     <color name="about_borde">#bebec4</color>
     <color name="about_naranja">#da3b15</color>
     <color name="texto_tabla">#ff24b2ff</color>
-      <!-- <color name="tabla1">#aaaaffff</color> -->
-    <color name="tabla1">#eeffffff</color>  
+    <!-- <color name="tabla1">#aaaaffff</color> -->
+    <color name="tabla1">#eeffffff</color>
     <color name="tabla2">#aaeeffff</color>
     <color name="tabla_resaltado">#dd11ffff</color>
-    
-    <!--  <color name="degradado1">#aaffff00</color>
+
+    <!--
+    <color name="degradado1">#aaffff00</color>
     <color name="degradado2">#aa00ffff</color>
     <color name="degradado1r">#ffff00</color>
-    <color name="degradado2r">#00ffff</color> -->
-    
+    <color name="degradado2r">#00ffff</color>
+    -->
 
-    
-    
     <color name="barraNavegacion">#ee49AF5B</color>
     <color name="letraBarraNavegacion">#06290D</color>
     <color name="rellenoTabla">#00ffffff</color>
@@ -36,34 +35,26 @@
     <color name="tituloTabla">#6ED981</color>
     <color name="rellenoTablaResultados">#aaFFCB82</color>
     <color name="tituloTablaResultados">#E4AD60</color>
-        <color name="rowPulsado">#03a5d2</color>
-    
+    <color name="rowPulsado">#03a5d2</color>
     <color name="verde_oscuro">#009b7d</color>
-	<color name="marron_oscuro">#603000</color>
-	<color name="azul_oscuro">#100A40</color>
-	
-	
-	<color name="verde">#009900</color>
-	<color name="azul">#007fff</color>
-	<color name="rojo">#ff0000</color>
-	
-	<color name="grisfondo">#e5e5e5</color>
-	<color name="azul_pastel">#cae1ff</color>
-	
-	<color name="seleccionado">#7fa6ff</color>
-	<color name="deleccionado">#557fa6ff</color>
-	<color name="bloqueado">#aa7fa6ff</color>
-	<color name="seleccionadoborde">#002c91</color>
-	
-	<color name="degradado2d">#2200ffff</color>
-	
-	<!-- Color iconos -->
-	<color name="verde_ic">#76cda0</color>
-	<color name="rojo_ic">#ff7070</color>
-	<color name="azul_ic">#7a8be6</color>
-	<color name="naranja_ic">#ff9738</color>
-	<color name="amarillo_ic">#fff57a</color>
-	
-	
+    <color name="marron_oscuro">#603000</color>
+    <color name="azul_oscuro">#100A40</color>
+    <color name="verde">#009900</color>
+    <color name="azul">#007fff</color>
+    <color name="rojo">#ff0000</color>
+    <color name="grisfondo">#e5e5e5</color>
+    <color name="azul_pastel">#cae1ff</color>
+    <color name="seleccionado">#7fa6ff</color>
+    <color name="deleccionado">#557fa6ff</color>
+    <color name="bloqueado">#aa7fa6ff</color>
+    <color name="seleccionadoborde">#002c91</color>
+    <color name="degradado2d">#2200ffff</color>
+
+    <!-- Color iconos -->
+    <color name="verde_ic">#76cda0</color>
+    <color name="rojo_ic">#ff7070</color>
+    <color name="azul_ic">#7a8be6</color>
+    <color name="naranja_ic">#ff9738</color>
+    <color name="amarillo_ic">#fff57a</color>
 
 </resources>

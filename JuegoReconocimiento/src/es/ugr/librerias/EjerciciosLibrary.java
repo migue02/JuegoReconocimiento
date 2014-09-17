@@ -8,12 +8,14 @@ import es.ugr.objetos.*;
 import es.ugr.utilidades.Ficheros;
 import es.ugr.utilidades.Sonidos;
 import es.ugr.utilidades.Utilidades;
+import es.ugr.activities.MainActivity;
 import es.ugr.adaptadores.AdapterEjercicio;
 import es.ugr.basedatos.*;
 import es.ugr.juegoreconocimiento.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -90,9 +92,31 @@ public class EjerciciosLibrary {
 	};
 
 	public void importarEjercicios() {
-		ImportarEjercicios dialogo = new ImportarEjercicios(context,
+		final ImportarEjercicios dialogo = new ImportarEjercicios(context,
 				dsEjercicio, runCreaTabla);
+		DialogInterface.OnDismissListener dialogClickListener = new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (dialogo.bFalloSincronizar)
+					new AlertDialog.Builder(context)
+							.setTitle("Importar fichero XML")
+							.setPositiveButton("Aceptar", null)
+							.setMessage(
+									"Ha ocurrido un problema al importar el fichero elegido"
+											+ "\nPor favor compruebe que cumple la estructura requerida")
+							.show();
+				if (dialogo.bEjercicioExiste)
+					new AlertDialog.Builder(context)
+							.setTitle("Importar fichero XML")
+							.setPositiveButton("Aceptar", null)
+							.setMessage(
+									"Uno o más ejercicios no se han podido importar ya que existen en la base de datos")
+							.show();
+			}
+		};
+		dialogo.setOnDismissListener(dialogClickListener);
 		dialogo.show();
+
 	}
 
 	private void CreaTablaEjer() {
@@ -122,6 +146,7 @@ public class EjerciciosLibrary {
 		} catch (Exception e) {
 			new AlertDialog.Builder(activity)
 					.setTitle("Sincronizar objetos")
+					.setPositiveButton("Aceptar", null)
 					.setMessage(
 							"Hay objetos en el ejercicio que no están sincronizados, por favor sincronice los objetos")
 					.show();

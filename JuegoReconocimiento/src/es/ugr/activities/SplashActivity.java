@@ -12,14 +12,14 @@ import android.view.Window;
 
 
 /**
- * Clase inicial puramente estetica. Muestra un splash durante 2 segundos
+ * Clase inicial puramente estetica. Muestra un splash durante 1 segundo
  * @author Namir Sayed-Ahmad Baraza
  * @mail namirsab@gmail.com
  *
  */
 public class SplashActivity extends Activity {
 	//Tiempo de splash en milisegundos
-	private int splashTime = 100;
+	private int splashTime = 1000;
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
