@@ -91,11 +91,11 @@ public class FichaObjeto extends Dialog {
 		btnDescripcionArchivo.setOnClickListener(onArchivoClick);
 
 		btnVolver = (Button) findViewById(R.id.vObjetos);
-		
+
 		btnAyuda.setOnClickListener(onEscucharClick);
 		btnNombre.setOnClickListener(onEscucharClick);
 		btnDescripcion.setOnClickListener(onEscucharClick);
-		
+
 		btnVolver.setOnClickListener(onVolverClick);
 
 	}
@@ -168,12 +168,12 @@ public class FichaObjeto extends Dialog {
 
 						String fileName = "";
 						if (tag.equals(ayuda))
-							fileName = "ayuda" + oObjeto.getNombre() + ".mp3";
+							fileName = oObjeto.getNombre() + "Ayuda" + ".mp3";
 						else if (tag.equals(nombre))
-							fileName = "descripcion" + oObjeto.getNombre()
+							fileName = oObjeto.getNombre() + "Descripcion"
 									+ ".mp3";
 						else if (tag.equals(descripcion))
-							fileName = "nombre" + oObjeto.getNombre() + ".mp3";
+							fileName = oObjeto.getNombre() + "Nombre" + ".mp3";
 
 						if (Ficheros.copiaFicheros(file.getAbsolutePath(),
 								context.getString(R.string.pathSounds) + "/"
@@ -218,9 +218,9 @@ public class FichaObjeto extends Dialog {
 			}
 		}
 	};
-	
+
 	View.OnClickListener onVolverClick = new View.OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub

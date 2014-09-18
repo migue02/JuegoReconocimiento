@@ -23,7 +23,8 @@
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/tPuntuacion"
-        android:layout_alignStart="@+id/tPuntuacion" />
+        android:layout_alignStart="@+id/tPuntuacion"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"

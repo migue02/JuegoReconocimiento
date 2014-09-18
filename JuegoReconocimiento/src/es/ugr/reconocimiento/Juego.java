@@ -321,16 +321,15 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 								.getDuracionActual(this));
 						oResultadoActual.calculaPuntuacion();
 						lResultados.add(oResultadoActual);
-					}
-
-					if (lnEjercicioActual < lEjercicios.size()) {
 						oResultadoActual = new Resultado();
 						oResultadoActual
 								.setFechaRealizacion(new GregorianCalendar()
 										.getTime());
 						oResultadoActual.setIdAlumno(oAlumno.getIdAlumno());
 						oResultadoActual.setIdEjercicio(oSerie.getIdSerie());
+					}
 
+					if (lnEjercicioActual < lEjercicios.size()) {
 						oEjercicioActual = lEjercicios.get(lnEjercicioActual);
 
 						lnObjetoActual = 0;

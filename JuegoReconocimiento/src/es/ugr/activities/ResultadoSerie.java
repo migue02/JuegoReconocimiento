@@ -75,6 +75,8 @@ public class ResultadoSerie extends Activity {
 			for (int i = 0; i < lResultados.size(); i++)
 				creaGrafica(i,lResultados.size());
 
+		} else{
+			finish();
 		}
 
 	}
@@ -92,10 +94,10 @@ public class ResultadoSerie extends Activity {
 				R.layout.layout_resultado_serie, null);
 		oResultado = lResultados.get(i);
 		if (oResultado != null) {
-			/*if(size==1){
+			if(size==1){
 				((ImageView) child.findViewById(R.id.resizq)).setVisibility(View.GONE);
 				((ImageView) child.findViewById(R.id.resder)).setVisibility(View.GONE);
-			}*/
+			}
 			((TextView) child.findViewById(R.id.tPosicion))
 					.setText("Resultado(" + String.valueOf(i + 1) + "/"
 							+ lResultados.size() + ")");

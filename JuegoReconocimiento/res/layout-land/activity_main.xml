@@ -58,6 +58,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:onClick="onAlumnosClick"
+                    android:contentDescription="alumnos"
                     android:src="@drawable/alumnos_180" />
 
                 <ImageView
@@ -66,6 +67,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="30dp"
                     android:onClick="onEjerciciosClick"
+                    android:contentDescription="ejercicios"
                     android:src="@drawable/ejercicios_180" />
             </LinearLayout>
 
@@ -80,6 +82,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:onClick="onResultadosClick"
+                    android:contentDescription="resultados"
                     android:src="@drawable/resultados_180" />
 
                 <ImageView
@@ -88,6 +91,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="30dp"
                     android:onClick="onSeriesClick"
+                    android:contentDescription="Serie"
                     android:src="@drawable/series_180" />
             </LinearLayout>
 
@@ -102,6 +106,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:onClick="onObjetosClick"
+                    android:contentDescription="Objetos"
                     android:src="@drawable/objetos_180" />
 
                 <ImageView
