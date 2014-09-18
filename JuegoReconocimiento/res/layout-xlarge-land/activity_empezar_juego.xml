@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:contentDescription="Alumno"
                     android:src="@drawable/alumnos_180" />
 
                 <TextView
@@ -73,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:contentDescription="Serie de ejercicios"
                     android:src="@drawable/series_180" />
 
                 <TextView
@@ -122,6 +124,7 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:onClick="setCiclico"
+                    android:contentDescription="Modo Cíclico"
                     android:src="@drawable/ciclico_128" />
 
                 <TextView
@@ -149,6 +152,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
+                    android:contentDescription="Comenzar partida"
                     android:src="@drawable/play_128" />
 
                 <TextView

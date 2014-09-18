@@ -90,6 +90,7 @@
             android:layout_height="300dp"
             android:layout_gravity="top|center"
             android:padding="5dp"
+            android:contentDescription="Serie de ejercicios"
             android:src="@drawable/series_180" />
 
         

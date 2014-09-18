@@ -80,6 +80,7 @@
                 android:clickable="true"
                 android:contentDescription="Capturar"
                 android:onClick="onInicializaSurf"
+                android:visibility="gone"
                 android:src="@drawable/surf" />
 
             <Chronometer

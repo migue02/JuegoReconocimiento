@@ -134,6 +134,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:onClick="onClickEmpezar"
+                android:contentDescription="Empezar"
                 android:src="@drawable/empezar_130"
                 android:textAlignment="gravity" />
 
@@ -143,6 +144,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:onClick="onClickEmpezar"
+                android:contentDescription="Empezar"
                 android:src="@drawable/empezar_texto_130_40" />
 
             <LinearLayout

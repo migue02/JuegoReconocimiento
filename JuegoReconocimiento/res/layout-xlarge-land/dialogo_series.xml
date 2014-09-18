@@ -106,6 +106,7 @@
                 android:layout_height="300dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/series_180"
+                android:contentDescription="Serie de ejercicios"
                 android:layout_gravity="top"
                 android:padding="5dp" />
 

@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:contentDescription="Alumno"
                 android:src="@drawable/alumnos_64" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:contentDescription="Serie de ejercicios"
                 android:src="@drawable/series_64" />
 
             <TextView

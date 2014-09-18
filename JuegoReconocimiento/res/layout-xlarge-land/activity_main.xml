@@ -30,6 +30,7 @@
         android:layout_marginRight="10sp"
         android:layout_marginTop="40sp"
         android:onClick="onSalirClick"
+        android:contentDescription="Salir"
         android:src="@drawable/exit_128" />
 
     <LinearLayout
@@ -59,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onAlumnosClick"
+                    android:contentDescription="Alumnos"
                     android:src="@drawable/alumnos_180" />
 
                 <ImageView
@@ -67,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="100dp"
                     android:onClick="onEjerciciosClick"
+                    android:contentDescription="Ejercicios"
                     android:src="@drawable/ejercicios_180" />
             </LinearLayout>
 
@@ -81,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onResultadosClick"
+                    android:contentDescription="Resultados"
                     android:src="@drawable/resultados_180" />
 
                 <ImageView
@@ -89,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="100dp"
                     android:onClick="onSeriesClick"
+                    android:contentDescription="Series de ejercicios"
                     android:src="@drawable/series_180" />
             </LinearLayout>
 
@@ -103,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onObjetosClick"
+                    android:contentDescription="Objetos"
                     android:src="@drawable/objetos_180" />
             </LinearLayout>
         </LinearLayout>
@@ -121,6 +127,7 @@
                 android:layout_marginTop="80dp"
                 android:onClick="onClickEmpezar"
                 android:src="@drawable/empezar_350"
+                android:contentDescription="Empezar"
                 android:textAlignment="gravity" />
 
             <ImageView
@@ -129,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="onClickEmpezar"
+                android:contentDescription="Empezar"
                 android:src="@drawable/empezar_texto_350_80" />
 
             <LinearLayout

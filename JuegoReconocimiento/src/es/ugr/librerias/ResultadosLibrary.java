@@ -268,6 +268,9 @@ public class ResultadosLibrary {
 
 		imgtit1.setLayoutParams(imageParams);
 		imgtit2.setLayoutParams(imageParams);
+		
+		imgtit1.setContentDescription("");
+		imgtit2.setContentDescription("");
 
 		tit1.setText("Alumno");
 		tit1.setLayoutParams(tableRowParams);

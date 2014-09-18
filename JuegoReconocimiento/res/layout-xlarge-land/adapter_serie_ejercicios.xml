@@ -52,6 +52,7 @@
         android:background="@drawable/drag"
         android:paddingBottom="2dp"
         android:paddingRight="2dp"
+        android:contentDescription="Mover"
         android:paddingTop="2dp" />
 
 </RelativeLayout>

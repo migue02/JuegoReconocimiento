@@ -38,6 +38,7 @@
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:scaleType="fitXY"
+                        android:contentDescription="Objeto"
                         android:src="@drawable/objetos_180" />
 
                     <TextView
@@ -143,7 +144,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/altavoz" />
 
@@ -170,7 +171,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/archivo_sonido" />
 
@@ -197,7 +198,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/microfono" />
 
@@ -253,7 +254,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/altavoz" />
 
@@ -280,7 +281,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/archivo_sonido" />
 
@@ -307,7 +308,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/microfono" />
 
@@ -363,7 +364,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/altavoz" />
 
@@ -390,7 +391,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/archivo_sonido" />
 
@@ -417,7 +418,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/seliconodialogo"
-                                    android:padding="2dp"
+                                    android:padding="10dp"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/microfono" />
 
