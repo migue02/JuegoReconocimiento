@@ -15,6 +15,7 @@ import es.ugr.juegoreconocimiento.R;
 import es.ugr.objetos.Resultado;
 import es.ugr.utilidades.Sonidos;
 import android.media.ExifInterface;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -46,10 +48,13 @@ public class ResultadoSerie extends Activity {
 		Intent intent = getIntent();
 		int[] lIdResultados = intent.getIntArrayExtra("Resultados");
 		vf = (ViewFlipper) findViewById(R.id.viewFlipper);
-		vf.setOnTouchListener(new ListenerTouchViewFlipper());
+
+
 
 		if (lIdResultados.length > 0) {
 
+			if(lIdResultados.length>1)
+				vf.setOnTouchListener(new ListenerTouchViewFlipper());
 			lResultados = new ArrayList<Resultado>();
 
 			ResultadoDataSource dsResultado = new ResultadoDataSource(this);
@@ -68,7 +73,7 @@ public class ResultadoSerie extends Activity {
 					.valueOf(intent.getStringExtra("Serie")));
 
 			for (int i = 0; i < lResultados.size(); i++)
-				creaGrafica(i);
+				creaGrafica(i,lResultados.size());
 
 		}
 
@@ -80,14 +85,17 @@ public class ResultadoSerie extends Activity {
 		return true;
 	}
 
-	public void creaGrafica(int i) {
+	public void creaGrafica(int i,int size) {
 		final GraphicalView mChart;
 
 		View child = getLayoutInflater().inflate(
 				R.layout.layout_resultado_serie, null);
 		oResultado = lResultados.get(i);
 		if (oResultado != null) {
-
+			/*if(size==1){
+				((ImageView) child.findViewById(R.id.resizq)).setVisibility(View.GONE);
+				((ImageView) child.findViewById(R.id.resder)).setVisibility(View.GONE);
+			}*/
 			((TextView) child.findViewById(R.id.tPosicion))
 					.setText("Resultado(" + String.valueOf(i + 1) + "/"
 							+ lResultados.size() + ")");

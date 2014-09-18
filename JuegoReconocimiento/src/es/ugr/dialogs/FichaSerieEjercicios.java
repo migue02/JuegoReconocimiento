@@ -109,12 +109,10 @@ public class FichaSerieEjercicios extends Dialog {
 
 	View.OnClickListener onGuardarClick = new View.OnClickListener() {
 		public void onClick(View v) {
-			if ((insertar == false && !oSerieEjercicios.getNombre().equals(
-					nomSerie.getText().toString().trim()))
-					|| insertar == true)
-				if (dsSerieEjercicios.existeSerie(nomSerie.getText().toString()
-						.trim()))
-					DialogoCamposNecesarios(3);
+			if (((insertar == false && oSerieEjercicios.getNombre().equals(
+					nomSerie.getText().toString())==false)
+					|| insertar == true)&&dsSerieEjercicios.existeSerie(nomSerie.getText().toString().trim()))
+						DialogoCamposNecesarios(3);				
 				else {
 					if (nomSerie.getText().toString().trim().equals("")) {
 						DialogoCamposNecesarios(1);
