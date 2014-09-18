@@ -77,6 +77,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginRight="10dp"
                 android:clickable="true"
+                android:visibility="gone"
                 android:contentDescription="Capturar"
                 android:onClick="onInicializaSurf"
                 android:src="@drawable/surf" />

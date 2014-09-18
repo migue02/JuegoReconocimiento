@@ -782,8 +782,8 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 														+ " ya existe").show();
 							else {
 								dialog.dismiss();
-								JuegoLibreria.insertaEnSerie(Juego.this,
-										objeto, oEjercicioActual);
+								/*JuegoLibreria.insertaEnSerie(Juego.this,
+										objeto, oEjercicioActual);*/
 							}
 						} else
 							new AlertDialog.Builder(Juego.this)

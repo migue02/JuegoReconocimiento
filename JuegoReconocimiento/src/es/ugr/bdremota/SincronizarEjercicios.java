@@ -85,16 +85,16 @@ public class SincronizarEjercicios extends AsyncTask<Void, String, String> {
 	 * getting All products from url
 	 * */
 	protected String doInBackground(Void... param) {
-		// Building Parameters
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		// getting JSON string from URL
-		JSONObject json = jParser.makeHttpRequest(url_all_ejercicios, "GET",
-				params);
-
-		// Check your log cat for JSON reponse
-		Log.d("All Products: ", json.toString());
 
 		try {
+			// Building Parameters
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			// getting JSON string from URL
+			JSONObject json = jParser.makeHttpRequest(url_all_ejercicios, "GET",
+					params);
+
+			// Check your log cat for JSON reponse
+			Log.d("All Products: ", json.toString());
 			// Checking for SUCCESS TAG
 			int success = json.getInt(TAG_SUCCESS);
 

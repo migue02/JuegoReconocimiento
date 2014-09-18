@@ -87,6 +87,7 @@ public class ListaPrincipalFragment extends ListFragment {
 
 					ImageView imagen_entrada = (ImageView) view
 							.findViewById(R.id.imageNavegacion);
+					imagen_entrada.setContentDescription("");
 					if (imagen_entrada != null)
 						Picasso.with(view.getContext())
 								.load(((ContenidoBarraPrincipal.Item) entrada).idImagen)

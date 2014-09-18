@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/sexAl"
             style="@style/TituloTabla"
-            android:layout_width="60dp"
+            android:layout_width="69dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
             android:paddingLeft="2dp"
@@ -74,7 +74,7 @@
         <TextView
             android:id="@+id/movAl"
             style="@style/TituloTabla"
-            android:layout_width="70dp"
+            android:layout_width="82dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
             android:paddingRight="10dp"
