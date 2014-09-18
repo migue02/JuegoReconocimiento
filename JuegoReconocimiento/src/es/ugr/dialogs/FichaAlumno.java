@@ -25,7 +25,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FichaAlumno extends Dialog {
 
@@ -189,15 +188,9 @@ public class FichaAlumno extends Dialog {
 				boolean correcto = false;
 				if (insertar == false) {
 					correcto = dsAlumno.modificaAlumno(alumno);
-					if (correcto == true)
-						Toast.makeText(context, "Alumno modificado",
-								Toast.LENGTH_SHORT).show();
 				} else {
 					// Si es insertar
 					correcto = dsAlumno.createAlumno(alumno) != null;
-					if (correcto == true)
-						Toast.makeText(context, "Alumno creado",
-								Toast.LENGTH_SHORT).show();
 				}
 				dismiss();
 				function.run();

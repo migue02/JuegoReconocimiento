@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * @author Juan Manuel Lucena Morales
@@ -87,8 +86,6 @@ public class ObjetosFragment extends Fragment {
 			try{
 				oLibreria.sincronizarObjetos();
 			}catch(Exception e){
-				Toast.makeText(getActivity(), "Ha ocurrido un problema al sincronizar los objetos", Toast.LENGTH_LONG)
-				.show();
 			}
 			return true;
 		default:

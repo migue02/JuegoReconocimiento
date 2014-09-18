@@ -51,7 +51,10 @@ public class JuegoLibreria {
 			public void onCountDownEnd(CountDownAnimation animation) {
 				ptvTexto.setText("");
 				if (task != null)
-					task.run();
+					try{
+						task.run();
+					}catch (Exception e) {
+					}
 			}
 		});
 	}
@@ -88,8 +91,8 @@ public class JuegoLibreria {
 		remainder = remainder - mins * 60;
 		double secs = remainder;
 		double tiempo = (horas * 60) + mins + (secs / 10);
-		Toast.makeText(activity, "Tiempo: " + tiempo, Toast.LENGTH_SHORT)
-				.show();
+		if (mins == 0 || secs > 30)
+			mins++;
 		return mins;
 	}
 

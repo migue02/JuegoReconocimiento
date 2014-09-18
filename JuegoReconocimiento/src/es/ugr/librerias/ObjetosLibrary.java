@@ -11,12 +11,12 @@ import es.ugr.bdremota.SincronizarObjetos;
 import es.ugr.dialogs.FichaObjeto;
 import es.ugr.juegoreconocimiento.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * @author Juan Manuel Lucena Morales
@@ -80,19 +80,20 @@ public class ObjetosLibrary {
 		});
 
 	}
-	
+
 	private Runnable runCreaTabla = new Runnable() {
-	    public void run() {
-	    	CreaTablaObj();
-	    }
+		public void run() {
+			CreaTablaObj();
+		}
 	};
 
 	public void sincronizarObjetos() {
 		if (Utilidades.hasInternetConnection(context))
 			new SincronizarObjetos(context, runCreaTabla).execute();
 		else
-			Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG)
-					.show();
+			new AlertDialog.Builder(context).setTitle("Atención")
+					.setMessage("No dispone de conexión a Internet")
+					.setPositiveButton("Aceptar", null).show();
 	}
 
 	private void MostrarDescripcion(Objeto objeto) {

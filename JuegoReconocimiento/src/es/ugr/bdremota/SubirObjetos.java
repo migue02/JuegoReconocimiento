@@ -88,8 +88,6 @@ class SubirObjetos extends AsyncTask<List<String>, String, String> {
 		pDialog.dismiss();
 
 		ods.close();
-		Toast toast = Toast.makeText(context, file_url, Toast.LENGTH_LONG);
-		toast.show();
 	}
 
 	private void InsertarModificar(Objeto obj, boolean insertar) {

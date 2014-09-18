@@ -19,7 +19,6 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 import es.ugr.bdremota.*;
 import es.ugr.dialogs.FichaEjercicio;
 import es.ugr.dialogs.ImportarEjercicios;
@@ -81,8 +80,9 @@ public class EjerciciosLibrary {
 		if (Utilidades.hasInternetConnection(context))
 			new SincronizarEjercicios(context, runCreaTabla).execute();
 		else
-			Toast.makeText(context, "No hay conexión", Toast.LENGTH_LONG)
-					.show();
+			new AlertDialog.Builder(context).setTitle("Atención")
+					.setMessage("No dispone de conexión a Internet")
+					.setPositiveButton("Aceptar", null).show();
 	}
 
 	private Runnable runCreaTabla = new Runnable() {

@@ -100,16 +100,6 @@ public class DescargarFicheros extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		// mWakeLock.release();
-		// if (result != null)
-		// Toast.makeText(context,"Download error: "+result,
-		// Toast.LENGTH_LONG).show();
-		// else{
-		// Toast.makeText(context,"Fichero Descargado en: "+result,
-		// Toast.LENGTH_SHORT).show();
-		// File imageFile = new File("/mnt/sdcard/sw.jpg");
-		// Bitmap bitmap =
-		// BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-		// }
 	}
 
 }

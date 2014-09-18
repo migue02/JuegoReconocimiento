@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * @author Juan Manuel Lucena Morales
@@ -89,18 +88,12 @@ public class EjerciciosFragment extends Fragment {
 			try {
 				oLibreria.importarEjercicios();
 			} catch (Exception e) {
-				Toast.makeText(getActivity(),
-						"Ha ocurrido un problema al importar los ejercicios",
-						Toast.LENGTH_LONG).show();
 			}
 			return true;
 		case R.id.itemSincronizar:
 			try {
 				oLibreria.sincronizarEjercicios();
 			} catch (Exception e) {
-				Toast.makeText(getActivity(),
-						"Ha ocurrido un problema al sincronizar los ejericios",
-						Toast.LENGTH_LONG).show();
 			}
 			return true;
 		default:

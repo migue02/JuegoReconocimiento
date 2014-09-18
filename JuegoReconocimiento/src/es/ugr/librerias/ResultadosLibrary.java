@@ -22,6 +22,7 @@ import jxl.write.biff.RowsExceededException;
 import es.ugr.juegoreconocimiento.R;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +40,6 @@ import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 import es.ugr.activities.Graficas;
 import es.ugr.activities.Tablas;
 import es.ugr.basedatos.*;
@@ -503,9 +503,11 @@ public class ResultadosLibrary {
 					}
 
 					if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
-						Toast.makeText(v.getContext(),
-								"Seleccionar al menos un Alumno-Serie",
-								Toast.LENGTH_LONG).show();
+						new AlertDialog.Builder(context)
+								.setTitle("Atención")
+								.setMessage(
+										"Seleccionar al menos un Alumno-Serie")
+								.setPositiveButton("Aceptar", null).show();
 					} else {
 						graficaIntent.putExtra("tipoGrafica", radioSelec);
 						graficaIntent.putIntegerArrayListExtra("listaAlumnos",
@@ -541,9 +543,11 @@ public class ResultadosLibrary {
 					}
 
 					if (listaIdAlumnos.size() == 0 || listaIdSeries.size() == 0) {
-						Toast.makeText(v.getContext(),
-								"Seleccionar al menos un Alumno-Serie",
-								Toast.LENGTH_LONG).show();
+						new AlertDialog.Builder(context)
+								.setTitle("Atención")
+								.setMessage(
+										"Seleccionar al menos un Alumno-Serie")
+								.setPositiveButton("Aceptar", null).show();
 					} else {
 						tablaIntent.putExtra("tipoGrafica", radioSelec);
 						tablaIntent.putIntegerArrayListExtra("listaAlumnos",
@@ -665,11 +669,13 @@ public class ResultadosLibrary {
 							} else {
 								borrados = rds.borraTodosResultados();
 							}
-							Toast.makeText(
-									context,
-									"Borrado(s) " + String.valueOf(borrados)
-											+ " resultados.", Toast.LENGTH_LONG)
-									.show();
+							new AlertDialog.Builder(context)
+									.setTitle("Información")
+									.setMessage(
+											"Borrado(s) "
+													+ String.valueOf(borrados)
+													+ " resultados")
+									.setPositiveButton("Aceptar", null).show();
 
 							rds.close();
 
@@ -878,8 +884,6 @@ public class ResultadosLibrary {
 		}
 		try {
 			ww.close();
-			Toast.makeText(context, "Creado " + fileExportar.toString(),
-					Toast.LENGTH_LONG).show();
 		} catch (WriteException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

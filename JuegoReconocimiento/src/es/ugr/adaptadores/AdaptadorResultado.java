@@ -222,15 +222,6 @@ public class AdaptadorResultado extends BaseExpandableListAdapter {
 		else
 			row.setBackgroundColor(convertView.getContext().getResources()
 					.getColor(R.color.tabla2));
-
-		convertView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Toast.makeText(activity, children + " - Item: " +
-				// groupPosition + " - Subitem:" + childPosition,
-				// Toast.LENGTH_SHORT).show();
-			}
-		});
 		return convertView;
 	}
 

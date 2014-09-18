@@ -45,7 +45,7 @@ import android.widget.TabHost.TabSpec;
  * 
  */
 public class Graficas extends Activity {
-	
+
 	private Context contexto;
 	private int fechaTipo, graficaTipo;
 	private ViewAnimator va;
@@ -74,35 +74,35 @@ public class Graficas extends Activity {
 		setContentView(R.layout.dialogo_graficos);
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.resultado_detalle, menu);
-	    this.menu = menu;
+		inflater.inflate(R.menu.resultado_detalle, menu);
+		this.menu = menu;
 		titulo = this.menu.findItem(R.id.itemTitulo);
 		subtitulo = this.menu.findItem(R.id.itemInfo);
-		InicioResultados();	
+		InicioResultados();
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-	    case R.id.itemDerecha:
-	    	tablaAnterior();
-	        break;
-	    case R.id.itemIzquierda:
-	    	tablaSiguiente();
-	        break;  
-	    case android.R.id.home:
+		switch (item.getItemId()) {
+		case R.id.itemDerecha:
+			tablaAnterior();
+			break;
+		case R.id.itemIzquierda:
+			tablaSiguiente();
+			break;
+		case android.R.id.home:
 			finish();
 			return true;
-	    }
+		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	private void tablaAnterior(){
+
+	private void tablaAnterior() {
 		va.showPrevious();
 		posAnimation = (posAnimation - 1);
 		if (posAnimation < 0)
@@ -119,8 +119,8 @@ public class Graficas extends Activity {
 					+ String.valueOf(totalAnimation) + ")");
 		}
 	}
-	
-	private void tablaSiguiente(){
+
+	private void tablaSiguiente() {
 		va.showNext();
 		posAnimation = (posAnimation + 1) % totalAnimation;
 
@@ -138,7 +138,6 @@ public class Graficas extends Activity {
 	private void InicioResultados() {
 
 		// ViewAnimator
-
 
 		va = (ViewAnimator) findViewById(R.id.viewAnimator1);
 
@@ -200,8 +199,6 @@ public class Graficas extends Activity {
 		}
 		// Si es ranking
 		if (graficaTipo == 0) {
-			// Toast.makeText(getApplicationContext(),"Radio "+graficaTipo,
-			// Toast.LENGTH_SHORT).show();
 			totalAnimation = listaSeries.size();
 			for (int i = 0; i < listaSeries.size(); i++)
 				GraficoRanking(fechaTipo, listaSeries.get(i));

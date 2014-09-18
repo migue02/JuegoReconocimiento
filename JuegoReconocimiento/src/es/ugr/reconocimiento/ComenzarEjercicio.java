@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ugr.adaptadores.AdapterEmpezarEjercicioObjeto;
+import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
+import es.ugr.basedatos.SerieEjerciciosDataSource;
 import es.ugr.juegoreconocimiento.R;
+import es.ugr.objetos.Alumno;
 import es.ugr.objetos.Ejercicio;
 import es.ugr.objetos.Objeto;
+import es.ugr.objetos.SerieEjercicios;
 import es.ugr.utilidades.CountDownAnimation;
 import es.ugr.utilidades.Globals;
 import es.ugr.utilidades.Utilidades;
@@ -36,22 +40,35 @@ public class ComenzarEjercicio extends Activity {
 	private TextView countdown;
 	private CountDownAnimation countDownAnimation;
 	private Context context;
+	private Alumno oAlumno;
+	private SerieEjercicios oSerie;
+	private boolean bCiclico = false;
+	private boolean bPrimeraEjecucion;
+	private boolean bEmpezado = false;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comienzo_ejercicio);
 
+		bPrimeraEjecucion = EsPrimeraEjecucion(savedInstanceState);
+
 		context = this;
-		((Globals) getApplication()).JuegoParado = true;
+		if (!bPrimeraEjecucion)
+			((Globals) getApplication()).JuegoParado = true;
 
 		listViewObjetos = (ListView) findViewById(R.id.listViewObjetos);
-		
+
 		listViewObjetos.setOnTouchListener(new OnTouchListener() {
-			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				finish();
-				
+				if (event.getAction() == MotionEvent.ACTION_UP && !bEmpezado) {
+					if (!bPrimeraEjecucion)
+						((Globals) getApplication()).JuegoParado = false;
+					else
+						primeraEjecucionJuego();
+					finish();
+					bEmpezado = true;
+				}
 				return false;
 			}
 		});
@@ -98,28 +115,65 @@ public class ComenzarEjercicio extends Activity {
 		}
 
 	}
-	
-	public void onIniciaJuego(View v){
-		countdown = (TextView) findViewById(R.id.Countdown);
-		countDownAnimation = new CountDownAnimation(context, countdown, 4,
-				"", -1);
-		countDownAnimation.start();
-		Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
-				0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		countDownAnimation.setAnimation(scaleAnimation);
-		
-		countDownAnimation.setCountDownListener(new CountDownListener() {
-			@Override
-			public void onCountDownEnd(CountDownAnimation animation) {
-				finish();
-				((Globals) getApplication()).JuegoParado = false;
+
+	public boolean EsPrimeraEjecucion(Bundle savedInstanceState) {
+		Bundle extras;
+		if (savedInstanceState == null) {
+			extras = getIntent().getExtras();
+			if (extras != null)
+				try {
+					oAlumno = (Alumno) extras.getSerializable("Alumno");
+					oSerie = (SerieEjercicios) extras.getSerializable("Serie");
+					bCiclico = extras.getBoolean("Ciclico");
+				} catch (Exception e) {
+				}
+		} else {
+			try {
+				oAlumno = (Alumno) savedInstanceState.getSerializable("Alumno");
+				oSerie = (SerieEjercicios) savedInstanceState
+						.getSerializable("Serie");
+				bCiclico = savedInstanceState.getBoolean("Ciclico");
+			} catch (Exception e) {
 			}
-		});		
-		if (lo != null)
-			Utilidades.LiberaImagenes(lo);
-		if (ejercicio != null)
-			ejercicio.stopSonido();
+		}
+		return (oAlumno != null && oSerie != null);
+	}
+
+	public void primeraEjecucionJuego() {
+		Intent myIntent = new Intent(ComenzarEjercicio.this, Juego.class);
+		myIntent.putExtra("Alumno", oAlumno);
+		myIntent.putExtra("Serie", oSerie);
+		myIntent.putExtra("Ciclico", bCiclico);
+		startActivity(myIntent);
+	}
+
+	public void onIniciaJuego(View v) {
+		if (!bEmpezado) {
+			countdown = (TextView) findViewById(R.id.Countdown);
+			countDownAnimation = new CountDownAnimation(context, countdown, 4,
+					"", -1);
+			countDownAnimation.start();
+			Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
+					0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+					Animation.RELATIVE_TO_SELF, 0.5f);
+			countDownAnimation.setAnimation(scaleAnimation);
+
+			countDownAnimation.setCountDownListener(new CountDownListener() {
+				@Override
+				public void onCountDownEnd(CountDownAnimation animation) {
+					if (!bPrimeraEjecucion)
+						((Globals) getApplication()).JuegoParado = false;
+					else
+						primeraEjecucionJuego();
+					finish();
+				}
+			});
+			bEmpezado = true;
+			if (lo != null)
+				Utilidades.LiberaImagenes(lo);
+			if (ejercicio != null)
+				ejercicio.stopSonido();
+		}
 	}
 
 }

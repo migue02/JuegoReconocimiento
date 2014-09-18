@@ -9,6 +9,7 @@ import es.ugr.objetos.Alumno;
 import es.ugr.objetos.SerieEjercicios;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EmpezarJuego extends Activity {
 
@@ -63,8 +63,8 @@ public class EmpezarJuego extends Activity {
 		spinnerAl
 				.setOnItemSelectedListener(new MyOnItemSelectedListenerAlumno());
 		((ImageView) findViewById(R.id.btnCiclico)).setAlpha(80);
-		//((ImageView) findViewById(R.id.btnCiclico)).setImageAlpha(80);
-		
+		// ((ImageView) findViewById(R.id.btnCiclico)).setImageAlpha(80);
+
 	}
 
 	public void setCiclico(View v) {
@@ -83,29 +83,45 @@ public class EmpezarJuego extends Activity {
 	public void empezarJuego(View v) {
 		if (alumnoSeleccionado.getIdAlumno() != -1
 				&& serieSeleccionada.getIdSerie() != -1) {
-			Animation animation = AnimationUtils.loadAnimation(this,
-					R.anim.alpha);
-			animation.setAnimationListener(new Animation.AnimationListener() {
-				public void onAnimationEnd(Animation animation) {
-					Intent myIntent = new Intent(EmpezarJuego.this, Juego.class);
-					myIntent.putExtra("Alumno", alumnoSeleccionado);
-					myIntent.putExtra("Serie", serieSeleccionada);
-					myIntent.putExtra("Ciclico", ciclico);
-					finish();
-					startActivity(myIntent);
-				}
+			if (serieSeleccionada.getEjercicios().size() > 0) {
+				Animation animation = AnimationUtils.loadAnimation(this,
+						R.anim.alpha);
+				animation
+						.setAnimationListener(new Animation.AnimationListener() {
+							public void onAnimationEnd(Animation animation) {
+								Intent myIntent = new Intent(EmpezarJuego.this,
+										ComenzarEjercicio.class);
+								myIntent.putExtra("Alumno", alumnoSeleccionado);
+								myIntent.putExtra("Serie", serieSeleccionada);
+								myIntent.putExtra("Ciclico", ciclico);
+								myIntent.putExtra("idEjercicio",
+										serieSeleccionada.getEjercicios()
+												.get(0));
+								finish();
+								startActivity(myIntent);
+							}
 
-				public void onAnimationRepeat(Animation animation) {
-				}
+							public void onAnimationRepeat(Animation animation) {
+							}
 
-				public void onAnimationStart(Animation animation) {
-				}
-			});
-			v.startAnimation(animation);
+							public void onAnimationStart(Animation animation) {
+							}
+						});
+				v.startAnimation(animation);
+			} else
+				new AlertDialog.Builder(EmpezarJuego.this)
+						.setTitle("No se puede comenzar el juego")
+						.setPositiveButton("Aceptar", null)
+						.setMessage(
+								"La serie elegida no contiene ningún ejercicio")
+						.show();
 		} else {
-			Toast.makeText(getApplicationContext(),
-					"Debe elegir un alumno y una serie para poder jugar",
-					Toast.LENGTH_LONG).show();
+			new AlertDialog.Builder(EmpezarJuego.this)
+					.setTitle("No se puede comenzar el juego")
+					.setPositiveButton("Aceptar", null)
+					.setMessage(
+							"Debe elegir un alumno y una serie para poder jugar")
+					.show();
 		}
 
 	}

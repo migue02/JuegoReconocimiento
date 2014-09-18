@@ -252,8 +252,6 @@ public class FichaObjeto extends Dialog {
 		try {
 			mRecorder.prepare();
 		} catch (IOException e) {
-			Toast.makeText(context, "prepare() failed", Toast.LENGTH_SHORT)
-					.show();
 		}
 
 		mRecorder.start();

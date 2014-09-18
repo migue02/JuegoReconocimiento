@@ -28,7 +28,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import es.ugr.basedatos.AlumnoDataSource;
 import es.ugr.basedatos.EjercicioDataSource;
 import es.ugr.basedatos.ObjetoDataSource;
@@ -267,39 +266,6 @@ public class MainActivity extends Activity {
 			}
 		});
 		v.startAnimation(animation);
-	}
-
-	public void onBorrarEjerciciosObjetos(View v) {
-		AlumnoDataSource ads = new AlumnoDataSource(this);
-		ObjetoDataSource ods = new ObjetoDataSource(this);
-		EjercicioDataSource eds = new EjercicioDataSource(this);
-		SerieEjerciciosDataSource seds = new SerieEjerciciosDataSource(this);
-		ResultadoDataSource rds = new ResultadoDataSource(this);
-
-		ads.open();
-		ods.open();
-		eds.open();
-		seds.open();
-		rds.open();
-
-		rds.borraTodosResultados();
-		seds.eliminarTodasSeriesEjercicios();
-		eds.eliminaTodosEjercicios();
-		ods.eliminaTodosObjetos();
-		ads.borraTodosAlumno();
-
-		ads.close();
-		ods.close();
-		eds.close();
-		seds.close();
-		rds.close();
-
-		Ficheros.eliminaImagenes(MainActivity.this);
-		Ficheros.eliminaSonidos(MainActivity.this);
-		Ficheros.creaCarpetas(MainActivity.this);
-		Ficheros.copyAssets(MainActivity.this);
-		
-		Toast.makeText(MainActivity.this, "Borrado alumnos, series y resultados", Toast.LENGTH_LONG).show();
 	}
 
 	private void ReiniciaBD() {
