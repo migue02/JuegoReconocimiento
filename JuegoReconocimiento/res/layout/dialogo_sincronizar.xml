@@ -9,39 +9,40 @@
         android:id="@+id/toServer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         android:text="8"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000fff"
         android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="130sp"
         android:src="@drawable/sincro" />
 
-        <TextView
+    <TextView
         android:id="@+id/toTablet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:text="8"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ff0000"
         android:textSize="22sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="bottom"
         android:orientation="horizontal" >
 
@@ -68,7 +69,6 @@
             android:text="@string/cancelar"
             android:textColor="#ffffff"
             android:textStyle="bold" />
-
     </LinearLayout>
 
 </LinearLayout>

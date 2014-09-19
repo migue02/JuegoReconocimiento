@@ -1,6 +1,7 @@
 package es.ugr.activities;
 
 import java.text.BreakIterator;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +50,9 @@ public class ResultadoSerie extends Activity {
 		int[] lIdResultados = intent.getIntArrayExtra("Resultados");
 		vf = (ViewFlipper) findViewById(R.id.viewFlipper);
 
-
-
 		if (lIdResultados.length > 0) {
 
-			if(lIdResultados.length>1)
+			if (lIdResultados.length > 1)
 				vf.setOnTouchListener(new ListenerTouchViewFlipper());
 			lResultados = new ArrayList<Resultado>();
 
@@ -73,9 +72,9 @@ public class ResultadoSerie extends Activity {
 					.valueOf(intent.getStringExtra("Serie")));
 
 			for (int i = 0; i < lResultados.size(); i++)
-				creaGrafica(i,lResultados.size());
+				creaGrafica(i, lResultados.size());
 
-		} else{
+		} else {
 			finish();
 		}
 
@@ -87,16 +86,18 @@ public class ResultadoSerie extends Activity {
 		return true;
 	}
 
-	public void creaGrafica(int i,int size) {
+	public void creaGrafica(int i, int size) {
 		final GraphicalView mChart;
 
 		View child = getLayoutInflater().inflate(
 				R.layout.layout_resultado_serie, null);
 		oResultado = lResultados.get(i);
 		if (oResultado != null) {
-			if(size==1){
-				((ImageView) child.findViewById(R.id.resizq)).setVisibility(View.GONE);
-				((ImageView) child.findViewById(R.id.resder)).setVisibility(View.GONE);
+			if (size == 1) {
+				((ImageView) child.findViewById(R.id.resizq))
+						.setVisibility(View.GONE);
+				((ImageView) child.findViewById(R.id.resder))
+						.setVisibility(View.GONE);
 			}
 			((TextView) child.findViewById(R.id.tPosicion))
 					.setText("Resultado(" + String.valueOf(i + 1) + "/"
@@ -105,7 +106,8 @@ public class ResultadoSerie extends Activity {
 			TextView puntuacion = ((TextView) child
 					.findViewById(R.id.tPuntuacion));
 			puntuacion.setText("PUNTUACION: "
-					+ String.valueOf(oResultado.getPuntuacion()));
+					+ String.valueOf(new DecimalFormat("#.##")
+							.format(oResultado.getPuntuacion())));
 
 			TextView totales = ((TextView) child.findViewById(R.id.tTotales));
 			totales.setTextColor(Color.BLUE);

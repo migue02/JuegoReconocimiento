@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         android:layout_weight="0.7"
-        android:src="@drawable/objetos_64" />
+        android:scaleType="fitXY"
+        android:src="@drawable/objetos_180" />
 
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
@@ -125,8 +127,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
+                            android:src="@drawable/altavoz"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -151,8 +157,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
+                            android:src="@drawable/archivo_sonido"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -177,8 +187,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
+                            android:src="@drawable/microfono"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -233,8 +247,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
+                            android:src="@drawable/altavoz"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -259,8 +277,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
+                            android:src="@drawable/archivo_sonido"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -285,8 +307,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
+                            android:src="@drawable/microfono"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -341,8 +367,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/altavoz" />
+                            android:src="@drawable/altavoz"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -367,8 +397,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/archivo_sonido" />
+                            android:src="@drawable/archivo_sonido"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -393,8 +427,12 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
+                            android:background="@drawable/seliconodialogo"
+                            android:padding="5dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/microfono" />
+                            android:src="@drawable/microfono"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -406,6 +444,18 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/vObjetos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/seliconodialogo"
+                android:text="@string/volver"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Autor: Namir Sayed-Ahmad Baraza
-	 mail: namirsab@gmail.com -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linearLayout1"
     android:layout_width="fill_parent"
@@ -17,7 +15,6 @@
         android:src="@drawable/ugr_word" />
 
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="6.0"

@@ -8,21 +8,23 @@
 
     <LinearLayout
         android:id="@+id/layoutTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/layoutTitulo2" >
+        android:layout_toLeftOf="@+id/layoutTitulo2"
+        android:padding="2dp" >
 
         <ImageView
             android:id="@+id/sexAl"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"
-            android:paddingRight="2dp"
+            android:paddingRight="10dp"
             android:paddingTop="2dp"
+            android:contentDescription="Alumno"
             android:src="@drawable/boy" />
 
         <TextView
@@ -30,9 +32,9 @@
             style="@style/TextoTabla"
             android:layout_width="130dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingBottom="2dp"
-            android:paddingRight="2dp"
+            android:paddingRight="10dp"
             android:paddingTop="2dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -41,40 +43,42 @@
             style="@style/TextoTabla"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingBottom="2dp"
-            android:paddingRight="2dp"
+            android:paddingRight="10dp"
             android:paddingTop="2dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutTitulo2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true" >
+        android:layout_centerVertical="true"
+        android:padding="2dp" >
 
         <TextView
             android:id="@+id/edadAl"
             style="@style/TextoTabla"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|left"
             android:paddingBottom="2dp"
-            android:paddingRight="2dp"
+            android:paddingRight="10dp"
             android:paddingTop="2dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
             android:id="@+id/midrag"
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:background="@drawable/drag"
             android:paddingBottom="2dp"
-            android:paddingRight="2dp"
-            android:paddingTop="2dp" />
+            android:paddingRight="10dp"
+            android:paddingTop="2dp" 
+            android:contentDescription="Mover"/>
     </LinearLayout>
 
 </RelativeLayout>

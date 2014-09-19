@@ -329,7 +329,7 @@ public class MainActivity extends Activity {
 		seds.actualizaDuracion(serie1);
 
 		// Crear Resultados
-		cal = Calendar.getInstance();
+		/*cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		Date fecha1 = cal.getTime();
 
@@ -369,7 +369,7 @@ public class MainActivity extends Activity {
 		rds.createResultado(r4);
 		rds.createResultado(r5);
 		rds.createResultado(r6);
-		rds.createResultado(r7);
+		rds.createResultado(r7);*/
 
 		ads.close();
 		ods.close();

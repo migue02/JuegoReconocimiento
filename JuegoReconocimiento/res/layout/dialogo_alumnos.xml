@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:orientation="vertical" >
 
     <ScrollView
@@ -18,7 +19,7 @@
 
             <LinearLayout
                 android:id="@+id/layoutSexo"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
@@ -29,85 +30,56 @@
                     android:id="@+id/AlumPrin"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:scaleType="fitXY"
                     android:layout_gravity="top|center"
+                    android:scaleType="fitXY"
                     android:src="@drawable/boy" />
 
                 <TextView
                     android:id="@+id/TextView01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top|left"
                     android:text="Género"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:layout_gravity="top|left"
                     android:textColor="@color/texto_tabla" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_gravity="top|center"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/texto_tabla" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
                     android:layout_gravity="top|center"
+                    android:baselineAligned="false"
                     android:orientation="horizontal" >
 
-                    <LinearLayout
+                    <Button
                         android:id="@+id/pulsaChico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_gravity="top|center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
-                        android:orientation="vertical" >
+                        android:drawableTop="@drawable/boy"
+                        android:padding="5dp"
+                        android:text="Chico" />
 
-                        <ImageButton
-                            android:id="@+id/BotonHombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/boy" />
-
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Chico"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <Button
                         android:id="@+id/pulsaChica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top|center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/sel_icono_alumno"
-                        android:orientation="vertical" >
-
-                        <ImageButton
-                            android:id="@+id/BotonMujer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/girl" />
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Chica"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
+                        android:drawableTop="@drawable/girl"
+                        android:padding="5dp"
+                        android:text="Chica" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -116,8 +88,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/layoutSexo"
+                android:layout_marginBottom="20dp"
                 android:orientation="vertical"
-                android:weightSum="1" >
+                android:weightSum="1"
+                android:id="@+id/linearLayout1">
 
                 <TextView
                     android:id="@+id/textView"
@@ -138,6 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
+                    android:maxLength="30"
                     android:ems="10"
                     android:hint="Nombre"
                     android:inputType="textCapSentences" />
@@ -163,6 +138,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="Apellidos"
+                    android:maxLength="50"
                     android:inputType="textCapSentences" />
 
                 <TextView
@@ -197,8 +173,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:background="@drawable/seliconodialogo"
+                        android:drawableRight="@drawable/fecha"
                         android:gravity="center_vertical"
-                        android:text="Cambiar Fecha" />
+                        android:text="Cambiar Fecha"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
                 <TextView
@@ -219,35 +198,43 @@
                 <EditText
                     android:id="@+id/daObserva"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:minHeight="100dp"
                     android:gravity="top"
                     android:hint="Observaciones"
                     android:inputType="textMultiLine|textCapSentences"
                     android:singleLine="false" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout1"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/cAlumnos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/seliconodialogo"
+                    android:text="@string/cancelar"
+                    android:textColor="#ffffff" />
+
+                <Button
+                    android:id="@+id/gAlumnos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/seliconodialogo"
+                    android:text="@string/guardarCambios"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/cAlumnos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:text="Cancelar" />
-
-        <Button
-            android:id="@+id/gAlumnos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:text="Guardar" />
-    </LinearLayout>
 
 </LinearLayout>

@@ -54,7 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/seliconodialogo"
-                android:text="Cancelar" />
+                android:text="Cancelar"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/aBorrar"
@@ -62,7 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/seliconodialogo"
-                android:text="Borrar" />
+                android:text="Borrar"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

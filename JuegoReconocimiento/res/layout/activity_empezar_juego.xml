@@ -10,6 +10,7 @@
         android:id="@+id/layoutUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -66,13 +67,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <LinearLayout 
+        android:id="@+id/layoutBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutUp"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
@@ -109,7 +110,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/sel_icono"
             android:onClick="empezarJuego"
             android:orientation="vertical" >
 

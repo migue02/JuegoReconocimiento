@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="67dp"
     android:background="@drawable/tablerowsel"
     android:orientation="horizontal" >
@@ -13,25 +13,22 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
+        android:paddingRight="5dp"
         android:src="@drawable/objetos_64" />
 
     <TextView
         android:id="@+id/NombSelObj"
+        style="@style/TextoTabla"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
-        style="@style/TextoTabla"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imgSelObj"
-        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp" />
-
+        android:layout_toRightOf="@+id/imgSelObj"
+        android:gravity="center|left"
+        android:paddingLeft="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

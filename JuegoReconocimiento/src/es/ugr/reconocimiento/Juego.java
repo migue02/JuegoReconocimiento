@@ -152,7 +152,7 @@ public class Juego extends Activity implements CvCameraViewListener2 {
 				});
 
 		mToast = Toast
-				.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+				.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
 
 		Bundle extras;
 		if (savedInstanceState == null) {
