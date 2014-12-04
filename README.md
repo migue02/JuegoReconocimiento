@@ -23,11 +23,12 @@ series de ejercicios y los objetos.
     • Ejercicios. Un ejercicio es lo que un alumno va a efectuar cuando esté jugando. Los
     ejercicios están compuestos por dos conjuntos de objetos:
   
-          ◦ Escenario. Este conjunto lo forman los objetos con los que el alumno va a interaccionar
-          a lo largo de todo el ejercicio
+          ◦ Escenario. Este conjunto lo forman los objetos con los que el alumno va a 
+          interaccionar a lo largo de todo el ejercicio
         
-          ◦ Objetos a reconocer. Este segundo conjunto de objetos es un subconjunto del anterior,
-          que serán los objetos que el alumno debe reconocer satisfactoriamente
+          ◦ Objetos a reconocer. Este segundo conjunto de objetos es un subconjunto 
+          del anterior, que serán los objetos que el alumno debe reconocer 
+          satisfactoriamente
     
     • Series de ejercicios. Como el propio nombre dice, es un grupo de ejercicios. Este elemento
     del juego es muy importante, ya que cuando un alumno va a jugar debe elegir una serie de
@@ -81,8 +82,8 @@ Se usarán tres tipos de almacenamiento en nuestro sistema.
     que se debe tener más cuidado a la hora de crearlos. En el caso de los objetos es conflictivo
     añadirlo a una base de datos, ya que si un objeto se guarda en la base de datos de una
     manera en la que no se ha obtenido suficiente información como para poder reconocerlo a
-    posteriori, puede dar lugar a posibles fallos en la aplicación. En cuando a los ejercicios, si se
-    crea un ejercicio con dos o más objetos parecidos también dará lugar a un posible mal
+    posteriori, puede dar lugar a posibles fallos en la aplicación. En cuando a los ejercicios, 
+    si se crea un ejercicio con dos o más objetos parecidos también dará lugar a un posible mal
     funcionamiento del juego. Por tanto el uso de la base de datos remota soluciona este tipo de
     problemas, ya que solamente se dará la posibilidad de obtener los objetos y los ejercicios
     desde el servidor a la base de datos del dispositivo. Únicamente los administradores de la
